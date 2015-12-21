@@ -10,11 +10,11 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 
 ### Features
-- [x] Generate tables
+- [x] Table generation
+- [x] Store any valid SQLite type
+- [x] Support for optional types
 - [x] Simple queries
 - [x] Thread safe
-- [x] Support for optional types
-- [x] Store any valid SQLite type
 - [ ] Advanced queries
 - [ ] Store nested objects
 - [ ] No dependencies
@@ -63,7 +63,7 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
  }
  ```
  
- If you want to update a record in the Dog table, you just have to create a small metod passing an SQL statement and parameters to your SQLite library. 
+ If you want to update a record in the Dog table, you just have to create a small method passing an SQL statement and parameters to your SQLite library. 
  
  ```Swift
  func updateDog(parameters: AnyObject) {
@@ -99,7 +99,7 @@ class Dog {
 ```
 
 ### Defining your classes
-All you have to do, is to make sure the class conforms to the `Storable`protocol. This is easily achieved by subclassing `NSObject`. 
+All you have to do, is to make sure the class conforms to the `Storable` protocol. This is easily achieved by subclassing `NSObject`. 
 SwiftyDB will automatically handle all the boring stuff behind like table creation behind the scenes.
 
 > Using the `dynamic` keyword is not necessary, but it helps to make sure the datatype is valid. Only values representable in Objective-C can be stored in this version because objects' properties are dynamically assigned upon retrieval.
@@ -118,8 +118,8 @@ class Dog: NSObject, Storable {
 ```
 
 #### Primary keys
-In order eaily define unique items, you can implement the `primaryKeys()` method in the `Storable` protocol. 
-This method returns a set of property names which uniquely identifies an object.
+It is recommended you can implement the `primaryKeys()` method in the `Storable` protocol. 
+This method should return a set of property names which uniquely identifies an object.
 
 ```Swift
 class func primaryKeys() -> Set<String> {
@@ -128,8 +128,8 @@ class func primaryKeys() -> Set<String> {
 ```
 
 #### Ignoring properties
-If your class contains properties that you dont want in your database, you can implement the `ignoredProperties()` method in the `Storable` protocol.
-This method returns a set of property names which will be ignored.
+If your class contains properties that you don't want in your database, you can implement the `ignoredProperties()` method in the `Storable` protocol.
+This method should return a set of property names which will be ignored.
 
 ```Swift
 class func ignoredProperties() -> Set<String> {
@@ -138,7 +138,7 @@ class func ignoredProperties() -> Set<String> {
 ```
 
 ### Use the database
-No more custom methods for interracting with the database. SwiftyDB handles everything automagically 🎩
+No more custom methods for interacting  with the database. SwiftyDB handles everything automagically 🎩
 
 ```Swift
 let database = SwiftyDB(name: "Test")

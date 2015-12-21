@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0FB8B4BCE5A05F3A05A8B1B9 /* SwiftyDB.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftyDB.podspec; path = ../SwiftyDB.podspec; sourceTree = "<group>"; };
+		0FB8B4BCE5A05F3A05A8B1B9 /* SwiftyDB.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftyDB.podspec; path = ../SwiftyDB.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		398E03741C2839FB003A868B /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
 		398E03761C2839FB003A868B /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
