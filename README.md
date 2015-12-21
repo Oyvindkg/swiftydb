@@ -99,6 +99,19 @@ class Dog {
 ```
 
 ### Defining your classes
+
+```Swift
+@objc public protocol Storable {
+    /** Used to initialize an object retrieved from the database */
+    init()
+    /** Used to assign values to object when retrieved. Easiest to achieve by subclassing NSObject */
+    func setValue(value: AnyObject?, forKey key: String)
+    
+    optional static func primaryKeys() -> Set<String>
+    optional static func ignoredProperties() -> Set<String>
+}
+```
+
 All you have to do, is to make sure the class conforms to the `Storable` protocol. This is easily achieved by subclassing `NSObject`. 
 SwiftyDB will automatically handle all the boring stuff behind like table creation behind the scenes.
 
