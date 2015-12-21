@@ -1,3 +1,5 @@
+# !! Work in progress !!
+
 ![alt text] (http://i.imgur.com/uQhXJLJ.png?1 "Logo")
 
 There are many libraries out there with the goal to help developers easily create and use SQLite databases. 
