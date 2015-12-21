@@ -1,9 +1,8 @@
 //
 //  PropertyData.swift
-//  Ladestasjoner
+//  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 20/12/15.
-//  Copyright © 2015 Øyvind Grimnes. All rights reserved.
 //
 
 import Foundation

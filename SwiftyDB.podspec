@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
   s.version          = "0.1.0"
-  s.summary          = "An SQLite wrapper making local storage a blast"
+  s.summary          = "Making SQLite databases a blast"
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?

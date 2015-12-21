@@ -1,9 +1,8 @@
 //
 //  SwiftyDB.swift
-//  CrowdShelf
+//  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 03/11/15.
-//  Copyright © 2015 Øyvind Grimnes. All rights reserved.
 //
 
 
