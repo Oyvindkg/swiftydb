@@ -11,7 +11,7 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 
 ### Features
 - [x] Generate tables
-- [x] Easy querying
+- [x] Simple queries
 - [x] Thread safe
 - [x] Support for optional types
 - [x] Store any valid SQLite type
@@ -91,14 +91,14 @@ Let's use this simple `Dog` class as an example
 
 ```Swift
 class Dog {
-var id: NSNumber?
-var name: String?
-var owner: String?
-var dateOfBirth: NSDate?
+  var id: NSNumber?
+  var name: String?
+  var owner: String?
+  var dateOfBirth: NSDate?
 }
 ```
 
-### Defining your class
+### Defining your classes
 All you have to do, is to make sure the class conforms to the `Storable`protocol. This is easily achieved by subclassing `NSObject`. 
 SwiftyDB will automatically handle all the boring stuff behind like table creation behind the scenes.
 
@@ -106,14 +106,14 @@ SwiftyDB will automatically handle all the boring stuff behind like table creati
 
 ```Swift
 class Dog: NSObject, Storable {
-dynamic var id: NSNumber?
-dynamic var name: String?
-dynamic var owner: String?
-dynamic var dateOfBirth: NSDate?
+  dynamic var id: NSNumber?
+  dynamic var name: String?
+  dynamic var owner: String?
+  dynamic var dateOfBirth: NSDate?
 
-override required init() {
-super.init()
-}
+  override required init() {
+    super.init()
+  }
 }
 ```
 
@@ -123,7 +123,7 @@ This method returns a set of property names which uniquely identifies an object.
 
 ```Swift
 class func primaryKeys() -> Set<String> {
-return ["id"]
+  return ["id"]
 }
 ```
 
@@ -133,7 +133,7 @@ This method returns a set of property names which will be ignored.
 
 ```Swift
 class func ignoredProperties() -> Set<String> {
-return ["name"]
+  return ["name"]
 }
 ```
 
