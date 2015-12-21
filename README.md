@@ -1,7 +1,7 @@
 ![alt text] (http://i.imgur.com/uQhXJLJ.png?1 "Logo")
 
 There are many libraries out there with the goal to help developers easily create and use SQLite databases. 
-Unfortunately developers still have to get buggered down in simple tasks like writing table deifinitions 
+Unfortunately developers still have to get bogged down in simple tasks like writing table deifinitions 
 and SQL queries to interract with the database. SwiftyDB automatically handles everything you don't want to spend your time doing.
 
 [![CI Status](http://img.shields.io/travis/Øyvind Grimnes/SwiftyDB.svg?style=flat)](https://travis-ci.org/Øyvind Grimnes/SwiftyDB)
