@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>SwiftyDB by Oyvindkg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">SwiftyDB</h1>
+      <h2 class="project-tagline">Making SQLite databases a blast</h2>
+      <a href="https://github.com/Oyvindkg/SwiftyDB" class="btn">View on GitHub</a>
+      <a href="https://github.com/Oyvindkg/SwiftyDB/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Oyvindkg/SwiftyDB/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><img src="http://i.imgur.com/uQhXJLJ.png?1" alt="alt text" title="Logo"></p>
+
+<p>There are many libraries out there with the goal to help developers easily create and use SQLite databases. 
+Unfortunately developers still have to get buggered down in simple tasks like writing table deifinitions 
+and SQL queries to interract with the database. SwiftyDB automatically handles everything you don't want to spend your time doing.</p>
+
+<p><a href="https://travis-ci.org/%C3%98yvind%20Grimnes/SwiftyDB"><img src="http://img.shields.io/travis/%C3%98yvind%20Grimnes/SwiftyDB.svg?style=flat" alt="CI Status"></a>
+<a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat" alt="Version"></a>
+<a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat" alt="License"></a>
+<a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat" alt="Platform"></a></p>
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h3>
+
+<ul>
+<li>Table generation</li>
+<li>Store any valid SQLite type</li>
+<li>Support for optional types</li>
+<li>Simple queries</li>
+<li>Thread safe</li>
+</ul>
+
+<p><strong>Supported types</strong></p>
+
+<ul>
+<li><code>Int</code></li>
+<li><code>Float</code></li>
+<li><code>Double</code></li>
+<li><code>Bool</code></li>
+<li>
+<code>NSNumber</code> / <code>NSNumber?</code>
+</li>
+<li>
+<code>String</code> / <code>String?</code>
+</li>
+<li>
+<code>NSDate</code> / <code>NSDate?</code>
+</li>
+<li>
+<code>NSData</code> / <code>NSData?</code>
+</li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Let's use this simple <code>Dog</code> class as an example</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> Dog {
+  <span class="pl-k">var</span> id: NSNumber?
+  <span class="pl-k">var</span> name: <span class="pl-c1">String</span>?
+  <span class="pl-k">var</span> owner: <span class="pl-c1">String</span>?
+  <span class="pl-k">var</span> dateOfBirth: NSDate?
+}</pre></div>
+
+<h3>
+<a id="defining-your-classes" class="anchor" href="#defining-your-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Defining your classes</h3>
+
+<p>All you have to do, is to make sure the class conforms to the <code>Storable</code> protocol. This is easily achieved by subclassing <code>NSObject</code>. 
+SwiftyDB will automatically handle all the boring stuff behind like table creation behind the scenes.</p>
+
+<blockquote>
+<p>Using the <code>dynamic</code> keyword is not necessary, but it helps to make sure the datatype is valid. Only values representable in Objective-C can be stored in this version because objects' properties are dynamically assigned upon retrieval.</p>
+</blockquote>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> Dog: NSObject, Storable {
+  <span class="pl-k">dynamic</span> <span class="pl-k">var</span> id: NSNumber?
+  <span class="pl-k">dynamic</span> <span class="pl-k">var</span> name: <span class="pl-c1">String</span>?
+  <span class="pl-k">dynamic</span> <span class="pl-k">var</span> owner: <span class="pl-c1">String</span>?
+  <span class="pl-k">dynamic</span> <span class="pl-k">var</span> dateOfBirth: NSDate?
+
+  <span class="pl-k">override</span> <span class="pl-k">required</span> <span class="pl-k">init</span>() {
+    <span class="pl-k">super</span><span class="pl-k">.</span><span class="pl-k">init</span>()
+  }
+}</pre></div>
+
+<h4>
+<a id="primary-keys" class="anchor" href="#primary-keys" aria-hidden="true"><span class="octicon octicon-link"></span></a>Primary keys</h4>
+
+<p>It is recommended you can implement the <code>primaryKeys()</code> method in the <code>Storable</code> protocol. 
+This method should return a set of property names which uniquely identifies an object.</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-k">func</span> <span class="pl-en">primaryKeys</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Set</span>&lt;<span class="pl-c1">String</span>&gt; {
+  <span class="pl-k">return</span> [<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>]
+}</pre></div>
+
+<h4>
+<a id="ignoring-properties" class="anchor" href="#ignoring-properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ignoring properties</h4>
+
+<p>If your class contains properties that you don't want in your database, you can implement the <code>ignoredProperties()</code> method in the <code>Storable</code> protocol.
+This method should return a set of property names which will be ignored.</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> <span class="pl-k">func</span> <span class="pl-en">ignoredProperties</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Set</span>&lt;<span class="pl-c1">String</span>&gt; {
+  <span class="pl-k">return</span> [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>]
+}</pre></div>
+
+<h3>
+<a id="use-the-database" class="anchor" href="#use-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use the database</h3>
+
+<p>No more custom methods for interacting  with the database. SwiftyDB handles everything automagically <g-emoji alias="tophat" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3a9.png">🎩</g-emoji></p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> database <span class="pl-k">=</span> SwiftyDB(name: <span class="pl-s"><span class="pl-pds">"</span>Test<span class="pl-pds">"</span></span>)
+<span class="pl-k">let</span> dog <span class="pl-k">=</span> Dog(id: <span class="pl-c1">1</span>, name: <span class="pl-s"><span class="pl-pds">"</span>Max<span class="pl-pds">"</span></span>, owner: <span class="pl-s"><span class="pl-pds">"</span>Phil<span class="pl-pds">"</span></span>, dateOfBirth: NSDate())</pre></div>
+
+<p>Add or update a record</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>addObject(dog, update: <span class="pl-c1">true</span>)</pre></div>
+
+<p>Retrieve records matching some optional parameters</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">/* Returns a singe Dog object from the database */</span>
+database<span class="pl-k">.</span>getObjectForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
+database<span class="pl-k">.</span>getObjectForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>])
+
+<span class="pl-c">/* Returns an array of Dog objects from the database */</span>
+database<span class="pl-k">.</span>getObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
+database<span class="pl-k">.</span>getObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>])</pre></div>
+
+<p>Delete records matching some parameters</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
+database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, parameters: [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Max<span class="pl-pds">"</span></span>])</pre></div>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>In this early version you must include the popular SQLite library FMDB in your project. This dependency will probably be removed at a later point. At least replaced by a more Swift friendly library.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>SwiftyDB is available through <a href="http://cocoapods.org">CocoaPods</a>. To install
+it, simply add the following line to your Podfile:</p>
+
+<div class="highlight highlight-source-ruby"><pre>pod <span class="pl-s"><span class="pl-pds">"</span>SwiftyDB<span class="pl-pds">"</span></span></pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Oyvindkg/SwiftyDB">SwiftyDB</a> is maintained by <a href="https://github.com/Oyvindkg">Oyvindkg</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
