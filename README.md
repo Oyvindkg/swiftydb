@@ -38,7 +38,7 @@ Let's use this simple `Dog` class as an example
 
 ```Swift
 class Dog {
-    var id: NSNumber?
+    var id: Int
     var name: String?
     var owner: String?
     var dateOfBirth: NSDate?
@@ -60,7 +60,7 @@ All objects must conform to the `Storeable` protocol.
 
 ```Swift
 class Dog: NSObject, Storable {
-    dynamic var id: NSNumber?
+    dynamic var id: Int
     dynamic var name: String?
     dynamic var owner: String?
     dynamic var dateOfBirth: NSDate?
@@ -95,7 +95,7 @@ If you of some reason cannot subclass NSObject, it is to my knowledge impossible
 
 ```Swift
 class Dog: Storable {
-    var id: NSNumber?
+    var id: Int
     var name: String?
     var owner: String?
     var dateOfBirth: NSDate?
