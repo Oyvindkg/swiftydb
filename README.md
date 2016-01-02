@@ -42,21 +42,21 @@ let database = SwiftyDB(name: "Test")
 database.addObject(dog, update: true)
 ````
 
-**Retrieve records matching some optional filters**
+**Retrieve records**
 ```Swift
 /* Returns a singe Dog object from the database */
 database.objectForType(Dog.self)
-database.objectForType(Dog.self, withFilters: ["id": 1])
+database.objectForType(Dog.self, matchingFilters: ["id": 1])
 
 /* Returns an array of Dog objects from the database */
 database.objectsForType(Dog.self)
-database.objectsForType(Dog.self, withFilters: ["id": 1])
+database.objectsForType(Dog.self, matchingFilters: ["id": 1])
 ````
 
-**Delete records matching some optional filters**
+**Delete records**
 ```Swift
 database.deleteObjectsForType(Dog.self)
-database.deleteObjectsForType(Dog.self, withFilters: ["name": "Max"])
+database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
 ```
 
 ### Defining your classes
@@ -138,7 +138,7 @@ You can use the following methods to retrieve records as an array of dictionarie
 
 ```Swift
 database.dataForType(Dog.self)
-database.dataForType(Dog.self, withFilters: ["id": 1])
+database.dataForType(Dog.self, matchingFilters: ["id": 1])
 ````
 
 ## Installation
