@@ -17,17 +17,19 @@ internal struct PropertyData {
     let isOptional: Bool
     let dynamic:    Bool
     
-    var objectType: Storeable.Type
-    var type:       Any.Type?       = nil
+    var type:       Binding.Type?   = nil
     var name:       String?
     var value:      Any?            = nil
     
     var isValid: Bool {
-        return type != nil && !(objectType.ignoredProperties?().contains(name!) ?? false)
+        if type == nil {
+            return false
+        }
+        
+        return true
     }
     
-    init(property: Mirror.Child, objectType: Storeable.Type) {
-        self.objectType = objectType
+    init(property: Mirror.Child) {
         self.name = property.label
         
         let mirror = Mirror(reflecting: property.value)
@@ -35,39 +37,39 @@ internal struct PropertyData {
         dynamic = true
         value = unwrap(property.value)
         
-        if let validType = typeForMirror(mirror) {
-            type = validType
-        }
+        type = typeForMirror(mirror)
     }
     
-    internal func typeForMirror(mirror: Mirror) -> Any.Type? {
-        
+    internal func typeForMirror(mirror: Mirror) -> Binding.Type? {
         // TODO: Find a better way to unwrap optional types
         // Can easily be done using mirror if the encapsulated value is not nil
         if isOptional {
             switch mirror.subjectType {
-            case is (String?).Type:
+            case is Optional<String>.Type:
                 return String.self
-            case is (NSDate?).Type:
+            case is Optional<NSString>.Type:
+                return NSString.self
+            case is Optional<NSDate>.Type:
                 return NSDate.self
-            case is (Bool?).Type:
+            case is Optional<Bool>.Type:
                 return Bool.self
-            case is (NSNumber?).Type:
+            case is Optional<NSNumber>.Type:
                 return NSNumber.self
-            case is (NSData?).Type:
+            case is Optional<NSData>.Type:
                 return NSData.self
-//            case is (Int?).Type:
-//                return Int.self
-//            case is (Float?).Type:
-//                return Float.self
-//            case is (Double?).Type:
-//                return Double.self
+            case is Optional<Int>.Type:
+                return Int.self
+            case is Optional<Float>.Type:
+                return Float.self
+            case is Optional<Double>.Type:
+                return Double.self
             default:
+                fatalError("Datatype '\(mirror.subjectType)' is not configured")
                 return nil
             }
         }
         
-        return mirror.subjectType
+        return mirror.subjectType as? Binding.Type
     }
     
     /**
@@ -86,58 +88,35 @@ internal struct PropertyData {
             return value
         }
         
-        /* An the encapsulated optional value if not nil, otherwise nil */
+        /* The encapsulated optional value if not nil, otherwise nil */
         return mirror.children.first?.value
     }
 }
 
 extension PropertyData {
-    internal static func propertyDataForObject (object: Storeable) -> [PropertyData] {
-        let mirror = Mirror(reflecting: object)
-        return mirror.children.map {
-            PropertyData(property: $0, objectType: object.dynamicType)
-        }
-    }
-}
-
-extension PropertyData {
-    internal func SQLiteColumnDefinition() -> String? {
-        /* Contains strings used to build the column definition */
-        var segments = [self.name!]
-        
-        /* Retrieve a valid SQLite datatype for the property type, or return nil */
-        if let sqliteDatatype = self.SQLiteDatatype() {
-            segments.append(sqliteDatatype)
-        } else {
-            return nil
-        }
-        
-        /* If the property is not optional, it is never null */
-        if !self.isOptional {
-            segments.append("NOT NULL")
-        }
-        
-        /* Mark as primary key if necessary */
-        if self.objectType.primaryKeys?().contains(self.name!) ?? false {
-            segments.append("PRIMARY KEY")
-        }
-        
-        /* Join the segments into a string and return the complete column definition */
-        return segments.joinWithSeparator(" ")
+    internal static func validPropertyDataForObject (object: Storable) -> [PropertyData] {
+        return validPropertyDataForMirror(Mirror(reflecting: object))
     }
     
-    internal func SQLiteDatatype() -> String? {
-        switch self.type {
-        case is String.Type, is NSDate.Type:
-            return "TEXT"
-        case is Bool.Type, is Int.Type:
-            return "INT"
-        case is NSNumber.Type, is Float.Type, is Double.Type:
-            return "REAL"
-        case is NSData.Type:
-            return "BLOB"
-        default:
-            return nil
+    private static func validPropertyDataForMirror(mirror: Mirror, var ignoredProperties: Set<String> = []) -> [PropertyData] {
+        if mirror.subjectType is IgnoredProperties.Type {
+            ignoredProperties = ignoredProperties.union((mirror.subjectType as! IgnoredProperties.Type).ignoredProperties())
         }
+        
+        var propertyData: [PropertyData] = []
+        
+        /* Allow inheritance from storable superclasses using reccursion */
+        if let superclassMirror = mirror.superclassMirror() where superclassMirror.subjectType is Storable.Type {
+            propertyData += validPropertyDataForMirror(superclassMirror, ignoredProperties: ignoredProperties)
+        }
+        
+        /* Map children to property data and filter out ignored or invalid properties */
+        propertyData += mirror.children.map {
+            PropertyData(property: $0)
+            }.filter({
+                $0.isValid && !ignoredProperties.contains($0.name!)
+            })
+        
+        return propertyData
     }
 }

@@ -9,94 +9,69 @@
 import Foundation
 
 
-/** All objects in the database must conform to the 'Storable' protocol. This is easily achieved by subclassing NSObject */
-@objc public protocol Storable {
-    /** Used to initialize an object retrieved from the database */
-    init()
 
-    /** Used to assign values to object when retrieved. Currently easiest to achieve through subclassing of NSObject */
-    func setValue(value: AnyObject?, forKey key: String)
-    
-    /** Implement this method to support updates and improved indexing */
-    optional static func primaryKeys() -> Set<String>
-    
-    /** Define a set of properties to be ignored */
-    optional static func ignoredProperties() -> Set<String>
+
+/** All objects in the database must conform to the 'Storable' protocol */
+public protocol Storable {
+    init()
 }
 
+/** Implement this protocol to use primary keys */
+public protocol PrimaryKeys {
+    static func primaryKeys() -> Set<String>
+}
 
-/** A simple class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval */
+/** Implement this protocol to ignore arbitrary properties */
+public protocol IgnoredProperties {
+    static func ignoredProperties() -> Set<String>
+}
+
+///** Implement this protocol to enable SwiftyDB and convert data retrieved from the database to datatypes matching the class properties */
+//public protocol Parsable {
+//    init()
+//}
+
+
+
+
+
+/** A class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval */
 public class SwiftyDB {
-    private let databaseQueue : FMDatabaseQueue
-
+    
+    internal let databaseQueue : DatabaseQueue
+    internal let path: String
+    internal var existingTables: Set<String> = []
+    
+    //    MARK: -
+    
+    /**
+    Creates a new instance of SwiftyDB using a database in the documents directory. If the database does not exist, it will be created.
+    
+    - parameter databaseName:  name of the database
+    
+    - returns:                 an instance of SwiftyDB
+    */
     
     public init(databaseName: String) {
         let documentsDir : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]
-        let databasePath = documentsDir+"/\(databaseName).sqlite"
-
-//        try? NSFileManager.defaultManager().removeItemAtPath(databasePath)
+        path = documentsDir+"/\(databaseName).sqlite"
         
-        let shouldCreateDatabase = !NSFileManager.defaultManager().fileExistsAtPath(databasePath)
+        try? NSFileManager.defaultManager().removeItemAtPath(path)
         
-        databaseQueue = FMDatabaseQueue(path: databasePath)
-        
-        /* Initialize a new database if it did not exist */
-        if shouldCreateDatabase {
-            initializeDatabase()
-        }
-        let _ = createTableForType(Dog.self)
+        databaseQueue = DatabaseQueue(path: path)
     }
     
-    internal func initializeDatabase() {}
-    
-    
+    //    MARK: - Database operations
     
     /**
-     Creates a new table for the specified type based on the provided column definitions
-     
-     - parameter type:              type of objects data in the table represents
-     
-     - returns:                     boolean indicating the success of the operation
-     */
+    Add an object to the database
     
-    public func createTableForType (type: Storable.Type) -> Bool {
-        
-        let object = type.init()
-        
-        /* Strings defining the columns in the table for objects of type T */
-        var columnStrings: [String] = []
-        
-        for propertyData in PropertyData.propertyDataForObject(object) {
-            if !propertyData.isValid {
-                continue
-            }
-            
-            if let columnString = propertyData.SQLiteColumnDefinition() {
-                columnStrings.append(columnString)
-            }
-        }
-
-        let tableName =  tableNameForType(type)
-        let sql = "CREATE TABLE \(tableName) (\(columnStrings.joinWithSeparator(", ")))"
-
-        return self.exequteStatement(sql)
-    }
+    - parameter object:     object to be added to the database
+    - parameter update:     indicates whether the record should be updated if already present
+    */
     
-    /**
-     Add an object to the database
-     
-     - parameter object:     object to be added to the database
-     - parameter update:     indicates whether the record should be updated if already present
-     
-     - returns:              boolean indicating the success of the query
-     */
-    
-    public func addObject(object: Storable, update: Bool = true) -> Bool {
-        let validData     = dataFromObject(object)
-        
-        let sql = insertObjectStatement(validData, type: object.dynamicType, update: update)
-        
-        return self.exequteStatement(sql, parameters: validData)
+    public func addObject <S: Storable> (object: S, update: Bool = true) throws {
+        try self.addObjects([object], update: update)
     }
     
     /**
@@ -104,197 +79,111 @@ public class SwiftyDB {
      
      - parameter objects:    objects to be added to the database
      - parameter update:     indicates whether the record should be updated if already present
-     
-     - returns:              boolean indicating the success of the query
      */
     
-    public func addObjects <T: Storable> (objects: [T], update: Bool = true) -> Bool {
-        var isSuccess = true
-        
-        databaseQueue.inTransaction { (database, rollback) -> Void in
-            for object in objects {
-                
-                let validData   = self.dataFromObject(object)
-                let sql         = self.insertObjectStatement(validData, type: T.self, update: update)
-                
-                if !database.executeUpdate(sql, withParameterDictionary: validData) {
-                    rollback.initialize(true)
-                    isSuccess = false
-                    return
-                }
-            }
+    public func addObjects <S: Storable> (objects: [S], update: Bool = true) throws {
+        guard objects.count > 0 else {
+            return
         }
         
-        return isSuccess
-    }
-    
-    
-    /** 
-    Constructs an SQLite statement inserting and/or updating an object in the database
-     
-    - parameter data:   dictionary containing data representing an object
-    - parameter type:   type of the object to be inserted
-    
-    - returns:          SQLite statement
-    */
-    
-    private func insertObjectStatement (data: [String: AnyObject], type: Storable.Type, update: Bool = true) -> String {
-        let valuesString    = data.keys.sort().map {":\($0)"}.joinWithSeparator(", ")
-        let keysString      = data.keys.sort().map {"\($0)"}.joinWithSeparator(", ")
-        let tableName       = tableNameForType(type)
-        let method          = update ? "INSERT OR REPLACE" : "INSERT"
+        let tableExists = try tableExistsForType(S)
+        if !tableExists {
+            try createTableForTypeRepresentedByObject(objects.first!)
+        }
         
-        return "\(method) INTO \(tableName) (\(keysString)) VALUES (\(valuesString))"
+        try databaseQueue.transaction { (database) -> Void in
+            for object in objects {
+                let validData   = self.dataFromObject(object)
+                let query = QueryHandler.insertQueryForData(validData, forType: S.self, update: update)
+                try database.executeUpdate(query)
+            }
+        }
     }
     
+    /**
+     Add objects to the database
+     
+     - parameter object:        object to be added to the database
+     - parameter moreObjects:   more objects to be added to the database
+     */
+    
+    public func addObjects <S: Storable> (object: S, _ moreObjects: S...) throws {
+        try addObjects([object] + moreObjects)
+    }
     
     /**
      Remove objects of a specified type, matching a set of parameters, from the database
      
      - parameter parameters: dictionary containing the parameters identifying objects to be deleted
      - parameter type:       type of the objects to be deleted
-     
-     - returns:              boolean indicating the success of the request
      */
     
-    public func deleteObjectsForType (type: Storable.Type, withParameters parameters: [String: AnyObject] = [:]) -> Bool {
-        let tableName       = tableNameForType(type)
-        let sql             = "DELETE FROM \(tableName)" + whereClauseForParameters(parameters)
+    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: Binding?] = [:]) throws {
+        guard try tableExistsForType(type) else {
+            return
+        }
         
-        return self.exequteStatement(sql, parameters: parameters)
+        let query = QueryHandler.deleteQueryForType(type, matchingFilters: filters)
+        try databaseQueue.database { (database) -> Void in
+            try database.executeUpdate(query)
+        }
     }
     
-    
     /**
-     Get objects of a specified type, matching a set of parameters, from the database
+     Get data for a specified type, matching a set of parameters, from the database
      
      - parameter parameters: dictionary containing the parameters identifying objects to be retrieved
-     - parameter type:       type of the objects to be retrieved
+     - parameter type:       type of the objects for which to retrieve data
      
-     - returns:              array containing the retrieved objects
+     - returns:              array containing the dictionaries of data representing objects
      */
     
-    public func getObjectsForType <T: Storable> (type: T.Type, withParameters parameters: [String: AnyObject]? = nil) -> [T] {
-        let tableName       = tableNameForType(T)
-        let sql             = "SELECT * FROM \(tableName)" + whereClauseForParameters(parameters)
+    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: Binding?] = [:]) throws -> [[String: Binding?]] {
+        guard try tableExistsForType(type) else {
+            return []
+        }
         
-        var results: [T] = []
+        /* Generate query */
+        let query = QueryHandler.selectQueryForType(type, matchingFilters: filters)
         
-        databaseQueue.inDatabase { (database) -> Void in
-            let resultSet = database.executeQuery(sql, withParameterDictionary: parameters)
+        var results: [[String: Binding?]] = []
+        
+        try databaseQueue.database { (database) -> Void in
+            let statement = try database.executeQuery(query)
             
-            if resultSet != nil {
-                while resultSet.next() {
-                    
-                    let object = type.init()
-                    
-                    var dictionary: [String: AnyObject] = [:]
-                    for propertyData in PropertyData.propertyDataForObject(object) {
-                        if !propertyData.isValid {
-                            continue
-                        }
-                        
-                        if let value = self.valueForPropertyData(propertyData, inResultSet: resultSet) {
-                            dictionary[propertyData.name!] = value
-                        }
-                    }
-
-                    let objectWithData = self.objectWithData(dictionary, forType: T.self) as! T
-                    results.append(objectWithData)
-                }
-                
-                resultSet.close()
+            /* Create a dummy object used to extract property data */
+            let object = type.init()
+            let objectPropertyData = PropertyData.validPropertyDataForObject(object as! Storable)
+            
+            results = statement.map { row in
+                self.parsedDataForRow(row, forPropertyData: objectPropertyData)
             }
         }
         
         return results
     }
     
-    private func valueForPropertyData(propertyData: PropertyData, inResultSet resultSet: FMResultSet) -> AnyObject? {
-        switch propertyData.type {
-        case is String.Type:
-            return resultSet.stringForColumn(propertyData.name!)
-        case is Bool.Type:
-            return resultSet.boolForColumn(propertyData.name!)
-        case is NSNumber.Type:
-            return NSNumber(double: resultSet.doubleForColumn(propertyData.name!))
-        case is Int.Type:
-            return Int(resultSet.intForColumn(propertyData.name!))
-        case is Float.Type:
-            return Float(resultSet.doubleForColumn(propertyData.name!))
-        case is Double.Type:
-            return Double(resultSet.doubleForColumn(propertyData.name!))
-        case is NSData.Type:
-            return resultSet.dataForColumn(propertyData.name!)
-        case is NSDate.Type:
-            return resultSet.dateForColumn(propertyData.name!)
-        default:
-            return nil
-        }
-    }
     
-    /** Name of the table representing a class */
-    private func tableNameForType(type: Storable.Type) -> String {
-        return NSStringFromClass(type).componentsSeparatedByString(".").last!
-    }
+    
+    //    MARK: - Internal functions
     
     /**
-    Construct a where clause for the provided parameters
-
-    - parameter parameters: dictionary containing columns and values
-    - returns:              SQLite where clause
+    Creates a new table for the specified type based on the provided column definitions
+    
+    The parameter is an object, instead of a type, to avoid forcing the user to implement initialization methods such as 'init'
+    
+    - parameter type:   type of objects data in the table represents
     */
     
-    private func whereClauseForParameters(parameters: [String: AnyObject]?) -> String {
-        if parameters == nil {
-            return ""
-        }
+    internal func createTableForTypeRepresentedByObject <S: Storable> (object: S) throws {
         
-        let segments = parameters?.map { "\($0.0) = :\($0.0)" }
+        let query = QueryHandler.createTableQueryForTypeRepresentedByObject(object)
         
-        return " WHERE " + segments!.joinWithSeparator(" AND ")
-    }
-    
-    /**
-    Executes an update on the database
-     
-    - parameter statement:  statement
-    - parameter parameters: parameters for statement
-     
-    - returns:              boolean indicating the success of the update
-    */
-    
-    private func exequteStatement(statement: String, parameters: [String: AnyObject] = [:]) -> Bool {
-        var isSuccess: Bool = false
-        databaseQueue.inDatabase { (database) -> Void in
-            isSuccess = database.executeUpdate(statement, withParameterDictionary: parameters)
-        }
+        try databaseQueue.database({ (database) -> Void in
+            try database.executeUpdate(query)
+        })
         
-        return isSuccess
-    }
-    
-    
-    /**
-     Creates a new object of a specified type and populates it with data from the provided dictionary
-     
-     - parameter data:   dictionary containing data
-     - parameter type:   type of object the data represents
-     
-     - returns:          object of the provided type populated with the provided data
-     */
-    
-    private func objectWithData (data: [String: AnyObject], forType type: Storable.Type) -> Storable {
-        let object = type.init()
-        
-        for propertyData in PropertyData.propertyDataForObject(object) {
-            if !propertyData.isValid || data[propertyData.name!] == nil {
-                continue
-            }
-
-            object.setValue(data[propertyData.name!], forKey: propertyData.name!)
-        }
-        
-        return object
+        existingTables.insert(tableNameForType(S))
     }
     
     /**
@@ -305,17 +194,145 @@ public class SwiftyDB {
      - returns:             dictionary containing the data from the object
      */
     
-    private func dataFromObject (object: Storable) -> [String: AnyObject] {
-        var dictionary: [String: AnyObject] = [:]
+    internal func dataFromObject (object: Storable) -> [String: Binding?] {
+        var dictionary: [String: Binding?] = [:]
         
-        for propertyData in PropertyData.propertyDataForObject(object) {
-            if !propertyData.isValid || propertyData.value == nil {
-                continue
-            }
-
-            dictionary[propertyData.name!] = propertyData.value as? AnyObject
+        for propertyData in PropertyData.validPropertyDataForObject(object) {
+            dictionary[propertyData.name!] = propertyData.value as? Binding
         }
         
         return dictionary
+    }
+    
+    /**
+     Check whether a table representing a type exists, or not
+     
+     - parameter type:  type implementing the Storable protocol
+     
+     - returns:         boolean indicating if the table exists
+     */
+    
+    internal func tableExistsForType(type: Storable.Type) throws -> Bool {
+        let tableName = tableNameForType(type)
+        
+        guard existingTables.contains(tableName) else {
+            var exists: Bool = false
+            
+            try databaseQueue.database({ (database) in
+                exists = try database.containsTable(tableName)
+            })
+            
+            return exists
+        }
+        
+        return true
+    }
+    
+    /** Name of the table representing a class */
+    internal func tableNameForType(type: Storable.Type) -> String {
+        return String(type)
+    }
+    
+    /**
+     Create a dictionary with values matching datatypes based on some property data
+     
+     - parameter row:           row, in the form of a wrapped SQLite statement, from which to receive values
+     - parameter propertyData:  array containing information about property names and datatypes
+     
+     - returns:                 dictionary containing data of types matching the properties of the target type
+     */
+    
+    internal func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: Binding?] {
+        var rowData: [String: Binding?] = [:]
+        
+        for propertyData in propertyData {
+            rowData[propertyData.name!] = valueForProperty(propertyData, inRow: row)
+        }
+        
+        return rowData
+    }
+    
+    /**
+     Retrieve the value for a property with the correct datatype
+     
+     - parameter propertyData:  object containing information such as property name and type
+     - parameter row:           row, in the form of a wrapped SQLite statement, from which to retrieve the value
+     
+     - returns:                 optional value for the property
+     */
+    
+    internal func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> Binding? {
+        if row.typeForColumn(propertyData.name!) == .Null {
+            return nil
+        }
+        
+        switch propertyData.type {
+        case is NSDate.Type:
+            return row.dateForColumn(propertyData.name!)
+        case is NSData.Type:
+            return row.dataForColumn(propertyData.name!)
+        case is String.Type:
+            return row.stringForColumn(propertyData.name!)
+        case is NSString.Type:
+            return row.nsstringForColumn(propertyData.name!)
+        case is Double.Type:
+            return row.doubleForColumn(propertyData.name!)
+        case is Float.Type:
+            return row.floatForColumn(propertyData.name!)
+        case is Int.Type:
+            return row.integerForColumn(propertyData.name!)
+        case is Bool.Type:
+            return row.boolForColumn(propertyData.name!)
+        case is NSNumber.Type:
+            return row.numberForColumn(propertyData.name!)
+        default:
+            fatalError("Type '\(propertyData.type)' not configured")
+            return nil
+        }
+    }
+}
+
+
+// MARK: - Dynamic initialization extension
+extension SwiftyDB {
+    
+    /**
+     Get objects of a specified type, matching a set of parameters, from the database
+     
+     - parameter parameters: dictionary containing the parameters identifying objects to be retrieved
+     - parameter type:       type of the objects to be retrieved
+     
+     - returns:              array containing the retrieved objects
+     */
+    
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: Binding?] = [:]) throws -> [D] {
+        
+        return try dataForType(D.self, matchingFilters: filters).map {
+            objectWithData($0, forType: D.self)
+        }
+    }
+    
+    /**
+     Creates a new dynamic object of a specified type and populates it with data from the provided dictionary
+     
+     - parameter data:   dictionary containing data
+     - parameter type:   type of object the data represents
+     
+     - returns:          object of the provided type populated with the provided data
+     */
+    
+    internal func objectWithData <D where D: Storable, D: NSObject> (data: [String: Binding?], forType type: D.Type) -> D {
+        let object = (type as NSObject.Type).init() as! D
+        
+        for propertyData in PropertyData.validPropertyDataForObject(object) {
+            if data[propertyData.name!] == nil {
+                continue
+            }
+            
+            let value = data[propertyData.name!]!
+            object.setValue(value as? AnyObject, forKey: propertyData.name!)
+        }
+        
+        return object
     }
 }
