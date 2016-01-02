@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import TinySQLite
 
 /*
 
@@ -14,22 +15,18 @@ import Foundation
 
 internal struct PropertyData {
     
-    let isOptional: Bool
-    let dynamic:    Bool
+    internal let isOptional: Bool
+    internal let dynamic:    Bool
     
-    var type:       Binding.Type?   = nil
-    var name:       String?
-    var value:      Any?            = nil
+    internal var type:       Binding.Type?   = nil
+    internal var name:       String?
+    internal var value:      Any?            = nil
     
-    var isValid: Bool {
-        if type == nil {
-            return false
-        }
-        
-        return true
+    internal var isValid: Bool {
+        return type != nil
     }
     
-    init(property: Mirror.Child) {
+    internal init(property: Mirror.Child) {
         self.name = property.label
         
         let mirror = Mirror(reflecting: property.value)

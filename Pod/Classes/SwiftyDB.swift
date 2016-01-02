@@ -7,7 +7,7 @@
 
 
 import Foundation
-
+import TinySQLite
 
 
 
@@ -38,9 +38,9 @@ public protocol IgnoredProperties {
 /** A class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval */
 public class SwiftyDB {
     
-    internal let databaseQueue : DatabaseQueue
-    internal let path: String
-    internal var existingTables: Set<String> = []
+    private let databaseQueue : DatabaseQueue
+    private let path: String
+    private var existingTables: Set<String> = []
     
     //    MARK: -
     

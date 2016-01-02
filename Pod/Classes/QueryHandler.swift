@@ -6,11 +6,11 @@
 //
 
 import Foundation
-
+import TinySQLite
 
 internal class QueryHandler {
     
-    class func createTableQueryForTypeRepresentedByObject <S: Storable> (object: S) -> Query {
+    internal class func createTableQueryForTypeRepresentedByObject <S: Storable> (object: S) -> Query {
         let tableName =  tableNameForType(S)
         
         let table = Table(tableName)
@@ -36,7 +36,7 @@ internal class QueryHandler {
         return QueryGenerator.createTableQueryForTable(table)
     }
     
-    class func insertQueryForData(data: [String: Binding?], forType type: Storable.Type, update: Bool) -> Query {
+    internal class func insertQueryForData(data: [String: Binding?], forType type: Storable.Type, update: Bool) -> Query {
         let table = Table(tableNameForType(type))
         table.onConflict(update ? .Replace : .Abort)
         
@@ -47,7 +47,7 @@ internal class QueryHandler {
         return QueryGenerator.insertQueryForTable(table)
     }
     
-    class func selectQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
+    internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
         
         let tableName =  tableNameForType(type)
         
@@ -62,7 +62,7 @@ internal class QueryHandler {
         return QueryGenerator.selectForTable(table)
     }
     
-    class func deleteQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
+    internal class func deleteQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
         
         let tableName =  tableNameForType(type)
         
@@ -98,6 +98,4 @@ internal class QueryHandler {
             fatalError("Binding type \(type) is not configured")
         }
     }
-    
-    
 }
