@@ -1,8 +1,8 @@
 ![alt text] (http://i.imgur.com/uQhXJLJ.png?1 "Logo")
 
-There are many libraries out there with the goal to help developers easily create and use SQLite databases. 
-Unfortunately developers still have to get bogged down in simple tasks like writing table deifinitions 
-and SQL queries to interract with the database. SwiftyDB automatically handles everything you don't want to spend your time doing.
+There are many libraries out there that aims to help developers easily create and use SQLite databases. 
+Unfortunately developers still have to get bogged down in simple tasks such as writing table definitions 
+and SQL queries. SwiftyDB automatically handles everything you don't want to spend your time doing.
 
 [![CI Status](http://img.shields.io/travis/Øyvind Grimnes/SwiftyDB.svg?style=flat)](https://travis-ci.org/Øyvind Grimnes/SwiftyDB)
 [![Version](https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
@@ -18,7 +18,7 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 - [ ] Complex queries
 - [ ] Store nested objects
 
-####Supported property types
+#### <a name="datatypes">Supported property types</a>.
 - [x] `Int`
 - [x] `Float`
 - [x] `Double`
@@ -44,10 +44,6 @@ database.addObject(dog, update: true)
 
 **Retrieve records**
 ```Swift
-/* Returns a singe Dog object from the database */
-database.objectForType(Dog.self)
-database.objectForType(Dog.self, matchingFilters: ["id": 1])
-
 /* Returns an array of Dog objects from the database */
 database.objectsForType(Dog.self)
 database.objectsForType(Dog.self, matchingFilters: ["id": 1])
@@ -82,11 +78,13 @@ public protocol Storable: Parsable {
 #### Store and retrieve objects
 In order to assign an objects properties dynamically, the class must be a subclass of `NSObject`, and all properties must be representable in in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
 
+You can find all supported property datatypes [here](#datatypes).
+
 If you for some reason want to avoid subclassing `NSObject`, scroll to the section ['Store pure Swift objects'](#storePureSwiftObjects)
 
 ```Swift
 class Dog: NSObject, Storable {
-    var id: NSNumber?
+    var id: NSNumber? // Notice that 'Int?' is not supported. Use NSNumber? instead
     var name: String?
     var owner: String?
     var birth: NSDate?
@@ -119,13 +117,15 @@ extension Dog: IgnoredProperties {
 }
 ```
 
+> Properties with datatypes that are not part of the `Binding` protocol will automatically be ignored by SwiftyDB
+
 #### <a name="storePureSwiftObjects">Store pure Swift objects</a>
 
 If you of some reason cannot subclass NSObject, it is to my knowledge impossible to dynamically create objects and assign its properties. In that case, all you have to do is to make sure you object conforms to the `Storable` protocol. 
 
 ```Swift
 class Dog: Storable {
-    var id: Int
+    var id: NSNumber?
     var name: String?
     var owner: String?
     var birth: NSDate?
