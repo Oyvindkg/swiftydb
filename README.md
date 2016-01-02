@@ -20,17 +20,17 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 - [ ] Complex queries
 - [ ] Store nested objects
 
-**Supported types**
+**Supported property types**
 - [x] `Int`
 - [x] `Float`
 - [x] `Double`
 - [x] `Bool`
-- [x] `NSNumber` / `NSNumber?`
 - [x] `String` / `String?`
+- [x] `NSNumber` / `NSNumber?`
 - [x] `NSString` / `NSString?`
 - [x] `NSDate` / `NSDate?`
 - [x] `NSData` / `NSData?`
-- [ ] Objects implementing the `Storable` protocol
+- [ ] `Storable` objects
 - [ ] Collections
 
 ## Usage
@@ -39,12 +39,12 @@ No more custom methods for interacting  with the database. SwiftyDB handles ever
 ```Swift
 let database = SwiftyDB(name: "Test")
 ```
-###### Add or update a record
+**Add or update a record**
 ```Swift
 database.addObject(dog, update: true)
 ````
 
-###### Retrieve records matching some optional parameters
+**Retrieve records matching some optional parameters**
 ```Swift
 /* Returns a singe Dog object from the database */
 database.objectForType(Dog.self)
@@ -55,7 +55,7 @@ database.objectsForType(Dog.self)
 database.objectsForType(Dog.self, parameters: ["id": 1])
 ````
 
-###### Delete records matching some parameters
+**Delete records matching some parameters**
 ```Swift
 database.deleteObjectsForType(Dog.self)
 database.deleteObjectsForType(Dog.self, parameters: ["name": "Max"])
@@ -66,26 +66,27 @@ Let's use this simple `Dog` class as an example
 
 ```Swift
 class Dog {
-    var id: Int
+    var id: Int?
     var name: String?
     var owner: String?
-    var dateOfBirth: NSDate?
+    var birth: NSDate?
 }
 ```
 
 All objects must conform to the `Storeable` protocol.
 
 ```Swift
-@objc public protocol Storable {
-    optional static func primaryKeys() -> Set<String>
-    optional static func ignoredProperties() -> Set<String>
+public protocol Storable: Parsable {}
+
+public protocol Parsable {
+    init()
 }
 ```
 
 #### Store and retrieve objects
-In order to assign an objects properties automatically, the class must be a subclass of NSObject, and all datatypes myst be representable in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
+In order to assign an objects properties automatically, the class must be a subclass of NSObject. Therefore, all properties must be representable in in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
 
-To avoid subclassing NSObject, scroll to the section 'Store pure Swift objects'
+If you for some reason want to avoid subclassing NSObject, scroll to the section 'Store pure Swift objects'
 
 ```Swift
 class Dog: NSObject, Storable {
@@ -93,28 +94,46 @@ class Dog: NSObject, Storable {
     dynamic var name: String?
     dynamic var owner: String?
     dynamic var dateOfBirth: NSDate?
+    
+    override required init() {
+        super.init()
+    }
 }
 ```
 
-> Using the `dynamic` keyword is not necessary, but it helps to make sure the datatype is valid. Only values representable in Objective-C can be stored in this version because objects' properties are dynamically assigned upon retrieval.
+<!--> Using the `dynamic` keyword is not necessary, but it helps to make sure the datatype is valid. Only values representable in Objective-C can be stored in this version because objects' properties are dynamically assigned upon retrieval. -->
 
 ##### Primary keys
-It is recommended you can implement the `primaryKeys()` method in the `Storable` protocol. 
-This method should return a set of property names which uniquely identifies an object.
+It is recommended you can implement the `PrimaryKeys` protocol. The `primaryKeys()` method should return a set of property names which uniquely identifies an object.
 
 ```Swift
-class func primaryKeys() -> Set<String> {
-  return ["id"]
+public protocol PrimaryKeys {
+    static func primaryKeys() -> Set<String>
+}
+```
+
+```Swift
+extension Dog: PrimaryKeys {
+    class func primaryKeys() -> Set<String> {
+        return ["id"]
+    }
 }
 ```
 
 ##### Ignoring properties
-If your class contains properties that you don't want in your database, you can implement the `ignoredProperties()` method in the `Storable` protocol.
-This method should return a set of property names which will be ignored.
+If your class contains properties that you don't want in your database, you can implement the `IgnoredProperties` protocol.
 
 ```Swift
-class func ignoredProperties() -> Set<String> {
-  return ["name"]
+public protocol IgnoredProperties {
+    static func ignoredProperties() -> Set<String>
+}
+```
+
+```Swift
+extension Dog: IgnoredProperties {
+    class func ignoredProperties() -> Set<String> {
+        return ["name"]
+    }
 }
 ```
 
@@ -127,11 +146,13 @@ class Dog: Storable {
     var id: Int
     var name: String?
     var owner: String?
-    var dateOfBirth: NSDate?
+    var birth: NSDate?
+    
+    init() {}
 }
 ```
 
-When using types which cannot be dynamically updated, you can use the following methods to retrieve records as an array of dictionaries.
+You can use the following methods to retrieve records as an array of dictionaries. 
 
 ```Swift
 database.dataForType(Dog.self)
