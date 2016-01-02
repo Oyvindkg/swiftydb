@@ -1,5 +1,3 @@
-# !! Work in progress !!
-
 ![alt text] (http://i.imgur.com/uQhXJLJ.png?1 "Logo")
 
 There are many libraries out there with the goal to help developers easily create and use SQLite databases. 
@@ -15,12 +13,12 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 - [x] Table generation
 - [x] Store any valid SQLite type
 - [x] Support for optional types
-- [x] Simple parameter-based queries
-- [x] Thread safe
+- [x] Simple filter-based queries
+- [x] Thread safe database operations
 - [ ] Complex queries
 - [ ] Store nested objects
 
-**Supported property types**
+####Supported property types
 - [x] `Int`
 - [x] `Float`
 - [x] `Double`
@@ -34,7 +32,7 @@ and SQL queries to interract with the database. SwiftyDB automatically handles e
 - [ ] Collections
 
 ## Usage
-No more custom methods for interacting  with the database. SwiftyDB handles everything automagically 🎩
+Pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ```Swift
 let database = SwiftyDB(name: "Test")
@@ -44,21 +42,21 @@ let database = SwiftyDB(name: "Test")
 database.addObject(dog, update: true)
 ````
 
-**Retrieve records matching some optional parameters**
+**Retrieve records matching some optional filters**
 ```Swift
 /* Returns a singe Dog object from the database */
 database.objectForType(Dog.self)
-database.objectForType(Dog.self, parameters: ["id": 1])
+database.objectForType(Dog.self, withFilters: ["id": 1])
 
 /* Returns an array of Dog objects from the database */
 database.objectsForType(Dog.self)
-database.objectsForType(Dog.self, parameters: ["id": 1])
+database.objectsForType(Dog.self, withFilters: ["id": 1])
 ````
 
-**Delete records matching some parameters**
+**Delete records matching some optional filters**
 ```Swift
 database.deleteObjectsForType(Dog.self)
-database.deleteObjectsForType(Dog.self, parameters: ["name": "Max"])
+database.deleteObjectsForType(Dog.self, withFilters: ["name": "Max"])
 ```
 
 ### Defining your classes
@@ -76,24 +74,22 @@ class Dog {
 All objects must conform to the `Storeable` protocol.
 
 ```Swift
-public protocol Storable: Parsable {}
-
-public protocol Parsable {
+public protocol Storable: Parsable {
     init()
 }
 ```
 
 #### Store and retrieve objects
-In order to assign an objects properties automatically, the class must be a subclass of NSObject. Therefore, all properties must be representable in in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
+In order to assign an objects properties dynamically, the class must be a subclass of `NSObject`, and all properties must be representable in in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
 
-If you for some reason want to avoid subclassing NSObject, scroll to the section 'Store pure Swift objects'
+If you for some reason want to avoid subclassing `NSObject`, scroll to the section ['Store pure Swift objects'](#storePureSwiftObjects)
 
 ```Swift
 class Dog: NSObject, Storable {
-    dynamic var id: Int
-    dynamic var name: String?
-    dynamic var owner: String?
-    dynamic var dateOfBirth: NSDate?
+    var id: NSNumber?
+    var name: String?
+    var owner: String?
+    var birth: NSDate?
     
     override required init() {
         super.init()
@@ -101,16 +97,8 @@ class Dog: NSObject, Storable {
 }
 ```
 
-<!--> Using the `dynamic` keyword is not necessary, but it helps to make sure the datatype is valid. Only values representable in Objective-C can be stored in this version because objects' properties are dynamically assigned upon retrieval. -->
-
 ##### Primary keys
 It is recommended you can implement the `PrimaryKeys` protocol. The `primaryKeys()` method should return a set of property names which uniquely identifies an object.
-
-```Swift
-public protocol PrimaryKeys {
-    static func primaryKeys() -> Set<String>
-}
-```
 
 ```Swift
 extension Dog: PrimaryKeys {
@@ -124,12 +112,6 @@ extension Dog: PrimaryKeys {
 If your class contains properties that you don't want in your database, you can implement the `IgnoredProperties` protocol.
 
 ```Swift
-public protocol IgnoredProperties {
-    static func ignoredProperties() -> Set<String>
-}
-```
-
-```Swift
 extension Dog: IgnoredProperties {
     class func ignoredProperties() -> Set<String> {
         return ["name"]
@@ -137,7 +119,7 @@ extension Dog: IgnoredProperties {
 }
 ```
 
-#### Store pure Swift objects
+#### <a name="storePureSwiftObjects">Store pure Swift objects</a>
 
 If you of some reason cannot subclass NSObject, it is to my knowledge impossible to dynamically create objects and assign its properties. In that case, all you have to do is to make sure you object conforms to the `Storable` protocol. 
 
@@ -156,7 +138,7 @@ You can use the following methods to retrieve records as an array of dictionarie
 
 ```Swift
 database.dataForType(Dog.self)
-database.dataForType(Dog.self, parameters: ["id": 1])
+database.dataForType(Dog.self, withFilters: ["id": 1])
 ````
 
 ## Installation
