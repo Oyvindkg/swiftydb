@@ -36,7 +36,7 @@ internal class QueryHandler {
         return QueryGenerator.createTableQueryForTable(table)
     }
     
-    internal class func insertQueryForData(data: [String: Binding?], forType type: Storable.Type, update: Bool) -> Query {
+    internal class func insertQueryForData(data: [String: SQLiteValue?], forType type: Storable.Type, update: Bool) -> Query {
         let table = Table(tableNameForType(type))
         table.onConflict(update ? .Replace : .Abort)
         
@@ -47,7 +47,7 @@ internal class QueryHandler {
         return QueryGenerator.insertQueryForTable(table)
     }
     
-    internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
+    internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: [String: SQLiteValue?]) -> Query {
         
         let tableName =  tableNameForType(type)
         
@@ -62,7 +62,7 @@ internal class QueryHandler {
         return QueryGenerator.selectForTable(table)
     }
     
-    internal class func deleteQueryForType(type: Storable.Type, matchingFilters filters: [String: Binding?]) -> Query {
+    internal class func deleteQueryForType(type: Storable.Type, matchingFilters filters: [String: SQLiteValue?]) -> Query {
         
         let tableName =  tableNameForType(type)
         
@@ -82,7 +82,7 @@ internal class QueryHandler {
         return String(type)
     }
     
-    private class func SQLiteDatatypeForBindingType(type: Binding.Type) -> SQLiteDatatype {
+    private class func SQLiteDatatypeForBindingType(type: SQLiteValue.Type) -> SQLiteDatatype {
         switch type {
         case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is UInt64.Type, is Bool.Type:
             return .Integer
@@ -95,7 +95,18 @@ internal class QueryHandler {
         case is String.Type, is NSString.Type:
             return .Text
         default:
-            fatalError("Binding type \(type) is not configured")
+            fatalError("SQLiteValue type \(type) is not configured")
         }
+    }
+}
+
+
+extension DatabaseConnection {
+    func executeUpdate(query: Query) throws {
+        return try executeUpdate(query.query, bindings: query.values ?? [])
+    }
+    
+    func executeQuery(query: Query) throws -> Statement {
+        return try executeQuery(query.query, bindings: query.values ?? [])
     }
 }

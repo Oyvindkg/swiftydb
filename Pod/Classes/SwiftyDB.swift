@@ -26,12 +26,6 @@ public protocol IgnoredProperties {
     static func ignoredProperties() -> Set<String>
 }
 
-///** Implement this protocol to enable SwiftyDB and convert data retrieved from the database to datatypes matching the class properties */
-//public protocol Parsable {
-//    init()
-//}
-
-
 
 
 
@@ -42,7 +36,7 @@ public class SwiftyDB {
     private let path: String
     private var existingTables: Set<String> = []
     
-    //    MARK: -
+//    MARK: -
     
     /**
     Creates a new instance of SwiftyDB using a database in the documents directory. If the database does not exist, it will be created.
@@ -56,12 +50,10 @@ public class SwiftyDB {
         let documentsDir : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]
         path = documentsDir+"/\(databaseName).sqlite"
         
-        try? NSFileManager.defaultManager().removeItemAtPath(path)
-        
         databaseQueue = DatabaseQueue(path: path)
     }
     
-    //    MARK: - Database operations
+//    MARK: - Database operations
     
     /**
     Add an object to the database
@@ -118,7 +110,7 @@ public class SwiftyDB {
      - parameter type:       type of the objects to be deleted
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: Binding?] = [:]) throws {
+    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws {
         guard try tableExistsForType(type) else {
             return
         }
@@ -138,7 +130,7 @@ public class SwiftyDB {
      - returns:              array containing the dictionaries of data representing objects
      */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: Binding?] = [:]) throws -> [[String: Binding?]] {
+    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [[String: SQLiteValue?]] {
         guard try tableExistsForType(type) else {
             return []
         }
@@ -146,14 +138,14 @@ public class SwiftyDB {
         /* Generate query */
         let query = QueryHandler.selectQueryForType(type, matchingFilters: filters)
         
-        var results: [[String: Binding?]] = []
+        var results: [[String: SQLiteValue?]] = []
         
         try databaseQueue.database { (database) -> Void in
             let statement = try database.executeQuery(query)
             
             /* Create a dummy object used to extract property data */
             let object = type.init()
-            let objectPropertyData = PropertyData.validPropertyDataForObject(object as! Storable)
+            let objectPropertyData = PropertyData.validPropertyDataForObject(object)
             
             results = statement.map { row in
                 self.parsedDataForRow(row, forPropertyData: objectPropertyData)
@@ -165,7 +157,7 @@ public class SwiftyDB {
     
     
     
-    //    MARK: - Internal functions
+//    MARK: - Internal functions
     
     /**
     Creates a new table for the specified type based on the provided column definitions
@@ -194,11 +186,11 @@ public class SwiftyDB {
      - returns:             dictionary containing the data from the object
      */
     
-    internal func dataFromObject (object: Storable) -> [String: Binding?] {
-        var dictionary: [String: Binding?] = [:]
+    internal func dataFromObject (object: Storable) -> [String: SQLiteValue?] {
+        var dictionary: [String: SQLiteValue?] = [:]
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
-            dictionary[propertyData.name!] = propertyData.value as? Binding
+            dictionary[propertyData.name!] = propertyData.value as? SQLiteValue
         }
         
         return dictionary
@@ -242,8 +234,8 @@ public class SwiftyDB {
      - returns:                 dictionary containing data of types matching the properties of the target type
      */
     
-    internal func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: Binding?] {
-        var rowData: [String: Binding?] = [:]
+    internal func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: SQLiteValue?] {
+        var rowData: [String: SQLiteValue?] = [:]
         
         for propertyData in propertyData {
             rowData[propertyData.name!] = valueForProperty(propertyData, inRow: row)
@@ -261,33 +253,39 @@ public class SwiftyDB {
      - returns:                 optional value for the property
      */
     
-    internal func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> Binding? {
+    internal func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> SQLiteValue? {
         if row.typeForColumn(propertyData.name!) == .Null {
             return nil
         }
         
         switch propertyData.type {
-        case is NSDate.Type:
-            return row.dateForColumn(propertyData.name!)
-        case is NSData.Type:
-            return row.dataForColumn(propertyData.name!)
-        case is String.Type:
-            return row.stringForColumn(propertyData.name!)
-        case is NSString.Type:
-            return row.nsstringForColumn(propertyData.name!)
-        case is Double.Type:
-            return row.doubleForColumn(propertyData.name!)
-        case is Float.Type:
-            return row.floatForColumn(propertyData.name!)
-        case is Int.Type:
-            return row.integerForColumn(propertyData.name!)
-        case is Bool.Type:
-            return row.boolForColumn(propertyData.name!)
-        case is NSNumber.Type:
-            return row.numberForColumn(propertyData.name!)
-        default:
-            fatalError("Type '\(propertyData.type)' not configured")
-            return nil
+        case is NSDate.Type:    return row.dateForColumn(propertyData.name!)
+        case is NSData.Type:    return row.dataForColumn(propertyData.name!)
+            
+        case is String.Type:    return row.stringForColumn(propertyData.name!)
+        case is NSString.Type:  return row.nsstringForColumn(propertyData.name!)
+//        case is Character.Type: return row.characterForColumn(propertyData.name!)
+            
+        case is Double.Type:    return row.doubleForColumn(propertyData.name!)
+        case is Float80.Type:   return row.float80ForColumn(propertyData.name!)
+        case is Float.Type:     return row.floatForColumn(propertyData.name!)
+            
+        case is Int.Type:       return row.integerForColumn(propertyData.name!)
+        case is Int8.Type:      return row.integer8ForColumn(propertyData.name!)
+        case is Int16.Type:     return row.integer16ForColumn(propertyData.name!)
+        case is Int32.Type:     return row.integer32ForColumn(propertyData.name!)
+        case is Int64.Type:     return row.integer64ForColumn(propertyData.name!)
+        case is UInt.Type:      return row.unsignedIntegerForColumn(propertyData.name!)
+        case is UInt8.Type:     return row.unsignedInteger8ForColumn(propertyData.name!)
+        case is UInt16.Type:    return row.unsignedInteger16ForColumn(propertyData.name!)
+        case is UInt32.Type:    return row.unsignedInteger32ForColumn(propertyData.name!)
+        case is UInt64.Type:    return row.unsignedInteger64ForColumn(propertyData.name!)
+        
+        case is NSNumber.Type:  return row.numberForColumn(propertyData.name!)
+            
+        case is Bool.Type:      return row.boolForColumn(propertyData.name!)
+            
+        default:                return nil
         }
     }
 }
@@ -305,7 +303,7 @@ extension SwiftyDB {
      - returns:              array containing the retrieved objects
      */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: Binding?] = [:]) throws -> [D] {
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [D] {
         
         return try dataForType(D.self, matchingFilters: filters).map {
             objectWithData($0, forType: D.self)
@@ -321,7 +319,7 @@ extension SwiftyDB {
      - returns:          object of the provided type populated with the provided data
      */
     
-    internal func objectWithData <D where D: Storable, D: NSObject> (data: [String: Binding?], forType type: D.Type) -> D {
+    internal func objectWithData <D where D: Storable, D: NSObject> (data: [String: SQLiteValue?], forType type: D.Type) -> D {
         let object = (type as NSObject.Type).init() as! D
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {

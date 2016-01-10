@@ -18,7 +18,7 @@ internal struct PropertyData {
     internal let isOptional: Bool
     internal let dynamic:    Bool
     
-    internal var type:       Binding.Type?   = nil
+    internal var type:       SQLiteValue.Type?   = nil
     internal var name:       String?
     internal var value:      Any?            = nil
     
@@ -37,7 +37,7 @@ internal struct PropertyData {
         type = typeForMirror(mirror)
     }
     
-    internal func typeForMirror(mirror: Mirror) -> Binding.Type? {
+    internal func typeForMirror(mirror: Mirror) -> SQLiteValue.Type? {
         // TODO: Find a better way to unwrap optional types
         // Can easily be done using mirror if the encapsulated value is not nil
         if isOptional {
@@ -66,12 +66,12 @@ internal struct PropertyData {
             }
         }
         
-        return mirror.subjectType as? Binding.Type
+        return mirror.subjectType as? SQLiteValue.Type
     }
     
     /**
      
-     Unwraps optional values
+     Unwraps any value
      
      - parameter value:  The value to unwrap
      
