@@ -18,15 +18,6 @@ public func ==(lhs: Column, rhs: Column) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
-public enum SQLiteDatatype: String {
-    case Text       = "TEXT"
-    case Integer    = "INTEGER"
-    case Real       = "REAL"
-    case Blob       = "BLOB"
-    case Numeric    = "NUMERIC"
-    case Null       = "NULL"
-}
-
 public class Column {
     internal var name: String
     internal var columnAlias: String?

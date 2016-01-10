@@ -7,10 +7,11 @@
 
 import TinySQLite
 
+// TODO: Clean this generator mess up and create a separate module
+
 public class QueryGenerator {
     
     
-    // TODO: Support mutiple primary keys
     public class func createTableQueryForTable(table: Table) -> Query {
         var statement = table.isTemporary ? "CREATE TEMPORARY TABLE " : "CREATE TABLE "
         statement += " \(table.name) (\n"
