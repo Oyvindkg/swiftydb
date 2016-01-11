@@ -11,28 +11,16 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 
 ### Features
 - [x] Table generation
-- [x] Store any valid SQLite type
-- [x] Support for optional types
-- [x] Simple filter-based queries
+- [x] Store any native Swift type
+- [x] Supports optional types
+- [x] Simple equality-based filtering
 - [x] Thread safe database operations
-- [ ] Complex queries
+- [ ] Complex filtering
 - [ ] Store nested objects
-
-#### <a name="datatypes">Supported property types</a>.
-- [x] `Int`
-- [x] `Float`
-- [x] `Double`
-- [x] `Bool`
-- [x] `String` / `String?`
-- [x] `NSNumber` / `NSNumber?`
-- [x] `NSString` / `NSString?`
-- [x] `NSDate` / `NSDate?`
-- [x] `NSData` / `NSData?`
-- [ ] `Storable` objects
-- [ ] Collections
+- [ ] Store collections
 
 ## Usage
-Pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
+Close to pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ```Swift
 let database = SwiftyDB(name: "Test")
@@ -42,11 +30,13 @@ let database = SwiftyDB(name: "Test")
 database.addObject(dog, update: true)
 ````
 
-**Retrieve records**
+**Retrieve data**
+
+Retrieve data with datatypes matching those of the type's properties
 ```Swift
-/* Returns an array of Dog objects from the database */
-database.objectsForType(Dog.self)
-database.objectsForType(Dog.self, matchingFilters: ["id": 1])
+/* Array of dictionaries representing Dog objects from the database */
+database.dataForType(Dog.self)
+database.dataForType(Dog.self, matchingFilters: ["id": 1])
 ````
 
 **Delete records**
@@ -67,31 +57,24 @@ class Dog {
 }
 ```
 
-All objects must conform to the `Storeable` protocol.
+All objects must conform to the `Storable` protocol.
 
 ```Swift
-public protocol Storable: Parsable {
+public protocol Storable {
     init()
 }
 ```
 
-#### Store and retrieve objects
-In order to assign an objects properties dynamically, the class must be a subclass of `NSObject`, and all properties must be representable in in Objective-C. This unfortunate dependency will be removed when I find a better way of dynamically assigning properties.
-
-You can find all supported property datatypes [here](#datatypes).
-
-If you for some reason want to avoid subclassing `NSObject`, scroll to the section ['Store pure Swift objects'](#storePureSwiftObjects)
+By adding the `Storable` protocol and implementing `init()`, you are already ready to go.
 
 ```Swift
-class Dog: NSObject, Storable {
-    var id: NSNumber? // Notice that 'Int?' is not supported. Use NSNumber? instead
+class Dog: Storable {
+    var id: Int?
     var name: String?
     var owner: String?
     var birth: NSDate?
     
-    override required init() {
-        super.init()
-    }
+    required init() {}
 }
 ```
 
@@ -116,30 +99,34 @@ extension Dog: IgnoredProperties {
     }
 }
 ```
+> Properties with datatypes that are not part of the `SQLiteValue` protocol, as defined by [TinySQLite](https://github.com/Oyvindkg/tinysqlite/blob/master/Pod/Classes/DatabaseConnection.swift), will automatically be ignored by SwiftyDB
 
-> Properties with datatypes that are not part of the `Binding` protocol will automatically be ignored by SwiftyDB
+#### Retrieve objects
+SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of `NSObject`, and all property types must be representable in in Objective-C. This is because pure Swift does not support dynamic, name-based assignment of properties. 
 
-#### <a name="storePureSwiftObjects">Store pure Swift objects</a>
-
-If you of some reason cannot subclass NSObject, it is to my knowledge impossible to dynamically create objects and assign its properties. In that case, all you have to do is to make sure you object conforms to the `Storable` protocol. 
+**Dynamic property types**
+- [x] `Int`
+- [x] `Float`
+- [x] `Double`
+- [x] `Bool`
+- [x] `String` / `String?`
+- [x] `NSNumber` / `NSNumber?`
+- [x] `NSString` / `NSString?`
+- [x] `NSDate` / `NSDate?`
+- [x] `NSData` / `NSData?`
 
 ```Swift
-class Dog: Storable {
-    var id: NSNumber?
+class Dog: NSObject, Storable {
+    var id: NSNumber? // Notice that 'Int?' is not supported. Use NSNumber? instead
     var name: String?
     var owner: String?
     var birth: NSDate?
     
-    init() {}
+    override required init() {
+        super.init()
+    }
 }
 ```
-
-You can use the following methods to retrieve records as an array of dictionaries. 
-
-```Swift
-database.dataForType(Dog.self)
-database.dataForType(Dog.self, matchingFilters: ["id": 1])
-````
 
 ## Installation
 
