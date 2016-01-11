@@ -20,14 +20,14 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 - [ ] Store collections
 
 ## Usage
-Close to pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
+Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ```Swift
 let database = SwiftyDB(name: "Test")
 ```
 **Add or update a record**
 ```Swift
-database.addObject(dog, update: true)
+try database.addObject(dog, update: true)
 ````
 
 **Retrieve data**
@@ -41,8 +41,8 @@ database.dataForType(Dog.self, matchingFilters: ["id": 1])
 
 **Delete records**
 ```Swift
-database.deleteObjectsForType(Dog.self)
-database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
+try database.deleteObjectsForType(Dog.self)
+try database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
 ```
 
 ### Defining your classes
@@ -101,11 +101,12 @@ extension Dog: IgnoredProperties {
 ```
 > Properties with datatypes that are not part of the `SQLiteValue` protocol, as defined by [TinySQLite](https://github.com/Oyvindkg/tinysqlite/blob/master/Pod/Classes/DatabaseConnection.swift), will automatically be ignored by SwiftyDB
 
-#### Retrieve objects
+### Retrieve objects
 SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of `NSObject`, and all property types must be representable in in Objective-C. This is because pure Swift does not support dynamic, name-based assignment of properties. 
 
 **Dynamic property types**
 - [x] `Int`
+- [x] `UInt`
 - [x] `Float`
 - [x] `Double`
 - [x] `Bool`
@@ -114,6 +115,10 @@ SwiftyDB can also retrieve complete objects with all properties assigned with da
 - [x] `NSString` / `NSString?`
 - [x] `NSDate` / `NSDate?`
 - [x] `NSData` / `NSData?`
+
+#### Defining your dynamic classes
+
+Updated Dog class subclassing `NSObject`, and using valid property types:
 
 ```Swift
 class Dog: NSObject, Storable {
@@ -126,6 +131,14 @@ class Dog: NSObject, Storable {
         super.init()
     }
 }
+```
+
+**Retrieve objects**
+
+```Swift
+/* Returns an array of Dog objects */
+try database.objectsForType(Dog.self)
+try database.objectsForType(Dog.self, matchingFilters: ["name": "Max"])
 ```
 
 ## Installation
