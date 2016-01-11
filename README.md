@@ -10,7 +10,7 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 
 ### Features
-- [x] Table generation
+- [x] Creates and updates databases, tables, and records automatically
 - [x] Store any native Swift type
 - [x] Supports optional types
 - [x] Simple equality-based filtering
