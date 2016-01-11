@@ -10,7 +10,8 @@ rvm:
 - 2.2.2
 before_install:
 - gem install cocoapods # Since Travis is not always on latest version
+- gem install xcpretty
 - pod install --project-directory=Example
 script:
-- set -o pipefail && xcodebuild test -workspace Example/SwiftyDB.xcworkspace -scheme SwiftyDB-Example -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=9.1,name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/SwiftyDB.xcworkspace -scheme SwiftyDB-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint --allow-warnings
