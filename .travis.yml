@@ -12,4 +12,4 @@ before_install:
 - pod install --project-directory=Example
 script:
 - set -o pipefail && xcodebuild test -workspace Example/SwiftyDB.xcworkspace -scheme SwiftyDB-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+- pod lib lint --allow-warnings
