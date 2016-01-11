@@ -23,22 +23,31 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ```Swift
-let database = SwiftyDB(name: "Test")
+let database = SwiftyDB(databaseName: "Dogtopia")
 ```
 **Add or update a record**
 ```Swift
 try database.addObject(dog, update: true)
+try database.addObjects(dogs, update: true)
 ````
 
 **Retrieve data**
 
 Retrieve data with datatypes matching those of the type's properties
 ```Swift
-/* Array of dictionaries representing Dog objects from the database */
+/* Array of dictionaries representing `Dog` objects from the database */
 database.dataForType(Dog.self)
 database.dataForType(Dog.self, matchingFilters: ["id": 1])
 ````
-
+Dog data example
+```Swift
+[
+    "id": 1,                // As an Int
+    "name": "Ghost",        // As a String
+    "owner": "John Snow",   // As a String
+    "birth": August 6, 1996 // As an NSDate
+]
+```
 **Delete records**
 ```Swift
 try database.deleteObjectsForType(Dog.self)
