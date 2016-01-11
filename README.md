@@ -23,7 +23,7 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ```Swift
-let database = SwiftyDB(databaseName: "Dogtopia")
+let database = SwiftyDB(databaseName: "dogtopia")
 ```
 **Add or update a record**
 ```Swift
