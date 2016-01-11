@@ -18,12 +18,12 @@ internal struct PropertyData {
     internal let isOptional: Bool
     internal let dynamic:    Bool
     
-    internal var type:       SQLiteValue.Type?   = nil
+    internal var type:       SQLiteValue.Type?  = nil
     internal var name:       String?
-    internal var value:      Any?            = nil
+    internal var value:      SQLiteValue?               = nil
     
     internal var isValid: Bool {
-        return type != nil
+        return type != nil && name != nil
     }
     
     internal init(property: Mirror.Child) {
@@ -32,41 +32,46 @@ internal struct PropertyData {
         let mirror = Mirror(reflecting: property.value)
         isOptional = mirror.displayStyle == .Optional
         dynamic = true
-        value = unwrap(property.value)
+        value = unwrap(property.value) as? SQLiteValue
         
         type = typeForMirror(mirror)
     }
     
     internal func typeForMirror(mirror: Mirror) -> SQLiteValue.Type? {
-        // TODO: Find a better way to unwrap optional types
-        // Can easily be done using mirror if the encapsulated value is not nil
-        if isOptional {
-            switch mirror.subjectType {
-            case is Optional<String>.Type:
-                return String.self
-            case is Optional<NSString>.Type:
-                return NSString.self
-            case is Optional<NSDate>.Type:
-                return NSDate.self
-            case is Optional<Bool>.Type:
-                return Bool.self
-            case is Optional<NSNumber>.Type:
-                return NSNumber.self
-            case is Optional<NSData>.Type:
-                return NSData.self
-            case is Optional<Int>.Type:
-                return Int.self
-            case is Optional<Float>.Type:
-                return Float.self
-            case is Optional<Double>.Type:
-                return Double.self
-            default:
-                fatalError("Datatype '\(mirror.subjectType)' is not configured")
-                return nil
-            }
+        if !isOptional {
+            return mirror.subjectType as? SQLiteValue.Type
         }
         
-        return mirror.subjectType as? SQLiteValue.Type
+        // TODO: Find a better way to unwrap optional types
+        // Can easily be done using mirror if the encapsulated value is not nil
+        
+        switch mirror.subjectType {
+        case is Optional<String>.Type:      return String.self
+        case is Optional<NSString>.Type:    return NSString.self
+        case is Optional<Character>.Type:   return Character.self
+            
+        case is Optional<NSDate>.Type:      return NSDate.self
+        case is Optional<NSNumber>.Type:    return NSNumber.self
+        case is Optional<NSData>.Type:      return NSData.self
+            
+        case is Optional<Bool>.Type:        return Bool.self
+            
+        case is Optional<Int>.Type:         return Int.self
+        case is Optional<Int8>.Type:        return Int8.self
+        case is Optional<Int16>.Type:       return Int16.self
+        case is Optional<Int32>.Type:       return Int32.self
+        case is Optional<Int64>.Type:       return Int64.self
+        case is Optional<UInt>.Type:        return UInt.self
+        case is Optional<UInt8>.Type:       return UInt8.self
+        case is Optional<UInt16>.Type:      return UInt16.self
+        case is Optional<UInt32>.Type:      return UInt32.self
+        case is Optional<UInt64>.Type:      return UInt64.self
+            
+        case is Optional<Float>.Type:       return Float.self
+        case is Optional<Float80>.Type:     return Float80.self
+        case is Optional<Double>.Type:      return Double.self
+        default:                            return nil
+        }
     }
     
     /**
@@ -109,7 +114,7 @@ extension PropertyData {
         
         /* Map children to property data and filter out ignored or invalid properties */
         propertyData += mirror.children.map {
-            PropertyData(property: $0)
+                PropertyData(property: $0)
             }.filter({
                 $0.isValid && !ignoredProperties.contains($0.name!)
             })

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		183BB4ECEC468673133E42F2 /* Pods_SwiftyDB_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2501680ADFCB6495E0B154 /* Pods_SwiftyDB_Tests.framework */; };
+		394326F11C42DF2C0093594B /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394326F01C42DF2C0093594B /* TestClass.swift */; };
 		3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955AEAE1C384E6100345785 /* QueryHandler.swift */; };
 		398E03781C2839FB003A868B /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 398E03741C2839FB003A868B /* .gitkeep */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		0FB8B4BCE5A05F3A05A8B1B9 /* SwiftyDB.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftyDB.podspec; path = ../SwiftyDB.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		394326F01C42DF2C0093594B /* TestClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		3955AEAE1C384E6100345785 /* QueryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryHandler.swift; sourceTree = "<group>"; };
 		398E03741C2839FB003A868B /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				394326F01C42DF2C0093594B /* TestClass.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				39C1ECA71C42A72400060E9D /* Column.swift in Sources */,
 				3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */,
 				39C1ECAB1C42A72400060E9D /* Table.swift in Sources */,
+				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
 				39C1ECA91C42A72400060E9D /* QueryGenerator.swift in Sources */,
 				398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */,
 				39C1ECA81C42A72400060E9D /* Query.swift in Sources */,

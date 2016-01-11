@@ -190,7 +190,7 @@ public class SwiftyDB {
         var dictionary: [String: SQLiteValue?] = [:]
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
-            dictionary[propertyData.name!] = propertyData.value as? SQLiteValue
+            dictionary[propertyData.name!] = propertyData.value
         }
         
         return dictionary
@@ -207,17 +207,24 @@ public class SwiftyDB {
     internal func tableExistsForType(type: Storable.Type) throws -> Bool {
         let tableName = tableNameForType(type)
         
-        guard existingTables.contains(tableName) else {
-            var exists: Bool = false
-            
-            try databaseQueue.database({ (database) in
-                exists = try database.containsTable(tableName)
-            })
-            
-            return exists
+        /* Return true if the result is cached */
+        guard !existingTables.contains(tableName) else {
+            return true
         }
         
-        return true
+        var exists: Bool = false
+        
+        try databaseQueue.database({ (database) in
+            exists = try database.containsTable(tableName)
+        })
+        
+        /* Cache the result */
+        if exists {
+            existingTables.insert(tableName)
+        }
+        
+        return exists
+        
     }
     
     /** Name of the table representing a class */
@@ -261,10 +268,11 @@ public class SwiftyDB {
         switch propertyData.type {
         case is NSDate.Type:    return row.dateForColumn(propertyData.name!)
         case is NSData.Type:    return row.dataForColumn(propertyData.name!)
+        case is NSNumber.Type:  return row.numberForColumn(propertyData.name!)
             
         case is String.Type:    return row.stringForColumn(propertyData.name!)
         case is NSString.Type:  return row.nsstringForColumn(propertyData.name!)
-//        case is Character.Type: return row.characterForColumn(propertyData.name!)
+        case is Character.Type: return row.characterForColumn(propertyData.name!)
             
         case is Double.Type:    return row.doubleForColumn(propertyData.name!)
         case is Float80.Type:   return row.float80ForColumn(propertyData.name!)
@@ -280,8 +288,6 @@ public class SwiftyDB {
         case is UInt16.Type:    return row.unsignedInteger16ForColumn(propertyData.name!)
         case is UInt32.Type:    return row.unsignedInteger32ForColumn(propertyData.name!)
         case is UInt64.Type:    return row.unsignedInteger64ForColumn(propertyData.name!)
-        
-        case is NSNumber.Type:  return row.numberForColumn(propertyData.name!)
             
         case is Bool.Type:      return row.boolForColumn(propertyData.name!)
             
