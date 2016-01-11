@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
-  s.version          = "0.7"
+  s.version          = "0.7.1"
   s.summary          = "Making SQLite databases a blast"
 
 # This description is used to generate tags and improve search results.
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 #  s.description      = <<-DESC
 #                       DESC
 
-  s.homepage         = "https://github.com/oyvindkg/SwiftyDB"
+  s.homepage         = "http://oyvindkg.github.io/swiftydb/"
   s.license          = 'MIT'
   s.author           = { "Øyvind Grimnes" => "oyvindkg@yahoo.com" }
   s.source           = { :git => "https://github.com/oyvindkg/SwiftyDB.git", :tag => s.version.to_s }
