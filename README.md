@@ -87,6 +87,8 @@ class Dog: Storable {
 }
 ```
 
+> SwiftyDB supports inheritance. Valid properties from both the class and the superclass will be stored automatically
+
 ##### Primary keys
 It is recommended you can implement the `PrimaryKeys` protocol. The `primaryKeys()` method should return a set of property names which uniquely identifies an object.
 
