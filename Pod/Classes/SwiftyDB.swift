@@ -9,8 +9,6 @@
 import Foundation
 import TinySQLite
 
-
-
 /** All objects in the database must conform to the 'Storable' protocol */
 public protocol Storable {
     init()
@@ -328,15 +326,16 @@ extension SwiftyDB {
     internal func objectWithData <D where D: Storable, D: NSObject> (data: [String: SQLiteValue?], forType type: D.Type) -> D {
         let object = (type as NSObject.Type).init() as! D
         
-        for propertyData in PropertyData.validPropertyDataForObject(object) {
-            if data[propertyData.name!] == nil {
-                continue
+        var validData: [String: AnyObject] = [:]
+        
+        data.forEach { (name, value) -> () in
+            if let validValue = value as? AnyObject {
+                validData[name] = validValue
             }
-            
-            let value = data[propertyData.name!]!
-            object.setValue(value as? AnyObject, forKey: propertyData.name!)
         }
         
+        object.setValuesForKeysWithDictionary(validData)
+
         return object
     }
 }
