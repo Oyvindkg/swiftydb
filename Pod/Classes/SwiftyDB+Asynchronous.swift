@@ -8,9 +8,9 @@
 
 import TinySQLite
 
-public enum ResultType {
-    case Success(data: Any?)
-    case Error(error: ErrorType)
+public enum Result<A: Any> {
+    case Success(A)
+    case Error(ErrorType)
 }
 
 extension SwiftyDB {
@@ -28,13 +28,13 @@ extension SwiftyDB {
      - parameter update:    indicates whether the record should be updated if already present
      */
     
-    public func addObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((ResultType)->Void)) {
+    public func addObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.addObject(object)
-                completionHandler(ResultType.Success(data: nil))
+                completionHandler(Result.Success(true))
             } catch let error {
-                completionHandler(ResultType.Error(error: error))
+                completionHandler(Result.Error(error))
             }
         }
     }
@@ -46,13 +46,13 @@ extension SwiftyDB {
      - parameter update:     indicates whether the record should be updated if already present
      */
     
-    public func addObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((ResultType)->Void)) {
+    public func addObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.addObjects(objects)
-                completionHandler(ResultType.Success(data: nil))
+                completionHandler(Result.Success(true))
             } catch let error {
-                completionHandler(ResultType.Error(error: error))
+                completionHandler(Result.Error(error))
             }
         }
     }
@@ -64,14 +64,14 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((ResultType)->Void)) {
+    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
         dispatch_async(queue) { () -> Void in
             do {
                 let data = try self.dataForType(type, matchingFilters: filters)
-                completionHandler(ResultType.Success(data: data))
+                completionHandler(Result.Success(data))
             } catch let error {
-                completionHandler(ResultType.Error(error: error))
+                completionHandler(Result.Error(error))
             }
         }
     }
@@ -83,13 +83,13 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be deleted
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((ResultType)->Void)) {
+    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.deleteObjectsForType(type, matchingFilters: filters)
-                completionHandler(ResultType.Success(data: nil))
+                completionHandler(Result.Success(true))
             } catch let error {
-                completionHandler(ResultType.Error(error: error))
+                completionHandler(Result.Error(error))
             }
         }
     }
@@ -104,14 +104,14 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((ResultType)->Void)) {
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
         
         dispatch_async(queue) { () -> Void in
             do {
                 let objects = try self.objectsForType(type, matchingFilters: filters)
-                completionHandler(ResultType.Success(data: objects))
+                completionHandler(Result.Success(objects))
             } catch let error {
-                completionHandler(ResultType.Error(error: error))
+                completionHandler(Result.Error(error))
             }
         }
     }
