@@ -43,19 +43,22 @@ public class QueryGenerator {
     public class func insertQueryForTable(table: Table) -> Query {
         var statement = "INSERT OR " + table.conflictResolution.rawValue + " INTO " + table.identifier
         
+        var columnNames: [String] = []
+        var columnValues: [SQLiteValue?] = []
+        
+        table.columns.values.forEach {
+            columnNames.append($0.name)
+            columnValues.append($0.bindingValue)
+        }
+        
         /* Columns to be inserted */
-        let columnNames = table.columns.values.map {$0.name}
         statement += " (" + columnNames.joinWithSeparator(", ") + ") "
         
         /* Values to be inserted */
         let valuePlaceholders = Array<String>(count: columnNames.count, repeatedValue: "?")
-        statement += " VALUES (" + valuePlaceholders.joinWithSeparator(", ") + ")"
+        statement += "VALUES (" + valuePlaceholders.joinWithSeparator(", ") + ")"
         
-        let values: [SQLiteValue?] = table.columns.map { (_, column) in
-            column.bindingValue
-        }
-        
-        return Query(query: statement, values: values)
+        return Query(query: statement, values: columnValues)
     }
     
     
