@@ -18,6 +18,12 @@ public func ==(lhs: Column, rhs: Column) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
+internal enum ColumnType: String {
+    case PrimaryKey = "PRIMARY KEY"
+    case Unique = "UNIQUE"
+    case Normal = ""
+}
+
 public class Column {
     internal var name: String
     internal var columnAlias: String?
@@ -28,16 +34,16 @@ public class Column {
     
     internal let table: Table
     internal var datatype: SQLiteDatatype?
-    internal var isPrimaryKey, isUnique, isNotNull: Bool
+    internal var type: ColumnType
+    internal var isNotNull: Bool
     
     
-    internal init(name: String, alias: String? = nil, datatype: SQLiteDatatype? = nil, primaryKey: Bool = false, notNull: Bool = false, unique: Bool = false, autoincrement: Bool = false, table: Table) {
+    internal init(name: String, alias: String? = nil, datatype: SQLiteDatatype? = nil, type: ColumnType = .Normal, notNull: Bool = false, autoincrement: Bool = false, table: Table) {
         self.name = name
         self.datatype = datatype
         self.table = table
         columnAlias = alias
-        isPrimaryKey = primaryKey
-        isUnique = unique
+        self.type = type
         isNotNull = notNull
         isAutoincrement = autoincrement
     }
@@ -139,12 +145,12 @@ extension Column {
     }
     
     public func primaryKey() -> Column {
-        isPrimaryKey = true
+        type = .PrimaryKey
         return self
     }
     
     public func unique() -> Column {
-        isUnique = true
+        type = .Unique
         return self
     }
     
