@@ -4,7 +4,7 @@ There are many libraries out there that aims to help developers easily create an
 Unfortunately developers still have to get bogged down in simple tasks such as writing table definitions 
 and SQL queries. SwiftyDB automatically handles everything you don't want to spend your time doing.
 
-[![CI Status](http://img.shields.io/travis/Oyvindkg/swiftydb.svg?style=flat)](https://travis-ci.org/Oyvindkg/swiftydb)
+[![CI Status](https://img.shields.io/travis/Oyvindkg/swiftydb/master.svg?style=flat)](https://travis-ci.org/Oyvindkg/swiftydb)
 [![Version](https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![License](https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
