@@ -102,10 +102,10 @@ public class SwiftyDB {
     }
     
     /**
-     Remove objects of a specified type, matching a set of parameters, from the database
+     Remove objects of a specified type, matching a set of filters, from the database
      
-     - parameter parameters: dictionary containing the parameters identifying objects to be deleted
-     - parameter type:       type of the objects to be deleted
+     - parameter filters:   dictionary containing the filters identifying objects to be deleted
+     - parameter type:      type of the objects to be deleted
      */
     
     public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws {
@@ -120,12 +120,12 @@ public class SwiftyDB {
     }
     
     /**
-     Get data for a specified type, matching a set of parameters, from the database
+     Get data for a specified type, matching a set of filters, from the database
      
-     - parameter parameters: dictionary containing the parameters identifying objects to be retrieved
-     - parameter type:       type of the objects for which to retrieve data
+     - parameter filters:   dictionary containing the filters identifying objects to be retrieved
+     - parameter type:      type of the objects for which to retrieve data
      
-     - returns:              array containing the dictionaries of data representing objects
+     - returns:             array containing the dictionaries of data representing objects
      */
     
     public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [[String: SQLiteValue?]] {
@@ -299,12 +299,12 @@ public class SwiftyDB {
 extension SwiftyDB {
     
     /**
-     Get objects of a specified type, matching a set of parameters, from the database
+     Get objects of a specified type, matching a set of filters, from the database
      
-     - parameter parameters: dictionary containing the parameters identifying objects to be retrieved
-     - parameter type:       type of the objects to be retrieved
+     - parameter filters:   dictionary containing the filters identifying objects to be retrieved
+     - parameter type:      type of the objects to be retrieved
      
-     - returns:              array containing the retrieved objects
+     - returns:             array containing the retrieved objects
      */
     
     public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [D] {

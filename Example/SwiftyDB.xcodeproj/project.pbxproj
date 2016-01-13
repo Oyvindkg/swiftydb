@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		183BB4ECEC468673133E42F2 /* Pods_SwiftyDB_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2501680ADFCB6495E0B154 /* Pods_SwiftyDB_Tests.framework */; };
 		394326F11C42DF2C0093594B /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394326F01C42DF2C0093594B /* TestClass.swift */; };
+		395202B71C46E20200BF5871 /* SwiftyDB+Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */; };
+		395202B91C46F59C00BF5871 /* AsynchronousSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202B81C46F59C00BF5871 /* AsynchronousSpec.swift */; };
+		395202BB1C46F5D300BF5871 /* DatabaseManipulationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BA1C46F5D300BF5871 /* DatabaseManipulationSpec.swift */; };
+		395202BD1C46F62300BF5871 /* RetrievedDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */; };
+		395202BF1C46F65600BF5871 /* DynamicRetrievalSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */; };
 		3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955AEAE1C384E6100345785 /* QueryHandler.swift */; };
 		398E03781C2839FB003A868B /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 398E03741C2839FB003A868B /* .gitkeep */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
@@ -24,6 +29,11 @@
 /* Begin PBXFileReference section */
 		0FB8B4BCE5A05F3A05A8B1B9 /* SwiftyDB.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftyDB.podspec; path = ../SwiftyDB.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		394326F01C42DF2C0093594B /* TestClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
+		395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftyDB+Asynchronous.swift"; sourceTree = "<group>"; };
+		395202B81C46F59C00BF5871 /* AsynchronousSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousSpec.swift; sourceTree = "<group>"; };
+		395202BA1C46F5D300BF5871 /* DatabaseManipulationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManipulationSpec.swift; sourceTree = "<group>"; };
+		395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedDataSpec.swift; sourceTree = "<group>"; };
+		395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicRetrievalSpec.swift; sourceTree = "<group>"; };
 		3955AEAE1C384E6100345785 /* QueryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryHandler.swift; sourceTree = "<group>"; };
 		398E03741C2839FB003A868B /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
@@ -63,6 +73,7 @@
 				398E03751C2839FB003A868B /* SwiftyDB.swift */,
 				398E03761C2839FB003A868B /* PropertyData.swift */,
 				3955AEAE1C384E6100345785 /* QueryHandler.swift */,
+				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;
@@ -104,6 +115,10 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				395202B81C46F59C00BF5871 /* AsynchronousSpec.swift */,
+				395202BA1C46F5D300BF5871 /* DatabaseManipulationSpec.swift */,
+				395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */,
+				395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				394326F01C42DF2C0093594B /* TestClass.swift */,
 			);
@@ -265,12 +280,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395202BB1C46F5D300BF5871 /* DatabaseManipulationSpec.swift in Sources */,
+				395202BF1C46F65600BF5871 /* DynamicRetrievalSpec.swift in Sources */,
+				395202BD1C46F62300BF5871 /* RetrievedDataSpec.swift in Sources */,
+				395202B91C46F59C00BF5871 /* AsynchronousSpec.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				39C1ECA71C42A72400060E9D /* Column.swift in Sources */,
 				3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */,
 				39C1ECAB1C42A72400060E9D /* Table.swift in Sources */,
 				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
 				39C1ECA91C42A72400060E9D /* QueryGenerator.swift in Sources */,
+				395202B71C46E20200BF5871 /* SwiftyDB+Asynchronous.swift in Sources */,
 				398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */,
 				39C1ECA81C42A72400060E9D /* Query.swift in Sources */,
 				398E037A1C2839FB003A868B /* PropertyData.swift in Sources */,
