@@ -39,7 +39,7 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
                 
                 it("is retrieved") {
                     expect(database.objectsForType(DynamicTestClass.self).isSuccess).to(beTrue())
-                    expect(database.objectsForType(DynamicTestClass.self).data?.count) == 1
+                    expect(database.objectsForType(DynamicTestClass.self).value?.count) == 1
                 }
             }
             
@@ -49,7 +49,7 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
                 
                 database.addObject(dynamicObject)
                 
-                let retrievedDynamicObject = database.objectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": dynamicObject.primaryKey]).data!.first!
+                let retrievedDynamicObject = database.objectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": dynamicObject.primaryKey]).value!.first!
                 
                 it("should contain equal String values") {
                     expect(retrievedDynamicObject.string == dynamicObject.string).to(beTrue())

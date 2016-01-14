@@ -336,7 +336,7 @@ extension SwiftyDB {
             return .Error(dataResults.error!)
         }
         
-        let objects: [D] = dataResults.data!.map {
+        let objects: [D] = dataResults.value!.map {
             objectWithData($0, forType: D.self)
         }
         

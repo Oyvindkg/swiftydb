@@ -20,7 +20,7 @@ class RetrievedDataSpec: SwiftyDBSpec {
             let object = TestClass()
             database.addObject(object)
             
-            let data = database.dataForType(TestClass.self).data!.first!
+            let data = database.dataForType(TestClass.self).value!.first!
             
             context("Text types matches") {
                 it("should return String") {

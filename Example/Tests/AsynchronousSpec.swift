@@ -25,7 +25,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 
                 waitUntil { done in
                     database.asyncAddObjects([TestClass()]) { (result) -> Void in
-                        success = result.data ?? false
+                        success = result.isSuccess
                         done()
                     }
                 }
@@ -37,7 +37,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 success = false
                 waitUntil { done in
                     database.asyncAddObject(TestClass()) { (result) -> Void in
-                        success = result.data ?? false
+                        success = result.isSuccess
                         done()
                     }
                 }
@@ -54,7 +54,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 var retrievedData: Any?
                 waitUntil { done in
                     database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        retrievedData = result.data
+                        retrievedData = result.value
                         done()
                     })
                 }
@@ -71,7 +71,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 var success = false
                 waitUntil { done in
                     database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        success = result.data ?? false
+                        success = result.isSuccess
                         done()
                     })
                 }

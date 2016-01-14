@@ -13,15 +13,15 @@ public enum Result<A: Any>: BooleanType {
     case Error(ErrorType)
     
     public var isSuccess: Bool {
-        return data != nil
+        return value != nil
     }
 
     /** Identical to isSuccess. Used to conveniently detect errors in control statements such as 'if' */ 
     public var boolValue: Bool { return isSuccess }
     
-    public var data: A? {
-        if case .Success(let data) = self {
-            return data
+    public var value: A? {
+        if case .Success(let value) = self {
+            return value
         }
         return nil
     }

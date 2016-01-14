@@ -27,14 +27,14 @@ class DatabaseManipulationSpec: SwiftyDBSpec {
             context("object is added") {
                 it("should contain the object after it is added") {
                     expect(database.addObject(object).isSuccess).to(beTrue())
-                    expect(database.dataForType(TestClass.self, matchingFilters: filters).data?.count) == 1
+                    expect(database.dataForType(TestClass.self, matchingFilters: filters).value?.count) == 1
                 }
             }
             
             context("object is deleted") {
                 it("should not contain the object after deletion") {
                     expect(database.deleteObjectsForType(TestClass.self, matchingFilters: filters).isSuccess).to(beTrue())
-                    expect(database.dataForType(TestClass.self, matchingFilters: filters).data?.count) == 0
+                    expect(database.dataForType(TestClass.self, matchingFilters: filters).value?.count) == 0
                 }
             }
             
@@ -45,9 +45,9 @@ class DatabaseManipulationSpec: SwiftyDBSpec {
                     object.string = "Updated string"
                     
                     expect(database.addObject(object).isSuccess).to(beTrue())
-                    expect(database.dataForType(TestClass.self, matchingFilters: filters).data?.count) == 1
+                    expect(database.dataForType(TestClass.self, matchingFilters: filters).value?.count) == 1
                     
-                    if let stringValue = database.dataForType(TestClass.self, matchingFilters: filters).data?.first?["string"] as? String {
+                    if let stringValue = database.dataForType(TestClass.self, matchingFilters: filters).value?.first?["string"] as? String {
                         expect(stringValue == "Updated string").to(beTrue())
                     }
                 }
