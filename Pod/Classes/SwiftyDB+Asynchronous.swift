@@ -28,7 +28,7 @@ extension SwiftyDB {
      - parameter update:    indicates whether the record should be updated if already present
      */
     
-    public func addObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
+    public func asyncAddObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.addObject(object)
@@ -46,7 +46,7 @@ extension SwiftyDB {
      - parameter update:     indicates whether the record should be updated if already present
      */
     
-    public func addObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
+    public func asyncAddObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.addObjects(objects)
@@ -64,7 +64,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
+    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
         dispatch_async(queue) { () -> Void in
             do {
@@ -83,7 +83,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be deleted
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
+    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
         dispatch_async(queue) { () -> Void in
             do {
                 try self.deleteObjectsForType(type, matchingFilters: filters)
@@ -104,7 +104,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
+    public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
         
         dispatch_async(queue) { () -> Void in
             do {

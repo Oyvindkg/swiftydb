@@ -16,7 +16,7 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
         
         let database = SwiftyDB(databaseName: "test_database")
         
-        describe("Dynamic classes are retrieved properly as objects") {
+        describe("Dynamic class") {
             /* Create an object and overwrite property values to make sure tye are properly assigned upon retrieval */
             let dynamicObject = DynamicTestClass()
             dynamicObject.string = "not default value"
@@ -30,17 +30,20 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
             dynamicObject.float = 123
             dynamicObject.double = 123
             
-            it("is stored properly") {
-                expect(try? database.addObject(dynamicObject)).notTo(beNil())
+            context("is successful when") {
+                it("is stored") {
+                    expect(try! database.addObject(dynamicObject)).notTo(beNil())
+                }
+                
+                it("is retrieved") {
+                    expect(try! database.objectsForType(DynamicTestClass.self)).notTo(beNil())
+                    expect(try! database.objectsForType(DynamicTestClass.self).count) == 1
+                }
             }
             
-            it("is retrieved properly") {
-                expect(try? database.objectsForType(DynamicTestClass.self)).notTo(beNil())
-                expect(try? database.objectsForType(DynamicTestClass.self).count) == 1
-            }
             
-            context("All data is present in the retrieved object") {
-                expect(try? database.addObject(dynamicObject)).notTo(beNil())
+            context("contains all data when retrieved") {
+                try! database.addObject(dynamicObject)
                 
                 let retrievedDynamicObject = try! database.objectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": dynamicObject.primaryKey]).first!
                 

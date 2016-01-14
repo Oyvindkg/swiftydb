@@ -24,7 +24,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 var success = false
                 
                 waitUntil { done in
-                    database.addObjects([TestClass()]) { (result) -> Void in
+                    database.asyncAddObjects([TestClass()]) { (result) -> Void in
                         switch result {
                         case .Success:
                             success = true
@@ -41,7 +41,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 
                 success = false
                 waitUntil { done in
-                    database.addObject(TestClass()) { (result) -> Void in
+                    database.asyncAddObject(TestClass()) { (result) -> Void in
                         switch result {
                         case .Success:
                             success = true
@@ -59,11 +59,11 @@ class AsynchronousSpec: SwiftyDBSpec {
             
             context("Should retrieve data") {
                 let object = TestClass()
-                try? database.addObject(object)
+                let _ = try? database.addObject(object)
                 
                 var retrievedData: Any?
                 waitUntil { done in
-                    database.dataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
+                    database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
                         switch result {
                         case .Success(let data):
                             retrievedData = data
@@ -81,11 +81,11 @@ class AsynchronousSpec: SwiftyDBSpec {
             
             context("Should delete object") {
                 let object = TestClass()
-                try? database.addObject(object)
+                let _ = try? database.addObject(object)
                 
                 var success = false
                 waitUntil { done in
-                    database.deleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
+                    database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
                         switch result {
                         case .Success:
                             success = true
@@ -95,8 +95,9 @@ class AsynchronousSpec: SwiftyDBSpec {
                         done()
                     })
                 }
-                
-                expect(success).to(beTrue())
+                it("should be successful") {
+                    expect(success).to(beTrue())
+                }
             }
         }
     }
