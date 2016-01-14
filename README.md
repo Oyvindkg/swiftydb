@@ -23,6 +23,9 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 &emsp;&emsp;&emsp; [Retrieve data](#asyncRetrieveData)<br />
 &emsp;&emsp;&emsp; [Retrieve objects](#asyncRetrieveObjects)<br />
 &emsp;&emsp;&emsp; [Delete data](#asyncDelete)<br />
+&emsp; [Result format](#resultFormat)<br />
+&emsp;&emsp;[Error handling](#errorHandling)<br />
+&emsp;&emsp;[Value handling](#valueHandling)<br />
 &emsp; [Defining your classes](#definingYourClasses)<br />
 &emsp;&emsp; [Primary keys](#primaryKeys)<br />
 &emsp;&emsp; [Ignoring properties](#ignoringProperties)<br />
@@ -46,7 +49,7 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩
 
 ### <a name="accessTheDatabase">Access the database</a>
-Tell SwiftyDB what you wan to call your database, and you are ready to go. If a database with the provided name does not exist, it will be created.
+Tell SwiftyDB what you want to call your database, and you are ready to go. If a database with the provided name does not exist, it will be created.
 
 ```Swift
 let database = SwiftyDB(databaseName: "dogtopia")
@@ -56,8 +59,8 @@ let database = SwiftyDB(databaseName: "dogtopia")
 
 ##### <a name="syncAddOrUpdate">Add or update a record</a>
 ```Swift
-try database.addObject(dog, update: true)
-try database.addObjects(dogs, update: true)
+database.addObject(dog, update: true)
+database.addObjects(dogs, update: true)
 ````
 
 ##### <a name="syncRetrieveData">Retrieve data</a>
@@ -65,8 +68,8 @@ try database.addObjects(dogs, update: true)
 Retrieve data with datatypes matching those of the type's properties
 ```Swift
 /* Array of dictionaries representing `Dog` objects from the database */
-database.dataForType(Dog.self)
-database.dataForType(Dog.self, matchingFilters: ["id": 1])
+database.dataForType(Dog.self).value
+database.dataForType(Dog.self, matchingFilters: ["id": 1]).value
 ````
 Dog data example
 ```Swift
@@ -82,30 +85,19 @@ Dog data example
 
 Retrieve objects with data from the database
 ```Swift
-try database.objectsForType(Dog.self)
-try database.objectsForType(Dog.self, matchingFilters: ["id": 1])
+database.objectsForType(Dog.self)
+database.objectsForType(Dog.self, matchingFilters: ["id": 1])
 ````
 
 > In order to retrieve objects, Swift currently imposes some [restictions on your classes](#howToRetrieveObjects)
 
 ##### <a name="syncDelete">Delete records</a>
 ```Swift
-try database.deleteObjectsForType(Dog.self)
-try database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
+database.deleteObjectsForType(Dog.self)
+database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
 ```
 
 #### <a name="asyncAccess">Asynchronous access</a>
-Asynchronous methods takes a closure as parameter. This is used to return the result of the query as a `Result`
-
-```Swift
-enum Result<A: Any> {
-    var data: A?
-    var error: ErrorType?
-    
-    case Success(A)
-    case Error(ErrorType)
-}
-```
 
 ##### <a name="asyncAddOrUpdate">Add or update a record</a>
 ```Swift
@@ -121,8 +113,8 @@ database.asyncAddObject(dog) { (result) -> Void in
 Retrieve data with datatypes matching those of the type's properties
 ```Swift
 database.asyncDataForType(Dog.self) { (result) -> Void in
-    if let data = result.data {
-        // Handle data
+    if let data = result.value {
+        // Process data
     }
 }
 ````
@@ -132,7 +124,7 @@ database.asyncDataForType(Dog.self) { (result) -> Void in
 Retrieve data with datatypes matching those of the type's properties
 ```Swift
 database.asyncObjectsForType(Dog.self) { (result) -> Void in
-    if let data = result.data {
+    if let objects = result.value {
         // Handle objects
     }
 }
@@ -149,6 +141,63 @@ database.asyncDeleteObjectsForType(Dog.self) { (result) -> Void in
 }
 ```
 
+### <a name="resultFormat">Result format</a>
+`Result` is used to return the result of a query. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the error thrown.
+
+```Swift
+enum Result<A: Any>: BooleanType {
+    case Success(A)
+    case Error(ErrorType)
+    
+    var data: A?
+    var error: ErrorType?
+    var isSuccess: Bool
+    var boolValue: Bool {return isSuccess}
+}
+```
+
+#### <a name="handlingResults">Handling results</a>
+The implementation of `Result` makes it a versatile tool that can (hopefully 😬) be adapted to your programming style
+
+##### <a name="valueHandling">Value handling</a>
+You can capture the value returned from a query like this
+```Swift
+if let objects = database.objectsForType(Dog.self).value {
+    // Process objects
+}
+```
+or this
+```Swift
+if case .Success(let objects) = database.objectsForType(Dog.self) {
+    // Process objects
+}
+```
+or any other way you like to handle your optional and enum values
+
+##### <a name="errorHandling">Error handling</a>
+You can detect an error like this
+```Swift
+if !database.addObject(dog) {
+    // An error occured
+}
+```
+or capturing it like this
+
+```Swift
+if let error = database.addObject(dog).error {
+    // Handle error
+}
+```
+You can bring your sledgehammer and start cracking some nuts
+```Swift
+switch result {
+    case .Success(let value):
+        // Process value
+    case .Error(let error):
+        // Handle error
+}
+```
+Or treat it like any other optional or enum values
 
 ### <a name="definingYourClasses">Defining your classes</a>
 Let's use this simple `Dog` class as an example
