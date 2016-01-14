@@ -9,22 +9,18 @@
 import TinySQLite
 
 public enum Result<A: Any> {
-    var data: A? {
-        switch self {
-        case .Success(let data):
+    public var data: A? {
+        if case .Success(let data) = self {
             return data
-        default:
-            return nil
         }
+        return nil
     }
     
-    var error: ErrorType? {
-        switch self {
-        case .Error(let error):
+    public var error: ErrorType? {
+        if case .Error(let error) = self {
             return error
-        default:
-            return nil
         }
+        return nil
     }
     
     case Success(A)
