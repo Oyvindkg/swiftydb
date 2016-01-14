@@ -14,7 +14,6 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
     override func spec() {
         super.spec()
         
-        let database = SwiftyDB(databaseName: "test_database")
         
         describe("Dynamic class") {
             /* Create an object and overwrite property values to make sure tye are properly assigned upon retrieval */
@@ -31,9 +30,12 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
             dynamicObject.double = 123
             
             context("is successful when") {
+                let database = SwiftyDB(databaseName: "test_database")
+                
                 it("is stored") {
                     expect(try! database.addObject(dynamicObject)).notTo(beNil())
                 }
+                
                 
                 it("is retrieved") {
                     expect(try! database.objectsForType(DynamicTestClass.self)).notTo(beNil())
@@ -43,6 +45,8 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
             
             
             context("contains all data when retrieved") {
+                let database = SwiftyDB(databaseName: "test_database")
+                
                 try! database.addObject(dynamicObject)
                 
                 let retrievedDynamicObject = try! database.objectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": dynamicObject.primaryKey]).first!
