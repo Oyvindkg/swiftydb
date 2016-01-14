@@ -18,9 +18,9 @@ class RetrievedDataSpec: SwiftyDBSpec {
         
         describe("Datatypes retrieved matches datatypes stored") {
             let object = TestClass()
-            try! database.addObject(object)
+            database.addObject(object)
             
-            let data = try! database.dataForType(TestClass.self).first!
+            let data = database.dataForType(TestClass.self).data!.first!
             
             context("Text types matches") {
                 it("should return String") {

@@ -49,7 +49,7 @@ class AsynchronousSpec: SwiftyDBSpec {
             
             context("Should retrieve data") {
                 let object = TestClass()
-                let _ = try? database.addObject(object)
+                database.addObject(object)
                 
                 var retrievedData: Any?
                 waitUntil { done in
@@ -66,7 +66,7 @@ class AsynchronousSpec: SwiftyDBSpec {
             
             context("Should delete object") {
                 let object = TestClass()
-                let _ = try? database.addObject(object)
+                database.addObject(object)
                 
                 var success = false
                 waitUntil { done in

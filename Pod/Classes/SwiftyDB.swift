@@ -60,8 +60,8 @@ public class SwiftyDB {
     - parameter update:     indicates whether the record should be updated if already present
     */
     
-    public func addObject <S: Storable> (object: S, update: Bool = true) throws {
-        try self.addObjects([object], update: update)
+    public func addObject <S: Storable> (object: S, update: Bool = true) -> Result<Bool> {
+        return self.addObjects([object], update: update)
     }
     
     /**
@@ -71,23 +71,28 @@ public class SwiftyDB {
      - parameter update:     indicates whether the record should be updated if already present
      */
     
-    public func addObjects <S: Storable> (objects: [S], update: Bool = true) throws {
+    public func addObjects <S: Storable> (objects: [S], update: Bool = true) -> Result<Bool> {
         guard objects.count > 0 else {
-            return
+            return Result.Success(true)
         }
         
-        let tableExists = try tableExistsForType(S)
-        if !tableExists {
-            try createTableForTypeRepresentedByObject(objects.first!)
-        }
-        
-        try databaseQueue.transaction { (database) -> Void in
-            for object in objects {
-                let validData   = self.dataFromObject(object)
-                let query = QueryHandler.insertQueryForData(validData, forType: S.self, update: update)
-                try database.executeUpdate(query)
+        do {
+            if !(try tableExistsForType(S)) {
+                createTableForTypeRepresentedByObject(objects.first!)
             }
+            
+            try databaseQueue.transaction { (database) -> Void in
+                for object in objects {
+                    let validData   = self.dataFromObject(object)
+                    let query = QueryHandler.insertQueryForData(validData, forType: S.self, update: update)
+                    try database.executeUpdate(query)
+                }
+            }
+        } catch let error {
+            return Result.Error(error)
         }
+        
+        return Result.Success(true)
     }
     
     /**
@@ -97,8 +102,8 @@ public class SwiftyDB {
      - parameter moreObjects:   more objects to be added to the database
      */
     
-    public func addObjects <S: Storable> (object: S, _ moreObjects: S...) throws {
-        try addObjects([object] + moreObjects)
+    public func addObjects <S: Storable> (object: S, _ moreObjects: S...) -> Result<Bool> {
+        return addObjects([object] + moreObjects)
     }
     
     /**
@@ -108,15 +113,22 @@ public class SwiftyDB {
      - parameter type:      type of the objects to be deleted
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws {
-        guard try tableExistsForType(type) else {
-            return
+    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<Bool> {
+        do {
+            guard try tableExistsForType(type) else {
+                return Result.Success(true)
+            }
+            
+            let query = QueryHandler.deleteQueryForType(type, matchingFilters: filters)
+            
+            try databaseQueue.database { (database) -> Void in
+                try database.executeUpdate(query)
+            }
+        } catch let error {
+            return .Error(error)
         }
         
-        let query = QueryHandler.deleteQueryForType(type, matchingFilters: filters)
-        try databaseQueue.database { (database) -> Void in
-            try database.executeUpdate(query)
-        }
+        return .Success(true)
     }
     
     /**
@@ -128,29 +140,33 @@ public class SwiftyDB {
      - returns:             array containing the dictionaries of data representing objects
      */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [[String: SQLiteValue?]] {
-        guard try tableExistsForType(type) else {
-            return []
-        }
-        
-        /* Generate query */
-        let query = QueryHandler.selectQueryForType(type, matchingFilters: filters)
+    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[[String: SQLiteValue?]]> {
         
         var results: [[String: SQLiteValue?]] = []
-        
-        try databaseQueue.database { (database) -> Void in
-            let statement = try database.executeQuery(query)
-            
-            /* Create a dummy object used to extract property data */
-            let object = type.init()
-            let objectPropertyData = PropertyData.validPropertyDataForObject(object)
-            
-            results = statement.map { row in
-                self.parsedDataForRow(row, forPropertyData: objectPropertyData)
+        do {
+            guard try tableExistsForType(type) else {
+                return Result.Success([])
             }
+            
+            /* Generate query */
+            let query = QueryHandler.selectQueryForType(type, matchingFilters: filters)
+            
+            try databaseQueue.database { (database) -> Void in
+                let statement = try database.executeQuery(query)
+                
+                /* Create a dummy object used to extract property data */
+                let object = type.init()
+                let objectPropertyData = PropertyData.validPropertyDataForObject(object)
+                
+                results = statement.map { row in
+                    self.parsedDataForRow(row, forPropertyData: objectPropertyData)
+                }
+            }
+        } catch let error {
+            return .Error(error)
         }
         
-        return results
+        return .Success(results)
     }
     
     
@@ -165,15 +181,21 @@ public class SwiftyDB {
     - parameter type:   type of objects data in the table represents
     */
     
-    internal func createTableForTypeRepresentedByObject <S: Storable> (object: S) throws {
+    internal func createTableForTypeRepresentedByObject <S: Storable> (object: S) -> Result<Bool> {
         
         let query = QueryHandler.createTableQueryForTypeRepresentedByObject(object)
         
-        try databaseQueue.database({ (database) -> Void in
-            try database.executeUpdate(query)
-        })
+        do {
+            try databaseQueue.database({ (database) -> Void in
+                try database.executeUpdate(query)
+            })
+        } catch let error {
+            return .Error(error)
+        }
         
         existingTables.insert(tableNameForType(S))
+        
+        return .Success(true)
     }
     
     /**
@@ -205,12 +227,12 @@ public class SwiftyDB {
     internal func tableExistsForType(type: Storable.Type) throws -> Bool {
         let tableName = tableNameForType(type)
         
-        /* Return true if the result is cached */
-        guard !existingTables.contains(tableName) else {
-            return true
-        }
+        var exists: Bool = existingTables.contains(tableName)
         
-        var exists: Bool = false
+        /* Return true if the result is cached */
+        guard !exists else {
+            return exists
+        }
         
         try databaseQueue.database({ (database) in
             exists = try database.containsTable(tableName)
@@ -307,11 +329,18 @@ extension SwiftyDB {
      - returns:             array containing the retrieved objects
      */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) throws -> [D] {
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[D]> {
+        let dataResults = dataForType(D.self, matchingFilters: filters)
         
-        return try dataForType(D.self, matchingFilters: filters).map {
+        if !dataResults.isSuccess {
+            return .Error(dataResults.error!)
+        }
+        
+        let objects: [D] = dataResults.data!.map {
             objectWithData($0, forType: D.self)
         }
+        
+        return .Success(objects)
     }
     
     /**
