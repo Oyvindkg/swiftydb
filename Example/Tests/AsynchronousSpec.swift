@@ -25,12 +25,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 
                 waitUntil { done in
                     database.asyncAddObjects([TestClass()]) { (result) -> Void in
-                        switch result {
-                        case .Success:
-                            success = true
-                        case .Error:
-                            success = false
-                        }
+                        success = result.data ?? false
                         done()
                     }
                 }
@@ -42,12 +37,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 success = false
                 waitUntil { done in
                     database.asyncAddObject(TestClass()) { (result) -> Void in
-                        switch result {
-                        case .Success:
-                            success = true
-                        case .Error:
-                            success = false
-                        }
+                        success = result.data ?? false
                         done()
                     }
                 }
@@ -64,12 +54,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 var retrievedData: Any?
                 waitUntil { done in
                     database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        switch result {
-                        case .Success(let data):
-                            retrievedData = data
-                        default:
-                            break
-                        }
+                        retrievedData = result.data
                         done()
                     })
                 }
@@ -86,12 +71,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                 var success = false
                 waitUntil { done in
                     database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        switch result {
-                        case .Success:
-                            success = true
-                        case .Error:
-                            success = false
-                        }
+                        success = result.data ?? false
                         done()
                     })
                 }
