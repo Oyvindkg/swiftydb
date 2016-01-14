@@ -9,6 +9,13 @@
 import TinySQLite
 
 public enum Result<A: Any> {
+    case Success(A)
+    case Error(ErrorType)
+    
+    public var isSuccess: Bool {
+        return data != nil
+    }
+    
     public var data: A? {
         if case .Success(let data) = self {
             return data
@@ -22,9 +29,6 @@ public enum Result<A: Any> {
         }
         return nil
     }
-    
-    case Success(A)
-    case Error(ErrorType)
 }
 
 extension SwiftyDB {

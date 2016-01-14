@@ -15,7 +15,6 @@
 		395202BD1C46F62300BF5871 /* RetrievedDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */; };
 		395202BF1C46F65600BF5871 /* DynamicRetrievalSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */; };
 		3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955AEAE1C384E6100345785 /* QueryHandler.swift */; };
-		398E03781C2839FB003A868B /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 398E03741C2839FB003A868B /* .gitkeep */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
 		398E037A1C2839FB003A868B /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03761C2839FB003A868B /* PropertyData.swift */; };
 		39C1ECA71C42A72400060E9D /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1ECA21C42A72400060E9D /* Column.swift */; };
@@ -35,7 +34,6 @@
 		395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedDataSpec.swift; sourceTree = "<group>"; };
 		395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicRetrievalSpec.swift; sourceTree = "<group>"; };
 		3955AEAE1C384E6100345785 /* QueryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryHandler.swift; sourceTree = "<group>"; };
-		398E03741C2839FB003A868B /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
 		398E03761C2839FB003A868B /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
 		39C1ECA21C42A72400060E9D /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Column.swift; path = "Query Generator/Column.swift"; sourceTree = "<group>"; };
@@ -69,11 +67,10 @@
 			isa = PBXGroup;
 			children = (
 				39C1EC971C42A65C00060E9D /* Query Generator */,
-				398E03741C2839FB003A868B /* .gitkeep */,
 				398E03751C2839FB003A868B /* SwiftyDB.swift */,
+				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
 				398E03761C2839FB003A868B /* PropertyData.swift */,
 				3955AEAE1C384E6100345785 /* QueryHandler.swift */,
-				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;
@@ -221,7 +218,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				398E03781C2839FB003A868B /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
