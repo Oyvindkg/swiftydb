@@ -85,9 +85,6 @@ class RetrievedDataSpec: SwiftyDBSpec {
                 it("should return Float") {
                     expect(data["float"] is Float).to(beTrue())
                 }
-                it("should return Float80") {
-                    expect(data["float80"] is Float80).to(beTrue())
-                }
                 it("should return Double") {
                     expect(data["double"] is Double).to(beTrue())
                 }

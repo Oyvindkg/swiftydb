@@ -65,7 +65,6 @@ internal struct PropertyData {
         case is Optional<UInt64>.Type:      return UInt64.self
             
         case is Optional<Float>.Type:       return Float.self
-        case is Optional<Float80>.Type:     return Float80.self
         case is Optional<Double>.Type:      return Double.self
         default:                            return nil
         }

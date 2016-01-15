@@ -11,16 +11,27 @@ import TinySQLite
 
 /** All objects in the database must conform to the 'Storable' protocol */
 public protocol Storable {
+    /** Used to initialize an object to get information about its properties */
     init()
 }
 
 /** Implement this protocol to use primary keys */
 public protocol PrimaryKeys {
+    /**
+     Method used to define a set of primary keys for the types table
+     
+     - returns:  set of property names
+     */
     static func primaryKeys() -> Set<String>
 }
 
 /** Implement this protocol to ignore arbitrary properties */
 public protocol IgnoredProperties {
+    /**
+     Method used to define a set of ignored properties
+     
+     - returns:  set of property names
+     */
     static func ignoredProperties() -> Set<String>
 }
 
@@ -30,8 +41,13 @@ public protocol IgnoredProperties {
 /** A class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval */
 public class SwiftyDB {
     
+    /** The database queue that will be used to access the database */
     private let databaseQueue : DatabaseQueue
+    
+    /** Path to the database that should be used */
     private let path: String
+    
+    /** A cache containing existing table names */
     private var existingTables: Set<String> = []
     
 //    MARK: -
@@ -58,6 +74,8 @@ public class SwiftyDB {
     
     - parameter object:     object to be added to the database
     - parameter update:     indicates whether the record should be updated if already present
+    
+    - returns:              Result type indicating the success of the query
     */
     
     public func addObject <S: Storable> (object: S, update: Bool = true) -> Result<Bool> {
@@ -69,6 +87,8 @@ public class SwiftyDB {
      
      - parameter objects:    objects to be added to the database
      - parameter update:     indicates whether the record should be updated if already present
+     
+     - returns:              Result type indicating the success of the query
      */
     
     public func addObjects <S: Storable> (objects: [S], update: Bool = true) -> Result<Bool> {
@@ -100,6 +120,8 @@ public class SwiftyDB {
      
      - parameter object:        object to be added to the database
      - parameter moreObjects:   more objects to be added to the database
+     
+     - returns:              Result type indicating the success of the query
      */
     
     public func addObjects <S: Storable> (object: S, _ moreObjects: S...) -> Result<Bool> {
@@ -111,6 +133,8 @@ public class SwiftyDB {
      
      - parameter filters:   dictionary containing the filters identifying objects to be deleted
      - parameter type:      type of the objects to be deleted
+     
+     - returns:             Result type indicating the success of the query
      */
     
     public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<Bool> {
@@ -137,7 +161,7 @@ public class SwiftyDB {
      - parameter filters:   dictionary containing the filters identifying objects to be retrieved
      - parameter type:      type of the objects for which to retrieve data
      
-     - returns:             array containing the dictionaries of data representing objects
+     - returns:             Result type wrapping an array with the dictionaries representing objects, or an error if unsuccessful
      */
     
     public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[[String: SQLiteValue?]]> {
@@ -171,7 +195,7 @@ public class SwiftyDB {
     
     
     
-//    MARK: - Internal functions
+//    MARK: - Private functions
     
     /**
     Creates a new table for the specified type based on the provided column definitions
@@ -179,6 +203,8 @@ public class SwiftyDB {
     The parameter is an object, instead of a type, to avoid forcing the user to implement initialization methods such as 'init'
     
     - parameter type:   type of objects data in the table represents
+    
+    - returns:          Result type indicating the success of the query
     */
     
     private func createTableForTypeRepresentedByObject <S: Storable> (object: S) -> Result<Bool> {
@@ -244,10 +270,15 @@ public class SwiftyDB {
         }
         
         return exists
-        
     }
     
-    /** Name of the table representing a class */
+    /**
+     Used to create name of the table representing a type
+     
+     - parameter type:  type for which to generate a table name
+     
+     - returns:         table name as a String
+     */
     private func tableNameForType(type: Storable.Type) -> String {
         return String(type)
     }
@@ -295,7 +326,6 @@ public class SwiftyDB {
         case is Character.Type: return row.characterForColumn(propertyData.name!)
             
         case is Double.Type:    return row.doubleForColumn(propertyData.name!)
-        case is Float80.Type:   return row.float80ForColumn(propertyData.name!)
         case is Float.Type:     return row.floatForColumn(propertyData.name!)
             
         case is Int.Type:       return row.integerForColumn(propertyData.name!)
@@ -326,7 +356,7 @@ extension SwiftyDB {
      - parameter filters:   dictionary containing the filters identifying objects to be retrieved
      - parameter type:      type of the objects to be retrieved
      
-     - returns:             array containing the retrieved objects
+     - returns:             Result wrapping the objects, or an error, if unsuccessful
      */
     
     public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[D]> {
