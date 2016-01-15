@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>SwiftyDB by Oyvindkg</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
@@ -12,7 +11,7 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name"><img src="resources/logo.png" alt="logo"/>SwiftyDB</h1>
+      <h1 class="project-name">SwiftyDB</h1>
       <h2 class="project-tagline">Making SQLite databases a blast</h2>
       <a href="https://github.com/Oyvindkg/swiftydb" class="btn">View on GitHub</a>
       <a href="https://github.com/Oyvindkg/swiftydb/zipball/master" class="btn">Download .zip</a>
@@ -20,6 +19,7 @@
     </section>
 
     <section class="main-content">
+      <p><img src="http://i.imgur.com/uQhXJLJ.png?1" alt="alt text" title="Logo"></p>
 
 <p>There are many libraries out there that aims to help developers easily create and use SQLite databases. 
 Unfortunately developers still have to get bogged down in simple tasks such as writing table definitions 
@@ -30,33 +30,75 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat" alt="License"></a>
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat" alt="Platform"></a></p>
 
+<p><strong>Content</strong><br>
+<a href="#features">Features</a><br>
+<a href="#usage">Usage</a><br>
+  <a href="#accessTheDatabase">Access the database</a><br>
+   <a href="#syncAccess">Synchronous access</a><br>
+    <a href="#syncAddOrUpdate">Add or update data</a><br>
+    <a href="#syncRetrieveData">Retrieve data</a><br>
+    <a href="#syncRetrieveObjects">Retrieve objects</a><br>
+    <a href="#syncDelete">Delete data</a><br>
+   <a href="#asyncAccess">Aynchronous access</a><br>
+    <a href="#asyncAddOrUpdate">Add or update data</a><br>
+    <a href="#asyncRetrieveData">Retrieve data</a><br>
+    <a href="#asyncRetrieveObjects">Retrieve objects</a><br>
+    <a href="#asyncDelete">Delete data</a><br>
+  <a href="#resultFormat">Result format</a><br>
+  <a href="#handlingResults">Handling results</a><br>
+   <a href="#handlingValues">Handling values</a><br>
+   <a href="#handlingErrors">Handling errors</a><br>
+  <a href="#definingYourClasses">Defining your classes</a><br>
+   <a href="#primaryKeys">Primary keys</a><br>
+   <a href="#ignoringProperties">Ignoring properties</a><br>
+  <a href="#howToRetrieveObjects">How to retrieve objects</a><br>
+<a href="#installation">Installation</a><br>
+<a href="#license">License</a></p>
+
 <h3>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="features">Features</a>
+</h3>
 
 <ul>
-<li>Creates and updates databases, tables, and records automatically</li>
-<li>Store any native Swift type</li>
-<li>Supports optional types</li>
-<li>Simple equality-based filtering</li>
-<li>Thread safe database operations</li>
-<!--<li>Complex filtering</li>
-<li>Store nested objects</li>
-<li>Store collections</li>-->
+<li>[x] Creates and updates databases, tables, and records automatically</li>
+<li>[x] Store any native Swift type</li>
+<li>[x] Supports optional types</li>
+<li>[x] Simple equality-based filtering</li>
+<li>[x] Thread safe database operations</li>
+<li>[x] Supports asynchronous database access</li>
+<li>[ ] Complex filtering</li>
+<li>[ ] Store nested objects</li>
+<li>[ ] Store collections</li>
 </ul>
 
 <h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="usage">Usage</a>
+</h2>
 
 <p>Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes <g-emoji alias="tophat" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3a9.png">🎩</g-emoji></p>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> database <span class="pl-k">=</span> SwiftyDB(databaseName: <span class="pl-s"><span class="pl-pds">"</span>Dogtopia<span class="pl-pds">"</span></span>)</pre></div>
+<h3>
+<a id="access-the-database" class="anchor" href="#access-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="accessTheDatabase">Access the database</a>
+</h3>
 
-<p><strong>Add or update a record</strong></p>
+<p>Tell SwiftyDB what you want to call your database, and you are ready to go. If a database with the provided name does not exist, it will be created.</p>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">try</span> database<span class="pl-k">.</span>addObject(dog, update: <span class="pl-c1">true</span>)
-<span class="pl-k">try</span> database<span class="pl-k">.</span>addObjects(dogs, update: <span class="pl-c1">true</span>)</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> database <span class="pl-k">=</span> SwiftyDB(databaseName: <span class="pl-s"><span class="pl-pds">"</span>dogtopia<span class="pl-pds">"</span></span>)</pre></div>
 
-<p><strong>Retrieve data</strong></p>
+<h4>
+<a id="synchronous-access" class="anchor" href="#synchronous-access" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="syncAccess">Synchronous access</a>
+</h4>
+
+<h5>
+<a id="add-or-update-a-record" class="anchor" href="#add-or-update-a-record" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="syncAddOrUpdate">Add or update a record</a>
+</h5>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>addObject(dog, update: <span class="pl-c1">true</span>)
+database<span class="pl-k">.</span>addObjects(dogs, update: <span class="pl-c1">true</span>)</pre></div>
+
+<h5>
+<a id="retrieve-data" class="anchor" href="#retrieve-data" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="syncRetrieveData">Retrieve data</a>
+</h5>
 
 <p>Retrieve data with datatypes matching those of the type's properties</p>
 
@@ -73,13 +115,138 @@ database<span class="pl-k">.</span>dataForType(Dog<span class="pl-k">.</span><sp
     <span class="pl-s"><span class="pl-pds">"</span>birth<span class="pl-pds">"</span></span>: August <span class="pl-c1">6</span>, <span class="pl-c1">1996</span> <span class="pl-c">// As an NSDate</span>
 ]</pre></div>
 
-<p><strong>Delete records</strong></p>
+<h5>
+<a id="retrieve-objects" class="anchor" href="#retrieve-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="syncRetrieveObjects">Retrieve objects</a>
+</h5>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">try</span> database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
-<span class="pl-k">try</span> database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Max<span class="pl-pds">"</span></span>])</pre></div>
+<p>Retrieve objects with data from the database</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
+database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: [<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>])</pre></div>
+
+<blockquote>
+<p>In order to retrieve objects, Swift currently imposes some <a href="#howToRetrieveObjects">restictions on your classes</a></p>
+</blockquote>
+
+<h5>
+<a id="delete-records" class="anchor" href="#delete-records" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="syncDelete">Delete records</a>
+</h5>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
+database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Max<span class="pl-pds">"</span></span>])</pre></div>
+
+<h4>
+<a id="asynchronous-access" class="anchor" href="#asynchronous-access" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="asyncAccess">Asynchronous access</a>
+</h4>
+
+<h5>
+<a id="add-or-update-a-record-1" class="anchor" href="#add-or-update-a-record-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="asyncAddOrUpdate">Add or update a record</a>
+</h5>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>asyncAddObject(dog) { (result) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> error <span class="pl-k">=</span> result<span class="pl-k">.</span>error {
+        <span class="pl-c">// Handle error</span>
+    }
+}</pre></div>
+
+<h5>
+<a id="retrieve-data-1" class="anchor" href="#retrieve-data-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="asyncRetrieveData">Retrieve data</a>
+</h5>
+
+<p>Retrieve data with datatypes matching those of the type's properties</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>asyncDataForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>) { (result) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> data <span class="pl-k">=</span> result<span class="pl-k">.</span><span class="pl-c1">value</span> {
+        <span class="pl-c">// Process data</span>
+    }
+}</pre></div>
+
+<h5>
+<a id="retrieve-objects-1" class="anchor" href="#retrieve-objects-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="asyncRetrieveObjects">Retrieve objects</a>
+</h5>
+
+<p>Retrieve data with datatypes matching those of the type's properties</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>asyncObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>) { (result) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> objects <span class="pl-k">=</span> result<span class="pl-k">.</span><span class="pl-c1">value</span> {
+        <span class="pl-c">// Handle objects</span>
+    }
+}</pre></div>
+
+<blockquote>
+<p>In order to retrieve objects, Swift currently imposes some <a href="#howToRetrieveObjects">restictions on your classes</a></p>
+</blockquote>
+
+<h5>
+<a id="delete-records-1" class="anchor" href="#delete-records-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="asyncDelete">Delete records</a>
+</h5>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>asyncDeleteObjectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>) { (result) <span class="pl-k">-&gt;</span> <span class="pl-c1">Void</span> <span class="pl-k">in</span>
+    <span class="pl-k">if</span> <span class="pl-k">let</span> error <span class="pl-k">=</span> result<span class="pl-k">.</span>error {
+        <span class="pl-c">// Handle error</span>
+    }
+}</pre></div>
 
 <h3>
-<a id="defining-your-classes" class="anchor" href="#defining-your-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Defining your classes</h3>
+<a id="result-format" class="anchor" href="#result-format" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="resultFormat">Result format</a>
+</h3>
+
+<p>All queries returns the result as a <code>Result</code>. It will either be a <code>.Success</code> wrapping data from the query, or an <code>.Error</code> wrapping the thrown error.</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">enum</span> Result<span class="pl-k">&lt;</span>A: <span class="pl-c1">Any</span><span class="pl-k">&gt;</span>: <span class="pl-c1">BooleanType</span> {
+    <span class="pl-k">case</span> Success(A)
+    <span class="pl-k">case</span> Error(<span class="pl-c1">ErrorType</span>)
+
+    <span class="pl-k">var</span> data: A?
+    <span class="pl-k">var</span> error: <span class="pl-c1">ErrorType</span>?
+    <span class="pl-k">var</span> isSuccess: <span class="pl-c1">Bool</span>
+    <span class="pl-k">var</span> boolValue: <span class="pl-c1">Bool</span> {<span class="pl-k">return</span> isSuccess}
+}</pre></div>
+
+<h4>
+<a id="handling-results" class="anchor" href="#handling-results" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="handlingResults">Handling results</a>
+</h4>
+
+<p>The implementation of <code>Result</code> makes it a versatile tool that can (hopefully <g-emoji alias="grimacing" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f62c.png">😬</g-emoji>) be adapted to your programming style</p>
+
+<h5>
+<a id="handling-values" class="anchor" href="#handling-values" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="handlingValues">Handling values</a>
+</h5>
+
+<p>You can capture the data from a query with the <code>value</code> property. If an error was thrown, this property will be <code>nil</code>.</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> object <span class="pl-k">=</span> result<span class="pl-k">.</span><span class="pl-c1">value</span> {
+    <span class="pl-c">// Process objects</span>
+}</pre></div>
+
+<h5>
+<a id="handling-errors" class="anchor" href="#handling-errors" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="handlingErrors">Handling errors</a>
+</h5>
+
+<p>You can detect an error like this</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">!</span>database<span class="pl-k">.</span>addObject(dog) {
+    <span class="pl-c">// An error occured</span>
+}</pre></div>
+
+<p>or capture it using the <code>error</code> property like this</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">if</span> <span class="pl-k">let</span> error <span class="pl-k">=</span> result<span class="pl-k">.</span>error {
+    <span class="pl-c">// Process objects</span>
+}</pre></div>
+
+<p>If you want to, you can even bring your sledgehammer and start cracking some nuts</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">switch</span> result {
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Success(<span class="pl-k">let</span> value):
+        <span class="pl-c">// Process value</span>
+    <span class="pl-k">case</span> <span class="pl-k">.</span>Error(<span class="pl-k">let</span> error):
+        <span class="pl-c">// Handle error</span>
+}</pre></div>
+
+<h3>
+<a id="defining-your-classes" class="anchor" href="#defining-your-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="definingYourClasses">Defining your classes</a>
+</h3>
 
 <p>Let's use this simple <code>Dog</code> class as an example</p>
 
@@ -107,10 +274,15 @@ database<span class="pl-k">.</span>dataForType(Dog<span class="pl-k">.</span><sp
     <span class="pl-k">required</span> <span class="pl-k">init</span>() {}
 }</pre></div>
 
-<h5>
-<a id="primary-keys" class="anchor" href="#primary-keys" aria-hidden="true"><span class="octicon octicon-link"></span></a>Primary keys</h5>
+<blockquote>
+<p>SwiftyDB supports inheritance. Valid properties from both the class and the superclass will be stored automatically</p>
+</blockquote>
 
-<p>It is recommended you can implement the <code>PrimaryKeys</code> protocol. The <code>primaryKeys()</code> method should return a set of property names which uniquely identifies an object.</p>
+<h5>
+<a id="primary-keys" class="anchor" href="#primary-keys" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="primaryKeys">Primary keys</a>
+</h5>
+
+<p>It is recommended to implement the <code>PrimaryKeys</code> protocol. The <code>primaryKeys()</code> method should return a set of property names which uniquely identifies an object.</p>
 
 <div class="highlight highlight-source-swift"><pre><span class="pl-k">extension</span> Dog: PrimaryKeys {
     <span class="pl-k">class</span> <span class="pl-k">func</span> <span class="pl-en">primaryKeys</span>() <span class="pl-k">-&gt;</span> <span class="pl-c1">Set</span>&lt;<span class="pl-c1">String</span>&gt; {
@@ -119,7 +291,8 @@ database<span class="pl-k">.</span>dataForType(Dog<span class="pl-k">.</span><sp
 }</pre></div>
 
 <h5>
-<a id="ignoring-properties" class="anchor" href="#ignoring-properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ignoring properties</h5>
+<a id="ignoring-properties" class="anchor" href="#ignoring-properties" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="ignoringProperties">Ignoring properties</a>
+</h5>
 
 <p>If your class contains properties that you don't want in your database, you can implement the <code>IgnoredProperties</code> protocol.</p>
 
@@ -134,39 +307,37 @@ database<span class="pl-k">.</span>dataForType(Dog<span class="pl-k">.</span><sp
 </blockquote>
 
 <h3>
-<a id="retrieve-objects" class="anchor" href="#retrieve-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Retrieve objects</h3>
+<a id="how-to-retrieve-objects" class="anchor" href="#how-to-retrieve-objects" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="howToRetrieveObjects">How to retrieve objects</a>
+</h3>
 
-<p>SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of <code>NSObject</code>, and all property types must be representable in in Objective-C. This is because pure Swift does not support dynamic, name-based assignment of properties. </p>
+<p>SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of <code>NSObject</code>, and all property types must be representable in in Objective-C. This is because pure Swift currently does not support dynamic assignment of properties. </p>
 
 <p><strong>Dynamic property types</strong></p>
 
 <ul>
-<li><code>Int</code></li>
-<li><code>UInt</code></li>
-<li><code>Float</code></li>
-<li><code>Double</code></li>
-<li><code>Bool</code></li>
-<li>
-<code>String</code> / <code>String?</code>
+<li>[x] <code>Int</code>
 </li>
-<li>
-<code>NSNumber</code> / <code>NSNumber?</code>
+<li>[x] <code>UInt</code>
 </li>
-<li>
-<code>NSString</code> / <code>NSString?</code>
+<li>[x] <code>Float</code>
 </li>
-<li>
-<code>NSDate</code> / <code>NSDate?</code>
+<li>[x] <code>Double</code>
 </li>
-<li>
-<code>NSData</code> / <code>NSData?</code>
+<li>[x] <code>Bool</code>
+</li>
+<li>[x] <code>String</code> / <code>String?</code>
+</li>
+<li>[x] <code>NSNumber</code> / <code>NSNumber?</code>
+</li>
+<li>[x] <code>NSString</code> / <code>NSString?</code>
+</li>
+<li>[x] <code>NSDate</code> / <code>NSDate?</code>
+</li>
+<li>[x] <code>NSData</code> / <code>NSData?</code>
 </li>
 </ul>
 
-<h4>
-<a id="defining-your-dynamic-classes" class="anchor" href="#defining-your-dynamic-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Defining your dynamic classes</h4>
-
-<p>Updated Dog class subclassing <code>NSObject</code>, and using valid property types:</p>
+<p>An updated Dog class that can be used to retrieve complete objects from the database:</p>
 
 <div class="highlight highlight-source-swift"><pre><span class="pl-k">class</span> Dog: NSObject, Storable {
     <span class="pl-k">var</span> id: NSNumber? <span class="pl-c">// Notice that 'Int?' is not supported. Use NSNumber? instead</span>
@@ -179,14 +350,9 @@ database<span class="pl-k">.</span>dataForType(Dog<span class="pl-k">.</span><sp
     }
 }</pre></div>
 
-<p><strong>Retrieve objects</strong></p>
-
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">/* Returns an array of Dog objects */</span>
-<span class="pl-k">try</span> database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>)
-<span class="pl-k">try</span> database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Max<span class="pl-pds">"</span></span>])</pre></div>
-
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="installation">Installation</a>
+</h2>
 
 <p>SwiftyDB is available through <a href="http://cocoapods.org">CocoaPods</a>. To install
 it, simply add the following line to your Podfile:</p>
@@ -199,7 +365,8 @@ it, simply add the following line to your Podfile:</p>
 <p>Øyvind Grimnes, <a href="mailto:oyvindkg@yahoo.com">oyvindkg@yahoo.com</a></p>
 
 <h2>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="License">License</a>
+</h2>
 
 <p>SwiftyDB is available under the MIT license. See the LICENSE file for more info.</p>
 
