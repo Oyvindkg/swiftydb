@@ -69,8 +69,8 @@ database.addObjects(dogs, update: true)
 Retrieve data with datatypes matching those of the type's properties
 ```Swift
 /* Array of dictionaries representing `Dog` objects from the database */
-database.dataForType(Dog.self).value
-database.dataForType(Dog.self, matchingFilters: ["id": 1]).value
+database.dataForType(Dog.self)
+database.dataForType(Dog.self, matchingFilters: ["id": 1])
 ````
 Dog data example
 ```Swift
