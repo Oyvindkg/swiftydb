@@ -11,78 +11,71 @@ import TinySQLite
 
 public class QueryGenerator {
     
-    
     public class func createTableQueryForTable(table: Table) -> Query {
-        var statement = table.isTemporary ? "CREATE TEMPORARY TABLE " : "CREATE TABLE "
-        statement += " \(table.name) (\n"
+        var statement = "CREATE " + table.type.rawValue + " TABLE " + table.name + " ("
         
-        var primaryKeys: Set<String> = []
-        var unique: Set<String> = []
-        
+        /* Create column definitions */
         let columnDefinitions = table.columns.values.map { (column) -> String in
             var columnDefinition = " \(column.name) \(column.datatype!.rawValue) "
             
-            if column.isPrimaryKey {
-                primaryKeys.insert(column.name)
-            } else if column.isUnique {
-                unique.insert(column.name)
-            }
-            
             if column.isNotNull {
-                columnDefinition += " NOT NULL ON CONFLICT \(column.conflictResolution.rawValue)"
+                columnDefinition += " NOT NULL ON CONFLICT " + column.conflictResolution.rawValue
             }
             
             return columnDefinition
         }
         
-        statement += columnDefinitions.joinWithSeparator(", \n")
-        if !primaryKeys.isEmpty {
-            statement += ",\n PRIMARY KEY (\(primaryKeys.joinWithSeparator(" ,"))) ON CONFLICT \(table.conflictResolution.rawValue)"
+        statement += columnDefinitions.joinWithSeparator(",")
+        
+        /* Define primary keys and unique keys */
+        for columnType in [ColumnType.PrimaryKey, ColumnType.Unique] {
+            if let typeKeysStatement = compoundKeysForTable(table, type: columnType) {
+                statement += ", " + typeKeysStatement
+            }
         }
         
-        if !unique.isEmpty {
-            statement += ",\n UNIQUE (\(unique.joinWithSeparator(" ,"))) ON CONFLICT \(table.conflictResolution.rawValue)"
-        }
-        
-        statement += "\n)"
+        /* End the statement */
+        statement += ")"
         
         return Query(query: statement, values: nil)
     }
     
-    
-    
     public class func insertQueryForTable(table: Table) -> Query {
-        var statement = "INSERT OR \(table.conflictResolution.rawValue) INTO "
-        statement += table.identifier
-        statement += " (\(table.columns.values.map({"\($0.name)"}).joinWithSeparator(", "))) "
-        statement += " VALUES (\(table.columns.values.map({_ in "?"}).joinWithSeparator(", ")));"
+        var statement = "INSERT OR " + table.conflictResolution.rawValue + " INTO " + table.identifier
         
-        let values: [SQLiteValue?] = table.columns.map { (_, column) in
-            column.bindingValue
+        var columnNames: [String] = []
+        var columnValues: [SQLiteValue?] = []
+        
+        table.columns.values.forEach {
+            columnNames.append($0.name)
+            columnValues.append($0.bindingValue)
         }
         
-        return Query(query: statement, values: values)
+        /* Columns to be inserted */
+        statement += " (" + columnNames.joinWithSeparator(", ") + ") "
+        
+        /* Values to be inserted */
+        let valuePlaceholders = Array<String>(count: columnNames.count, repeatedValue: "?")
+        statement += "VALUES (" + valuePlaceholders.joinWithSeparator(", ") + ")"
+        
+        return Query(query: statement, values: columnValues)
     }
     
     
     public class func updateQueryForTable(table: Table) -> Query {
-        var statement = "UPDATE OR \(table.conflictResolution.rawValue) "
-        statement += table.identifier
-        statement += " SET \(table.columns.values.map({"\($0.name) = ?"}).joinWithSeparator(", ")) "
+        var statement = "UPDATE OR " + table.conflictResolution.rawValue + table.identifier
         
-        let filters: [String] = table.relationships.map({$0.statement()})
-        if !filters.isEmpty {
-            statement += " \nWHERE \(filters.joinWithSeparator(" AND "))"
-        }
+        let assignments  = table.columns.values.map {"\($0.name) = ?"}
+        statement += " SET " + assignments.joinWithSeparator(", ") + " "
         
+        statement += self.whereStatementForRelationships(table.relationships) ?? ""
+
         let values: [SQLiteValue?] = table.columns.map { (_, column) in
             column.bindingValue
         }
         
         return Query(query: statement, values: values)
     }
-    
-    
     
     public class func selectForTable(table: Table) -> Query {
         return selectForTables([table])
@@ -95,32 +88,57 @@ public class QueryGenerator {
     public class func selectForTables(tables: [Table]) -> Query {
         var statement = "SELECT ALL "
         
-        let columns = tables.filter({$0.shouldSelectAll}).map({$0.identifier + ".*"}) + tables.flatMap({$0.columns.map({$0.1.aliasDefinition ?? $0.1.definition})})
+        let columns = tables.filter({$0.shouldSelectAll}).map({$0.identifier + ".*"}) + tables.flatMap({$0.columns.map({$0.1.definition})})
         statement += columns.joinWithSeparator(", ")
         
-        statement += " \nFROM \(tables.map({$0.aliasDefinition ?? $0.definition}).joinWithSeparator(", "))"
+        statement += " FROM " + tables.map {$0.definition}.joinWithSeparator(", ") + " "
         
-        let filters: [String] = tables.flatMap({$0.relationships.map({$0.statement()})})
-        if !filters.isEmpty {
-            statement += " \nWHERE \(filters.joinWithSeparator(" AND "))"
+        let relationships = tables.reduce([]) { (memory, table) in
+            return memory + table.relationships
         }
         
-        statement += ";"
+        statement += self.whereStatementForRelationships(relationships) ?? ""
+        
+        return Query(query: statement, values: nil)
+    }
+    
+    
+    // TODO: Use bindings here
+    public class func deleteForTable(table: Table) -> Query {
+        var statement = "DELETE FROM \(table.name) "
+        statement += whereStatementForRelationships(table.relationships) ?? ""
         
         return Query(query: statement, values: nil)
     }
     
     
     
-    public class func deleteForTable(table: Table) -> Query {
-        
-        var statement = "DELETE FROM \(table.name)"
-        
-        let filters: [String] = table.relationships.map({$0.statement()})
-        if !filters.isEmpty {
-            statement += " \nWHERE \(filters.joinWithSeparator(" AND "))"
+    
+    private class func whereStatementForRelationships(relationships: [Relationship]) -> String? {
+        guard relationships.count > 0 else {
+            return nil
         }
         
-        return Query(query: statement, values: nil)
+        let components: [String] = relationships.map { $0.statement() }
+        
+        return  "WHERE \(components.joinWithSeparator(" AND "))"
+    }
+    
+    private class func compoundPrimaryKeysForTable(table: Table) -> String? {
+        return self.compoundKeysForTable(table, type: .PrimaryKey)
+    }
+    
+    private class func compoundUniqueKeysForTable(table: Table) -> String? {
+        return self.compoundKeysForTable(table, type: .Unique)
+    }
+    
+    private class func compoundKeysForTable(table: Table, type: ColumnType) -> String? {
+        let columnNames: [String] = table.columns.values.filter {$0.type == type} .map {$0.name}
+        
+        guard columnNames.count > 0 else {
+            return nil
+        }
+        
+        return type.rawValue + " (" + columnNames.joinWithSeparator(" ,") + ") ON CONFLICT " + table.conflictResolution.rawValue
     }
 }

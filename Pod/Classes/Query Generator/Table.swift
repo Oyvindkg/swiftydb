@@ -15,6 +15,11 @@ public enum SQLiteConflictResolution: String {
     case Replace =  "REPLACE"
 }
 
+internal enum TableType: String {
+    case Normal = ""
+    case Temporary = "TEMPORARY"
+}
+
 public class Table {
     
     internal var name: String
@@ -22,7 +27,7 @@ public class Table {
     internal var relationships: [Relationship] = []
     internal var columns: [String: Column] = [:]
     internal var conflictResolution: SQLiteConflictResolution = .Abort
-    internal var isTemporary = false
+    internal var type: TableType = .Normal
     internal var shouldSelectAll = false
     
     public init(_ name: String, alias: String? = nil) {
@@ -71,7 +76,7 @@ extension Table {
     
     /** Returns alias definition if alias is defined, else full name */
     internal var definition: String {
-        return fullName
+        return aliasDefinition ?? fullName
     }
 }
 
@@ -91,7 +96,7 @@ extension Table {
 // MARK: CREATE
 extension Table {
     public func temporary() -> Table {
-        isTemporary = true
+        type = .Temporary
         return self
     }
     

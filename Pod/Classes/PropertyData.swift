@@ -16,8 +16,6 @@ import TinySQLite
 internal struct PropertyData {
     
     internal let isOptional: Bool
-    internal let dynamic:    Bool
-    
     internal var type:       SQLiteValue.Type?  = nil
     internal var name:       String?
     internal var value:      SQLiteValue?               = nil
@@ -31,7 +29,6 @@ internal struct PropertyData {
         
         let mirror = Mirror(reflecting: property.value)
         isOptional = mirror.displayStyle == .Optional
-        dynamic = true
         value = unwrap(property.value) as? SQLiteValue
         
         type = typeForMirror(mirror)
