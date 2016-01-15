@@ -24,8 +24,9 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 &emsp;&emsp;&emsp; [Retrieve objects](#asyncRetrieveObjects)<br />
 &emsp;&emsp;&emsp; [Delete data](#asyncDelete)<br />
 &emsp; [Result format](#resultFormat)<br />
-&emsp;&emsp;[Error handling](#errorHandling)<br />
-&emsp;&emsp;[Value handling](#valueHandling)<br />
+&emsp;&emsp;[Handling results](#handlingResults)<br />
+&emsp;&emsp;&emsp;[Handling values](#handlingValues)<br />
+&emsp;&emsp;&emsp;[Handling errors](#handlingErrors)<br />
 &emsp; [Defining your classes](#definingYourClasses)<br />
 &emsp;&emsp; [Primary keys](#primaryKeys)<br />
 &emsp;&emsp; [Ignoring properties](#ignoringProperties)<br />
@@ -142,7 +143,7 @@ database.asyncDeleteObjectsForType(Dog.self) { (result) -> Void in
 ```
 
 ### <a name="resultFormat">Result format</a>
-`Result` is used to return the result of a query. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the error thrown.
+All queries returns the result as a `Result`. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the thrown error.
 
 ```Swift
 enum Result<A: Any>: BooleanType {
@@ -159,36 +160,30 @@ enum Result<A: Any>: BooleanType {
 #### <a name="handlingResults">Handling results</a>
 The implementation of `Result` makes it a versatile tool that can (hopefully 😬) be adapted to your programming style
 
-##### <a name="valueHandling">Value handling</a>
-You can capture the value returned from a query like this
-```Swift
-if let objects = database.objectsForType(Dog.self).value {
-    // Process objects
-}
-```
-or this
-```Swift
-if case .Success(let objects) = database.objectsForType(Dog.self) {
-    // Process objects
-}
-```
-or any other way you like to handle your optional and enum values
+##### <a name="handlingValues">Handling values</a>
+You can capture the data from a query with the `value` property. If an error was thrown, this property will be `nil`.
 
-##### <a name="errorHandling">Error handling</a>
+```Swift
+if let object = result.value {
+    // Process objects
+}
+```
+
+##### <a name="handlingErrors">Handling errors</a>
 You can detect an error like this
 ```Swift
 if !database.addObject(dog) {
     // An error occured
 }
 ```
-or capturing it like this
+or capture it using the `error` property like this
 
 ```Swift
-if let error = database.addObject(dog).error {
-    // Handle error
+if let error = result.error {
+    // Process objects
 }
 ```
-You can bring your sledgehammer and start cracking some nuts
+If you want to, you can even bring your sledgehammer and start cracking some nuts
 ```Swift
 switch result {
     case .Success(let value):
@@ -197,7 +192,6 @@ switch result {
         // Handle error
 }
 ```
-Or treat it like any other optional or enum values
 
 ### <a name="definingYourClasses">Defining your classes</a>
 Let's use this simple `Dog` class as an example
@@ -235,7 +229,7 @@ class Dog: Storable {
 > SwiftyDB supports inheritance. Valid properties from both the class and the superclass will be stored automatically
 
 ##### <a name="primaryKeys">Primary keys</a>
-It is recommended you can implement the `PrimaryKeys` protocol. The `primaryKeys()` method should return a set of property names which uniquely identifies an object.
+It is recommended to implement the `PrimaryKeys` protocol. The `primaryKeys()` method should return a set of property names which uniquely identifies an object.
 
 ```Swift
 extension Dog: PrimaryKeys {
