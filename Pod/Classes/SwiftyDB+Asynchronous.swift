@@ -8,63 +8,36 @@
 
 import TinySQLite
 
-public enum Result<A: Any>: BooleanType {
-    case Success(A)
-    case Error(ErrorType)
-    
-    public var isSuccess: Bool {
-        return value != nil
-    }
-
-    /** Identical to isSuccess. Used to conveniently detect errors in control statements such as 'if' */ 
-    public var boolValue: Bool { return isSuccess }
-    
-    public var value: A? {
-        if case .Success(let value) = self {
-            return value
-        }
-        return nil
-    }
-    
-    public var error: ErrorType? {
-        if case .Error(let error) = self {
-            return error
-        }
-        return nil
-    }
-}
-
+/** Support asynchronous queries */
 extension SwiftyDB {
     
-    /** A global queue with default priority */
+    /** A global, concurrent queue with default priority */
     private var queue: dispatch_queue_t {
-        return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        return dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
     }
     
     
     /**
-     Asynchronous add object to the database
+     Asynchronously add object to the database
      
      - parameter object:    object to be added to the database
      - parameter update:    indicates whether the record should be updated if already present
      */
     
-    public func asyncAddObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
-        dispatch_async(queue) { () -> Void in
-            completionHandler(self.addObject(object))
-        }
+    public func asyncAddObject <S: Storable> (object: S, update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
+        asyncAddObjects([object], update: update, withCompletionHandler: completionHandler)
     }
     
     /**
-     Asynchronous add objects to the database
+     Asynchronously add objects to the database
      
      - parameter objects:    objects to be added to the database
      - parameter update:     indicates whether the record should be updated if already present
      */
     
-    public func asyncAddObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
-        dispatch_async(queue) { () -> Void in
-            completionHandler(self.addObjects(objects))
+    public func asyncAddObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
+        dispatch_async(queue) { [unowned self] () -> Void in
+            completionHandler?(self.addObjects(objects))
         }
     }
     
@@ -77,21 +50,21 @@ extension SwiftyDB {
     
     public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
-        dispatch_async(queue) { () -> Void in
+        dispatch_async(queue) { [unowned self] () -> Void in
             completionHandler(self.dataForType(type, matchingFilters: filters))
         }
     }
     
     /**
-     Remove objects of a specified type, matching a set of filters, from the database
+     Asynchronously remove objects of a specified type, matching a set of filters, from the database
      
      - parameter filters:   dictionary containing the filters identifying objects to be deleted
      - parameter type:      type of the objects to be deleted
      */
     
-    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)) {
-        dispatch_async(queue) { () -> Void in
-            completionHandler(self.deleteObjectsForType(type, matchingFilters: filters))
+    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
+        dispatch_async(queue) { [unowned self] () -> Void in
+            completionHandler?(self.deleteObjectsForType(type, matchingFilters: filters))
         }
     }
 }
@@ -107,7 +80,7 @@ extension SwiftyDB {
     
     public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
         
-        dispatch_async(queue) { () -> Void in
+        dispatch_async(queue) { [unowned self] () -> Void in
             completionHandler(self.objectsForType(type, matchingFilters: filters))
         }
     }

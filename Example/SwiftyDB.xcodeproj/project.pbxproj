@@ -15,6 +15,7 @@
 		395202BD1C46F62300BF5871 /* RetrievedDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */; };
 		395202BF1C46F65600BF5871 /* DynamicRetrievalSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */; };
 		3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3955AEAE1C384E6100345785 /* QueryHandler.swift */; };
+		3967B1CB1C4904580045D876 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3967B1CA1C4904580045D876 /* Result.swift */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
 		398E037A1C2839FB003A868B /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03761C2839FB003A868B /* PropertyData.swift */; };
 		39C1ECA71C42A72400060E9D /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1ECA21C42A72400060E9D /* Column.swift */; };
@@ -34,6 +35,7 @@
 		395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetrievedDataSpec.swift; sourceTree = "<group>"; };
 		395202BE1C46F65600BF5871 /* DynamicRetrievalSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicRetrievalSpec.swift; sourceTree = "<group>"; };
 		3955AEAE1C384E6100345785 /* QueryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryHandler.swift; sourceTree = "<group>"; };
+		3967B1CA1C4904580045D876 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
 		398E03761C2839FB003A868B /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
 		39C1ECA21C42A72400060E9D /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Column.swift; path = "Query Generator/Column.swift"; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
 				398E03761C2839FB003A868B /* PropertyData.swift */,
 				3955AEAE1C384E6100345785 /* QueryHandler.swift */,
+				3967B1CA1C4904580045D876 /* Result.swift */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;
@@ -282,6 +285,7 @@
 				395202B91C46F59C00BF5871 /* AsynchronousSpec.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				39C1ECA71C42A72400060E9D /* Column.swift in Sources */,
+				3967B1CB1C4904580045D876 /* Result.swift in Sources */,
 				3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */,
 				39C1ECAB1C42A72400060E9D /* Table.swift in Sources */,
 				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
