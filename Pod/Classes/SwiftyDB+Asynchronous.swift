@@ -37,8 +37,12 @@ extension SwiftyDB {
      */
     
     public func asyncAddObjects <S: Storable> (objects: [S], update: Bool = true, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
-        dispatch_async(queue) { [unowned self] () -> Void in
-            completionHandler?(self.addObjects(objects))
+        dispatch_async(queue) { [weak self] () -> Void in
+            guard self != nil else {
+                return
+            }
+            
+            completionHandler?(self!.addObjects(objects))
         }
     }
     
@@ -51,8 +55,12 @@ extension SwiftyDB {
     
     public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
-        dispatch_async(queue) { [unowned self] () -> Void in
-            completionHandler(self.dataForType(type, matchingFilters: filters))
+        dispatch_async(queue) { [weak self] () -> Void in
+            guard self != nil else {
+                return
+            }
+            
+            completionHandler(self!.dataForType(type, matchingFilters: filters))
         }
     }
     
@@ -64,8 +72,12 @@ extension SwiftyDB {
      */
     
     public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
-        dispatch_async(queue) { [unowned self] () -> Void in
-            completionHandler?(self.deleteObjectsForType(type, matchingFilters: filters))
+        dispatch_async(queue) { [weak self] () -> Void in
+            guard self != nil else {
+                return
+            }
+            
+            completionHandler?(self!.deleteObjectsForType(type, matchingFilters: filters))
         }
     }
 }

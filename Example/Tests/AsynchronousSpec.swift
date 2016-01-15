@@ -17,13 +17,12 @@ class AsynchronousSpec: SwiftyDBSpec {
         
         let database = SwiftyDB(databaseName: "test_database")
         
-        
-        
         describe("Asynchronous calls") {
             context("Adding data to the database") {
                 
                 it("Should add objects") {
                     var result: Result<Bool>?
+                    
                     database.asyncAddObjects([TestClass()]) { (res) -> Void in
                         result = res
                     }
@@ -74,15 +73,17 @@ class AsynchronousSpec: SwiftyDBSpec {
             }
             
             context("Should delete object") {
-                let object = TestClass()
-                database.addObject(object)
-                
-                var result: Result<Bool>?
-                database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
-                    result = res
-                }
                 
                 it("Should retrieve object") {
+                    
+                    let object = TestClass()
+                    database.addObject(object)
+                    
+                    var result: Result<Bool>?
+                    database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                        result = res
+                    }
+                    
                     expect(result?.isSuccess).toEventually(beTrue())
                     expect(result?.value != nil).toEventually(beTrue())
                 }
