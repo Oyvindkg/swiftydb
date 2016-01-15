@@ -8,7 +8,7 @@
 import Foundation
 import TinySQLite
 
-public struct Query {
+internal struct Query {
     let query: String
     let values: [SQLiteValue?]?
 }

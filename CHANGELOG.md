@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 #### Changes
 * Removed support for `Float80`
   * It is not supported by iOS
+* Query generator classes are internal
 
 ## [0.8.0](https://github.com/Oyvindkg/swiftydb/releases/tag/0.8.0) (01/15/2016)
 

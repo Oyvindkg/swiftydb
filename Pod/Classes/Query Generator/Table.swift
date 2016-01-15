@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SQLiteConflictResolution: String {
+internal enum SQLiteConflictResolution: String {
     case Rollback = "ROLLBACK"
     case Abort =    "ABORT"
     case Fail =     "FAIL"
@@ -20,7 +20,7 @@ internal enum TableType: String {
     case Temporary = "TEMPORARY"
 }
 
-public class Table {
+internal class Table {
     
     internal var name: String
     internal var tableAlias: String?
@@ -30,7 +30,7 @@ public class Table {
     internal var type: TableType = .Normal
     internal var shouldSelectAll = false
     
-    public init(_ name: String, alias: String? = nil) {
+    internal init(_ name: String, alias: String? = nil) {
         self.name = name
         self.tableAlias = alias
     }
@@ -43,7 +43,7 @@ public class Table {
         relationships.append(Relationship(column: column, relationship: relationship, value: value))
     }
 
-    public func column(name: String) -> Column {
+    internal func column(name: String) -> Column {
         let column = Column(name: name, table: self)
         
         if let existingColumn = columns[column.identifier]{
@@ -82,12 +82,12 @@ extension Table {
 
 //MARK: SELECT
 extension Table {
-    public func selectAll() -> Table {
+    internal func selectAll() -> Table {
         shouldSelectAll = true
         return self
     }
     
-    public func alias(alias: String) -> Table {
+    internal func alias(alias: String) -> Table {
         tableAlias = alias
         return self
     }
@@ -95,12 +95,12 @@ extension Table {
 
 // MARK: CREATE
 extension Table {
-    public func temporary() -> Table {
+    internal func temporary() -> Table {
         type = .Temporary
         return self
     }
     
-    public func onConflict(resolution: SQLiteConflictResolution) -> Table {
+    internal func onConflict(resolution: SQLiteConflictResolution) -> Table {
         conflictResolution = resolution
         return self
     }

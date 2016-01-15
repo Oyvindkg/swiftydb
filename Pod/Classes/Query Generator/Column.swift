@@ -14,7 +14,7 @@ enum ColumnRelationship: String {
     case ContainedIn =      "IN"
 }
 
-public func ==(lhs: Column, rhs: Column) -> Bool {
+internal func ==(lhs: Column, rhs: Column) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
@@ -24,7 +24,7 @@ internal enum ColumnType: String {
     case Normal = ""
 }
 
-public class Column {
+internal class Column {
     internal var name: String
     internal var columnAlias: String?
     internal var bindingValue: SQLiteValue?
@@ -51,7 +51,7 @@ public class Column {
 
 // MARK: - Hashable
 extension Column: Hashable {
-    public var hashValue: Int {
+    internal var hashValue: Int {
         return identifier.hashValue
     }
 }
@@ -82,37 +82,37 @@ extension Column {
 
 // MARK: - WHERE
 extension Column {
-    public func greaterThan(column: Column) -> Column {
+    internal func greaterThan(column: Column) -> Column {
         table.addRelationship(.GreaterThan, betweenColumn: self, andColumn: column)
         return self
     }
     
-    public func greaterThan(value: SQLiteValue) -> Column {
+    internal func greaterThan(value: SQLiteValue) -> Column {
         table.addRelationship(.GreaterThan, betweenColumn: self, andValue: value)
         return self
     }
     
-    public func lessThan(column: Column) -> Column {
+    internal func lessThan(column: Column) -> Column {
         table.addRelationship(.LessThan, betweenColumn: self, andColumn: column)
         return self
     }
     
-    public func lessThan(value: SQLiteValue) -> Column {
+    internal func lessThan(value: SQLiteValue) -> Column {
         table.addRelationship(.LessThan, betweenColumn: self, andValue: value)
         return self
     }
     
-    public func equalTo(column: Column) -> Column {
+    internal func equalTo(column: Column) -> Column {
         table.addRelationship(.EqualTo, betweenColumn: self, andColumn: column)
         return self
     }
     
-    public func equalTo(value: SQLiteValue?) -> Column {
+    internal func equalTo(value: SQLiteValue?) -> Column {
         table.addRelationship(.EqualTo, betweenColumn: self, andValue: value)
         return self
     }
     
-    public func containedIn(values: [SQLiteValue]) -> Column {
+    internal func containedIn(values: [SQLiteValue]) -> Column {
         table.addRelationship(.ContainedIn, betweenColumn: self, andValue: values)
         return self
     }
@@ -120,7 +120,7 @@ extension Column {
 
 // MARK: - SELECT
 extension Column {
-    public func alias(alias: String) -> Column {
+    internal func alias(alias: String) -> Column {
         self.columnAlias = alias
         return self
     }
@@ -129,32 +129,32 @@ extension Column {
 // MARK: - CREATE
 extension Column {
     
-    public func autoincrement() -> Column {
+    internal func autoincrement() -> Column {
         isAutoincrement = true
         return self
     }
     
-    public func onConflict(resolution: SQLiteConflictResolution) -> Column {
+    internal func onConflict(resolution: SQLiteConflictResolution) -> Column {
         conflictResolution = resolution
         return self
     }
     
-    public func type(datatype: SQLiteDatatype) -> Column {
+    internal func type(datatype: SQLiteDatatype) -> Column {
         self.datatype = datatype
         return self
     }
     
-    public func primaryKey() -> Column {
+    internal func primaryKey() -> Column {
         type = .PrimaryKey
         return self
     }
     
-    public func unique() -> Column {
+    internal func unique() -> Column {
         type = .Unique
         return self
     }
     
-    public func notNull() -> Column {
+    internal func notNull() -> Column {
         isNotNull = true
         return self
     }
@@ -162,7 +162,7 @@ extension Column {
 
 //MARK: - INSERT, UPDATE
 extension Column {
-    func value(value: SQLiteValue?) -> Column {
+    internal func value(value: SQLiteValue?) -> Column {
         bindingValue = value
         return self
     }
