@@ -9,9 +9,9 @@ import TinySQLite
 
 // TODO: Clean this generator mess up and create a separate module
 
-public class QueryGenerator {
+internal class QueryGenerator {
     
-    public class func createTableQueryForTable(table: Table) -> Query {
+    internal class func createTableQueryForTable(table: Table) -> Query {
         var statement = "CREATE " + table.type.rawValue + " TABLE " + table.name + " ("
         
         /* Create column definitions */
@@ -40,7 +40,7 @@ public class QueryGenerator {
         return Query(query: statement, values: nil)
     }
     
-    public class func insertQueryForTable(table: Table) -> Query {
+    internal class func insertQueryForTable(table: Table) -> Query {
         var statement = "INSERT OR " + table.conflictResolution.rawValue + " INTO " + table.identifier
         
         var columnNames: [String] = []
@@ -62,7 +62,7 @@ public class QueryGenerator {
     }
     
     
-    public class func updateQueryForTable(table: Table) -> Query {
+    internal class func updateQueryForTable(table: Table) -> Query {
         var statement = "UPDATE OR " + table.conflictResolution.rawValue + table.identifier
         
         let assignments  = table.columns.values.map {"\($0.name) = ?"}
@@ -77,15 +77,15 @@ public class QueryGenerator {
         return Query(query: statement, values: values)
     }
     
-    public class func selectForTable(table: Table) -> Query {
+    internal class func selectForTable(table: Table) -> Query {
         return selectForTables([table])
     }
     
-    public class func selectForTables(table: Table, _ moreTables: Table...) -> Query {
+    internal class func selectForTables(table: Table, _ moreTables: Table...) -> Query {
         return selectForTables([table] + moreTables)
     }
     
-    public class func selectForTables(tables: [Table]) -> Query {
+    internal class func selectForTables(tables: [Table]) -> Query {
         var statement = "SELECT ALL "
         
         let columns = tables.filter({$0.shouldSelectAll}).map({$0.identifier + ".*"}) + tables.flatMap({$0.columns.map({$0.1.definition})})
@@ -104,7 +104,7 @@ public class QueryGenerator {
     
     
     // TODO: Use bindings here
-    public class func deleteForTable(table: Table) -> Query {
+    internal class func deleteForTable(table: Table) -> Query {
         var statement = "DELETE FROM \(table.name) "
         statement += whereStatementForRelationships(table.relationships) ?? ""
         
