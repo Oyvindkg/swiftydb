@@ -7,6 +7,8 @@
 
 import TinySQLite
 
+//TODO: Should use weak self instead of unowned self?
+
 /** Support asynchronous queries */
 extension SwiftyDB {
     

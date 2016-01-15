@@ -21,46 +21,55 @@ class AsynchronousSpec: SwiftyDBSpec {
         
         describe("Asynchronous calls") {
             context("Adding data to the database") {
-                var success = false
-                
-                waitUntil { done in
-                    database.asyncAddObjects([TestClass()]) { (result) -> Void in
-                        success = result.isSuccess
-                        done()
-                    }
-                }
                 
                 it("Should add objects") {
-                    expect(success).to(beTrue())
+                    var result: Result<Bool>?
+                    database.asyncAddObjects([TestClass()]) { (res) -> Void in
+                        result = res
+                    }
+                    
+                    expect(result?.isSuccess).toEventually(beTrue())
+                    expect(result?.value != nil).toEventually(beTrue())
                 }
                 
-                success = false
-                waitUntil { done in
-                    database.asyncAddObject(TestClass()) { (result) -> Void in
-                        success = result.isSuccess
-                        done()
-                    }
-                }
                 
                 it("Should add object") {
-                    expect(success).to(beTrue())
+                    var result: Result<Bool>?
+                    database.asyncAddObject(TestClass()) { (res) -> Void in
+                        result = res
+                    }
+                    
+                    expect(result?.isSuccess).toEventually(beTrue())
+                    expect(result?.value != nil).toEventually(beTrue())
                 }
             }
             
             context("Should retrieve data") {
-                let object = TestClass()
-                database.addObject(object)
                 
-                var retrievedData: Any?
-                waitUntil { done in
-                    database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        retrievedData = result.value
-                        done()
-                    })
+                it("Should retrieve data") {
+                    let object = TestClass()
+                    database.addObject(object)
+                    
+                    var result: Result<[[String: SQLiteValue?]]>?
+                    database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                        result = res
+                    }
+                    
+                    expect(result?.isSuccess).toEventually(beTrue())
+                    expect(result?.value != nil).toEventually(beTrue())
                 }
                 
                 it("Should retrieve object") {
-                    expect(retrievedData).notTo(beNil())
+                    let object = DynamicTestClass()
+                    database.addObject(object)
+                    
+                    var result: Result<[DynamicTestClass]>?
+                    database.asyncObjectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                        result = res
+                    }
+                    
+                    expect(result?.isSuccess).toEventually(beTrue())
+                    expect(result?.value != nil).toEventually(beTrue())
                 }
             }
             
@@ -68,15 +77,14 @@ class AsynchronousSpec: SwiftyDBSpec {
                 let object = TestClass()
                 database.addObject(object)
                 
-                var success = false
-                waitUntil { done in
-                    database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey], withCompletionHandler: { (result) -> Void in
-                        success = result.isSuccess
-                        done()
-                    })
+                var result: Result<Bool>?
+                database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                    result = res
                 }
-                it("should be successful") {
-                    expect(success).to(beTrue())
+                
+                it("Should retrieve object") {
+                    expect(result?.isSuccess).toEventually(beTrue())
+                    expect(result?.value != nil).toEventually(beTrue())
                 }
             }
         }
