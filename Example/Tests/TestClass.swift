@@ -75,7 +75,6 @@ class TestClass: Storable {
     var optionalBool: Bool?
     
     var optionalFloat: Float?
-    var optionalFloat80: Float80?
     var optionalDouble: Double?
     
     /* Not null properties */
@@ -101,7 +100,6 @@ class TestClass: Storable {
     var bool: Bool          = false
     
     var float: Float        = 1
-    var float80: Float80    = 1
     var double: Double      = 1
     
     required init() {}

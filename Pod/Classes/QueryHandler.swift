@@ -86,7 +86,7 @@ internal class QueryHandler {
         switch type {
         case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is UInt64.Type, is Bool.Type:
             return .Integer
-        case is Float.Type, is Double.Type, is Float80.Type, is NSDate.Type:
+        case is Float.Type, is Double.Type, is NSDate.Type:
             return .Real
         case is NSNumber.Type:
             return .Numeric
