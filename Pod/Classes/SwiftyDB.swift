@@ -181,7 +181,7 @@ public class SwiftyDB {
     - parameter type:   type of objects data in the table represents
     */
     
-    internal func createTableForTypeRepresentedByObject <S: Storable> (object: S) -> Result<Bool> {
+    private func createTableForTypeRepresentedByObject <S: Storable> (object: S) -> Result<Bool> {
         
         let query = QueryHandler.createTableQueryForTypeRepresentedByObject(object)
         
@@ -206,7 +206,7 @@ public class SwiftyDB {
      - returns:             dictionary containing the data from the object
      */
     
-    internal func dataFromObject (object: Storable) -> [String: SQLiteValue?] {
+    private func dataFromObject (object: Storable) -> [String: SQLiteValue?] {
         var dictionary: [String: SQLiteValue?] = [:]
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
@@ -224,7 +224,7 @@ public class SwiftyDB {
      - returns:         boolean indicating if the table exists
      */
     
-    internal func tableExistsForType(type: Storable.Type) throws -> Bool {
+    private func tableExistsForType(type: Storable.Type) throws -> Bool {
         let tableName = tableNameForType(type)
         
         var exists: Bool = existingTables.contains(tableName)
@@ -248,7 +248,7 @@ public class SwiftyDB {
     }
     
     /** Name of the table representing a class */
-    internal func tableNameForType(type: Storable.Type) -> String {
+    private func tableNameForType(type: Storable.Type) -> String {
         return String(type)
     }
     
@@ -261,7 +261,7 @@ public class SwiftyDB {
      - returns:                 dictionary containing data of types matching the properties of the target type
      */
     
-    internal func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: SQLiteValue?] {
+    private func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: SQLiteValue?] {
         var rowData: [String: SQLiteValue?] = [:]
         
         for propertyData in propertyData {
@@ -280,7 +280,7 @@ public class SwiftyDB {
      - returns:                 optional value for the property
      */
     
-    internal func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> SQLiteValue? {
+    private func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> SQLiteValue? {
         if row.typeForColumn(propertyData.name!) == .Null {
             return nil
         }
@@ -352,7 +352,7 @@ extension SwiftyDB {
      - returns:          object of the provided type populated with the provided data
      */
     
-    internal func objectWithData <D where D: Storable, D: NSObject> (data: [String: SQLiteValue?], forType type: D.Type) -> D {
+    private func objectWithData <D where D: Storable, D: NSObject> (data: [String: SQLiteValue?], forType type: D.Type) -> D {
         let object = (type as NSObject.Type).init() as! D
         
         var validData: [String: AnyObject] = [:]

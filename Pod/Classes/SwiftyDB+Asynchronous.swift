@@ -3,7 +3,6 @@
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 13/01/16.
-//  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
 import TinySQLite

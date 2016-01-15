@@ -71,9 +71,9 @@
 				39C1EC971C42A65C00060E9D /* Query Generator */,
 				398E03751C2839FB003A868B /* SwiftyDB.swift */,
 				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
+				3967B1CA1C4904580045D876 /* Result.swift */,
 				398E03761C2839FB003A868B /* PropertyData.swift */,
 				3955AEAE1C384E6100345785 /* QueryHandler.swift */,
-				3967B1CA1C4904580045D876 /* Result.swift */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;
