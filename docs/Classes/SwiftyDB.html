@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SwiftyDB Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/SwiftyDB" class="dashAnchor"></a>
+    <a title="SwiftyDB Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">SwiftyDB Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">SwiftyDB Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SwiftyDB Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/SwiftyDB.html">SwiftyDB</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Result.html">Result</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/IgnoredProperties.html">IgnoredProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PrimaryKeys.html">PrimaryKeys</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Storable.html">Storable</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SwiftyDB</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">SwiftyDB</span></code></pre>
+
+                </div>
+              </div>
+            <p>A class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDBcFMS0_FT12databaseNameSS_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(databaseName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDBcFMS0_FT12databaseNameSS_S0_">init(databaseName:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new instance of SwiftyDB using a database in the documents directory. If the database does not exist, it will be created.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">databaseName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>databaseName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>an instance of SwiftyDB</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Database%20operations"></a>
+                <a name="//apple_ref/swift/Section/Database operations" class="dashAnchor"></a>
+                <a href="#/Database%20operations">
+                  <h3 class="section-name">Database operations</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB9addObjectuRq_S_8Storable_FS0_FTq_6updateSb_GOS_6ResultSb_"></a>
+                    <a name="//apple_ref/swift/Method/addObject(_:update:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB9addObjectuRq_S_8Storable_FS0_FTq_6updateSb_GOS_6ResultSb_">addObject(_:update:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add an object to the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addObject</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="nv">update</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>object to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>update</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>indicates whether the record should be updated if already present</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result type indicating the success of the query</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB10addObjectsuRq_S_8Storable_FS0_FTGSaq__6updateSb_GOS_6ResultSb_"></a>
+                    <a name="//apple_ref/swift/Method/addObjects(_:update:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB10addObjectsuRq_S_8Storable_FS0_FTGSaq__6updateSb_GOS_6ResultSb_">addObjects(_:update:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add objects to the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addObjects</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">S</span><span class="p">],</span> <span class="nv">update</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>objects to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>update</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>indicates whether the record should be updated if already present</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result type indicating the success of the query</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB10addObjectsuRq_S_8Storable_FS0_Ftq_GSaq___GOS_6ResultSb_"></a>
+                    <a name="//apple_ref/swift/Method/addObjects(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB10addObjectsuRq_S_8Storable_FS0_Ftq_GSaq___GOS_6ResultSb_">addObjects(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add objects to the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addObjects</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="n">_</span> <span class="nv">moreObjects</span><span class="p">:</span> <span class="kt">S</span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>object to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>moreObjects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>more objects to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result type indicating the success of the query</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB20deleteObjectsForTypeFS0_FTPMPS_8Storable_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultSb_"></a>
+                    <a name="//apple_ref/swift/Method/deleteObjectsForType(_:matchingFilters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB20deleteObjectsForTypeFS0_FTPMPS_8Storable_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultSb_">deleteObjectsForType(_:matchingFilters:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove objects of a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjectsForType</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:])</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be deleted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects to be deleted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result type indicating the success of the query</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB11dataForTypeuRq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultGSaGS2_SSGSqPS4______"></a>
+                    <a name="//apple_ref/swift/Method/dataForType(_:matchingFilters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB11dataForTypeuRq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultGSaGS2_SSGSqPS4______">dataForType(_:matchingFilters:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get data for a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">dataForType</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">S</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:])</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects for which to retrieve data</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result type wrapping an array with the dictionaries representing objects, or an error if unsuccessful</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB14asyncAddObjectuRq_S_8Storable_FS0_FTq_6updateSb21withCompletionHandlerGSqFGOS_6ResultSb_T___T_"></a>
+                    <a name="//apple_ref/swift/Method/asyncAddObject(_:update:withCompletionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB14asyncAddObjectuRq_S_8Storable_FS0_FTq_6updateSb21withCompletionHandlerGSqFGOS_6ResultSb_T___T_">asyncAddObject(_:update:withCompletionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asynchronously add object to the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="k">as</span><span class="n">yncAddObject</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">object</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="nv">update</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>object to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>update</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>indicates whether the record should be updated if already present</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB15asyncAddObjectsuRq_S_8Storable_FS0_FTGSaq__6updateSb21withCompletionHandlerGSqFGOS_6ResultSb_T___T_"></a>
+                    <a name="//apple_ref/swift/Method/asyncAddObjects(_:update:withCompletionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB15asyncAddObjectsuRq_S_8Storable_FS0_FTGSaq__6updateSb21withCompletionHandlerGSqFGOS_6ResultSb_T___T_">asyncAddObjects(_:update:withCompletionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asynchronously add objects to the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="k">as</span><span class="n">yncAddObjects</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">S</span><span class="p">],</span> <span class="nv">update</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>objects to be added to the database</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>update</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>indicates whether the record should be updated if already present</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB16asyncDataForTypeuRq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerFGOS_6ResultGSaGS2_SSGSqPS4______T__T_"></a>
+                    <a name="//apple_ref/swift/Method/asyncDataForType(_:matchingFilters:withCompletionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB16asyncDataForTypeuRq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerFGOS_6ResultGSaGS2_SSGSqPS4______T__T_">asyncDataForType(_:matchingFilters:withCompletionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asynchronous retrieval of data for a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="k">as</span><span class="n">yncDataForType</span> <span class="o">&lt;</span><span class="kt">S</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">S</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]]</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB25asyncDeleteObjectsForTypeFS0_FTPMPS_8Storable_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerGSqFGOS_6ResultSb_T___T_"></a>
+                    <a name="//apple_ref/swift/Method/asyncDeleteObjectsForType(_:matchingFilters:withCompletionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB25asyncDeleteObjectsForTypeFS0_FTPMPS_8Storable_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerGSqFGOS_6ResultSb_T___T_">asyncDeleteObjectsForType(_:matchingFilters:withCompletionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asynchronously remove objects of a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">asyncDeleteObjectsForType</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">Storable</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be deleted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects to be deleted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB19asyncObjectsForTypeuRdq_CSo8NSObjectq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerFGOS_6ResultGSaq___T__T_"></a>
+                    <a name="//apple_ref/swift/Method/asyncObjectsForType(_:matchingFilters:withCompletionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB19asyncObjectsForTypeuRdq_CSo8NSObjectq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue___21withCompletionHandlerFGOS_6ResultGSaq___T__T_">asyncObjectsForType(_:matchingFilters:withCompletionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Asynchronous retrieval of objects of a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="k">as</span><span class="n">yncObjectsForType</span> <span class="o">&lt;</span><span class="kt">D</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">Storable</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">NSObject</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">D</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:],</span> <span class="n">withCompletionHandler</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">((</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">D</span><span class="p">]</span><span class="o">&gt;</span><span class="p">)</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB8SwiftyDB14objectsForTypeuRdq_CSo8NSObjectq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultGSaq___"></a>
+                    <a name="//apple_ref/swift/Method/objectsForType(_:matchingFilters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB8SwiftyDB14objectsForTypeuRdq_CSo8NSObjectq_S_8Storable_FS0_FTMq_15matchingFiltersGVSs10DictionarySSGSqP10TinySQLite11SQLiteValue____GOS_6ResultGSaq___">objectsForType(_:matchingFilters:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get objects of a specified type, matching a set of filters, from the database</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">objectsForType</span> <span class="o">&lt;</span><span class="kt">D</span> <span class="k">where</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">Storable</span><span class="p">,</span> <span class="kt">D</span><span class="p">:</span> <span class="kt">NSObject</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">D</span><span class="o">.</span><span class="k">Type</span><span class="p">,</span> <span class="n">matchingFilters</span> <span class="nv">filters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?]</span> <span class="o">=</span> <span class="p">[:])</span> <span class="o">-&gt;</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">D</span><span class="p">]</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>dictionary containing the filters identifying objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>type of the objects to be retrieved</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Result wrapping the objects, or an error, if unsuccessful</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="http://oyvindkg.github.io/swiftydb/" target="_blank" rel="external">Øyvind Grimnes</a>. All rights reserved. (Last updated: 2016-01-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
