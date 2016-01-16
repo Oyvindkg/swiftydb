@@ -9,6 +9,8 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 [![License](https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 
+You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
+
 **Content**<br />
 [Features](#features)<br />
 [Usage](#usage)<br />
@@ -41,6 +43,7 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 - [x] Simple equality-based filtering
 - [x] Thread safe database operations
 - [x] Supports asynchronous database access
+- [x] 100% documented
 - [ ] Complex filtering
 - [ ] Store nested objects
 - [ ] Store collections
