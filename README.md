@@ -29,6 +29,9 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 &emsp;&emsp;[Handling results](#handlingResults)<br />
 &emsp;&emsp;&emsp;[Handling values](#handlingValues)<br />
 &emsp;&emsp;&emsp;[Handling errors](#handlingErrors)<br />
+&emsp; [Filter results](#filterResults)<br />
+&emsp;&emsp;[Simple filters](#simpleFilters)<br />
+&emsp;&emsp;[Complex filters](#complexFilters)<br />
 &emsp; [Defining your classes](#definingYourClasses)<br />
 &emsp;&emsp; [Primary keys](#primaryKeys)<br />
 &emsp;&emsp; [Ignoring properties](#ignoringProperties)<br />
@@ -44,7 +47,7 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 - [x] Thread safe database operations
 - [x] Supports asynchronous database access
 - [x] 100% documented
-- [ ] Complex filtering
+- [x] Complex filtering
 - [ ] Store nested objects
 - [ ] Store collections
 
@@ -149,14 +152,14 @@ database.asyncDeleteObjectsForType(Dog.self) { (result) -> Void in
 
 `Filter` objects are used to filter queries. All filters are translated to SQLite before querying the database.
 
-#### Simple filters
+#### <a name="simpleFilters">Simple filters</a>
 The easiest way to define your filter, is by using a dictionary:
 ```Swift
 database.objectsForType(Dog.self, matchingFilters: ["name": "Ghost"])
 ```
 All objects with the name 'Ghost' will be retrieved
 
-#### Complex filters
+#### <a name="complexFilters">Complex filters</a>
 
 For more complex filters, you can instantiate a new `Filter` object, and define your filters
 
