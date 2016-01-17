@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>SwiftyDB by Oyvindkg</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
@@ -12,15 +11,15 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name"><img src="resources/logo.png" alt="logo"/>SwiftyDB</h1>
+      <h1 class="project-name">SwiftyDB</h1>
       <h2 class="project-tagline">Making SQLite databases a blast</h2>
       <a href="https://github.com/Oyvindkg/swiftydb" class="btn">View on GitHub</a>
       <a href="https://github.com/Oyvindkg/swiftydb/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/Oyvindkg/swiftydb/tarball/master" class="btn">Download .tar.gz</a>
-      <a href="http://oyvindkg.github.io/swiftydb/docs" class="btn">Documentation</a>
     </section>
 
     <section class="main-content">
+      <p><img src="http://i.imgur.com/uQhXJLJ.png?1" alt="alt text" title="Logo"></p>
 
 <p>There are many libraries out there that aims to help developers easily create and use SQLite databases. 
 Unfortunately developers still have to get bogged down in simple tasks such as writing table definitions 
@@ -30,6 +29,8 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat" alt="Version"></a>
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat" alt="License"></a>
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat" alt="Platform"></a></p>
+
+<p>You can find the <a href="http://oyvindkg.github.io/swiftydb/docs/">documentation here</a></p>
 
 <p><strong>Content</strong><br>
 <a href="#features">Features</a><br>
@@ -49,6 +50,9 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
   <a href="#handlingResults">Handling results</a><br>
    <a href="#handlingValues">Handling values</a><br>
    <a href="#handlingErrors">Handling errors</a><br>
+  <a href="#filterResults">Filter results</a><br>
+  <a href="#simpleFilters">Simple filters</a><br>
+  <a href="#complexFilters">Complex filters</a><br>
   <a href="#definingYourClasses">Defining your classes</a><br>
    <a href="#primaryKeys">Primary keys</a><br>
    <a href="#ignoringProperties">Ignoring properties</a><br>
@@ -67,7 +71,8 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 <li>[x] Simple equality-based filtering</li>
 <li>[x] Thread safe database operations</li>
 <li>[x] Supports asynchronous database access</li>
-<li>[ ] Complex filtering</li>
+<li>[x] 100% documented</li>
+<li>[x] Complex filtering</li>
 <li>[ ] Store nested objects</li>
 <li>[ ] Store collections</li>
 </ul>
@@ -187,6 +192,44 @@ database<span class="pl-k">.</span>deleteObjectsForType(Dog<span class="pl-k">.<
         <span class="pl-c">// Handle error</span>
     }
 }</pre></div>
+
+<h3>
+<a id="filter-results" class="anchor" href="#filter-results" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="filterResults">Filter results</a>
+</h3>
+
+<p><code>Filter</code> objects are used to filter queries. All filters are translated to SQLite before querying the database.</p>
+
+<h4>
+<a id="simple-filters" class="anchor" href="#simple-filters" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="simpleFilters">Simple filters</a>
+</h4>
+
+<p>The easiest way to define your filter, is by using a dictionary:</p>
+
+<div class="highlight highlight-source-swift"><pre>database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: [<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Ghost<span class="pl-pds">"</span></span>])</pre></div>
+
+<p>All objects with the name 'Ghost' will be retrieved</p>
+
+<h4>
+<a id="complex-filters" class="anchor" href="#complex-filters" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="complexFilters">Complex filters</a>
+</h4>
+
+<p>For more complex filters, you can instantiate a new <code>Filter</code> object, and define your filters</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> filter <span class="pl-k">=</span> Filter<span class="pl-k">.</span>equal(<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>, value: <span class="pl-s"><span class="pl-pds">"</span>Ghost<span class="pl-pds">"</span></span>)
+filter<span class="pl-k">.</span>like(<span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>, pattern: <span class="pl-s"><span class="pl-pds">"</span>J_h%<span class="pl-pds">"</span></span>)
+filter<span class="pl-k">.</span>greaterThan(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>, value: <span class="pl-c1">3</span>)
+
+database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: filter)</pre></div>
+
+<p>You can also chain your filters</p>
+
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> filter <span class="pl-k">=</span> Filter<span class="pl-k">.</span>equal(<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>, value: <span class="pl-s"><span class="pl-pds">"</span>Ghost<span class="pl-pds">"</span></span>)
+                   <span class="pl-k">.</span>like(<span class="pl-s"><span class="pl-pds">"</span>owner<span class="pl-pds">"</span></span>, pattern: <span class="pl-s"><span class="pl-pds">"</span>J_h%<span class="pl-pds">"</span></span>)
+                   <span class="pl-k">.</span>greaterThan(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>, value: <span class="pl-c1">3</span>)
+
+database<span class="pl-k">.</span>objectsForType(Dog<span class="pl-k">.</span><span class="pl-k">self</span>, matchingFilters: filter)</pre></div>
+
+<p>See all available filters in the <a href="http://oyvindkg.github.io/swiftydb/docs/Classes/Filter.html">documentation</a>.</p>
 
 <h3>
 <a id="result-format" class="anchor" href="#result-format" aria-hidden="true"><span class="octicon octicon-link"></span></a><a name="resultFormat">Result format</a>
