@@ -145,6 +145,41 @@ database.asyncDeleteObjectsForType(Dog.self) { (result) -> Void in
 }
 ```
 
+### <a name="filterResults">Filter results</a>
+
+`Filter` objects are used to filter queries. All filters are translated to SQLite before querying the database.
+
+#### Simple filters
+The easiest way to define your filter, is by using a dictionary:
+```Swift
+database.objectsForType(Dog.self, matchingFilters: ["name": "Ghost"])
+```
+All objects with the name 'Ghost' will be retrieved
+
+#### Complex filters
+
+For more complex filters, you can instantiate a new `Filter` object, and define your filters
+
+```Swift
+let filter = Filter.equal("name", value: "Ghost")
+filter.like("owner", pattern: "J_h%")
+filter.greaterThan("id", value: 3)
+
+database.objectsForType(Dog.self, matchingFilters: filter)
+```
+
+You can also chain your filters
+
+```Swift
+let filter = Filter.equal("name", value: "Ghost")
+                   .like("owner", pattern: "J_h%")
+                   .greaterThan("id", value: 3)
+
+database.objectsForType(Dog.self, matchingFilters: filter)
+```
+
+See all available filters in the [documentation](http://oyvindkg.github.io/swiftydb/docs/Classes/Filter.html).
+
 ### <a name="resultFormat">Result format</a>
 All queries returns the result as a `Result`. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the thrown error.
 
