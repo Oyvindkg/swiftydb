@@ -7,8 +7,6 @@
 
 import TinySQLite
 
-//TODO: Should use weak self instead of unowned self?
-
 /** Support asynchronous queries */
 extension SwiftyDB {
     
@@ -16,8 +14,9 @@ extension SwiftyDB {
     private var queue: dispatch_queue_t {
         return dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
     }
-    
-    
+
+// MARK: - Asynchronous database operations
+
     /**
      Asynchronously add object to the database
      
@@ -53,7 +52,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
+    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
         dispatch_async(queue) { [weak self] () -> Void in
             guard self != nil else {
@@ -71,7 +70,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be deleted
      */
     
-    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
+    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
         dispatch_async(queue) { [weak self] () -> Void in
             guard self != nil else {
                 return
@@ -83,6 +82,8 @@ extension SwiftyDB {
 }
 
 extension SwiftyDB {
+
+// MARK: - Asynchronous dynamic initialization
     
     /**
      Asynchronous retrieval of objects of a specified type, matching a set of filters, from the database
@@ -91,7 +92,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:], withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
+    public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
         
         dispatch_async(queue) { [unowned self] () -> Void in
             completionHandler(self.objectsForType(type, matchingFilters: filters))

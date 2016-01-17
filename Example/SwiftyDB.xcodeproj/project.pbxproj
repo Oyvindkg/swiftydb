@@ -24,6 +24,8 @@
 		39C1ECAA1C42A72400060E9D /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1ECA51C42A72400060E9D /* Relationship.swift */; };
 		39C1ECAB1C42A72400060E9D /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1ECA61C42A72400060E9D /* Table.swift */; };
 		39C1F2ED1C4A84BC00399275 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 39C1F2EC1C4A84BC00399275 /* CHANGELOG.md */; };
+		39C1F2EF1C4B2C6E00399275 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1F2EE1C4B2C6E00399275 /* Filter.swift */; };
+		39E13E461C4C2E9300191DF3 /* FilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E13E451C4C2E9300191DF3 /* FilterSpec.swift */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,8 @@
 		39C1ECA51C42A72400060E9D /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = "Query Generator/Relationship.swift"; sourceTree = "<group>"; };
 		39C1ECA61C42A72400060E9D /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Table.swift; path = "Query Generator/Table.swift"; sourceTree = "<group>"; };
 		39C1F2EC1C4A84BC00399275 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		39C1F2EE1C4B2C6E00399275 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		39E13E451C4C2E9300191DF3 /* FilterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSpec.swift; sourceTree = "<group>"; };
 		4941F082C46DB310CFFA4D30 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		5952E95AA4F519734DB64FCA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		607FACE51AFB9204008FA782 /* SwiftyDB_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyDB_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +80,7 @@
 				3967B1CA1C4904580045D876 /* Result.swift */,
 				398E03761C2839FB003A868B /* PropertyData.swift */,
 				3955AEAE1C384E6100345785 /* QueryHandler.swift */,
+				39C1F2EE1C4B2C6E00399275 /* Filter.swift */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;
@@ -117,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				39E13E451C4C2E9300191DF3 /* FilterSpec.swift */,
 				395202B81C46F59C00BF5871 /* AsynchronousSpec.swift */,
 				395202BA1C46F5D300BF5871 /* DatabaseManipulationSpec.swift */,
 				395202BC1C46F62300BF5871 /* RetrievedDataSpec.swift */,
@@ -289,6 +295,7 @@
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				39C1ECA71C42A72400060E9D /* Column.swift in Sources */,
 				3967B1CB1C4904580045D876 /* Result.swift in Sources */,
+				39C1F2EF1C4B2C6E00399275 /* Filter.swift in Sources */,
 				3955AEAF1C384E6100345785 /* QueryHandler.swift in Sources */,
 				39C1ECAB1C42A72400060E9D /* Table.swift in Sources */,
 				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
@@ -299,6 +306,7 @@
 				39C1ECA81C42A72400060E9D /* Query.swift in Sources */,
 				398E037A1C2839FB003A868B /* PropertyData.swift in Sources */,
 				39C1ECAA1C42A72400060E9D /* Relationship.swift in Sources */,
+				39E13E461C4C2E9300191DF3 /* FilterSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,7 +22,7 @@ class DatabaseManipulationSpec: SwiftyDBSpec {
             object.primaryKey = 123
             object.string = "First string"
             
-            let filters: [String: SQLiteValue?] = ["primaryKey": object.primaryKey]
+            let filters: Filter = ["primaryKey": object.primaryKey]
             
             context("object is added") {
                 it("should contain the object after it is added") {

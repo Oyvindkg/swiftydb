@@ -8,6 +8,25 @@
 import Foundation
 import TinySQLite
 
+extension Filter {
+    internal func whereStatement() -> (String, [SQLiteValue?]) {
+        var values: [SQLiteValue?] = []
+        var statements: [String] = []
+        
+        for (statement, value) in self {
+            statements.append(statement)
+            if let arrayValue = value as? Array<SQLiteValue?> {
+                values += arrayValue
+            } else {
+                values.append(value as? SQLiteValue)
+            }
+        }
+        
+        let statement = "WHERE " + statements.joinWithSeparator(" AND ")
+        return (statement, values)
+    }
+}
+
 internal class QueryHandler {
     
     internal class func createTableQueryForTypeRepresentedByObject <S: Storable> (object: S) -> Query {
@@ -47,32 +66,30 @@ internal class QueryHandler {
         return QueryGenerator.insertQueryForTable(table)
     }
     
-    internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: [String: SQLiteValue?]) -> Query {
+    internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: Filter?) -> Query {
         
         let tableName =  tableNameForType(type)
         
-        let table = Table(tableName)
+        var statement = "SELECT ALL * FROM \(tableName)"
         
-        table.selectAll()
+        let (whereStatement, values) = filters?.whereStatement() ?? ("", [])
         
-        for (columnName, value) in filters {
-            table.column(columnName).equalTo(value)
-        }
+        statement += " \(whereStatement)"
         
-        return QueryGenerator.selectForTable(table)
+        return Query(query: statement, values: values)
     }
     
-    internal class func deleteQueryForType(type: Storable.Type, matchingFilters filters: [String: SQLiteValue?]) -> Query {
+    internal class func deleteQueryForType(type: Storable.Type, matchingFilters filters: Filter?) -> Query {
         
         let tableName =  tableNameForType(type)
         
-        let table = Table(tableName)
+        var statement = "DELETE FROM \(tableName)"
         
-        for (columnName, value) in filters {
-            table.column(columnName).equalTo(value)
-        }
+        let (whereStatement, values) = filters?.whereStatement() ?? ("", [])
         
-        return QueryGenerator.deleteForTable(table)
+        statement += " \(whereStatement)"
+        
+        return Query(query: statement, values: values)
     }
     
     
