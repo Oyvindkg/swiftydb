@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.9.1](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.1) (01/18/2016)
+
+#### Changes
+* Added `Filter` section to index in README
+* Updated features in README
+
+
 ## [0.9.0](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.0) (01/17/2016)
 
 #### Added
