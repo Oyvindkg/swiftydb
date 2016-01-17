@@ -36,8 +36,6 @@ public protocol IgnoredProperties {
 }
 
 
-
-
 /** A class wrapping an SQLite3 database abstracting the creation of tables, insertion, update, and retrieval */
 public class SwiftyDB {
     
@@ -67,7 +65,8 @@ public class SwiftyDB {
         databaseQueue = DatabaseQueue(path: path)
     }
     
-//    MARK: - Database operations
+    
+// MARK: - Database operations
     
     /**
     Add an object to the database
@@ -137,7 +136,7 @@ public class SwiftyDB {
      - returns:             Result type indicating the success of the query
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<Bool> {
+    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: Filter? = nil) -> Result<Bool> {
         do {
             guard try tableExistsForType(type) else {
                 return Result.Success(true)
@@ -164,7 +163,7 @@ public class SwiftyDB {
      - returns:             Result type wrapping an array with the dictionaries representing objects, or an error if unsuccessful
      */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[[String: SQLiteValue?]]> {
+    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: Filter? = nil) -> Result<[[String: SQLiteValue?]]> {
         
         var results: [[String: SQLiteValue?]] = []
         do {
@@ -195,7 +194,7 @@ public class SwiftyDB {
     
     
     
-//    MARK: - Private functions
+// MARK: - Private functions
     
     /**
     Creates a new table for the specified type based on the provided column definitions
@@ -347,8 +346,10 @@ public class SwiftyDB {
 }
 
 
-// MARK: - Dynamic initialization extension
+
 extension SwiftyDB {
+    
+// MARK: - Dynamic initialization
     
     /**
      Get objects of a specified type, matching a set of filters, from the database
@@ -359,7 +360,7 @@ extension SwiftyDB {
      - returns:             Result wrapping the objects, or an error, if unsuccessful
      */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: [String: SQLiteValue?] = [:]) -> Result<[D]> {
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: Filter? = nil) -> Result<[D]> {
         let dataResults = dataForType(D.self, matchingFilters: filters)
         
         if !dataResults.isSuccess {

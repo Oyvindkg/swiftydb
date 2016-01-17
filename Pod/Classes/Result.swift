@@ -9,10 +9,13 @@ import Foundation
 
 /** Enum used to return the results of a query */
 public enum Result<A: Any>: BooleanType {
+    
     /** The result was successful. Contains any data returned */
     case Success(A)
     /** The result was unsuccessful. Contains an error message */
     case Error(ErrorType)
+    
+// MARK: - Properties
     
     /** Indicates whether the query was a success, or not */
     public var isSuccess: Bool {
