@@ -29,6 +29,9 @@
             <a href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Classes/Filter.html">Filter</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/SwiftyDB.html">SwiftyDB</a>
               </li>
             </ul>
@@ -72,7 +75,258 @@ and SQL queries. SwiftyDB automatically handles everything you don&rsquo;t want 
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat" alt="License"></a>
 <a href="http://cocoapods.org/pods/SwiftyDB"><img src="https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat" alt="Platform"></a></p>
 
-<a href='#a_name_installation_installation_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_installation_installation_a'>Installation</h2>
+<p>You can find the <a href="http://oyvindkg.github.io/swiftydb/docs/">documentation here</a></p>
+
+<p><strong>Content</strong><br />
+<a href="#features">Features</a><br />
+<a href="#usage">Usage</a><br />
+&emsp; <a href="#accessTheDatabase">Access the database</a><br />
+&emsp;&emsp; <a href="#syncAccess">Synchronous access</a><br />
+&emsp;&emsp;&emsp; <a href="#syncAddOrUpdate">Add or update data</a><br />
+&emsp;&emsp;&emsp; <a href="#syncRetrieveData">Retrieve data</a><br />
+&emsp;&emsp;&emsp; <a href="#syncRetrieveObjects">Retrieve objects</a><br />
+&emsp;&emsp;&emsp; <a href="#syncDelete">Delete data</a><br />
+&emsp;&emsp; <a href="#asyncAccess">Aynchronous access</a><br />
+&emsp;&emsp;&emsp; <a href="#asyncAddOrUpdate">Add or update data</a><br />
+&emsp;&emsp;&emsp; <a href="#asyncRetrieveData">Retrieve data</a><br />
+&emsp;&emsp;&emsp; <a href="#asyncRetrieveObjects">Retrieve objects</a><br />
+&emsp;&emsp;&emsp; <a href="#asyncDelete">Delete data</a><br />
+&emsp; <a href="#resultFormat">Result format</a><br />
+&emsp;&emsp;<a href="#handlingResults">Handling results</a><br />
+&emsp;&emsp;&emsp;<a href="#handlingValues">Handling values</a><br />
+&emsp;&emsp;&emsp;<a href="#handlingErrors">Handling errors</a><br />
+&emsp; <a href="#definingYourClasses">Defining your classes</a><br />
+&emsp;&emsp; <a href="#primaryKeys">Primary keys</a><br />
+&emsp;&emsp; <a href="#ignoringProperties">Ignoring properties</a><br />
+&emsp; <a href="#howToRetrieveObjects">How to retrieve objects</a><br />
+<a href="#installation">Installation</a><br />
+<a href="#license">License</a></p>
+<a href='#a_name_features_features_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_features_features_a'><a name="features">Features</a></h3>
+
+<ul>
+<li>[x] Creates and updates databases, tables, and records automatically</li>
+<li>[x] Store any native Swift type</li>
+<li>[x] Supports optional types</li>
+<li>[x] Simple equality-based filtering</li>
+<li>[x] Thread safe database operations</li>
+<li>[x] Supports asynchronous database access</li>
+<li>[x] 100% documented</li>
+<li>[ ] Complex filtering</li>
+<li>[ ] Store nested objects</li>
+<li>[ ] Store collections</li>
+</ul>
+<a href='#a_name_usage_usage_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_usage_usage_a'><a name="usage">Usage</a></h2>
+
+<p>Almost pure plug and play. All you have to do is create an instance of SwiftyDB, and everything will be handled automagically behind the scenes 🎩</p>
+<a href='#a_name_accessthedatabase_access_the_database_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_accessthedatabase_access_the_database_a'><a name="accessTheDatabase">Access the database</a></h3>
+
+<p>Tell SwiftyDB what you want to call your database, and you are ready to go. If a database with the provided name does not exist, it will be created.</p>
+<pre class="highlight plaintext"><code>let database = SwiftyDB(databaseName: "dogtopia")
+</code></pre>
+<a href='#a_name_syncaccess_synchronous_access_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a_name_syncaccess_synchronous_access_a'><a name="syncAccess">Synchronous access</a></h4>
+<a href='#a_name_syncaddorupdate_add_or_update_a_record_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_syncaddorupdate_add_or_update_a_record_a'><a name="syncAddOrUpdate">Add or update a record</a></h5>
+<pre class="highlight plaintext"><code>database.addObject(dog, update: true)
+database.addObjects(dogs, update: true)
+</code></pre>
+<a href='#a_name_syncretrievedata_retrieve_data_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_syncretrievedata_retrieve_data_a'><a name="syncRetrieveData">Retrieve data</a></h5>
+
+<p>Retrieve data with datatypes matching those of the type&rsquo;s properties
+<code>Swift
+/* Array of dictionaries representing `Dog` objects from the database */
+database.dataForType(Dog.self)
+database.dataForType(Dog.self, matchingFilters: [&quot;id&quot;: 1])
+</code><code>
+Dog data example
+</code><code>Swift
+[
+    &quot;id&quot;: 1,                // As an Int
+    &quot;name&quot;: &quot;Ghost&quot;,        // As a String
+    &quot;owner&quot;: &quot;John Snow&quot;,   // As a String
+    &quot;birth&quot;: August 6, 1996 // As an NSDate
+]
+</code>`</p>
+<a href='#a_name_syncretrieveobjects_retrieve_objects_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_syncretrieveobjects_retrieve_objects_a'><a name="syncRetrieveObjects">Retrieve objects</a></h5>
+
+<p>Retrieve objects with data from the database
+<code>Swift
+database.objectsForType(Dog.self)
+database.objectsForType(Dog.self, matchingFilters: [&quot;id&quot;: 1])
+</code>`</p>
+
+<blockquote>
+<p>In order to retrieve objects, Swift currently imposes some <a href="#howToRetrieveObjects">restictions on your classes</a></p>
+</blockquote>
+<a href='#a_name_syncdelete_delete_records_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_syncdelete_delete_records_a'><a name="syncDelete">Delete records</a></h5>
+<pre class="highlight plaintext"><code>database.deleteObjectsForType(Dog.self)
+database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
+</code></pre>
+<a href='#a_name_asyncaccess_asynchronous_access_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a_name_asyncaccess_asynchronous_access_a'><a name="asyncAccess">Asynchronous access</a></h4>
+<a href='#a_name_asyncaddorupdate_add_or_update_a_record_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_asyncaddorupdate_add_or_update_a_record_a'><a name="asyncAddOrUpdate">Add or update a record</a></h5>
+<pre class="highlight plaintext"><code>database.asyncAddObject(dog) { (result) -&gt; Void in
+    if let error = result.error {
+        // Handle error
+    }
+}
+</code></pre>
+<a href='#a_name_asyncretrievedata_retrieve_data_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_asyncretrievedata_retrieve_data_a'><a name="asyncRetrieveData">Retrieve data</a></h5>
+
+<p>Retrieve data with datatypes matching those of the type&rsquo;s properties
+<code>Swift
+database.asyncDataForType(Dog.self) { (result) -&gt; Void in
+    if let data = result.value {
+        // Process data
+    }
+}
+</code>`</p>
+<a href='#a_name_asyncretrieveobjects_retrieve_objects_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_asyncretrieveobjects_retrieve_objects_a'><a name="asyncRetrieveObjects">Retrieve objects</a></h5>
+
+<p>Retrieve data with datatypes matching those of the type&rsquo;s properties
+<code>Swift
+database.asyncObjectsForType(Dog.self) { (result) -&gt; Void in
+    if let objects = result.value {
+        // Handle objects
+    }
+}
+</code>`</p>
+
+<blockquote>
+<p>In order to retrieve objects, Swift currently imposes some <a href="#howToRetrieveObjects">restictions on your classes</a></p>
+</blockquote>
+<a href='#a_name_asyncdelete_delete_records_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_asyncdelete_delete_records_a'><a name="asyncDelete">Delete records</a></h5>
+<pre class="highlight plaintext"><code>database.asyncDeleteObjectsForType(Dog.self) { (result) -&gt; Void in
+    if let error = result.error {
+        // Handle error
+    }
+}
+</code></pre>
+<a href='#a_name_resultformat_result_format_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_resultformat_result_format_a'><a name="resultFormat">Result format</a></h3>
+
+<p>All queries returns the result as a <code>Result</code>. It will either be a <code>.Success</code> wrapping data from the query, or an <code>.Error</code> wrapping the thrown error.</p>
+<pre class="highlight plaintext"><code>enum Result&lt;A: Any&gt;: BooleanType {
+    case Success(A)
+    case Error(ErrorType)
+
+    var data: A?
+    var error: ErrorType?
+    var isSuccess: Bool
+    var boolValue: Bool {return isSuccess}
+}
+</code></pre>
+<a href='#a_name_handlingresults_handling_results_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a_name_handlingresults_handling_results_a'><a name="handlingResults">Handling results</a></h4>
+
+<p>The implementation of <code>Result</code> makes it a versatile tool that can (hopefully 😬) be adapted to your programming style</p>
+<a href='#a_name_handlingvalues_handling_values_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_handlingvalues_handling_values_a'><a name="handlingValues">Handling values</a></h5>
+
+<p>You can capture the data from a query with the <code>value</code> property. If an error was thrown, this property will be <code>nil</code>.</p>
+<pre class="highlight plaintext"><code>if let object = result.value {
+    // Process objects
+}
+</code></pre>
+<a href='#a_name_handlingerrors_handling_errors_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_handlingerrors_handling_errors_a'><a name="handlingErrors">Handling errors</a></h5>
+
+<p>You can detect an error like this
+<code>Swift
+if !database.addObject(dog) {
+    // An error occured
+}
+</code>
+or capture it using the <code>error</code> property like this</p>
+<pre class="highlight plaintext"><code>if let error = result.error {
+    // Process objects
+}
+</code></pre>
+
+<p>If you want to, you can even bring your sledgehammer and start cracking some nuts
+<code>Swift
+switch result {
+    case .Success(let value):
+        // Process value
+    case .Error(let error):
+        // Handle error
+}
+</code></p>
+<a href='#a_name_definingyourclasses_defining_your_classes_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_definingyourclasses_defining_your_classes_a'><a name="definingYourClasses">Defining your classes</a></h3>
+
+<p>Let&rsquo;s use this simple <code>Dog</code> class as an example</p>
+<pre class="highlight plaintext"><code>class Dog {
+    var id: Int?
+    var name: String?
+    var owner: String?
+    var birth: NSDate?
+}
+</code></pre>
+
+<p>All objects must conform to the <code>Storable</code> protocol.</p>
+<pre class="highlight plaintext"><code>public protocol Storable {
+    init()
+}
+</code></pre>
+
+<p>By adding the <code>Storable</code> protocol and implementing <code>init()</code>, you are already ready to go.</p>
+<pre class="highlight plaintext"><code>class Dog: Storable {
+    var id: Int?
+    var name: String?
+    var owner: String?
+    var birth: NSDate?
+
+    required init() {}
+}
+</code></pre>
+
+<blockquote>
+<p>SwiftyDB supports inheritance. Valid properties from both the class and the superclass will be stored automatically</p>
+</blockquote>
+<a href='#a_name_primarykeys_primary_keys_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_primarykeys_primary_keys_a'><a name="primaryKeys">Primary keys</a></h5>
+
+<p>It is recommended to implement the <code>PrimaryKeys</code> protocol. The <code>primaryKeys()</code> method should return a set of property names which uniquely identifies an object.</p>
+<pre class="highlight plaintext"><code>extension Dog: PrimaryKeys {
+    class func primaryKeys() -&gt; Set&lt;String&gt; {
+        return ["id"]
+    }
+}
+</code></pre>
+<a href='#a_name_ignoringproperties_ignoring_properties_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='a_name_ignoringproperties_ignoring_properties_a'><a name="ignoringProperties">Ignoring properties</a></h5>
+
+<p>If your class contains properties that you don&rsquo;t want in your database, you can implement the <code>IgnoredProperties</code> protocol.</p>
+<pre class="highlight plaintext"><code>extension Dog: IgnoredProperties {
+    class func ignoredProperties() -&gt; Set&lt;String&gt; {
+        return ["name"]
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>Properties with datatypes that are not part of the <code>SQLiteValue</code> protocol, as defined by <a href="https://github.com/Oyvindkg/tinysqlite/blob/master/Pod/Classes/DatabaseConnection.swift">TinySQLite</a>, will automatically be ignored by SwiftyDB</p>
+</blockquote>
+<a href='#a_name_howtoretrieveobjects_how_to_retrieve_objects_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_name_howtoretrieveobjects_how_to_retrieve_objects_a'><a name="howToRetrieveObjects">How to retrieve objects</a></h3>
+
+<p>SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of <code>NSObject</code>, and all property types must be representable in in Objective-C. This is because pure Swift currently does not support dynamic assignment of properties. </p>
+
+<p><strong>Dynamic property types</strong>
+- [x] <code>Int</code>
+- [x] <code>UInt</code>
+- [x] <code>Float</code>
+- [x] <code>Double</code>
+- [x] <code>Bool</code>
+- [x] <code>String</code> / <code>String?</code>
+- [x] <code>NSNumber</code> / <code>NSNumber?</code>
+- [x] <code>NSString</code> / <code>NSString?</code>
+- [x] <code>NSDate</code> / <code>NSDate?</code>
+- [x] <code>NSData</code> / <code>NSData?</code></p>
+
+<p>An updated Dog class that can be used to retrieve complete objects from the database:</p>
+<pre class="highlight plaintext"><code>class Dog: NSObject, Storable {
+    var id: NSNumber? // Notice that 'Int?' is not supported. Use NSNumber? instead
+    var name: String?
+    var owner: String?
+    var birth: NSDate?
+
+    override required init() {
+        super.init()
+    }
+}
+</code></pre>
+<a href='#a_name_installation_installation_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_installation_installation_a'><a name="installation">Installation</a></h2>
 
 <p>SwiftyDB is available through <a href="http://cocoapods.org">CocoaPods</a>. To install
 it, simply add the following line to your Podfile:</p>
@@ -81,14 +335,14 @@ it, simply add the following line to your Podfile:</p>
 <a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
 
 <p>Øyvind Grimnes, <a href="mailto:oyvindkg@yahoo.com">oyvindkg@yahoo.com</a></p>
-<a href='#a_name_license_license_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_license_license_a'>License</h2>
+<a href='#a_name_license_license_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a_name_license_license_a'><a name="License">License</a></h2>
 
 <p>SwiftyDB is available under the MIT license. See the LICENSE file for more info.</p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="http://oyvindkg.github.io/swiftydb/" target="_blank" rel="external">Øyvind Grimnes</a>. All rights reserved. (Last updated: 2016-01-15)</p>
+          <p>&copy; 2016 <a class="link" href="http://oyvindkg.github.io/swiftydb/" target="_blank" rel="external">Øyvind Grimnes</a>. All rights reserved. (Last updated: 2016-01-17)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
