@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.9.2](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.2) (01/18/2016)
+
+#### Changes
+* Now using `TinySQLite ~> 0.2.0`
+
+
 ## [0.9.1](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.1) (01/18/2016)
 
 #### Changes
