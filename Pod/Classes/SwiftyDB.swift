@@ -100,11 +100,12 @@ public class SwiftyDB {
                 createTableForTypeRepresentedByObject(objects.first!)
             }
             
+            let insertStatement = QueryHandler.insertStatementForType(S.self, update: update)
+            
             try databaseQueue.transaction { (database) -> Void in
                 for object in objects {
                     let validData   = self.dataFromObject(object)
-                    let query = QueryHandler.insertQueryForData(validData, forType: S.self, update: update)
-                    try database.executeUpdate(query)
+                    try database.executeUpdate(insertStatement, namedValues: validData)
                 }
             }
         } catch let error {

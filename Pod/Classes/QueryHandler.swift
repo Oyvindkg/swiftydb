@@ -55,15 +55,21 @@ internal class QueryHandler {
         return QueryGenerator.createTableQueryForTable(table)
     }
     
-    internal class func insertQueryForData(data: [String: SQLiteValue?], forType type: Storable.Type, update: Bool) -> Query {
-        let table = Table(tableNameForType(type))
-        table.onConflict(update ? .Replace : .Abort)
+    internal class func insertStatementForType(type: Storable.Type, update: Bool) -> String {
+        var statement = "INSERT OR " + (update ? "REPLACE" : "ABORT") + " INTO " + tableNameForType(type)
         
-        for (columnName, value) in data {
-            table.column(columnName).value(value)
-        }
+        let propertyData = PropertyData.validPropertyDataForObject(type.init())
         
-        return QueryGenerator.insertQueryForTable(table)
+        let columns = propertyData.map {$0.name!}
+        let namedParameters = columns.map {":" + $0}
+        
+        /* Columns to be inserted */
+        statement += " (" + columns.joinWithSeparator(", ") + ") "
+        
+        /* Values to be inserted */
+        statement += "VALUES (" + namedParameters.joinWithSeparator(", ") + ")"
+        
+        return statement
     }
     
     internal class func selectQueryForType(type: Storable.Type, matchingFilters filters: Filter?) -> Query {
