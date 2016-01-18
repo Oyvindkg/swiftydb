@@ -34,6 +34,6 @@ Pod::Spec.new do |s|
   }
 
 
-  s.dependency 'TinySQLite'
+  s.dependency 'TinySQLite', '~> 0.2.0'
   
 end
