@@ -16,22 +16,9 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 [Usage](#usage)<br />
 &emsp; [Access the database](#accessTheDatabase)<br />
 &emsp;&emsp; [Synchronous access](#syncAccess)<br />
-&emsp;&emsp;&emsp; [Add or update data](#syncAddOrUpdate)<br />
-&emsp;&emsp;&emsp; [Retrieve data](#syncRetrieveData)<br />
-&emsp;&emsp;&emsp; [Retrieve objects](#syncRetrieveObjects)<br />
-&emsp;&emsp;&emsp; [Delete data](#syncDelete)<br />
 &emsp;&emsp; [Aynchronous access](#asyncAccess)<br />
-&emsp;&emsp;&emsp; [Add or update data](#asyncAddOrUpdate)<br />
-&emsp;&emsp;&emsp; [Retrieve data](#asyncRetrieveData)<br />
-&emsp;&emsp;&emsp; [Retrieve objects](#asyncRetrieveObjects)<br />
-&emsp;&emsp;&emsp; [Delete data](#asyncDelete)<br />
 &emsp; [Result format](#resultFormat)<br />
-&emsp;&emsp;[Handling results](#handlingResults)<br />
-&emsp;&emsp;&emsp;[Handling values](#handlingValues)<br />
-&emsp;&emsp;&emsp;[Handling errors](#handlingErrors)<br />
 &emsp; [Filter results](#filterResults)<br />
-&emsp;&emsp;[Simple filters](#simpleFilters)<br />
-&emsp;&emsp;[Complex filters](#complexFilters)<br />
 &emsp; [Defining your classes](#definingYourClasses)<br />
 &emsp;&emsp; [Primary keys](#primaryKeys)<br />
 &emsp;&emsp; [Ignoring properties](#ignoringProperties)<br />
@@ -41,7 +28,6 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 
 ### <a name="features">Features</a>
 - [x] Creates and updates databases, tables, and records automatically
-- [x] Store any native Swift type
 - [x] Supports optional types
 - [x] Simple equality-based filtering
 - [x] Thread safe database operations
