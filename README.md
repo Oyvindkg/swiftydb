@@ -40,6 +40,7 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 [License](#license)
 
 ### <a name="features">Features</a>
+======
 - [x] Creates and updates databases, tables, and records automatically
 - [x] Store any native Swift type
 - [x] Supports optional types
@@ -105,6 +106,7 @@ database.deleteObjectsForType(Dog.self, matchingFilters: ["name": "Max"])
 ```
 
 #### <a name="asyncAccess">Asynchronous access</a>
+======
 
 ##### <a name="asyncAddOrUpdate">Add or update a record</a>
 ```Swift
@@ -149,6 +151,7 @@ database.asyncDeleteObjectsForType(Dog.self) { (result) -> Void in
 ```
 
 ### <a name="filterResults">Filter results</a>
+======
 
 `Filter` objects are used to filter queries. All filters are translated to SQLite before querying the database.
 
@@ -165,16 +168,6 @@ For more complex filters, you can instantiate a new `Filter` object, and define 
 
 ```Swift
 let filter = Filter.equal("name", value: "Ghost")
-filter.like("owner", pattern: "J_h%")
-filter.greaterThan("id", value: 3)
-
-database.objectsForType(Dog.self, matchingFilters: filter)
-```
-
-You can also chain your filters
-
-```Swift
-let filter = Filter.equal("name", value: "Ghost")
                    .like("owner", pattern: "J_h%")
                    .greaterThan("id", value: 3)
 
@@ -184,6 +177,8 @@ database.objectsForType(Dog.self, matchingFilters: filter)
 See all available filters in the [documentation](http://oyvindkg.github.io/swiftydb/docs/Classes/Filter.html).
 
 ### <a name="resultFormat">Result format</a>
+======
+
 All queries returns the result as a `Result`. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the thrown error.
 
 ```Swift
@@ -235,6 +230,8 @@ switch result {
 ```
 
 ### <a name="definingYourClasses">Defining your classes</a>
+======
+
 Let's use this simple `Dog` class as an example
 
 ```Swift
@@ -293,6 +290,7 @@ extension Dog: IgnoredProperties {
 > Properties with datatypes that are not part of the `SQLiteValue` protocol, as defined by [TinySQLite](https://github.com/Oyvindkg/tinysqlite/blob/master/Pod/Classes/DatabaseConnection.swift), will automatically be ignored by SwiftyDB
 
 ### <a name="howToRetrieveObjects">How to retrieve objects</a>
+======
 
 SwiftyDB can also retrieve complete objects with all properties assigned with data from the database. In order to achieve this, the type must be a subclass of `NSObject`, and all property types must be representable in in Objective-C. This is because pure Swift currently does not support dynamic assignment of properties. 
 
