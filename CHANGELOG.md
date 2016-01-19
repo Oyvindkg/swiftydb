@@ -2,10 +2,13 @@
 All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.9.4](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.4) (01/19/2016)
+
+## [0.9.4](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.4) (01/20/2016)
 
 #### Changes
 * Added `lessOrEqual`, and `greaterOrEqual` filters to `Filter`
+* New filter syntax for all database queries. `..matchingFilter: ..` instead of `..matchingFitlers: ..`
+
 
 ## [0.9.3](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.3) (01/19/2016)
 

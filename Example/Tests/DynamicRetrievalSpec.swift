@@ -49,7 +49,7 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
                 
                 database.addObject(dynamicObject)
                 
-                let retrievedDynamicObject = database.objectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": dynamicObject.primaryKey]).value!.first!
+                let retrievedDynamicObject = database.objectsForType(DynamicTestClass.self, matchingFilter: ["primaryKey": dynamicObject.primaryKey]).value!.first!
                 
                 it("should contain equal String values") {
                     expect(retrievedDynamicObject.string == dynamicObject.string).to(beTrue())

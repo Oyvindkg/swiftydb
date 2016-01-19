@@ -74,32 +74,32 @@ internal class StatementGenerator {
         return statement
     }
     
-    internal class func selectStatementForType(type: Storable.Type, matchingFilters filters: Filter?) -> String {
+    internal class func selectStatementForType(type: Storable.Type, matchingFilter filter: Filter?) -> String {
         
         let tableName =  tableNameForType(type)
         
         var statement = "SELECT ALL * FROM \(tableName)"
         
-        guard filters != nil else {
+        guard filter != nil else {
             return statement
         }
         
-        statement += " " + filters!.whereStatement()
+        statement += " " + filter!.whereStatement()
         
         return statement
     }
     
-    internal class func deleteStatementForType(type: Storable.Type, matchingFilters filters: Filter?) -> String {
+    internal class func deleteStatementForType(type: Storable.Type, matchingFilter filter: Filter?) -> String {
         
         let tableName =  tableNameForType(type)
         
         var statement = "DELETE FROM \(tableName)"
         
-        guard filters != nil else {
+        guard filter != nil else {
             return statement
         }
                 
-        statement += " \(filters!.whereStatement())"
+        statement += " \(filter!.whereStatement())"
         
         return statement
     }

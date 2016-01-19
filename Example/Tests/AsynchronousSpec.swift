@@ -50,7 +50,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                     database.addObject(object)
                     
                     var result: Result<[[String: SQLiteValue?]]>?
-                    database.asyncDataForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                    database.asyncDataForType(TestClass.self, matchingFilter: ["primaryKey": object.primaryKey]) { res in
                         result = res
                     }
                     
@@ -63,7 +63,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                     database.addObject(object)
                     
                     var result: Result<[DynamicTestClass]>?
-                    database.asyncObjectsForType(DynamicTestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                    database.asyncObjectsForType(DynamicTestClass.self, matchingFilter: ["primaryKey": object.primaryKey]) { res in
                         result = res
                     }
                     
@@ -80,7 +80,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                     database.addObject(object)
                     
                     var result: Result<Bool>?
-                    database.asyncDeleteObjectsForType(TestClass.self, matchingFilters: ["primaryKey": object.primaryKey]) { res in
+                    database.asyncDeleteObjectsForType(TestClass.self, matchingFilter: ["primaryKey": object.primaryKey]) { res in
                         result = res
                     }
                     

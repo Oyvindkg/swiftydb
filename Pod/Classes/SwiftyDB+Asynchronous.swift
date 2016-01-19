@@ -46,37 +46,37 @@ extension SwiftyDB {
     }
     
     /**
-     Asynchronous retrieval of data for a specified type, matching a set of filters, from the database
+     Asynchronous retrieval of data for a specified type, matching a filter, from the database
      
      - parameter filters:   dictionary containing the filters identifying objects to be retrieved
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
+    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil, withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
         
         dispatch_async(queue) { [weak self] () -> Void in
             guard self != nil else {
                 return
             }
             
-            completionHandler(self!.dataForType(type, matchingFilters: filters))
+            completionHandler(self!.dataForType(type, matchingFilter: filter))
         }
     }
     
     /**
-     Asynchronously remove objects of a specified type, matching a set of filters, from the database
+     Asynchronously remove objects of a specified type, matching a filter, from the database
      
      - parameter filters:   dictionary containing the filters identifying objects to be deleted
      - parameter type:      type of the objects to be deleted
      */
     
-    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
+    public func asyncDeleteObjectsForType (type: Storable.Type, matchingFilter filter: Filter? = nil, withCompletionHandler completionHandler: ((Result<Bool>)->Void)? = nil) {
         dispatch_async(queue) { [weak self] () -> Void in
             guard self != nil else {
                 return
             }
             
-            completionHandler?(self!.deleteObjectsForType(type, matchingFilters: filters))
+            completionHandler?(self!.deleteObjectsForType(type, matchingFilter: filter))
         }
     }
 }
@@ -92,10 +92,10 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: Filter? = nil, withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
+    public func asyncObjectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilter filter: Filter? = nil, withCompletionHandler completionHandler: ((Result<[D]>)->Void)) {
         
         dispatch_async(queue) { [unowned self] () -> Void in
-            completionHandler(self.objectsForType(type, matchingFilters: filters))
+            completionHandler(self.objectsForType(type, matchingFilter: filter))
         }
     }
 }

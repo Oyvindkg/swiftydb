@@ -136,25 +136,25 @@ public class SwiftyDB {
     }
     
     /**
-     Remove objects of a specified type, matching a set of filters, from the database
+     Remove objects of a specified type, matching a filter, from the database
      
-     - parameter filters:   dictionary containing the filters identifying objects to be deleted
+     - parameter filter:   `Filter` object containing the filters for the query
      - parameter type:      type of the objects to be deleted
      
      - returns:             Result type indicating the success of the query
      */
     
-    public func deleteObjectsForType (type: Storable.Type, matchingFilters filters: Filter? = nil) -> Result<Bool> {
+    public func deleteObjectsForType (type: Storable.Type, matchingFilter filter: Filter? = nil) -> Result<Bool> {
         do {
             guard try tableExistsForType(type) else {
                 return Result.Success(true)
             }
             
-            let deleteStatement = StatementGenerator.deleteStatementForType(type, matchingFilters: filters)
+            let deleteStatement = StatementGenerator.deleteStatementForType(type, matchingFilter: filter)
             
             try databaseQueue.database { (database) -> Void in
                 try database.prepare(deleteStatement)
-                            .executeUpdate(filters?.parameters() ?? [:])
+                            .executeUpdate(filter?.parameters() ?? [:])
                             .finalize()
             }
         } catch let error {
@@ -165,15 +165,15 @@ public class SwiftyDB {
     }
     
     /**
-     Get data for a specified type, matching a set of filters, from the database
+     Get data for a specified type, matching a filter, from the database
      
-     - parameter filters:   dictionary containing the filters identifying objects to be retrieved
+     - parameter filter:    `Filter` object containing the filters for the query
      - parameter type:      type of the objects for which to retrieve data
      
      - returns:             Result type wrapping an array with the dictionaries representing objects, or an error if unsuccessful
      */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilters filters: Filter? = nil) -> Result<[[String: SQLiteValue?]]> {
+    public func dataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil) -> Result<[[String: SQLiteValue?]]> {
         
         var results: [[String: SQLiteValue?]] = []
         do {
@@ -182,11 +182,11 @@ public class SwiftyDB {
             }
             
             /* Generate statement */
-            let query = StatementGenerator.selectStatementForType(type, matchingFilters: filters)
+            let query = StatementGenerator.selectStatementForType(type, matchingFilter: filter)
             
             try databaseQueue.database { (database) -> Void in
                 let statement = try! database.prepare(query)
-                                             .execute(filters?.parameters() ?? [:])
+                                             .execute(filter?.parameters() ?? [:])
                 
                 /* Create a dummy object used to extract property data */
                 let object = type.init()
@@ -367,16 +367,16 @@ extension SwiftyDB {
 // MARK: - Dynamic initialization
     
     /**
-     Get objects of a specified type, matching a set of filters, from the database
+     Get objects of a specified type, matching a filter, from the database
      
-     - parameter filters:   dictionary containing the filters identifying objects to be retrieved
+     - parameter filter:   `Filter` object containing the filters for the query
      - parameter type:      type of the objects to be retrieved
      
      - returns:             Result wrapping the objects, or an error, if unsuccessful
      */
     
-    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilters filters: Filter? = nil) -> Result<[D]> {
-        let dataResults = dataForType(D.self, matchingFilters: filters)
+    public func objectsForType <D where D: Storable, D: NSObject> (type: D.Type, matchingFilter filter: Filter? = nil) -> Result<[D]> {
+        let dataResults = dataForType(D.self, matchingFilter: filter)
         
         if !dataResults.isSuccess {
             return .Error(dataResults.error!)
