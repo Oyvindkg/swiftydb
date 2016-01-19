@@ -49,10 +49,11 @@ public class Filter: DictionaryLiteralConvertible {
         func statement() -> String {
             switch relationship {
             case .Equal, .NotEqual, .Greater, .Less, .Like, .NotLike:
-                return "\(propertyName) \(relationship.rawValue) ?"
+                return "\(propertyName) \(relationship.rawValue) :\(propertyName)"
             case .In, .NotIn:
                 let array = value as! [SQLiteValue?]
-                let placeholderString = Array<String>(count: array.count, repeatedValue: "?").joinWithSeparator(", ")
+                let placeholderString = (0..<array.count).map {":\(propertyName)\($0)"}.joinWithSeparator(", ")
+
                 return "\(propertyName) \(relationship.rawValue) (\(placeholderString))"
             }
         }
@@ -191,6 +192,29 @@ public class Filter: DictionaryLiteralConvertible {
     public func notLike(propertyName: String, pattern: String) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .NotLike, value: pattern))
         return self
+    }
+    
+// MARK: - Internal methods
+    
+    internal func whereStatement() -> String {
+        let statement = "WHERE " + self.map {$0.0}.joinWithSeparator(" AND ")
+        return statement
+    }
+    
+    internal func parameters() -> [String: SQLiteValue?] {
+        var parameters: [String: SQLiteValue?] = [:]
+        
+        for filterComponent in components {
+            if let arrayValue = filterComponent.value as? [SQLiteValue?] {
+                for (index, value) in arrayValue.enumerate() {
+                    parameters["\(filterComponent.propertyName)\(index)"] = value
+                }
+            } else {
+                parameters[filterComponent.propertyName] = filterComponent.value as? SQLiteValue
+            }
+        }
+        
+        return parameters
     }
 }
 
