@@ -28,7 +28,6 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 
 ### <a name="features">Features</a>
 - [x] Creates and updates databases, tables, and records automatically
-- [x] Store any native Swift type
 - [x] Supports optional types
 - [x] Simple equality-based filtering
 - [x] Thread safe database operations
