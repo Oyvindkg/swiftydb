@@ -56,7 +56,8 @@ public class Filter: DictionaryLiteralConvertible {
                 return "\(propertyName) \(relationship.rawValue) :\(propertyName)"
             case .In, .NotIn:
                 let array = value as! [SQLiteValue?]
-                let placeholderString = (0..<array.count).map {":\(propertyName)\($0)"}.joinWithSeparator(", ")
+                let placeholderString = (0..<array.count).map {":\(propertyName)\($0)"}
+                                                         .joinWithSeparator(", ")
 
                 return "\(propertyName) \(relationship.rawValue) (\(placeholderString))"
             }

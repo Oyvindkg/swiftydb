@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
-  s.version          = "0.9.3"
+  s.version          = "1.0.0"
   s.summary          = "Making SQLite databases a blast"
 
 # This description is used to generate tags and improve search results.
@@ -29,10 +29,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'SwiftyDB' => ['Pod/Assets/*.png']
-  }
-
 
   s.dependency 'TinySQLite', '~> 0.3.0'
   
