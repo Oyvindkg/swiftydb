@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
-  s.version          = "0.9.2"
+  s.version          = "0.9.3"
   s.summary          = "Making SQLite databases a blast"
 
 # This description is used to generate tags and improve search results.
@@ -34,6 +34,6 @@ Pod::Spec.new do |s|
   }
 
 
-  s.dependency 'TinySQLite', '~> 0.2.0'
+  s.dependency 'TinySQLite', '~> 0.3.0'
   
 end

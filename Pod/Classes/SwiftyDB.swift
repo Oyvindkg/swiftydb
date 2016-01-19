@@ -100,11 +100,19 @@ public class SwiftyDB {
                 createTableForTypeRepresentedByObject(objects.first!)
             }
             
+            let insertStatement = StatementGenerator.insertStatementForType(S.self, update: update)
+            
             try databaseQueue.transaction { (database) -> Void in
+                let statement = try database.prepare(insertStatement)
+                
+                defer {
+                    /* If an error occurs, try to finalize the statement */
+                    let _ = try? statement.finalize()
+                }
+                
                 for object in objects {
-                    let validData   = self.dataFromObject(object)
-                    let query = QueryHandler.insertQueryForData(validData, forType: S.self, update: update)
-                    try database.executeUpdate(query)
+                    let data   = self.dataFromObject(object)
+                    try statement.executeUpdate(data)
                 }
             }
         } catch let error {
@@ -120,7 +128,7 @@ public class SwiftyDB {
      - parameter object:        object to be added to the database
      - parameter moreObjects:   more objects to be added to the database
      
-     - returns:              Result type indicating the success of the query
+     - returns:                 Result type indicating the success of the query
      */
     
     public func addObjects <S: Storable> (object: S, _ moreObjects: S...) -> Result<Bool> {
@@ -142,10 +150,12 @@ public class SwiftyDB {
                 return Result.Success(true)
             }
             
-            let query = QueryHandler.deleteQueryForType(type, matchingFilters: filters)
+            let deleteStatement = StatementGenerator.deleteStatementForType(type, matchingFilters: filters)
             
             try databaseQueue.database { (database) -> Void in
-                try database.executeUpdate(query)
+                try database.prepare(deleteStatement)
+                            .executeUpdate(filters?.parameters() ?? [:])
+                            .finalize()
             }
         } catch let error {
             return .Error(error)
@@ -171,11 +181,12 @@ public class SwiftyDB {
                 return Result.Success([])
             }
             
-            /* Generate query */
-            let query = QueryHandler.selectQueryForType(type, matchingFilters: filters)
+            /* Generate statement */
+            let query = StatementGenerator.selectStatementForType(type, matchingFilters: filters)
             
             try databaseQueue.database { (database) -> Void in
-                let statement = try database.executeQuery(query)
+                let statement = try! database.prepare(query)
+                                             .execute(filters?.parameters() ?? [:])
                 
                 /* Create a dummy object used to extract property data */
                 let object = type.init()
@@ -184,6 +195,8 @@ public class SwiftyDB {
                 results = statement.map { row in
                     self.parsedDataForRow(row, forPropertyData: objectPropertyData)
                 }
+                
+                try statement.finalize()
             }
         } catch let error {
             return .Error(error)
@@ -208,11 +221,13 @@ public class SwiftyDB {
     
     private func createTableForTypeRepresentedByObject <S: Storable> (object: S) -> Result<Bool> {
         
-        let query = QueryHandler.createTableQueryForTypeRepresentedByObject(object)
+        let statement = StatementGenerator.createTableStatementForTypeRepresentedByObject(object)
         
         do {
             try databaseQueue.database({ (database) -> Void in
-                try database.executeUpdate(query)
+                try database.prepare(statement)
+                            .executeUpdate()
+                            .finalize()
             })
         } catch let error {
             return .Error(error)
