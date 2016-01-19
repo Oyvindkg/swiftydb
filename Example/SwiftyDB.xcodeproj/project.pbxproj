@@ -61,15 +61,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		395DD6DA1C4E3BCA00244F8C /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				3967B1CA1C4904580045D876 /* Result.swift */,
+				398E03761C2839FB003A868B /* PropertyData.swift */,
+				3955AEAE1C384E6100345785 /* StatementGenerator.swift */,
+			);
+			name = Internal;
+			sourceTree = "<group>";
+		};
 		398E03731C2839FB003A868B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				398E03751C2839FB003A868B /* SwiftyDB.swift */,
 				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
-				3967B1CA1C4904580045D876 /* Result.swift */,
-				398E03761C2839FB003A868B /* PropertyData.swift */,
-				3955AEAE1C384E6100345785 /* StatementGenerator.swift */,
 				39C1F2EE1C4B2C6E00399275 /* Filter.swift */,
+				395DD6DA1C4E3BCA00244F8C /* Internal */,
 			);
 			name = Classes;
 			path = ../Pod/Classes;

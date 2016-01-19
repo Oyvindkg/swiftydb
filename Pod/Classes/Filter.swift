@@ -197,7 +197,7 @@ public class Filter: DictionaryLiteralConvertible {
 // MARK: - Internal methods
     
     internal func whereStatement() -> String {
-        let statement = "WHERE " + self.map {$0.0}.joinWithSeparator(" AND ")
+        let statement = "WHERE " + self.components.map {$0.statement()}.joinWithSeparator(" AND ")
         return statement
     }
     
@@ -334,15 +334,5 @@ extension Filter {
      */
     public class func notLike(propertyName: String, pattern: String) -> Filter {
         return Filter().notLike(propertyName, pattern: pattern)
-    }
-}
-
-extension Filter: SequenceType {
-    
-// MARK: - SequenceType
-    
-    /** Generates a list of tuples containing statements and values from the filter components */
-    public func generate() -> IndexingGenerator<[(String, Any?)]> {
-        return self.components.map {($0.statement(), $0.value)}.generate()
     }
 }

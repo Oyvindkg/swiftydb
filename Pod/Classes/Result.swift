@@ -10,7 +10,7 @@ import Foundation
 /** Enum used to return the results of a query */
 public enum Result<A: Any>: BooleanType {
     
-    /** The result was successful. Contains any data returned */
+    /** The result was successful. Contains any data returned from the query */
     case Success(A)
     /** The result was unsuccessful. Contains an error message */
     case Error(ErrorType)

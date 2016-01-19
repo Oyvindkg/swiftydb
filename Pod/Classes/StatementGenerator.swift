@@ -8,7 +8,7 @@
 import Foundation
 import TinySQLite
 
-public enum SQLiteDatatype: String {
+internal enum SQLiteDatatype: String {
     case Text       = "TEXT"
     case Integer    = "INTEGER"
     case Real       = "REAL"

@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 #### Changes
 * Removed unnecessarily complex query generator
-* Performance boost using TinySQLite 0.3
+* Performance boost using `TinySQLite ~> 0.3.0`
+* `Filter` is no longer a `SequenceType`
 
 ## [0.9.2](https://github.com/Oyvindkg/swiftydb/releases/tag/0.9.2) (01/18/2016)
 
