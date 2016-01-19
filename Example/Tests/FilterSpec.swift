@@ -56,11 +56,25 @@ class FilterSpec: SwiftyDBSpec {
                     expect(countForFilter(Filter.lessThan("primaryKey", value: 1))) == 0
                 }
                 
+                it("should filter less or equal") {
+                    self.resetDatabase(database)
+                    
+                    expect(countForFilter(Filter.lessOrEqual("primaryKey", value: 3))) == 3
+                    expect(countForFilter(Filter.lessOrEqual("primaryKey", value: 1))) == 1
+                }
+                
                 it("should filter greater") {
                     self.resetDatabase(database)
                     
                     expect(countForFilter(Filter.greaterThan("primaryKey", value: 3))) == 0
                     expect(countForFilter(Filter.greaterThan("primaryKey", value: 1))) == 2
+                }
+                
+                it("should filter greater or equal") {
+                    self.resetDatabase(database)
+                    
+                    expect(countForFilter(Filter.greaterOrEqual("primaryKey", value: 3))) == 1
+                    expect(countForFilter(Filter.greaterOrEqual("primaryKey", value: 1))) == 3
                 }
                 
                 it("should filter contains") {

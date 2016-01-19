@@ -19,9 +19,11 @@ To make filtering easier, and backwards compatibility, it is possible to instant
  
 Return any objects with the name 'Ghost'
  
-```let filter: Filter = ["name": "Ghost"]```
+```
+let filter: Filter = ["name": "Ghost"]
 
-```let filter = Filter.equal("name", value: "Ghost")```
+let filter = Filter.equal("name", value: "Ghost")
+```
 */
 
 public class Filter: DictionaryLiteralConvertible {
@@ -30,14 +32,16 @@ public class Filter: DictionaryLiteralConvertible {
     
     
     private enum Relationship: String {
-        case Equal =    "="
-        case Less =     "<"
-        case Greater =  ">"
-        case NotEqual = "!="
-        case In =       "IN"
-        case NotIn =    "NOT IN"
-        case Like =     "LIKE"
-        case NotLike =  "NOT LIKE"
+        case Equal =            "="
+        case Less =             "<"
+        case Greater =          ">"
+        case NotEqual =         "!="
+        case In =               "IN"
+        case NotIn =            "NOT IN"
+        case Like =             "LIKE"
+        case NotLike =          "NOT LIKE"
+        case LessOrEqual =      "<="
+        case GreaterOrEqual =   ">="
     }
     
     /** Represent a part of the total filters (e.g. 'id = 2') */
@@ -48,7 +52,7 @@ public class Filter: DictionaryLiteralConvertible {
         
         func statement() -> String {
             switch relationship {
-            case .Equal, .NotEqual, .Greater, .Less, .Like, .NotLike:
+            case .Equal, .NotEqual, .Greater, .GreaterOrEqual, .Less, .LessOrEqual, .Like, .NotLike:
                 return "\(propertyName) \(relationship.rawValue) :\(propertyName)"
             case .In, .NotIn:
                 let array = value as! [SQLiteValue?]
@@ -102,8 +106,20 @@ public class Filter: DictionaryLiteralConvertible {
         return self
     }
     
-    /** Evaluated as true if the value of the property is greater than the provided value
+    /** Evaluated as true if the value of the property is less or equal to the provided value
     
+    - parameter propertyName:  name of the property to be evaluated
+    - parameter array:         value that will be compared to the property value
+     
+    - returns:                 `self`, to enable chaining of statements
+    */
+    public func lessOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+        components.append(FilterComponent(propertyName: propertyName, relationship: .LessOrEqual, value: value))
+        return self
+    }
+    
+    /** Evaluated as true if the value of the property is less than the provided value
+     
     - parameter propertyName:  name of the property to be evaluated
     - parameter array:         value that will be compared to the property value
      
@@ -111,6 +127,18 @@ public class Filter: DictionaryLiteralConvertible {
     */
     public func greaterThan(propertyName: String, value: SQLiteValue?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .Greater, value: value))
+        return self
+    }
+    
+    /** Evaluated as true if the value of the property is greater or equal to the provided value
+     
+    - parameter propertyName:  name of the property to be evaluated
+    - parameter array:         value that will be compared to the property value
+     
+    - returns:                 `self`, to enable chaining of statements
+    */
+    public func greaterOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+        components.append(FilterComponent(propertyName: propertyName, relationship: .GreaterOrEqual, value: value))
         return self
     }
     
@@ -246,6 +274,17 @@ extension Filter {
         return Filter().lessThan(propertyName, value: value)
     }
     
+    /** Evaluated as true if the value of the property is less or equal to the provided value
+     
+    - parameter propertyName:  name of the property to be evaluated
+    - parameter array:         value that will be compared to the property value
+     
+    - returns:                 `Filter` intance
+    */
+    public class func lessOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+        return Filter().lessOrEqual(propertyName, value: value)
+    }
+    
     /** 
     Evaluated as true if the value of the property is greater than the provided value
     
@@ -256,6 +295,18 @@ extension Filter {
     */
     public class func greaterThan(propertyName: String, value: SQLiteValue?) -> Filter {
         return Filter().greaterThan(propertyName, value: value)
+    }
+    
+    /**
+    Evaluated as true if the value of the property is greater or equal to the provided value
+     
+    - parameter propertyName:  name of the property to be evaluated
+    - parameter array:         value that will be compared to the property value
+     
+    - returns:                 `Filter` intance
+    */
+    public class func greaterOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+        return Filter().greaterOrEqual(propertyName, value: value)
     }
     
     /** 

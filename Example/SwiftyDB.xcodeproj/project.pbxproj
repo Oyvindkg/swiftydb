@@ -18,7 +18,6 @@
 		3967B1CB1C4904580045D876 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3967B1CA1C4904580045D876 /* Result.swift */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
 		398E037A1C2839FB003A868B /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03761C2839FB003A868B /* PropertyData.swift */; };
-		39C1F2ED1C4A84BC00399275 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 39C1F2EC1C4A84BC00399275 /* CHANGELOG.md */; };
 		39C1F2EF1C4B2C6E00399275 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1F2EE1C4B2C6E00399275 /* Filter.swift */; };
 		39E13E461C4C2E9300191DF3 /* FilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E13E451C4C2E9300191DF3 /* FilterSpec.swift */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
@@ -284,7 +283,6 @@
 				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
 				395202B71C46E20200BF5871 /* SwiftyDB+Asynchronous.swift in Sources */,
 				398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */,
-				39C1F2ED1C4A84BC00399275 /* CHANGELOG.md in Sources */,
 				398E037A1C2839FB003A868B /* PropertyData.swift in Sources */,
 				39E13E461C4C2E9300191DF3 /* FilterSpec.swift in Sources */,
 			);
