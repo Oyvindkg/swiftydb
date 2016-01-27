@@ -7,7 +7,6 @@
 
 import Foundation
 import TinySQLite
-
 internal enum SQLiteDatatype: String {
     case Text       = "TEXT"
     case Integer    = "INTEGER"
@@ -28,6 +27,8 @@ internal enum SQLiteDatatype: String {
             self.init(rawValue: "NUMERIC")
         case is String.Type, is NSString.Type, is Character.Type:
             self.init(rawValue: "TEXT")
+        case is NSArray.Type, is NSDictionary.Type:
+            self.init(rawValue: "BLOB")
         default:
             fatalError("DSADSASA")
         }
@@ -109,22 +110,5 @@ internal class StatementGenerator {
     /** Name of the table representing a class */
     private class func tableNameForType(type: Storable.Type) -> String {
         return String(type)
-    }
-    
-    private class func SQLiteDatatypeForBindingType(type: SQLiteValue.Type) -> SQLiteDatatype {
-        switch type {
-        case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is UInt64.Type, is Bool.Type:
-            return .Integer
-        case is Float.Type, is Double.Type, is NSDate.Type:
-            return .Real
-        case is NSNumber.Type:
-            return .Numeric
-        case is NSData.Type:
-            return .Blob
-        case is String.Type, is NSString.Type, is Character.Type:
-            return .Text
-        default:
-            fatalError("SQLiteValue type \(type) is not configured")
-        }
     }
 }

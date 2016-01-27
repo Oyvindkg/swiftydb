@@ -20,6 +20,9 @@ class DynamicTestClass: NSObject, Storable {
     var optionalNumber: NSNumber?
     var optionalData: NSData?
     
+    var optionalArray: NSArray?
+    var optionalDictionary: NSDictionary?
+    
     /* Not null properties */
     var string: String      = "string"
     var nsstring: NSString  = "nsstring"
@@ -36,6 +39,8 @@ class DynamicTestClass: NSObject, Storable {
     var float: Float        = 1
     var double: Double      = 1
     
+    var array: NSArray = ["1","2"]
+    var dictionary = ["1":1,"2":2]
     override required init() {
         super.init()
     }

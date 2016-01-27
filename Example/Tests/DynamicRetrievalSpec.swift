@@ -28,6 +28,10 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
             dynamicObject.bool = true
             dynamicObject.float = 123
             dynamicObject.double = 123
+            dynamicObject.array = ["1"]
+            dynamicObject.dictionary = ["1":1]
+            dynamicObject.optionalArray = [1]
+//            dynamicObject.optionalDictionary = ["1":12]
             
             context("is successful when") {
                 let database = SwiftyDB(databaseName: "test_database")
@@ -80,6 +84,18 @@ class DynamicRetrievalSpec: SwiftyDBSpec {
                 }
                 it("should contain equal NSData values") {
                     expect(retrievedDynamicObject.data.isEqualToData(dynamicObject.data)).to(beTrue())
+                }
+                it("should contain equal NSArray values") {
+                    expect(retrievedDynamicObject.array == dynamicObject.array).to(beTrue())
+                }
+                it("should contain equal optional NSArray values") {
+                    expect(retrievedDynamicObject.optionalArray == dynamicObject.optionalArray).to(beTrue())
+                }
+                it("should contain equal NSDictionary values") {
+                     expect(retrievedDynamicObject.dictionary == dynamicObject.dictionary).to(beTrue())
+                }
+                it("should contain equal optional NSDictionary values") {
+                    expect(retrievedDynamicObject.optionalDictionary == dynamicObject.optionalDictionary).to(beTrue())
                 }
             }
         }

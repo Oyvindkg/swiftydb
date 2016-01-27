@@ -36,6 +36,12 @@ internal struct PropertyData {
     
     internal func typeForMirror(mirror: Mirror) -> SQLiteValue.Type? {
         if !isOptional {
+            if mirror.displayStyle == .Collection {
+                return NSArray.self
+            }
+            if mirror.displayStyle == .Dictionary {
+                return NSDictionary.self
+            }
             return mirror.subjectType as? SQLiteValue.Type
         }
         
@@ -66,6 +72,10 @@ internal struct PropertyData {
             
         case is Optional<Float>.Type:       return Float.self
         case is Optional<Double>.Type:      return Double.self
+            
+        case is Optional<NSArray>.Type:     return NSArray.self
+        case is Optional<NSDictionary>.Type: return NSDictionary.self
+
         default:                            return nil
         }
     }
@@ -81,13 +91,24 @@ internal struct PropertyData {
     internal func unwrap(value: Any) -> Any? {
         let mirror = Mirror(reflecting: value)
         
+        if mirror.displayStyle == .Collection {
+            return NSKeyedArchiver.archivedDataWithRootObject(value as! NSArray)
+        }
+        if mirror.displayStyle == .Dictionary {
+            return NSKeyedArchiver.archivedDataWithRootObject(value as! NSDictionary)
+        }
+
         /* Raw value */
         if mirror.displayStyle != .Optional {
             return value
         }
         
         /* The encapsulated optional value if not nil, otherwise nil */
-        return mirror.children.first?.value
+        if let value = mirror.children.first?.value {
+            return unwrap(value)
+        }else{
+            return nil
+        }
     }
 }
 
