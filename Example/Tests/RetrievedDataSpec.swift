@@ -88,6 +88,14 @@ class RetrievedDataSpec: SwiftyDBSpec {
                 it("should return Double") {
                     expect(data["double"] is Double).to(beTrue())
                 }
+            
+                it("should return NSArray") {
+                    expect(data["array"]! is NSArray).to(beTrue())
+                }
+                
+                it("should return NSDictionary") {
+                    expect(data["dictionary"]! is NSDictionary).to(beTrue())
+                }
             }
         }
     }

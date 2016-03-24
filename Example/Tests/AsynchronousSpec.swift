@@ -49,7 +49,7 @@ class AsynchronousSpec: SwiftyDBSpec {
                     let object = TestClass()
                     database.addObject(object)
                     
-                    var result: Result<[[String: SQLiteValue?]]>?
+                    var result: Result<[[String: Value?]]>?
                     database.asyncDataForType(TestClass.self, matchingFilter: ["primaryKey": object.primaryKey]) { res in
                         result = res
                     }

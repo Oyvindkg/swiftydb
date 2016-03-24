@@ -16,9 +16,9 @@ import TinySQLite
 internal struct PropertyData {
     
     internal let isOptional: Bool
-    internal var type:       SQLiteValue.Type?  = nil
+    internal var type:       Value.Type?  = nil
     internal var name:       String?
-    internal var value:      SQLiteValue?               = nil
+    internal var value:      Value?               = nil
     
     internal var isValid: Bool {
         return type != nil && name != nil
@@ -29,12 +29,12 @@ internal struct PropertyData {
         
         let mirror = Mirror(reflecting: property.value)
         isOptional = mirror.displayStyle == .Optional
-        value = unwrap(property.value) as? SQLiteValue
+        value = unwrap(property.value) as? Value
         
         type = typeForMirror(mirror)
     }
     
-    internal func typeForMirror(mirror: Mirror) -> SQLiteValue.Type? {
+    internal func typeForMirror(mirror: Mirror) -> Value.Type? {
         if !isOptional {
             if mirror.displayStyle == .Collection {
                 return NSArray.self
@@ -42,7 +42,7 @@ internal struct PropertyData {
             if mirror.displayStyle == .Dictionary {
                 return NSDictionary.self
             }
-            return mirror.subjectType as? SQLiteValue.Type
+            return mirror.subjectType as? Value.Type
         }
         
         // TODO: Find a better way to unwrap optional types

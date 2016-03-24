@@ -9,6 +9,35 @@
 import Foundation
 import TinySQLite
 
+public protocol Value {}
+extension NSArray: Value {}
+extension NSDictionary: Value {}
+
+extension String: Value {}
+extension NSString: Value {}
+extension Character: Value {}
+
+extension Bool: Value {}
+
+extension Int: Value {}
+extension Int8: Value {}
+extension Int16: Value {}
+extension Int32: Value {}
+extension Int64: Value {}
+extension UInt: Value {}
+extension UInt8: Value {}
+extension UInt16: Value {}
+extension UInt32: Value {}
+extension UInt64: Value {}
+
+extension Float: Value {}
+extension Double: Value {}
+
+extension NSData: Value {}
+extension NSDate: Value {}
+extension NSNumber: Value {}
+
+
 /** All objects in the database must conform to the 'Storable' protocol */
 public protocol Storable {
     /** Used to initialize an object to get information about its properties */
@@ -48,7 +77,6 @@ public class SwiftyDB {
     /** A cache containing existing table names */
     private var existingTables: Set<String> = []
     
-//    MARK: -
     
     /**
     Creates a new instance of SwiftyDB using a database in the documents directory. If the database does not exist, it will be created.
@@ -111,8 +139,8 @@ public class SwiftyDB {
                 }
                 
                 for object in objects {
-                    let data   = self.dataFromObject(object)
-                    try statement.executeUpdate(data)
+                    let data = self.dataFromObject(object)
+                    try statement.executeUpdate(data as! [String: SQLiteValue?])
                 }
             }
         } catch let error {
@@ -173,9 +201,9 @@ public class SwiftyDB {
      - returns:             Result type wrapping an array with the dictionaries representing objects, or an error if unsuccessful
      */
     
-    public func dataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil) -> Result<[[String: SQLiteValue?]]> {
+    public func dataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil) -> Result<[[String: Value?]]> {
         
-        var results: [[String: SQLiteValue?]] = []
+        var results: [[String: Value?]] = []
         do {
             guard try tableExistsForType(type) else {
                 return Result.Success([])
@@ -185,8 +213,9 @@ public class SwiftyDB {
             let query = StatementGenerator.selectStatementForType(type, matchingFilter: filter)
             
             try databaseQueue.database { (database) -> Void in
+                let parameters = filter?.parameters() ?? [:]
                 let statement = try! database.prepare(query)
-                                             .execute(filter?.parameters() ?? [:])
+                    .execute(parameters)
                 
                 /* Create a dummy object used to extract property data */
                 let object = type.init()
@@ -250,7 +279,7 @@ public class SwiftyDB {
         var dictionary: [String: SQLiteValue?] = [:]
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
-            dictionary[propertyData.name!] = propertyData.value
+            dictionary[propertyData.name!] = propertyData.value as? SQLiteValue
         }
         
         return dictionary
@@ -306,8 +335,8 @@ public class SwiftyDB {
      - returns:                 dictionary containing data of types matching the properties of the target type
      */
     
-    private func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: SQLiteValue?] {
-        var rowData: [String: SQLiteValue?] = [:]
+    private func parsedDataForRow(row: Statement, forPropertyData propertyData: [PropertyData]) -> [String: Value?] {
+        var rowData: [String: Value?] = [:]
         
         for propertyData in propertyData {
             rowData[propertyData.name!] = valueForProperty(propertyData, inRow: row)
@@ -325,35 +354,35 @@ public class SwiftyDB {
      - returns:                 optional value for the property
      */
     
-    private func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> SQLiteValue? {
+    private func valueForProperty(propertyData: PropertyData, inRow row: Statement) -> Value? {
         if row.typeForColumn(propertyData.name!) == .Null {
             return nil
         }
         
         switch propertyData.type {
-        case is NSDate.Type:    return row.dateForColumn(propertyData.name!)
-        case is NSData.Type:    return row.dataForColumn(propertyData.name!)
-        case is NSNumber.Type:  return row.numberForColumn(propertyData.name!)
+        case is NSDate.Type:    return row.dateForColumn(propertyData.name!) as? Value
+        case is NSData.Type:    return row.dataForColumn(propertyData.name!) as? Value
+        case is NSNumber.Type:  return row.numberForColumn(propertyData.name!) as? Value
             
-        case is String.Type:    return row.stringForColumn(propertyData.name!)
-        case is NSString.Type:  return row.nsstringForColumn(propertyData.name!)
-        case is Character.Type: return row.characterForColumn(propertyData.name!)
+        case is String.Type:    return row.stringForColumn(propertyData.name!) as? Value
+        case is NSString.Type:  return row.nsstringForColumn(propertyData.name!) as? Value
+        case is Character.Type: return row.characterForColumn(propertyData.name!) as? Value
             
-        case is Double.Type:    return row.doubleForColumn(propertyData.name!)
-        case is Float.Type:     return row.floatForColumn(propertyData.name!)
+        case is Double.Type:    return row.doubleForColumn(propertyData.name!) as? Value
+        case is Float.Type:     return row.floatForColumn(propertyData.name!) as? Value
             
-        case is Int.Type:       return row.integerForColumn(propertyData.name!)
-        case is Int8.Type:      return row.integer8ForColumn(propertyData.name!)
-        case is Int16.Type:     return row.integer16ForColumn(propertyData.name!)
-        case is Int32.Type:     return row.integer32ForColumn(propertyData.name!)
-        case is Int64.Type:     return row.integer64ForColumn(propertyData.name!)
-        case is UInt.Type:      return row.unsignedIntegerForColumn(propertyData.name!)
-        case is UInt8.Type:     return row.unsignedInteger8ForColumn(propertyData.name!)
-        case is UInt16.Type:    return row.unsignedInteger16ForColumn(propertyData.name!)
-        case is UInt32.Type:    return row.unsignedInteger32ForColumn(propertyData.name!)
-        case is UInt64.Type:    return row.unsignedInteger64ForColumn(propertyData.name!)
+        case is Int.Type:       return row.integerForColumn(propertyData.name!) as? Value
+        case is Int8.Type:      return row.integer8ForColumn(propertyData.name!) as? Value
+        case is Int16.Type:     return row.integer16ForColumn(propertyData.name!) as? Value
+        case is Int32.Type:     return row.integer32ForColumn(propertyData.name!) as? Value
+        case is Int64.Type:     return row.integer64ForColumn(propertyData.name!) as? Value
+        case is UInt.Type:      return row.unsignedIntegerForColumn(propertyData.name!) as? Value
+        case is UInt8.Type:     return row.unsignedInteger8ForColumn(propertyData.name!) as? Value
+        case is UInt16.Type:    return row.unsignedInteger16ForColumn(propertyData.name!) as? Value
+        case is UInt32.Type:    return row.unsignedInteger32ForColumn(propertyData.name!) as? Value
+        case is UInt64.Type:    return row.unsignedInteger64ForColumn(propertyData.name!) as? Value
             
-        case is Bool.Type:      return row.boolForColumn(propertyData.name!)
+        case is Bool.Type:      return row.boolForColumn(propertyData.name!) as? Value
             
         case is NSArray.Type:
             return NSKeyedUnarchiver.unarchiveObjectWithData(row.dataForColumn(propertyData.name!)!) as? NSArray
@@ -404,7 +433,7 @@ extension SwiftyDB {
      - returns:          object of the provided type populated with the provided data
      */
     
-    private func objectWithData <D where D: Storable, D: NSObject> (data: [String: SQLiteValue?], forType type: D.Type) -> D {
+    private func objectWithData <D where D: Storable, D: NSObject> (data: [String: Value?], forType type: D.Type) -> D {
         let object = (type as NSObject.Type).init() as! D
         
         var validData: [String: AnyObject] = [:]

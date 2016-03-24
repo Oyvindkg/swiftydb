@@ -52,7 +52,7 @@ extension SwiftyDB {
      - parameter type:      type of the objects to be retrieved
     */
     
-    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil, withCompletionHandler completionHandler: ((Result<[[String: SQLiteValue?]]>)->Void)) {
+    public func asyncDataForType <S: Storable> (type: S.Type, matchingFilter filter: Filter? = nil, withCompletionHandler completionHandler: ((Result<[[String: Value?]]>)->Void)) {
         
         dispatch_async(queue) { [weak self] () -> Void in
             guard self != nil else {

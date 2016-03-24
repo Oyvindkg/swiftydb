@@ -28,7 +28,8 @@ let filter = Filter.equal("name", value: "Ghost")
 
 public class Filter: DictionaryLiteralConvertible {
     public typealias Key = String
-    public typealias Value = SQLiteValue?
+//    Already satisified by the original SwiftyDB Value protocol
+//    public typealias Value = Value;
     
     
     private enum Relationship: String {
@@ -55,7 +56,7 @@ public class Filter: DictionaryLiteralConvertible {
             case .Equal, .NotEqual, .Greater, .GreaterOrEqual, .Less, .LessOrEqual, .Like, .NotLike:
                 return "\(propertyName) \(relationship.rawValue) :\(propertyName)"
             case .In, .NotIn:
-                let array = value as! [SQLiteValue?]
+                let array = value as! [Value?]
                 let placeholderString = (0..<array.count).map {":\(propertyName)\($0)"}
                                                          .joinWithSeparator(", ")
 
@@ -90,7 +91,7 @@ public class Filter: DictionaryLiteralConvertible {
     - returns:                 `self`, to enable chaining of statements
     */
     
-    public func equal(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func equal(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .Equal, value: value))
         return self
     }
@@ -102,7 +103,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func lessThan(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func lessThan(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .Less, value: value))
         return self
     }
@@ -114,7 +115,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func lessOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func lessOrEqual(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .LessOrEqual, value: value))
         return self
     }
@@ -126,7 +127,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func greaterThan(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func greaterThan(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .Greater, value: value))
         return self
     }
@@ -138,7 +139,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func greaterOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func greaterOrEqual(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .GreaterOrEqual, value: value))
         return self
     }
@@ -150,7 +151,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func notEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public func notEqual(propertyName: String, value: Value?) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .NotEqual, value: value))
         return self
     }
@@ -162,7 +163,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func contains(propertyName: String, array: [SQLiteValue?]) -> Filter {
+    public func contains(propertyName: String, array: [Value?]) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .In, value: array))
         return self
     }
@@ -174,7 +175,7 @@ public class Filter: DictionaryLiteralConvertible {
      
     - returns:                 `self`, to enable chaining of statements
     */
-    public func notContains(propertyName: String, array: [SQLiteValue?]) -> Filter {
+    public func notContains(propertyName: String, array: [Value?]) -> Filter {
         components.append(FilterComponent(propertyName: propertyName, relationship: .NotIn, value: array))
         return self
     }
@@ -234,9 +235,9 @@ public class Filter: DictionaryLiteralConvertible {
         var parameters: [String: SQLiteValue?] = [:]
         
         for filterComponent in components {
-            if let arrayValue = filterComponent.value as? [SQLiteValue?] {
+            if let arrayValue = filterComponent.value as? [Value?] {
                 for (index, value) in arrayValue.enumerate() {
-                    parameters["\(filterComponent.propertyName)\(index)"] = value
+                    parameters["\(filterComponent.propertyName)\(index)"] = value as? SQLiteValue
                 }
             } else {
                 parameters[filterComponent.propertyName] = filterComponent.value as? SQLiteValue
@@ -260,7 +261,7 @@ extension Filter {
     - returns:                  `Filter` intance
     */
     
-    public class func equal(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func equal(propertyName: String, value: Value?) -> Filter {
         return Filter().equal(propertyName, value: value)
     }
     
@@ -271,7 +272,7 @@ extension Filter {
     
     - returns:                 `Filter` intance
     */
-    public class func lessThan(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func lessThan(propertyName: String, value: Value?) -> Filter {
         return Filter().lessThan(propertyName, value: value)
     }
     
@@ -282,7 +283,7 @@ extension Filter {
      
     - returns:                 `Filter` intance
     */
-    public class func lessOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func lessOrEqual(propertyName: String, value: Value?) -> Filter {
         return Filter().lessOrEqual(propertyName, value: value)
     }
     
@@ -294,7 +295,7 @@ extension Filter {
     
     - returns:                 `Filter` intance
     */
-    public class func greaterThan(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func greaterThan(propertyName: String, value: Value?) -> Filter {
         return Filter().greaterThan(propertyName, value: value)
     }
     
@@ -306,7 +307,7 @@ extension Filter {
      
     - returns:                 `Filter` intance
     */
-    public class func greaterOrEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func greaterOrEqual(propertyName: String, value: Value?) -> Filter {
         return Filter().greaterOrEqual(propertyName, value: value)
     }
     
@@ -318,7 +319,7 @@ extension Filter {
     
     - returns:                 `Filter` intance
     */
-    public class func notEqual(propertyName: String, value: SQLiteValue?) -> Filter {
+    public class func notEqual(propertyName: String, value: Value?) -> Filter {
         return Filter().notEqual(propertyName, value: value)
     }
     
@@ -330,7 +331,7 @@ extension Filter {
     
     - returns:                 `Filter` intance
     */
-    public class func contains(propertyName: String, array: [SQLiteValue?]) -> Filter {
+    public class func contains(propertyName: String, array: [Value?]) -> Filter {
         return Filter().contains(propertyName, array: array)
     }
     
@@ -342,7 +343,7 @@ extension Filter {
      
     - returns:                 `Filter` intance
     */
-    public class func notContains(propertyName: String, array: [SQLiteValue?]) -> Filter {
+    public class func notContains(propertyName: String, array: [Value?]) -> Filter {
         return Filter().notContains(propertyName, array: array)
     }
     

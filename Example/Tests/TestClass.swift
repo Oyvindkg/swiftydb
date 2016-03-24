@@ -107,6 +107,11 @@ class TestClass: Storable {
     var float: Float        = 1
     var double: Double      = 1
     
+    var array: NSArray = ["1","2"]
+    var optionalArray: NSArray? = ["1","2"]
+    var dictionary: NSDictionary = ["1":1,"2":2]
+    var optionalDictionary: NSDictionary? = ["1":1,"2":2]
+    
     required init() {}
 }
 

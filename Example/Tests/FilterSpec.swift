@@ -8,7 +8,6 @@
 import Quick
 import Nimble
 import SwiftyDB
-import TinySQLite
 
 class FilterSpec: SwiftyDBSpec {
     

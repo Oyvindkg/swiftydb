@@ -15,7 +15,7 @@ internal enum SQLiteDatatype: String {
     case Numeric    = "NUMERIC"
     case Null       = "NULL"
     
-    init?(type: SQLiteValue.Type) {
+    init?(type: Value.Type) {
         switch type {
         case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is UInt64.Type, is Bool.Type:
             self.init(rawValue: "INTEGER")

@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
 
+### [1.1.0](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.0) (03/24/2016)
+
+#### Changes
+* Support for NSArrays and NSDictionaries (thanks to wangjinbian)
+* Now using the new Value protocol instead of SQLiteValue
+
 ## [1.0.0](https://github.com/Oyvindkg/swiftydb/releases/tag/1.0.0) (01/19/2016)
 
 #### Changes
