@@ -355,6 +355,12 @@ public class SwiftyDB {
             
         case is Bool.Type:      return row.boolForColumn(propertyData.name!)
             
+        case is NSArray.Type:
+            return NSKeyedUnarchiver.unarchiveObjectWithData(row.dataForColumn(propertyData.name!)!) as? NSArray
+        case is NSDictionary.Type:
+            return NSKeyedUnarchiver.unarchiveObjectWithData(row.dataForColumn(propertyData.name!)!) as? NSDictionary
+        
+            
         default:                return nil
         }
     }
