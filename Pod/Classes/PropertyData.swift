@@ -6,11 +6,8 @@
 //
 
 import Foundation
-import TinySQLite
 
-/*
-
-
+/**
 */
 
 internal struct PropertyData {
@@ -18,7 +15,7 @@ internal struct PropertyData {
     internal let isOptional: Bool
     internal var type:       Value.Type?  = nil
     internal var name:       String?
-    internal var value:      Value?               = nil
+    internal var value:      Value?       = nil
     
     internal var isValid: Bool {
         return type != nil && name != nil
@@ -130,11 +127,8 @@ extension PropertyData {
         }
         
         /* Map children to property data and filter out ignored or invalid properties */
-        propertyData += mirror.children.map {
-                PropertyData(property: $0)
-            }.filter({
-                $0.isValid && !ignoredProperties.contains($0.name!)
-            })
+        propertyData += mirror.children.map { PropertyData(property: $0) }
+                                       .filter { $0.isValid && !ignoredProperties.contains($0.name!) }
         
         return propertyData
     }

@@ -18,6 +18,7 @@
 		3967B1CB1C4904580045D876 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3967B1CA1C4904580045D876 /* Result.swift */; };
 		398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03751C2839FB003A868B /* SwiftyDB.swift */; };
 		398E037A1C2839FB003A868B /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398E03761C2839FB003A868B /* PropertyData.swift */; };
+		399A20D71CA435210010AD4F /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399A20D61CA435210010AD4F /* Value.swift */; };
 		39C1F2EF1C4B2C6E00399275 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C1F2EE1C4B2C6E00399275 /* Filter.swift */; };
 		39E13E461C4C2E9300191DF3 /* FilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E13E451C4C2E9300191DF3 /* FilterSpec.swift */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
@@ -35,6 +36,7 @@
 		3967B1CA1C4904580045D876 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		398E03751C2839FB003A868B /* SwiftyDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyDB.swift; sourceTree = "<group>"; };
 		398E03761C2839FB003A868B /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
+		399A20D61CA435210010AD4F /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		39C1F2EC1C4A84BC00399275 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		39C1F2EE1C4B2C6E00399275 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		39E13E451C4C2E9300191DF3 /* FilterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSpec.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				398E03751C2839FB003A868B /* SwiftyDB.swift */,
 				395202B61C46E20200BF5871 /* SwiftyDB+Asynchronous.swift */,
 				39C1F2EE1C4B2C6E00399275 /* Filter.swift */,
+				399A20D61CA435210010AD4F /* Value.swift */,
 				395DD6DA1C4E3BCA00244F8C /* Internal */,
 			);
 			name = Classes;
@@ -281,6 +284,7 @@
 				39C1F2EF1C4B2C6E00399275 /* Filter.swift in Sources */,
 				3955AEAF1C384E6100345785 /* StatementGenerator.swift in Sources */,
 				394326F11C42DF2C0093594B /* TestClass.swift in Sources */,
+				399A20D71CA435210010AD4F /* Value.swift in Sources */,
 				395202B71C46E20200BF5871 /* SwiftyDB+Asynchronous.swift in Sources */,
 				398E03791C2839FB003A868B /* SwiftyDB.swift in Sources */,
 				398E037A1C2839FB003A868B /* PropertyData.swift in Sources */,
