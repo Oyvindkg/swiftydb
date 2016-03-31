@@ -57,6 +57,9 @@
               <li class="nav-group-task">
                 <a href="../Protocols/Storable.html">Storable</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/s:P8SwiftyDB5Value">Value</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -80,9 +83,10 @@ All filters are automatically converted into SQLite statements when querying the
 
 <p>Return any objects with the name &lsquo;Ghost&rsquo;</p>
 
-<p><code>let filter: Filter = [&quot;name&quot;: &quot;Ghost&quot;]</code></p>
+<pre class="highlight plaintext"><code>let filter: Filter = ["name": "Ghost"]
 
-<p><code>let filter = Filter.equal(&quot;name&quot;, value: &quot;Ghost&quot;)</code></p>
+let filter = Filter.equal("name", value: "Ghost")
+</code></pre>
 
           </section>
           <section class="section task-group-section">
@@ -98,9 +102,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6FiltercFMS0_Ft17dictionaryLiteralGSaTSSGSqP10TinySQLite11SQLiteValue_____S0_"></a>
+                    <a name="/s:FC8SwiftyDB6FiltercFMS0_Ft17dictionaryLiteralGSaTSSPS_5Value____S0_"></a>
                     <a name="//apple_ref/swift/Method/init(dictionaryLiteral:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6FiltercFMS0_Ft17dictionaryLiteralGSaTSSGSqP10TinySQLite11SQLiteValue_____S0_">init(dictionaryLiteral:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6FiltercFMS0_Ft17dictionaryLiteralGSaTSSPS_5Value____S0_">init(dictionaryLiteral:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -163,9 +167,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter5equalFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:FC8SwiftyDB6Filter5equalFS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/equal(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter5equalFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">equal(_:value:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter5equalFS0_FTSS5valueGSqPS_5Value___S0_">equal(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -180,7 +184,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">equal</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">equal</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -228,9 +232,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter8lessThanFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:FC8SwiftyDB6Filter8lessThanFS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/lessThan(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter8lessThanFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">lessThan(_:value:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter8lessThanFS0_FTSS5valueGSqPS_5Value___S0_">lessThan(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -245,7 +249,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">lessThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">lessThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -293,9 +297,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter11greaterThanFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
-                    <a name="//apple_ref/swift/Method/greaterThan(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter11greaterThanFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">greaterThan(_:value:)</a>
+                    <a name="/s:FC8SwiftyDB6Filter11lessOrEqualFS0_FTSS5valueGSqPS_5Value___S0_"></a>
+                    <a name="//apple_ref/swift/Method/lessOrEqual(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter11lessOrEqualFS0_FTSS5valueGSqPS_5Value___S0_">lessOrEqual(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -303,14 +307,14 @@ All filters are automatically converted into SQLite statements when querying the
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Evaluated as true if the value of the property is greater than the provided value</p>
+                        <p>Evaluated as true if the value of the property is less or equal to the provided value</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">greaterThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">lessOrEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -358,9 +362,139 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter8notEqualFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:FC8SwiftyDB6Filter11greaterThanFS0_FTSS5valueGSqPS_5Value___S0_"></a>
+                    <a name="//apple_ref/swift/Method/greaterThan(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter11greaterThanFS0_FTSS5valueGSqPS_5Value___S0_">greaterThan(_:value:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Evaluated as true if the value of the property is less than the provided value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">greaterThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>propertyName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the property to be evaluated</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value that will be compared to the property value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>self</code>, to enable chaining of statements</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB6Filter14greaterOrEqualFS0_FTSS5valueGSqPS_5Value___S0_"></a>
+                    <a name="//apple_ref/swift/Method/greaterOrEqual(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter14greaterOrEqualFS0_FTSS5valueGSqPS_5Value___S0_">greaterOrEqual(_:value:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Evaluated as true if the value of the property is greater or equal to the provided value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">greaterOrEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>propertyName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the property to be evaluated</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value that will be compared to the property value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>self</code>, to enable chaining of statements</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC8SwiftyDB6Filter8notEqualFS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/notEqual(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter8notEqualFS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">notEqual(_:value:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter8notEqualFS0_FTSS5valueGSqPS_5Value___S0_">notEqual(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -375,7 +509,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">notEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">notEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -423,9 +557,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter8containsFS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_"></a>
+                    <a name="/s:FC8SwiftyDB6Filter8containsFS0_FTSS5arrayGSaGSqPS_5Value____S0_"></a>
                     <a name="//apple_ref/swift/Method/contains(_:array:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter8containsFS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_">contains(_:array:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter8containsFS0_FTSS5arrayGSaGSqPS_5Value____S0_">contains(_:array:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -440,7 +574,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">SQLiteValue</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">Value</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -488,9 +622,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC8SwiftyDB6Filter11notContainsFS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_"></a>
+                    <a name="/s:FC8SwiftyDB6Filter11notContainsFS0_FTSS5arrayGSaGSqPS_5Value____S0_"></a>
                     <a name="//apple_ref/swift/Method/notContains(_:array:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC8SwiftyDB6Filter11notContainsFS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_">notContains(_:array:)</a>
+                    <a class="token" href="#/s:FC8SwiftyDB6Filter11notContainsFS0_FTSS5arrayGSaGSqPS_5Value____S0_">notContains(_:array:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -505,7 +639,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">notContains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">SQLiteValue</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">notContains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">Value</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -710,9 +844,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter5equalFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter5equalFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/equal(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter5equalFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">equal(_:value:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter5equalFMS0_FTSS5valueGSqPS_5Value___S0_">equal(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -727,7 +861,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">equal</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">equal</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -775,9 +909,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter8lessThanFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter8lessThanFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/lessThan(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8lessThanFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">lessThan(_:value:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8lessThanFMS0_FTSS5valueGSqPS_5Value___S0_">lessThan(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -792,7 +926,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">lessThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">lessThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -840,9 +974,74 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter11greaterThanFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter11lessOrEqualFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
+                    <a name="//apple_ref/swift/Method/lessOrEqual(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter11lessOrEqualFMS0_FTSS5valueGSqPS_5Value___S0_">lessOrEqual(_:value:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Evaluated as true if the value of the property is less or equal to the provided value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">lessOrEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>propertyName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the property to be evaluated</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value that will be compared to the property value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Classes/Filter.html">Filter</a></code> intance</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC8SwiftyDB6Filter11greaterThanFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/greaterThan(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter11greaterThanFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">greaterThan(_:value:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter11greaterThanFMS0_FTSS5valueGSqPS_5Value___S0_">greaterThan(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -857,7 +1056,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">greaterThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">greaterThan</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -905,9 +1104,74 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter8notEqualFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter14greaterOrEqualFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
+                    <a name="//apple_ref/swift/Method/greaterOrEqual(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter14greaterOrEqualFMS0_FTSS5valueGSqPS_5Value___S0_">greaterOrEqual(_:value:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Evaluated as true if the value of the property is greater or equal to the provided value</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">greaterOrEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>propertyName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the property to be evaluated</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>value that will be compared to the property value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code><a href="../Classes/Filter.html">Filter</a></code> intance</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC8SwiftyDB6Filter8notEqualFMS0_FTSS5valueGSqPS_5Value___S0_"></a>
                     <a name="//apple_ref/swift/Method/notEqual(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8notEqualFMS0_FTSS5valueGSqP10TinySQLite11SQLiteValue___S0_">notEqual(_:value:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8notEqualFMS0_FTSS5valueGSqPS_5Value___S0_">notEqual(_:value:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -922,7 +1186,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">notEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">SQLiteValue</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">notEqual</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Value</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -970,9 +1234,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter8containsFMS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter8containsFMS0_FTSS5arrayGSaGSqPS_5Value____S0_"></a>
                     <a name="//apple_ref/swift/Method/contains(_:array:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8containsFMS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_">contains(_:array:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter8containsFMS0_FTSS5arrayGSaGSqPS_5Value____S0_">contains(_:array:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -987,7 +1251,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">SQLiteValue</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">Value</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -1035,9 +1299,9 @@ All filters are automatically converted into SQLite statements when querying the
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC8SwiftyDB6Filter11notContainsFMS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_"></a>
+                    <a name="/s:ZFC8SwiftyDB6Filter11notContainsFMS0_FTSS5arrayGSaGSqPS_5Value____S0_"></a>
                     <a name="//apple_ref/swift/Method/notContains(_:array:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter11notContainsFMS0_FTSS5arrayGSaGSqP10TinySQLite11SQLiteValue____S0_">notContains(_:array:)</a>
+                    <a class="token" href="#/s:ZFC8SwiftyDB6Filter11notContainsFMS0_FTSS5arrayGSaGSqPS_5Value____S0_">notContains(_:array:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1052,7 +1316,7 @@ All filters are automatically converted into SQLite statements when querying the
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">notContains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">SQLiteValue</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">notContains</span><span class="p">(</span><span class="nv">propertyName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">Value</span><span class="p">?])</span> <span class="o">-&gt;</span> <span class="kt">Filter</span></code></pre>
 
                         </div>
                       </div>
@@ -1248,7 +1512,7 @@ All filters are automatically converted into SQLite statements when querying the
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="http://oyvindkg.github.io/swiftydb/" target="_blank" rel="external">Øyvind Grimnes</a>. All rights reserved. (Last updated: 2016-01-19)</p>
+          <p>&copy; 2016 <a class="link" href="http://oyvindkg.github.io/swiftydb/" target="_blank" rel="external">Øyvind Grimnes</a>. All rights reserved. (Last updated: 2016-03-31)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.4.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
