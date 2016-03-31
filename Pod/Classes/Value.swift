@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** All stored properties must conform to this protocol */
 public protocol Value {}
 
 extension NSArray: Value {}

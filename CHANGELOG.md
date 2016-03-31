@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 #### Changes
 * Support for storing NSArrays and NSDictionaries (thanks to @kingslay)
 * Now using the new Value protocol instead of SQLiteValue
+* Fixes bug related to filtering a property with multiple values
 
 ## [1.0.0](https://github.com/Oyvindkg/swiftydb/releases/tag/1.0.0) (01/19/2016)
 

@@ -51,13 +51,19 @@ public class Filter: DictionaryLiteralConvertible {
         let relationship: Relationship
         let value: Any?
         
+        private let uniqueifier: UInt32 = arc4random()
+        
+        var uniquePropertyName: String {
+            return "\(propertyName)\(uniqueifier)"
+        }
+        
         func statement() -> String {
             switch relationship {
             case .Equal, .NotEqual, .Greater, .GreaterOrEqual, .Less, .LessOrEqual, .Like, .NotLike:
-                return "\(propertyName) \(relationship.rawValue) :\(propertyName)"
+                return "\(propertyName) \(relationship.rawValue) :\(uniquePropertyName)"
             case .In, .NotIn:
                 let array = value as! [Value?]
-                let placeholderString = (0..<array.count).map {":\(propertyName)\($0)"}
+                let placeholderString = (0..<array.count).map {":\(uniquePropertyName)\($0)"}
                                                          .joinWithSeparator(", ")
 
                 return "\(propertyName) \(relationship.rawValue) (\(placeholderString))"
@@ -237,10 +243,10 @@ public class Filter: DictionaryLiteralConvertible {
         for filterComponent in components {
             if let arrayValue = filterComponent.value as? [Value?] {
                 for (index, value) in arrayValue.enumerate() {
-                    parameters["\(filterComponent.propertyName)\(index)"] = value as? SQLiteValue
+                    parameters["\(filterComponent.uniquePropertyName)\(index)"] = value as? SQLiteValue
                 }
             } else {
-                parameters[filterComponent.propertyName] = filterComponent.value as? SQLiteValue
+                parameters[filterComponent.uniquePropertyName] = filterComponent.value as? SQLiteValue
             }
         }
         
