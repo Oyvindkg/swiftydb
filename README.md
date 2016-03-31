@@ -34,8 +34,10 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 - [x] Supports asynchronous database access
 - [x] 100% documented
 - [x] Complex filtering
+- [x] Store collections
 - [ ] Store nested objects
-- [ ] Store collections
+- [ ] Automated migratioin
+- [ ] Custom indices
 
 ## <a name="usage">Usage</a>
 
@@ -160,6 +162,8 @@ database.objectsForType(Dog.self, matchingFilters: filter)
 
 See all available filters in the [documentation](http://oyvindkg.github.io/swiftydb/docs/Classes/Filter.html).
 
+> It is not possible to filter results using the content of stored collections as these are stored as blobs in the database
+
 ### <a name="resultFormat">Result format</a>
 
 All queries returns the result as a `Result`. It will either be a `.Success` wrapping data from the query, or an `.Error` wrapping the thrown error.
@@ -269,7 +273,7 @@ extension Dog: IgnoredProperties {
     }
 }
 ```
-> Properties with datatypes that are not part of the `SQLiteValue` protocol, as defined by [TinySQLite](https://github.com/Oyvindkg/tinysqlite/blob/master/Pod/Classes/DatabaseConnection.swift), will automatically be ignored by SwiftyDB
+> Properties with datatypes that are not part of the `Value` protocol, will automatically be ignored by SwiftyDB
 
 ### <a name="howToRetrieveObjects">How to retrieve objects</a>
 
