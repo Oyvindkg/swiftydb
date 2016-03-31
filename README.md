@@ -36,7 +36,7 @@ You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 - [x] Complex filtering
 - [x] Store collections
 - [ ] Store nested objects
-- [ ] Automated migratioin
+- [ ] Automated migration
 - [ ] Custom indices
 
 ## <a name="usage">Usage</a>
