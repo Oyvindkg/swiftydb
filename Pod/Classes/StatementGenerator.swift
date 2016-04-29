@@ -30,7 +30,7 @@ internal enum SQLiteDatatype: String {
         case is NSArray.Type, is NSDictionary.Type:
             self.init(rawValue: "BLOB")
         default:
-            fatalError("DSADSASA")
+            fatalError("The datatype was not defined")
         }
     }
 }
@@ -38,23 +38,29 @@ internal enum SQLiteDatatype: String {
 internal class StatementGenerator {
     
     internal class func createTableStatementForTypeRepresentedByObject <S: Storable> (object: S) -> String {
-        let tableName =  tableNameForType(S)
         
-        var statement = "CREATE TABLE " + tableName + " ("
+        var statement = "CREATE TABLE " + tableNameForType(S) + " ("
+        
+        /* Define all the columns of the table */
+        var columnDefinitions: [String] = []
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
-            statement += "\(propertyData.name!) \(SQLiteDatatype(type: propertyData.type!)!.rawValue)"
-            statement += propertyData.isOptional ? "" : " NOT NULL"
-            statement += ", "
+            var columnDefinition = "\(propertyData.name!) \(SQLiteDatatype(type: propertyData.type!)!.rawValue)"
+            columnDefinition += propertyData.isOptional ? "" : " NOT NULL"
+            
+            columnDefinitions.append(columnDefinition)
         }
         
-        if S.self is PrimaryKeys.Type {
-            let primaryKeysType = S.self as! PrimaryKeys.Type
-            statement += "PRIMARY KEY (\(primaryKeysType.primaryKeys().joinWithSeparator(", ")))"
+        statement += columnDefinitions.joinWithSeparator(", ")
+        
+        /* Add a primary key constraint if provided */
+        if let primaryKeysType = S.self as? PrimaryKeys.Type {
+            statement += ", PRIMARY KEY (\(primaryKeysType.primaryKeys().joinWithSeparator(", ")))"
         }
         
+        /* Conclude the statement and return */
         statement += ")"
-        
+
         return statement
     }
     
