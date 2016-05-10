@@ -3,7 +3,13 @@ All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
 
-### [1.1.1](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.0) (04/29/2016)
+
+### [1.1.2](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.2) (05/10/2016)
+
+#### Changes
+* Properly escaping column names
+
+### [1.1.1](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.1) (04/29/2016)
 
 #### Changes
 * Fixed breaking bug in when not using primary keys

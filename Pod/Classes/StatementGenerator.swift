@@ -45,7 +45,7 @@ internal class StatementGenerator {
         var columnDefinitions: [String] = []
         
         for propertyData in PropertyData.validPropertyDataForObject(object) {
-            var columnDefinition = "\(propertyData.name!) \(SQLiteDatatype(type: propertyData.type!)!.rawValue)"
+            var columnDefinition = "'\(propertyData.name!)' \(SQLiteDatatype(type: propertyData.type!)!.rawValue)"
             columnDefinition += propertyData.isOptional ? "" : " NOT NULL"
             
             columnDefinitions.append(columnDefinition)
@@ -69,8 +69,8 @@ internal class StatementGenerator {
         
         let propertyData = PropertyData.validPropertyDataForObject(type.init())
         
-        let columns = propertyData.map {$0.name!}
-        let namedParameters = columns.map {":" + $0}
+        let columns = propertyData.map {"'\($0.name!)'"}
+        let namedParameters = propertyData.map {":\($0.name!)"}
         
         /* Columns to be inserted */
         statement += " (" + columns.joinWithSeparator(", ") + ") "
