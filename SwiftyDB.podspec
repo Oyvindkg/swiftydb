@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
-  s.version          = "1.1.2"
+  s.version          = "1.1.3"
   s.summary          = "Making SQLite databases a blast"
 
 # This description is used to generate tags and improve search results.
