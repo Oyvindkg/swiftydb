@@ -39,47 +39,48 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 
 ### <a name="usingTheDatabase">Access the database</a>
 ```Swift
-let database = Swifty()
+let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
 ```swift
-let starks = database.get(Stark.self)
+let starks = swifty.get(Stark.self)
 ```
 ##### <a name="filteringResults">Filtering results</a>
 ```Swift
 let filter = Filter().property("name", isEqualTo: "Sansa")
                      .property("age", isLessThan: 30)
 
-let sansa = database.get(Stark.self, filter: filter).first
+let sansa = swifty.get(Stark.self, filter: filter).first
 ```
 
 ##### <a name="sortingResults">Sorting results</a>
 ```swift
-let starks = database.get(Stark.self, sorting: .Ascending("age"))
+let starks = swifty.get(Stark.self, sorting: .Ascending("age"))
 ```
 
 ##### <a name="limitingResults">Limiting results</a>
 ```Swift
-let starks = database.get(Stark.self, limit: 10, offset: 2)
+let starks = swifty.get(Stark.self, limit: 10, offset: 2)
 ```
 
 #### <a name="storingObjects">Storing objects</a>
 ```Swift
 let arya = Stark(name: "Arya", age: 9)
 
-database.add(arya)
+swifty.add(arya)
 ```
 
 #### <a name="deletingObjects">Deleting objects</a>
 ```Swift
 let ned = Stark(name: "Eddard", age: 35)
 
-database.remove(ned)
+swifty.remove(ned)
 ```
 
 ### <a name="definingObjects">Defining objects</a>
+
 ```Swift
-class Stark {
+struct Stark {
   var name: String
   var wolf: Wolf?
   var age: Int
@@ -90,35 +91,22 @@ class Stark {
   }
 }
 ```
-
+#### Mappable
 ```Swift
-class Stark: Storeable {
-  var name: String
-  var wolf: Wolf?
-  var age: Int
-
-  init(name: String, age: Int) {
-    self.name = name
-    self.age  = age
-  }
+init() {
+  self.init(name: "", age: "")
+}
   
-  
-  /* Storeable protocol methods */
-  
-  required init() {
-    name = ""
-    age  = 0
-  }
-  
-  func mapping(map: Map) {
-    name <- map["name"]
-    age  <- map["age"]
-    wolf <- map["wolf"]
-  }
-  
-  static func identifier() -> String {
-    return "name"
-  }
+func mapping(map: Map) {
+  name <- map["name"]
+  age  <- map["age"]
+  wolf <- map["wolf"]
+}
+```
+#### Identifiable
+```Swift
+static func identifier() -> String {
+  return "name"
 }
 ```
 
