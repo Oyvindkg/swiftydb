@@ -20,38 +20,112 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 &emsp;&emsp; [Storing objects](#storingObjects)<br />
 &emsp;&emsp; [Deleting objects](#deletingObjects)<br />
 &emsp; [Defining objects](#definingObjects)<br />
-&emsp;&emsp; [Mapping](#mapping)<br />
-&emsp;&emsp; [Identifier](#identifier)<br />
 [Installation](#installation)<br />
 [Limitations](#limitations)<br />
 [Performance](#performance)<br />
 [License](#license)
 
 ## <a name="features">Features</a>
-- [x] Stores your data effortlessly
 - [x] Complex filtering
 - [x] Supports all property types
+- [x] Can store nested objects
+- [x] Collections of objects or values
 - [x] Thread safe database operations
-- [x] Supports asynchronous database access
-- [x] 100% documented
-- [x] Store nested objects
-- [x] Store arrays, sets, and dictionaries of objects or values
-- [x] Supports migration
+- [x] Asynchronous database access
+- [x] Migration
 - [ ] Custom indices
 
 ## <a name="usage">Usage</a>
-### <a name="usingTheDatabase">Using the database</a>
+
+### <a name="usingTheDatabase">Access the database</a>
+```Swift
+let database = Swifty()
+```
 #### <a name="retrievingObjects">Retrieving objects</a>
+```swift
+let starks = database.get(Stark.self)
+```
 ##### <a name="filteringResults">Filtering results</a>
+```Swift
+let filter = Filter().property("name", isEqualTo: "Sansa")
+                     .property("age", isLessThan: 30)
+
+let sansa = database.get(Stark.self, filter: filter).first
+```
+
 ##### <a name="sortingResults">Sorting results</a>
+```swift
+let starks = database.get(Stark.self, sorting: .Ascending("age"))
+```
+
 ##### <a name="limitingResults">Limiting results</a>
+```Swift
+let starks = database.get(Stark.self, limit: 10, offset: 2)
+```
+
 #### <a name="storingObjects">Storing objects</a>
+```Swift
+let arya = Stark(name: "Arya", age: 9)
+
+database.add(arya)
+```
+
 #### <a name="deletingObjects">Deleting objects</a>
+```Swift
+let ned = Stark(name: "Eddard", age: 35)
+
+database.remove(ned)
+```
+
 ### <a name="definingObjects">Defining objects</a>
-#### <a name="mapping">Mapping</a>
-#### <a name="identifier">Identifier</a>
+```Swift
+class Stark {
+  var name: String
+  var wolf: Wolf?
+  var age: Int
+
+  init(name: String, age: Int) {
+    self.name = name
+    self.age  = age
+  }
+}
+```
+
+```Swift
+class Stark: Storeable {
+  var name: String
+  var wolf: Wolf?
+  var age: Int
+
+  init(name: String, age: Int) {
+    self.name = name
+    self.age  = age
+  }
+  
+  
+  /* Storeable protocol methods */
+  
+  required init() {
+    name = ""
+    age  = 0
+  }
+  
+  func mapping(map: Map) {
+    name <- map["name"]
+    age  <- map["age"]
+    wolf <- map["wolf"]
+  }
+  
+  static func identifier() -> String {
+    return "name"
+  }
+}
+```
+
 ## <a name="installation">Installation</a>
+
 ## <a name="limitations">Limitations</a>
+
 ## <a name="performance">Performance</a>
 
 
