@@ -1,6 +1,6 @@
 # This is merely a placeholder at the moment :)
 
-[![Swifty logo](https://s11.postimg.org/smlcw1akj/Swifty.png)](https://postimg.org/image/3tbsvdrjz/)
+[![Swifty logo](https://s12.postimg.org/bsujdf8lp/Swifty.png)](https://postimg.org/image/4pmnxt361/)
 
 A typesafe, pure Swift database offering effortless persistence of objects. 
 
