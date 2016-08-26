@@ -49,10 +49,7 @@ let starks = result.values
 ```
 ##### <a name="filteringResults">Filtering results</a>
 ```Swift
-let filter = Filter().property("name", isEqualTo: "Sansa")
-                     .property("age", isLessThan: 30)
-
-let result = swifty.get(Stark.self).filter(filter)
+let result = swifty.get(Stark.self).filter("name" == "Sansa" && "age" < 30)
 
 let sansa = result.values?.first
 ```
