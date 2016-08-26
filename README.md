@@ -43,24 +43,31 @@ let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
 ```swift
-let starks = swifty.get(Stark.self)
+let result = swifty.get(Stark.self)
+
+let starks = result.values
 ```
 ##### <a name="filteringResults">Filtering results</a>
 ```Swift
 let filter = Filter().property("name", isEqualTo: "Sansa")
                      .property("age", isLessThan: 30)
 
-let sansa = swifty.get(Stark.self, filter: filter).first
+let result = swifty.get(Stark.self).filter(filter)
+
+let sansa = result.values?.first
 ```
 
 ##### <a name="sortingResults">Sorting results</a>
 ```swift
-let starks = swifty.get(Stark.self, sorting: .Ascending("age"))
+let result: Result = swifty.get(Stark.self).orderBy("age")
+
+let starks = result.values
 ```
 
 ##### <a name="limitingResults">Limiting results</a>
 ```Swift
-let starks = swifty.get(Stark.self, limit: 10, offset: 2)
+let result: Result = swifty.get(Stark.self).limit(10).offset(5)
+let starks = result.values
 ```
 
 #### <a name="storingObjects">Storing objects</a>
