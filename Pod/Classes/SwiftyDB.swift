@@ -59,8 +59,16 @@ public class SwiftyDB {
     */
     
     public init(databaseName: String) {
-        let documentsDir : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]
-        path = documentsDir+"/\(databaseName).sqlite"
+        let locateResource = NSBundle.mainBundle().pathForResource(databaseName, ofType: "sqlite")
+        
+        if locateResource == "" {
+            /* If there is no resource included in XCode with the same name it then searches in Documents and creates if it doesn't exist. */
+            let documentsDir : String = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)[0]
+            path = documentsDir+"/\(databaseName).sqlite"
+        }else {
+            /* Database has been located, the one that the user has included in his target. This has been done to allow people to include a sqlite database with their target and pre-defined data. */
+            path = locateResource!
+        }
         
         databaseQueue = DatabaseQueue(path: path)
     }
