@@ -54,6 +54,28 @@ let result = swifty.get(Stark.self).filter("name" == "Sansa" && "age" < 30)
 let sansa = result.values?.first
 ```
 
+| Operator | Function                                |
+|:--------:|:----------------------------------------|
+|    ==    | X is equal Y                            |
+|    !=    | X is not equal Y                        |
+|    <     | X is less than Y                        |
+|    >     | X is greater than Y                     |
+|    <=    | X is less than or equal to Y            |
+|    >=    | X is greater than or equal to Y         |
+|    ~~    | X is similar to pattern Y               |
+|    !~    | X is not similar to pattern Y           |
+|          |                                         |
+|    <<    | X is in Y if Y is an array              |
+|    !<    | X is not in Y if Y is an array          |
+|    <<    | X is the range of Y if Y is a range     |
+|    !<    | X is not the range of Y if Y is a range |
+|          |                                         |
+|    !     | Negation of X                           |
+|    &&    | Conjunction of X and Y                  |
+|   \|\|   | Disjunction of X and Y                  |
+
+
+
 ##### <a name="sortingResults">Sorting results</a>
 ```swift
 let result: Result = swifty.get(Stark.self).orderBy("age")
