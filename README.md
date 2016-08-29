@@ -62,8 +62,8 @@ let sansa = result.values?.first
 |    >     | X is greater than Y                     |
 |    <=    | X is less than or equal to Y            |
 |    >=    | X is greater than or equal to Y         |
-|    ~~    | X is similar to pattern Y               |
-|    !~    | X is not similar to pattern Y           |
+|    ~=    | X matches pattern Y                     |
+|    !~    | X does not match pattern Y              |
 |          |                                         |
 |    <<    | X is in Y if Y is an array              |
 |    !<    | X is not in Y if Y is an array          |
