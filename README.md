@@ -104,6 +104,7 @@ swifty.remove(ned)
 ```
 
 ### <a name="definingObjects">Defining objects</a>
+Any object can be storeable by implementing the `Storeable` protocol as an extension. This protocol consists of the `Mappable` and `Identifiable` protocols. 
 
 ```Swift
 struct Stark {
@@ -118,23 +119,51 @@ struct Stark {
 }
 ```
 #### Mappable
+Because the dynamic aspects of the Swift language are limited to read operations, this protocol is used to instantiate new objects and populate them with data dynamically.
+
 ```Swift
-init() {
-  self.init(name: "", age: "")
-}
-  
-func mapping(map: Map) {
-  name <- map["name"]
-  age  <- map["age"]
-  wolf <- map["wolf"]
+protocol Mappable {
+  static func newInstance() -> Mappable
+  mutating func mapping(map: Map)
 }
 ```
+
+```Swift
+extension Stark: Mappable {
+  static func newInstance() -> Mappable {
+    return Stark(name: "", age: 0)
+  }
+    
+  func mapping(map: Map) {
+    name <- map["name"]
+    age  <- map["age"]
+    wolf <- map["wolf"]
+  }
+}
+```
+
+> Inheritance is supported by overriding `mapping(map: Map)` and `newInstance()` in the subtype. Remember to call `super.mapping(map)`
+
 #### Identifiable
+This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. 
+
 ```Swift
-static func identifier() -> String {
-  return "name"
+protocol Identifiable {
+  static func identifier() -> String
 }
 ```
+
+The `identifier()` should return the name of a property that uniquely identifies the individual objects of a type.
+
+```Swift
+extension Stark: Identifiable {
+  static func identifier() -> String {
+    return "name"
+  }
+}
+```
+
+> Apple's `NSUUID` (`UUID` in Swift 3) is a good source for unique values 
 
 ## <a name="installation">Installation</a>
 
