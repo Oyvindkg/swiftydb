@@ -20,6 +20,7 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 &emsp;&emsp; [Storing objects](#storingObjects)<br />
 &emsp;&emsp; [Deleting objects](#deletingObjects)<br />
 &emsp; [Defining objects](#definingObjects)<br />
+&emsp; [Migration](#migratingObjects)<br />
 [Installation](#installation)<br />
 [Limitations](#limitations)<br />
 [Performance](#performance)<br />
@@ -165,13 +166,44 @@ extension Stark: Identifiable {
 
 > Apple's `NSUUID` (`UUID` in Swift 3) is a good source for unique values 
 
-## <a name="installation">Installation</a>
+
+### <a name="migratingObjects">Migration</a>
+
+```swift
+protocol Migratable {
+  static func migrate(migration: MigrationType)
+}
+```
+Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
+
+```swift
+static func migrate(migration: MigrationType) {
+
+  if migration.currentVersion < 2 {
+    
+    /* Rename an existing property */
+    migration.migrate("name").rename("firstName")
+    
+    /* Change the type of an exsisting property from `Double` to `Float` */
+    migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in
+      return Float(doubleValue!)
+    }
+    
+    /* Both rename and change the type of an existing property */
+    migration.migrate("name").rename("firstName").transform(String.self, to: Double.self) { stringValue in
+      return Double(stringValue ?? "")
+    }
+    
+  }
+}
+```
+
 
 ## <a name="limitations">Limitations</a>
 
 ## <a name="performance">Performance</a>
 
-
+## <a name="installation">Installation</a>
 
 SwiftyDB is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
