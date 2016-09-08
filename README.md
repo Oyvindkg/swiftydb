@@ -44,15 +44,16 @@ let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
 ```swift
-let result = swifty.get(Stark.self)
-
-let starks = result.values
+swifty.get(Stark.self) { result in
+  let starks = result.value
+}
 ```
 ##### <a name="filteringResults">Filtering results</a>
 ```Swift
-let result = swifty.get(Stark.self).filter("name" == "Sansa" && "age" < 30)
+swifty.get(Stark.self).filter("name" == "Sansa") { result in 
+  let sansa = result.values?.first
+}
 
-let sansa = result.values?.first
 ```
 
 | Operator | Function                                |
@@ -79,22 +80,27 @@ let sansa = result.values?.first
 
 ##### <a name="sortingResults">Sorting results</a>
 ```swift
-let result: Result = swifty.get(Stark.self).orderBy("age")
-
-let starks = result.values
+swifty.get(Stark.self).orderBy("age") { result in 
+  let starks = result.values
+}
 ```
 
 ##### <a name="limitingResults">Limiting results</a>
 ```Swift
-let result: Result = swifty.get(Stark.self).limit(10).offset(5)
-let starks = result.values
+swifty.get(Stark.self).limit(10).offset(5) { result in 
+  let starks = result.values
+}
 ```
 
 #### <a name="storingObjects">Storing objects</a>
 ```Swift
 let arya = Stark(name: "Arya", age: 9)
 
-swifty.add(arya)
+swifty.add(arya) { result in 
+  if errorMessage = result.errorMessage {
+    // Handle errors
+  }
+}
 ```
 
 #### <a name="deletingObjects">Deleting objects</a>
