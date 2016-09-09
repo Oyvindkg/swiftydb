@@ -184,6 +184,7 @@ protocol Migratable {
 Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
 
 ```swift
+
 static func migrate(migration: MigrationType) {
 
   if migration.currentVersion < 2 {
@@ -192,7 +193,7 @@ static func migrate(migration: MigrationType) {
     migration.migrate("name").rename("firstName")
     
     /* Change the type of an exsisting property from `Double` to `Float` */
-    migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in
+    migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in       //The transform method will be changed before release
       return Float(doubleValue!)
     }
     
