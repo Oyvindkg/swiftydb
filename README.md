@@ -21,6 +21,7 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 &emsp;&emsp; [Deleting objects](#deletingObjects)<br />
 &emsp; [Defining objects](#definingObjects)<br />
 &emsp; [Migration](#migratingObjects)<br />
+&emsp; [Indexing](#indexingObjects)<br />
 [Installation](#installation)<br />
 [Limitations](#limitations)<br />
 [Performance](#performance)<br />
@@ -34,7 +35,7 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 - [x] Thread safe database operations
 - [x] Asynchronous database access
 - [x] Migration
-- [ ] Custom indices
+- [x] Custom indices
 
 ## <a name="usage">Usage</a>
 
@@ -204,6 +205,22 @@ static func migrate(migration: MigrationType) {
 }
 ```
 
+### <a name="indexingObjects">Indexing</a>
+
+```Swift
+protocol Indexable {
+  static func index(index: IndexType)
+}
+```
+
+```Swift
+extension Stark: Indexable {
+  static func index(index: IndexType) {
+    index.on("age")
+    index.on("age").filter("name" << ["Arya", "Sansa"] && "age" > 8)
+  }
+}
+```
 
 ## <a name="limitations">Limitations</a>
 
