@@ -106,9 +106,7 @@ swifty.add(arya) { result in
 
 #### <a name="deletingObjects">Deleting objects</a>
 ```Swift
-let ned = Stark(name: "Eddard", age: 35)
-
-swifty.remove(ned)
+swifty.delete(Stark.self).filter("name" == "Eddard")
 ```
 
 ### <a name="definingObjects">Defining objects</a>
