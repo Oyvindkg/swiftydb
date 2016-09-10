@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0630"
+   LastUpgradeVersion = "0720"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -22,10 +22,10 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
@@ -49,6 +49,16 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "SwiftyDB_Tests.xctest"
                BlueprintName = "SwiftyDB_Tests"
+               ReferencedContainer = "container:SwiftyDB.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "39F3CE7E1D7337BF00B87982"
+               BuildableName = "SwiftyDB_Tests2.xctest"
+               BlueprintName = "SwiftyDB_Tests2"
                ReferencedContainer = "container:SwiftyDB.xcodeproj">
             </BuildableReference>
          </TestableReference>

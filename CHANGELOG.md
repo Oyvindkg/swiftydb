@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 `SwiftyDB` adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.0](https://github.com/Oyvindkg/swiftydb/releases/tag/2.0.0) (//2016)
+Rebuilt from the ground up to provide a type safe, and versatile database....
+
 ### [1.1.3](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.3) (05/10/2016)
 
 #### Changes
