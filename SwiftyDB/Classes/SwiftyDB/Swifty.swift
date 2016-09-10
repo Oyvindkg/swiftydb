@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class Swifty {
+public class Swifty: ObjectDatabaseType {
     
     let database: DatabaseType
     

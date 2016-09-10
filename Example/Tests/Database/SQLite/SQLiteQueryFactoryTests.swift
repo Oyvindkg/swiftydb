@@ -92,7 +92,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.insertQueryForReader(reader)
         
-        expect(query.query).to(contain("'age'", "'name'", "'weight'", "'wolf'"))
+        expect(query.query).to(contain("'age'", "'name'", "'weight'"))
     }
     
     
@@ -104,6 +104,6 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.insertQueryForReader(reader)
         
-        expect(query.query).to(contain("(?, ?, ?, ?)"))
+        expect(query.query).to(contain(":age", ":name", ":weight"))
     }
 }
