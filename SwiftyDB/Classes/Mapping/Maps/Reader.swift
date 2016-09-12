@@ -12,17 +12,16 @@ class Reader: BaseMap {
     
     var types: [String: Any.Type] = [:]
     
-    func setCurrentValue<T: StoreableValue>(value: T?) {
+    func setCurrentValue<T: StoreableValue>(value: T?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
             return
         }
 
         storeableValues[key] = value
-        types[key] = T.self
-        
+        types[key] = type
     }
     
-    func setCurrentValue<T: StoreableValue>(value: [T]?) {
+    func setCurrentValue<T: StoreableValue>(value: [T]?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
             return
         }

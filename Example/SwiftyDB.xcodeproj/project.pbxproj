@@ -423,10 +423,10 @@
 		39F745EF1D84302C00DB4362 /* Mapping */ = {
 			isa = PBXGroup;
 			children = (
+				39F745F91D84302C00DB4362 /* Protocols */,
 				39F745F01D84302C00DB4362 /* Mapper.swift */,
 				39F745F11D84302C00DB4362 /* Maps */,
 				39F745F51D84302C00DB4362 /* Operators */,
-				39F745F91D84302C00DB4362 /* Protocols */,
 				39F745FD1D84302C00DB4362 /* StoreableValueConvertibles */,
 			);
 			path = Mapping;
@@ -483,11 +483,11 @@
 		39F746091D84302C00DB4362 /* Migration */ = {
 			isa = PBXGroup;
 			children = (
+				39F7460E1D84302C00DB4362 /* Protocols */,
 				39F7460A1D84302C00DB4362 /* Migration.swift */,
 				39F7460B1D84302C00DB4362 /* MigrationUtils.swift */,
 				39F7460C1D84302C00DB4362 /* Migrator.swift */,
 				39F7460D1D84302C00DB4362 /* PropertyMigration.swift */,
-				39F7460E1D84302C00DB4362 /* Protocols */,
 				39F746131D84302C00DB4362 /* TypeInformation.swift */,
 			);
 			path = Migration;

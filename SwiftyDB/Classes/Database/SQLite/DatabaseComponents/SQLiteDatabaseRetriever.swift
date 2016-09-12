@@ -27,38 +27,35 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         var writers: [Writer] = []
         
         try databaseQueue.transaction { database in
-            writers = try self.getWritersForReader(reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.limit, offset: query.offset, nested: nested, database: database)
+            writers = try self.getWritersForReader(reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.limit, offset: query.offset, database: database)
         }
                 
         return writers
     }
     
     // TODO: Make this prettier
-    private func getWritersForReader(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, nested: Bool, database: DatabaseConnection) throws -> [Writer] {
+    private func getWritersForReader(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
         let query = queryFactory.selectQueryForType(reader.storeableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
-        var writers: [Writer] = []
         
         let statement = try database.prepare(query.query)
         
         try! statement.execute(query.parameters)
         
-        for row in statement {
+        let writers = statement.map { row -> Writer in
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {
                 writer.storeableValues[property] = value as? StoreableValue
             }
             
-            writers.append(writer)
+            return writer
         }
         
         try statement.finalize()
         
-        if nested {
-            for writer in writers {
-                try getStoreableWritersForWriter(writer, database: database)
-            }
+        for writer in writers {
+            try getStoreableWritersForWriter(writer, database: database)
         }
         
         return writers
@@ -107,7 +104,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         
         let filter = type.identifier() << ids
         
-        return try! getWritersForReader(propertyReader, filter: filter as! SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, nested: true, database: database)
+        return try! getWritersForReader(propertyReader, filter: filter as! SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
     }
 }
 

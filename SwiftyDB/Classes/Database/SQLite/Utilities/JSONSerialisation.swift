@@ -11,49 +11,52 @@ import Foundation
 struct JSONSerialisation {
     
     // MARK: - To JSON
-    static func JSONFor(array: [StoreableValue?]) -> String {
-        if array.elementType is Double.Type {
-            let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(NSNumber.self), options: [])
+    static func JSONFor<T: CollectionType>(collection collection: T) -> String {
+        assert(collection.elementType is StoreableValue.Type)
+        
+        
+        if T.Generator.Element.self is Double.Type {
+            let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(NSNumber.self), options: [])
             return String(data: data, encoding: NSUTF8StringEncoding)!
         }
         
-        if array.elementType is Int64.Type {
-            let numbers = array.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
+        if T.Generator.Element.self is Int64.Type {
+            let numbers = collection.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
             let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
             
             return String(data: data, encoding: NSUTF8StringEncoding)!
         }
         
-        let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(String.self), options: [])
+        let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(String.self), options: [])
         
         return String(data: data, encoding: NSUTF8StringEncoding)!
     }
     
-    static func JSONFor(array: [StoreableValue?]?) -> String? {
-        if array == nil {
+    static func JSONFor<T: CollectionType>(collection collection: T?) -> String? {
+        if collection == nil {
             return nil
         }
-        
-        return JSONFor(array!) as String
+
+        return JSONFor(collection: collection!) as String
     }
     
-    static func JSONFor<T: StoreableValue>(array: [T?]) -> String {
-        if T.self is Double.Type {
-            let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(NSNumber.self), options: [])
-            return String(data: data, encoding: NSUTF8StringEncoding)!
-        }
-        
-        if T.self is Int64.Type {
-            let numbers = array.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
-            let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
-            
-            return String(data: data, encoding: NSUTF8StringEncoding)!
-        }
-        
-        let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(String.self), options: [])
-        
-        return String(data: data, encoding: NSUTF8StringEncoding)!
-    }
+//    static func JSONFor<T: StoreableValue>(array: [T?]) -> String {
+//        if T.self is Double.Type {
+//            let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(NSNumber.self), options: [])
+//            return String(data: data, encoding: NSUTF8StringEncoding)!
+//        }
+//        
+//        if T.self is Int64.Type {
+//            let numbers = array.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
+//            let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
+//            
+//            return String(data: data, encoding: NSUTF8StringEncoding)!
+//        }
+//        
+//        let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(String.self), options: [])
+//        
+//        return String(data: data, encoding: NSUTF8StringEncoding)!
+//    }
     
     static func JSONFor<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(dictionary: [T:U]) -> String {
         
@@ -99,23 +102,20 @@ struct JSONSerialisation {
     static func JSONFor<T: StoreableValueConvertible>(array: [T?]) -> String {
         let storeableValues = array.map { $0?.storeableValue }
         
-        return JSONFor(storeableValues)
+        return JSONFor(collection: storeableValues)
     }
     
     static func JSONFor<T: StoreableValueConvertible>(array: [T]) -> String {
         let storeableValues: [T.StoreableValueType?] = array.map { $0.storeableValue }
         
-        return JSONFor(storeableValues)
+        return JSONFor(collection: storeableValues)
     }
     
     static func JSONFor<T: StoreableValueConvertible>(array: [T]?) -> String? {
-        guard let array = array else {
-            return nil
-        }
+
+        let storeableValues = array?.map { $0.storeableValue }
         
-        let storeableValues: [T.StoreableValueType?] = array.map { $0.storeableValue }
-        
-        return JSONFor(storeableValues)
+        return JSONFor(collection: storeableValues)
     }
     
     // MARK: - From JSON

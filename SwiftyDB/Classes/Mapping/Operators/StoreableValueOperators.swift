@@ -83,7 +83,7 @@ public func <- <T: StoreableValueConvertible>(inout left: [T], right: MapType) {
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T], right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left)! )
+    right.setCurrentValue( JSONSerialisation.JSONFor(left)!, forType: [T].self  )
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T], right: Writer) {
@@ -100,7 +100,7 @@ public func <- <T: StoreableValueConvertible>(inout left: [T]?, right: MapType) 
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T]?, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left) )
+    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T].self  )
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T]?, right: Writer) {
@@ -117,7 +117,7 @@ public func <- <T: StoreableValueConvertible>(inout left: [T]!, right: MapType) 
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T]!, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left) )
+    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T].self )
 }
 
 func <- <T: StoreableValueConvertible>(inout left: [T]!, right: Writer) {
@@ -136,7 +136,7 @@ public func <- <T: StoreableValueConvertible>(inout left: Set<T>, right: MapType
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>, right: Reader) {
-    right.setCurrentValue(left.map { $0.storeableValue })
+    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left)!, forType: Set<T>.self)
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>, right: Writer) {
@@ -155,7 +155,7 @@ public func <- <T: StoreableValueConvertible>(inout left: Set<T>?, right: MapTyp
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>?, right: Reader) {
-    right.setCurrentValue(left?.map { $0.storeableValue })
+    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left), forType: Set<T>.self)
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>?, right: Writer) {
@@ -176,7 +176,7 @@ public func <- <T: StoreableValueConvertible>(inout left: Set<T>!, right: MapTyp
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>!, right: Reader) {
-    right.setCurrentValue(left?.map { $0.storeableValue })
+    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left), forType: Set<T>.self)
 }
 
 func <- <T: StoreableValueConvertible>(inout left: Set<T>!, right: Writer) {
@@ -200,7 +200,7 @@ public func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U], right: Reader) {
     
-    right.setCurrentValue( JSONSerialisation.JSONFor(Optional(left)) )
+    right.setCurrentValue( JSONSerialisation.JSONFor(Optional(left)), forType: [T: U].self  )
 }
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U], right: Writer) {
@@ -217,7 +217,7 @@ public func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where
 }
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U]?, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left) )
+    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T: U].self  )
 }
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U]?, right: Writer) {
@@ -234,7 +234,7 @@ public func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where
 }
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U]!, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left) )
+    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T: U].self )
 }
 
 func <- <T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(inout left: [T: U]!, right: Writer) {

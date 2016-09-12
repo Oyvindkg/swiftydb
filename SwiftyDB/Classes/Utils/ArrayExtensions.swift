@@ -20,6 +20,9 @@ extension Array {
         
         return mapping
     }
+}
+
+extension CollectionType {
     
     func asType<T>(type: T.Type) -> [T?] {
         return self.map { $0 as? T }
@@ -36,8 +39,8 @@ extension Array {
     func matchType<T>() -> [T?] {
         return self.map { $0 as? T }
     }
-    
-    var elementType: Element.Type {
-        return Element.self
+
+    var elementType: Generator.Element.Type {
+        return Generator.Element.self
     }
 }
