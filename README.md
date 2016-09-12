@@ -128,13 +128,6 @@ struct Stark {
 Because the dynamic aspects of the Swift language are limited to read operations, this protocol is used to instantiate new objects and populate them with data dynamically.
 
 ```Swift
-protocol Mappable {
-  static func newInstance() -> Mappable
-  mutating func mapping(map: Map)
-}
-```
-
-```Swift
 extension Stark: Mappable {
   static func newInstance() -> Mappable {
     return Stark(name: "", age: 0)
@@ -153,13 +146,7 @@ extension Stark: Mappable {
 #### Identifiable
 This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. 
 
-```Swift
-protocol Identifiable {
-  static func identifier() -> String
-}
-```
-
-The `identifier()` should return the name of a property that uniquely identifies the individual objects of a type.
+`identifier()` should return the name of a property that uniquely identifies an object.
 
 ```Swift
 extension Stark: Identifiable {
@@ -174,38 +161,33 @@ extension Stark: Identifiable {
 
 ### <a name="migratingObjects">Migration</a>
 
-```swift
-protocol Migratable {
-  static func migrate(migration: MigrationType)
-}
-```
 Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
 
 ```swift
+extension Stark: Migratable {
+  static func migrate(migration: MigrationType) {
 
-static func migrate(migration: MigrationType) {
-
-  if migration.currentVersion < 2 {
+    if migration.currentVersion < 2 {
   
-    /* Add a new property */
-    migration.add("height")
+      /* Add a new property */
+      migration.add("height")
+      
+      /* Remove an existing property */
+      migration.remove("age")
+      
+      /* Rename an existing property */
+      migration.migrate("name").rename("firstName")
+      
+      /* Change the type of an exsisting property from `Double` to `Float` */
+      migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in       //The transform method will be changed before release
+        return Float(doubleValue!)
+      }
     
-    /* Remove an existing property */
-    migration.remove("age")
-    
-    /* Rename an existing property */
-    migration.migrate("name").rename("firstName")
-    
-    /* Change the type of an exsisting property from `Double` to `Float` */
-    migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in       //The transform method will be changed before release
-      return Float(doubleValue!)
+      /* Both rename and change the type of an existing property */
+      migration.migrate("name").rename("firstName").transform(String.self, to: Double.self) { stringValue in
+        return Double(stringValue ?? "")
+      }
     }
-    
-    /* Both rename and change the type of an existing property */
-    migration.migrate("name").rename("firstName").transform(String.self, to: Double.self) { stringValue in
-      return Double(stringValue ?? "")
-    }
-    
   }
 }
 ```
@@ -215,12 +197,6 @@ static func migrate(migration: MigrationType) {
 ### <a name="indexingObjects">Indexing</a>
 
 Creating an index on frequently queried properties can greatly increase thequery performance. Indexing a porperty, or collection of properties, can improve filtering and ordering of results.
-
-```Swift
-protocol Indexable {
-  static func index(index: IndexType)
-}
-```
 
 ```Swift
 extension Stark: Indexable {
