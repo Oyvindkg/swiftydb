@@ -216,7 +216,6 @@ These are some known limitations of the current version:
 - Cannot handle circular references between objects
 - It is not possible to query collections or nested objects
 - Only collections where all elements are of the same type are supported
-- Dictionaries are not storeable at the moment
 
 All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
