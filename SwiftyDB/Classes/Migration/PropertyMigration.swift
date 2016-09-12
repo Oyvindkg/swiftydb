@@ -25,6 +25,8 @@ internal class PropertyMigration: PropertyMigrationType {
     }
     
     func rename(newPropertyName: String) -> PropertyMigrationType {
+        self.newPropertyName = newPropertyName
+        
         migration.operations.append(
             .Rename(propertyName, newPropertyName)
         )
@@ -32,83 +34,83 @@ internal class PropertyMigration: PropertyMigrationType {
         return self
     }
 
+    // TODO: Transforms are very similar, should be restructured
+    
+    internal func addTransformation(transformation: StoreableValue? -> StoreableValue?) {
+        migration.operations.append(
+            MigrationOperation.Transform(newPropertyName ?? propertyName, transformation)
+        )
+    }
+    
     func transform<U : StoreableValueConvertible, V : StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         let transformation: StoreableValue? -> V.StoreableValueType? = { storeableValue in
-            let previousValue: U? = self.valueFromStoreableValue(storeableValue as? U.StoreableValueType)
+            let previousValue: U? = self.valueFromStoreableValue(storeableValue)
             
             return transformer(previousValue)?.storeableValue
         }
         
-        migration.operations.append(
-            MigrationOperation.Transform(newPropertyName ?? propertyName, transformation)
-        )
+        addTransformation(transformation)
         
         return self
     }
-//
-//    func transform<U: StoreableValueConvertible, V: StoreableValueConvertible>(previousType: [U].Type, to currentType: [V].Type, _ transform: [U]? -> [V]?) -> PropertyMigrationType {
-//        
-//        self.transformation = { storeableValue in
-//            let previousValue: [U]? = self.arrayFromStoreableValue(storeableValue)
-//            
-//            return self.storeableValueFromStoreableValueArray( transform(previousValue) )
-//        }
-//        
-//        return self
-//    }
-//    
-//    func transform<U : StoreableValueConvertible, V : StoreableValueConvertible>(previousType: Set<U>.Type, to currentType: Set<V>.Type, _ transform: Set<U>? -> Set<V>?) -> PropertyMigrationType {
-//        self.transformation = { storeableValue in
-//            let previousValue: Set<U>? = self.setFromStoreableValue(storeableValue)
-//            
-//            return self.storeableValueFromStoreableValueSet( transform(previousValue) )
-//        }
-//        
-//        return self
-//    }
-//    
-//    
+    
+    
+    func transform<U : RawRepresentable, V : RawRepresentable where U.RawValue: StoreableValueConvertible, V.RawValue: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+        
+        let transformation: StoreableValue? -> V.RawValue.StoreableValueType? = { storeableValue in
+            let previousValue: U? = self.rawRepresentableFromStoreableValue(storeableValue)
+            
+            return transformer(previousValue)?.rawValue.storeableValue
+        }
+        
+        addTransformation(transformation)
+        
+        return self
+    }
+    
+    func transform<U : RawRepresentable, V : StoreableValueConvertible where U.RawValue : StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+        let transformation: StoreableValue? -> V.StoreableValueType? = { storeableValue in
+            let previousValue: U? = self.rawRepresentableFromStoreableValue(storeableValue)
+            
+            return transformer(previousValue)?.storeableValue
+        }
+        
+        addTransformation(transformation)
+        
+        return self
+    }
+    
+    func transform<U : StoreableValueConvertible, V : RawRepresentable where V.RawValue : StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+        let transformation: StoreableValue? -> V.RawValue.StoreableValueType? = { storeableValue in
+            let previousValue: U? = self.valueFromStoreableValue(storeableValue)
+            
+            return transformer(previousValue)?.rawValue.storeableValue
+        }
+        
+        addTransformation(transformation)
+        
+        return self
+    }
+    
+    
+
 //    // MARK: - Helpers
-//    
-    private func valueFromStoreableValue<T: StoreableValueConvertible>(storeableValue: T.StoreableValueType?) -> T? {
-        guard storeableValue != nil else {
+
+    private func valueFromStoreableValue<T: StoreableValueConvertible>(storeableValue: StoreableValue?) -> T? {
+        guard let storeableValue = storeableValue as? T.StoreableValueType else {
             return nil
         }
         
-        return T.fromStoreableValue(storeableValue!)
+        return T.fromStoreableValue(storeableValue)
     }
-//
-//    private func setFromStoreableValue<T: StoreableValueConvertible>(storeableValue: StoreableValue?) -> Set<T>? {
-//        if let array: [T] = self.arrayFromStoreableValue(storeableValue) {
-//            return Set(array)
-//        }
-//        
-//        return nil
-//    }
-//    
-//    private func storeableValueFromStoreableValueSet<T: StoreableValueConvertible>(set: Set<T>?) -> String? {
-//        guard set != nil else {
-//            return nil
-//        }
-//        
-//        return JSONSerialisation.JSONFor( set!.map { $0.storeableValue } )
-//    }
-//    
-//    private func arrayFromStoreableValue<T: StoreableValueConvertible>(storeableValue: StoreableValue?) -> [T]? {
-//        if let stringValue = storeableValue as? String {
-//            let storeableValueArray: [T.StoreableValueType] = JSONSerialisation.arrayFor(stringValue)
-//            
-//            return storeableValueArray.map { T.fromStoreableValue($0) }
-//        }
-//        
-//        return nil
-//    }
-//    
-//    private func storeableValueFromStoreableValueArray<T: StoreableValueConvertible>(array: [T]?) -> String? {
-//        guard array != nil else {
-//            return nil
-//        }
-//        
-//        return JSONSerialisation.JSONFor( array!.map { $0.storeableValue } )
-//    }
+    
+    private func rawRepresentableFromStoreableValue<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(storeableValue: StoreableValue?) -> T? {
+        guard let storeableValue = storeableValue as? T.RawValue.StoreableValueType else {
+            return nil
+        }
+        
+        let rawValue = T.RawValue.fromStoreableValue(storeableValue)
+        
+        return T.init(rawValue: rawValue)
+    }
 }

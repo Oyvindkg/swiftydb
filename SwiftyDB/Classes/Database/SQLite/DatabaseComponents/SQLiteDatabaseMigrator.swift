@@ -64,7 +64,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         }
         
         guard extraProperties.isEmpty else {
-            throw SwiftyError.Migration("The following properties were not removed after migrating '\(type)', but is no longer valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.Migration("The following properties were not removed after migrating '\(type)', but are no longer valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
     }
     
@@ -165,7 +165,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         let reader = Mapper.readerForType(type)
         
         let insertQuery = self.queryFactory.insertQueryForReader(reader)
-        
+        print(dataArray.first!, insertQuery.query)
         let insertStatement = try database.prepare(insertQuery.query)
         
         for data in dataArray {
