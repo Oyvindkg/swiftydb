@@ -15,5 +15,5 @@ public protocol IndexType {
 }
 
 protocol _IndexType {
-    var indices: [IndexInstanceType] { get }
+    var indices: [_IndexInstanceType] { get }
 }

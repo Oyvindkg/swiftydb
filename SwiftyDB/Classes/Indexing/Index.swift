@@ -12,7 +12,7 @@ import Foundation
 class Index: IndexType, _IndexType {
     let type: Storeable.Type
     
-    var indices: [IndexInstanceType]
+    var indices: [_IndexInstanceType]
     
     init(type: Storeable.Type) {
         self.type = type

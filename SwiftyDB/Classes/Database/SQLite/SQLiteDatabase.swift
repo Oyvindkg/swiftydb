@@ -24,7 +24,7 @@ struct SQLiteDatabase: DatabaseType {
     
     init(configuration: ConfigurationType) {
         
-        
+
         if configuration.dryRun {
             let dryRunDatabasePath = configuration.databaseDirectory + "/dryrun-" + configuration.databaseName
             
@@ -87,7 +87,7 @@ struct SQLiteDatabase: DatabaseType {
     
     func create(index: _IndexType) throws {
         for index in index.indices {
-            try indexer.create(index as! _IndexInstanceType)
+            try indexer.create(index)
         }
     }
 }

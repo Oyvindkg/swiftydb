@@ -34,7 +34,7 @@ class ViewController: UIViewController {
             
             let start = NSDate()
             
-            swifty.get(Dog.self).offset(10).sort("name", ascending: true).limit(80).filter("age" > 40) { result in
+            swifty.get(Dog.self) { result in
                 print(result.value?.count)
                 print("Get:", -start.timeIntervalSinceNow)
             }
