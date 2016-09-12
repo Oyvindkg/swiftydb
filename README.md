@@ -14,9 +14,6 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 [Usage](#usage)<br />
 &emsp; [Using the database](#usingTheDatabase)<br />
 &emsp;&emsp; [Retrieving objects](#retrievingObjects)<br />
-&emsp;&emsp;&emsp; [Filtering results](#filteringResults)<br />
-&emsp;&emsp;&emsp; [Sorting results](#sortingResults)<br />
-&emsp;&emsp;&emsp; [Limiting results](#limitingResults)<br />
 &emsp;&emsp; [Storing objects](#storingObjects)<br />
 &emsp;&emsp; [Deleting objects](#deletingObjects)<br />
 &emsp; [Defining objects](#definingObjects)<br />
@@ -45,16 +42,9 @@ let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
 ```swift
-swifty.get(Stark.self) { result in
+swifty.get(Stark.self).filter("name" != "Rickon").limit(5).offset(2).orderBy("name") { result in
   let starks = result.value
 }
-```
-##### <a name="filteringResults">Filtering results</a>
-```Swift
-swifty.get(Stark.self).filter("name" == "Sansa") { result in 
-  let sansa = result.values?.first
-}
-
 ```
 
 | Operator | Function                                |
@@ -77,21 +67,6 @@ swifty.get(Stark.self).filter("name" == "Sansa") { result in
 |    &&    | Conjunction of X and Y                  |
 |   \|\|   | Disjunction of X and Y                  |
 
-
-
-##### <a name="sortingResults">Sorting results</a>
-```swift
-swifty.get(Stark.self).orderBy("age") { result in 
-  let starks = result.values
-}
-```
-
-##### <a name="limitingResults">Limiting results</a>
-```Swift
-swifty.get(Stark.self).limit(10).offset(5) { result in 
-  let starks = result.values
-}
-```
 
 #### <a name="storingObjects">Storing objects</a>
 ```Swift
