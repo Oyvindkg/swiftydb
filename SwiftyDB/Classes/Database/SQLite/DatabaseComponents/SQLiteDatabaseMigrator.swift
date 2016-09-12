@@ -38,15 +38,33 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             
             let migratedData = self.migratedData(existingData, withMigration: migration, forType: type)
  
-            try! self.updateReferencesForData(existingData, andMigratedDataArray: migratedData, ofType: type, typeInformation: typeInformation, inDatabase: database)
+            try self.validateMigratedData(migratedData, forType: type)
             
-            try! self.dropTableForType(type, inDatabase: database)
+            try self.updateReferencesForData(existingData, andMigratedDataArray: migratedData, ofType: type, typeInformation: typeInformation, inDatabase: database)
+            
+            try self.dropTableForType(type, inDatabase: database)
 
-            try! self.createTableForType(type, inDatabase: database)
+            try self.createTableForType(type, inDatabase: database)
             
-            print(existingData.first!, migratedData.first!)
             try! self.insertData(migratedData, forType: type, inDatabase: database)
-            
+        }
+    }
+    
+    func validateMigratedData(migratedData: [[String: SQLiteValue?]], forType type: Storeable.Type) throws {
+        let reader = Mapper.readerForType(type)
+        
+        let migratedProperties = Set(migratedData.first!.keys)
+        let typeProperties = Set(reader.types.keys.filter { reader.types[$0] is StoreableValue.Type})
+                
+        let missingProperties = typeProperties.subtract(migratedProperties)
+        let extraProperties = migratedProperties.subtract(typeProperties)
+        
+        guard missingProperties.isEmpty else {
+            throw SwiftyError.Migration("The following properties were not present after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+        }
+        
+        guard extraProperties.isEmpty else {
+            throw SwiftyError.Migration("The following properties were not removed after migrating '\(type)', but is no longer valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
     }
     
@@ -101,41 +119,24 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             return migratedDataArray
         }
         
-        let reader = Mapper.readerForType(type)
-        
-        let removedProperties = Set(dataArray.first!.keys).subtract( reader.types.keys )
-        let addedProperties = Set(reader.types.keys).subtract( dataArray.first!.keys )
-        
         for i in 0 ..< migratedDataArray.count {
             var migratedData = migratedDataArray[i]
             
-            /* Add new properties */
-            for addedProperty in addedProperties {
-                migratedData[addedProperty] = reader.storeableValues[addedProperty] as? SQLiteValue
-            }
-            
             /* Migrate data as specified in the types `migration(..)` function */
-            for propertyMigration in migration.propertyMigrations {
-                var propertyName = propertyMigration.propertyName
-                
-                var value = migratedData[propertyName]
-                                
-                if let transformation = propertyMigration.transformation {
-                    value = transformation(value as? StoreableValue) as? SQLiteValue
+            for operation in migration.operations {
+                switch operation {
+                case .Add(let property, let defaultValue):
+                    migratedData[property] = defaultValue as? SQLiteValue
+                case .Transform(let property, let transformation):
+                    migratedData[property] = transformation(migratedData[property] as? StoreableValue) as? SQLiteValue
+                case .Rename(let property, let newProperty):
+                    migratedData[newProperty] = migratedData[property]
+                    migratedData[property] = nil
+                case .Remove(let property):
+                    migratedData[property] = nil
                 }
-                
-                if let newPropertyName = propertyMigration.newPropertyName {
-                    propertyName = newPropertyName
-                }
-                
-                migratedData[propertyName] = value
             }
-            
-            /* Remove obsolete properties */
-            for removedProperty in removedProperties {
-                migratedData.removeValueForKey(removedProperty)
-            }
-            
+
             migratedDataArray[i] = migratedData
         }
         

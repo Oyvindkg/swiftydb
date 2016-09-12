@@ -26,22 +26,19 @@ class ViewController: UIViewController {
         
         let swifty = Swifty(configuration: configuration)
         
-        let dogs: [Dog] = (0 ..< 1000).map { _ in Dogger() }
+        let dogs: [Dog] = (0 ..< 100).map { _ in Dog() }
         
 
         swifty.add(dogs) { result in
-            print("Added")
+            print("Added", result)
             
             let start = NSDate()
             
-            swifty.get(Dog.self) { result in
+            swifty.get(Dog.self).offset(10).sort("name", ascending: true).limit(80).filter("age" > 40) { result in
                 print(result.value?.count)
                 print("Get:", -start.timeIntervalSinceNow)
             }
         }
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {

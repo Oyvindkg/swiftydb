@@ -598,8 +598,8 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				399C484A1D745F89006393B5 /* Database */,
 				399C483E1D7455E6006393B5 /* Storeables */,
+				399C484A1D745F89006393B5 /* Database */,
 				39F3CE771D72F20400B87982 /* Swifty */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);

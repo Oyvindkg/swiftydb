@@ -33,7 +33,7 @@ struct SQLiteDatabaseTableCreator {
             let tableExists = try tableExistsForReader(reader)
 
             guard !tableExists else {
-                return
+                continue
             }
             
             try createTableForReader(reader)
@@ -41,7 +41,7 @@ struct SQLiteDatabaseTableCreator {
     }
     
     private func createTableForReader(reader: Reader) throws {
-
+        
         try createTablesForNestedReadersIfNecessary(reader)
         
         /* Table was created for a nested reader */
@@ -50,7 +50,7 @@ struct SQLiteDatabaseTableCreator {
         }
         
         let query = queryFactory.createTableQueryForReader(reader)
-
+        
         try databaseQueue.database { database in
             try! database.prepare(query.query)
                 .executeUpdate(query.parameters)
@@ -77,7 +77,7 @@ struct SQLiteDatabaseTableCreator {
     
     private func tableExistsForType(type: Storeable.Type) throws -> Bool {
         let name = String(type)
-        
+
         guard !existingTables.contains( name ) else {
             return true
         }

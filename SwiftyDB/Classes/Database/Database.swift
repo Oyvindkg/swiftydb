@@ -9,6 +9,7 @@
 import Foundation
 
 protocol DatabaseType {
+    
     func add<T: Storeable>(objects: [T]) throws
     
     func get<T: Storeable>(query: Query<T>, nested: Bool) throws -> [T]

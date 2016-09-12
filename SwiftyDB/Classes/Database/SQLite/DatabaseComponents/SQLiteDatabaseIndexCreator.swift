@@ -21,7 +21,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
     
     func create(index: _IndexInstanceType) throws {
         let query = queryFactory.createIndexQueryFor(index)
-        
+
         try databaseQueue.database { database in
             try database.prepare(query.query)
                 .executeUpdate()

@@ -11,7 +11,6 @@ import Foundation
 class HasValue: Storeable {
     
     var id             = ""
-    var matcher        = ""
     var index          = ""
         
     var parentType     = ""
@@ -29,14 +28,12 @@ class HasValue: Storeable {
         self.parentID = parentID
         self.parentProperty = parentProperty
         
-        self.matcher = "\(parentType):\(parentID):\(parentProperty)"
         self.index = index
-        self.id = "\(self.matcher):\(self.index)"
+        self.id = "\(parentType):\(parentID):\(parentProperty):\(self.index)"
     }
     
     func mapping(map: MapType) {
         id              <- map["id"]
-        matcher         <- map["matcher"]
         index           <- map["index"]
                 
         parentID        <- map["parentID"]

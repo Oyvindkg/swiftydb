@@ -31,7 +31,7 @@ class Migrator: MigratorType {
     }
     
     // TODO: Make this pretty
-    //TODO: Wont detect changes with the same storeable value type
+    // TODO: Wont detect changes with the same storeable value type
     private func migrateThisTypeIfNecessary(type: Storeable.Type, inSwifty swifty: Swifty) throws {
         
         let query = Query<TypeInformation>().filter("name" == String(type))
@@ -60,7 +60,6 @@ class Migrator: MigratorType {
                 }
             }
             
-            
             if needsMigration {
                 try swifty.database.migrate(type, fromTypeInformation: typeInformation)
                 
@@ -68,7 +67,7 @@ class Migrator: MigratorType {
                 
                 swifty.addSync([newTypeInformation])
             }
-        } else {            
+        } else {
             let newTypeInformation = MigrationUtils.typeInformationForType(type)
             
             swifty.addSync([newTypeInformation])

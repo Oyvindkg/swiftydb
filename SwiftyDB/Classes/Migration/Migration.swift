@@ -8,20 +8,60 @@
 
 import Foundation
 
-internal class Migration: MigrationType {
+enum MigrationOperation {
+    case Add(String, StoreableValue?)
+    case Remove(String)
+    case Rename(String, String)
+    case Transform(String, StoreableValue? -> StoreableValue?)
+}
+
+internal class Migration: MigrationType, _MigrationType {
     
     let currentVersion: UInt
-    var propertyMigrations: [PropertyMigration] = []
+    
+    var operations: [MigrationOperation] = []
     
     init(currentVersion: UInt) {
         self.currentVersion = currentVersion
     }
     
     func migrate(propertyName: String) -> PropertyMigrationType {
-        let propertyMigration = PropertyMigration(propertyName: propertyName)
+        return PropertyMigration(propertyName: propertyName, migration: self)
+    }
+    
+    private func add(property: String, defaultValue: StoreableValue?) {
+        operations.append(
+            MigrationOperation.Add(property, defaultValue)
+        )
+    }
+    
+    func add<T : StoreableValueConvertible>(property: String, defaultValue: T) {
+        add(property, defaultValue: defaultValue.storeableValue)
+    }
+    
+    func add(property: String) {
+        add(property, defaultValue: nil)
+    }
+    
+    func add<T : StoreableValueConvertible>(property: String, defaultValue: [T]) {
+        let storeableValue = JSONSerialisation.JSONFor(defaultValue)
         
-        propertyMigrations.append(propertyMigration)
+        add(property, defaultValue: storeableValue)
+    }
+    
+    func add<T : StoreableValueConvertible, U : StoreableValueConvertible where T.StoreableValueType : Hashable>(property: String, defaultValue: Dictionary<T, U>) {
+        let storeableValue = JSONSerialisation.JSONFor(defaultValue)
         
-        return propertyMigration
+        add(property, defaultValue: storeableValue)
+    }
+    
+    func add<T : StoreableValueConvertible>(property: String, defaultValue: Set<T>) {
+        add(property, defaultValue: Array(defaultValue))
+    }
+    
+    func remove(property: String) {
+        operations.append(
+            .Remove(property)
+        )
     }
 }
