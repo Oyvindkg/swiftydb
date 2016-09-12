@@ -88,19 +88,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
     private func getStoreableWritersForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer] {
         let propertyReader = Mapper.readerForType(type)
         
-        let query = "SELECT childID FROM  \(HasStoreable.self) WHERE parentType = ? AND parentID = ? AND parentProperty = ?"
-        let parameters: [SQLiteValue?] = [String(writer.type), writer.identifierValue as? SQLiteValue, property]
-        
-        let statement = try! database.prepare(query)
-                                     .execute(parameters)
-        
-        let ids = statement.map { $0.valueForColumn("childID") as? StoreableValue }
-        
-        try! statement.finalize()
-        
-        guard ids.count > 0 else {
-            return []
-        }
+        let ids: [String?] = JSONSerialisation.arrayFor(writer.storeableValues[property] as? String)!
         
         let filter = type.identifier() << ids
         

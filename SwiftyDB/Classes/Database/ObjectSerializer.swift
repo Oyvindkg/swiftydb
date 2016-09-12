@@ -32,36 +32,17 @@ struct ObjectSerializer: ObjectSerializerType {
     private static func extractNestedReadersFromReader(reader: Reader) -> [Reader] {
         var readers: [Reader] = []
         
-        for (property, childReader) in reader.mappables {
-            readers.appendContentsOf( readersForChildReader(childReader as! Reader, forProperty: property, inReader: reader) )
+        for (_, childReader) in reader.mappables {
+            readers.appendContentsOf( readersForReader(childReader as! Reader) )
         }
         
-        for (property, childMaps) in reader.mappableArrays {
+        for (_, childMaps) in reader.mappableArrays {
             let childReaders: [Reader] = childMaps.matchType()
             
-            for (index, childReader) in childReaders.enumerate() {
-                readers.appendContentsOf( readersForChildReader(childReader, forProperty: property, inReader: reader, index: String(index)) )
+            for (_, childReader) in childReaders.enumerate() {
+                readers.appendContentsOf( readersForReader(childReader) )
             }
         }
-        
-        return readers
-    }
-    
-    private static func readersForChildReader(childReader: Reader, forProperty property: String, inReader reader: Reader, index: String = "") -> [Reader] {
-        let parentIdentifier = reader.storeableType.identifier()
-        let parentType = String(reader.type)
-        let parentID = String(reader.storeableValues[parentIdentifier]!)
-        
-        let childIdentifier = childReader.storeableType.identifier()
-        let childType = String(childReader.type)
-        let childID = String(childReader.storeableValues[childIdentifier]!)
-        
-        var readers: [Reader] = readersForReader(childReader)
-        
-        /* Create an object connecting the parent with the child mappable */
-        let hasStoreable = HasStoreable(parentType: parentType, parentID: parentID, parentProperty: property, childType: childType, childID: childID, index: index)
-        
-        readers.append(Mapper.readerForObject(hasStoreable))
         
         return readers
     }

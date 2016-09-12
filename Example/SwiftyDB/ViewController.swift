@@ -28,23 +28,17 @@ class ViewController: UIViewController {
         
         
         
-        let dogs: [Dog] = (0 ..< 100).map { _ in Dog() }
+        let dogs: [Dog] = (0 ..< 600).map { _ in Dog() }
         
-
+        let addStart = NSDate()
         swifty.add(dogs) { result in
-            print("Added", result)
+            print("Added:", -addStart.timeIntervalSinceNow, result)
             
             let start = NSDate()
             
             swifty.get(Dog.self).sortBy("name", ascending: false) { result in
                 print(result.value?.count)
                 print("Get:", -start.timeIntervalSinceNow)
-            }
-            
-            let query = swifty.get(Dog.self).filter("age" > 96).sortBy("name", ascending: false)
-            
-            query.start(20).max(20) { result in
-                
             }
         }
     }
