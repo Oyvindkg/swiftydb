@@ -41,18 +41,21 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
+In order to retrieve all objects of a type from the database, simply call the `get(..)` method with the requested object type as a parameter.
 ```swift
 swifty.get(Stark.self) { result in
   let starks = result.value
 }
 ```
-Query operations can be chained. The result is restrieved by adding a closure to the end of the chain
+
+##### Filtering results
+
+Filtering results is really simple due to SwiftyDB's expressive and powerfull query language  
 ```Swift
-swifty.get(Stark.self).filter("name" != "Rickon").orderBy("name").limit(5).offset(2) { result in
-  let starks = result.value
+swifty.get(Stark.self).filter("name" << ["Sansa", "Arya", "Brandon"]) { result in
+  let livingStarks = result.value
 }
 ```
-Filters can be constructed using the following operators:
 
 | Operator | Function                                |
 |:--------:|:----------------------------------------|
@@ -74,6 +77,24 @@ Filters can be constructed using the following operators:
 |    &&    | Conjunction of X and Y                  |
 |   \|\|   | Disjunction of X and Y                  |
 
+##### Sorting results
+
+Sorting the results is also possible by using the `sort(.., ascending: ..)` method.
+```Swift
+swifty.get(Stark.self).sort("name") { result in
+  let starks = result.value
+}
+```
+
+##### Limitig results
+
+To improve the performance of your queries, SwiftyDB offers simple pagination using the `start(..)` and `max(..)` methods. `start(..)` specifies the index of the first included result element, and `max(..)` specifies the maximum number of elements to be retrieved.
+```Swift
+/* Retrieve 4 starks, ignoring the 2 first results */
+swifty.get(Stark.self).start(2).max(4) { result in
+  let starks = result.value
+}
+```
 
 #### <a name="storingObjects">Storing objects</a>
 ```Swift
@@ -190,6 +211,14 @@ extension Stark: Indexable {
 ```
 
 ## <a name="limitations">Limitations</a>
+These are some known limitations of the current version:
+
+- Cannot handle circular references between objects
+- It is not possible to query collections or nested objects
+- Only collections where all elements are of the same type are supported
+- Dictionaries are not storeable at the moment
+
+All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
 ## <a name="performance">Performance</a>
 
