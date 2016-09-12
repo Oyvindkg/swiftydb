@@ -12,24 +12,31 @@ struct JSONSerialisation {
     
     // MARK: - To JSON
     static func JSONFor<T: CollectionType>(collection collection: T) -> String {
-        assert(collection.elementType is StoreableValue.Type)
+        guard !collection.isEmpty else {
+            return "[]"
+        }
         
-        
-        if T.Generator.Element.self is Double.Type {
+        if collection.first is Double {
             let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(NSNumber.self), options: [])
+            
             return String(data: data, encoding: NSUTF8StringEncoding)!
         }
         
-        if T.Generator.Element.self is Int64.Type {
+        if collection.first is Int64 {
             let numbers = collection.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
+            
             let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
             
             return String(data: data, encoding: NSUTF8StringEncoding)!
         }
         
-        let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(String.self), options: [])
+        if collection.first is String {
+            let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(String.self), options: [])
+            
+            return String(data: data, encoding: NSUTF8StringEncoding)!
+        }
         
-        return String(data: data, encoding: NSUTF8StringEncoding)!
+        fatalError("Did not recognize type: \(T.Generator.Element.self)")
     }
     
     static func JSONFor<T: CollectionType>(collection collection: T?) -> String? {
