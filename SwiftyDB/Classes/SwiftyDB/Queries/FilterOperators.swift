@@ -68,6 +68,17 @@ public func == <T: Storeable>(left: String, right: T) -> FilterStatement {
     return Expression.Equal(left, reader.identifierValue)
 }
 
+public func == <T: Storeable>(left: String, right: T?) -> FilterStatement {
+    var reader: Reader? = nil
+    
+    if let object = right {
+        reader = Mapper.readerForObject(object)
+    }
+    
+    return Expression.Equal(left, reader?.identifierValue)
+}
+
+
 public func == <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
     return Expression.Equal(left, right.storeableValue)
 }
@@ -75,6 +86,7 @@ public func == <T: StoreableValueConvertible>(left: String, right: T) -> FilterS
 public func == <T: StoreableValueConvertible>(left: String, right: T?) -> FilterStatement {
     return Expression.Equal(left, right?.storeableValue)
 }
+
 
 
 public func != <T: Storeable>(left: String, right: T) -> FilterStatement {

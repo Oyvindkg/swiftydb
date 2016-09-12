@@ -36,4 +36,8 @@ extension Array {
     func matchType<T>() -> [T?] {
         return self.map { $0 as? T }
     }
+    
+    var elementType: Element.Type {
+        return Element.self
+    }
 }

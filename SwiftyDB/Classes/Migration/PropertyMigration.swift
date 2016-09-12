@@ -33,14 +33,6 @@ internal class PropertyMigration: PropertyMigrationType {
         
         return self
     }
-
-    // TODO: Transforms are very similar, should be restructured
-    
-    internal func addTransformation(transformation: StoreableValue? -> StoreableValue?) {
-        migration.operations.append(
-            MigrationOperation.Transform(newPropertyName ?? propertyName, transformation)
-        )
-    }
     
     func transform<U : StoreableValueConvertible, V : StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         let transformation: StoreableValue? -> V.StoreableValueType? = { storeableValue in
@@ -54,6 +46,8 @@ internal class PropertyMigration: PropertyMigrationType {
         return self
     }
     
+    
+    // MARK: - Raw representables
     
     func transform<U : RawRepresentable, V : RawRepresentable where U.RawValue: StoreableValueConvertible, V.RawValue: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         
@@ -93,8 +87,14 @@ internal class PropertyMigration: PropertyMigrationType {
     }
     
     
-
-//    // MARK: - Helpers
+    // MARK: - Helpers
+    
+    private func addTransformation(transformation: StoreableValue? -> StoreableValue?) {
+        migration.operations.append(
+            .Transform(newPropertyName ?? propertyName, transformation)
+        )
+    }
+    
 
     private func valueFromStoreableValue<T: StoreableValueConvertible>(storeableValue: StoreableValue?) -> T? {
         guard let storeableValue = storeableValue as? T.StoreableValueType else {

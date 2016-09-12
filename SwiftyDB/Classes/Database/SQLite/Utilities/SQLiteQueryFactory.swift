@@ -45,7 +45,7 @@ class SQLiteQueryFactory {
         
         for (property, type) in reader.types {
             guard type is StoreableValue.Type else {
-//                columnDefinitions.append( "'\(property)' TEXT" )
+                columnDefinitions.append( "'\(property)' TEXT" )
                 continue
             }
             

@@ -33,7 +33,7 @@ class Dog: Storeable {
         age             <- map["age"]
         type            <- map["type"]
 //        bones           <- map["bones"]
-        superBone       <- map["superBone"]
+//        superBone       <- map["superBone"]
         dates           <- map["dates"]
         ids             <- map["numbers"]
     }
@@ -57,7 +57,12 @@ class Dogger: Dog {
 extension Dog: Migratable {
     static func migrate(migration: MigrationType) {
         if migration.currentVersion < 1 {
+            migration.add("superBone")
             migration.migrate("double").rename("age").transform(Double.self) { Int($0 ?? -1) }
+        }
+        
+        if migration.currentVersion < 2 {
+            migration.remove("superBone")
         }
     }
 }

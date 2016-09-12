@@ -54,11 +54,12 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         let reader = Mapper.readerForType(type)
         
         let migratedProperties = Set(migratedData.first!.keys)
-        let typeProperties = Set(reader.types.keys.filter { reader.types[$0] is StoreableValue.Type})
+        let typeProperties = Set(reader.types.keys)
                 
         let missingProperties = typeProperties.subtract(migratedProperties)
         let extraProperties = migratedProperties.subtract(typeProperties)
-        
+        print(migratedProperties)
+        print(typeProperties)
         guard missingProperties.isEmpty else {
             throw SwiftyError.Migration("The following properties were not present after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }

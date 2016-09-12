@@ -21,6 +21,8 @@ public func <- <T: Mappable>(inout left: T, right: MapType) {
 func <- <T: Mappable>(inout left: T, right: Reader) {
     let reader = Mapper.readerForObject(left)
     
+    right.storeableValues[right.currentKey!] = reader.identifierValue
+    
     right.setCurrentValue(reader, forType: T.self)
 }
 
@@ -45,6 +47,8 @@ func <- <T: Mappable>(inout left: T?, right: Reader) {
     if let object = left {
         reader = Mapper.readerForObject(object)
     }
+    
+    right.storeableValues[right.currentKey!] = reader?.identifierValue
     
     right.setCurrentValue(reader, forType: T.self)
 }
@@ -75,6 +79,8 @@ func <- <T: Mappable>(inout left: T!, right: Reader) {
         reader = Mapper.readerForObject(object)
     }
     
+    right.storeableValues[right.currentKey!] = reader?.identifierValue
+    
     right.setCurrentValue(reader, forType: T.self)
 }
 
@@ -103,6 +109,10 @@ func <- <T: Mappable>(inout left: [T], right: Reader) {
     let maps = left.map { mappable -> Reader in
         return Mapper.readerForObject(mappable)
     }
+    
+    let identifiers: [StoreableValue?] = maps.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers))
         
     right.setCurrentValue(maps, forType: T.self)
 }
@@ -126,6 +136,10 @@ func <- <T: Mappable>(inout left: [T]?, right: Reader) {
     let maps = left?.map { mappable -> Reader in
         return Mapper.readerForObject(mappable)
     }
+    
+    let identifiers: [StoreableValue?]? = maps?.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers))
     
     right.setCurrentValue(maps, forType: T.self)
 }
@@ -152,6 +166,10 @@ func <- <T: Mappable>(inout left: [T]!, right: Reader) {
         return Mapper.readerForObject(mappable)
     }
     
+    let identifiers: [StoreableValue?] = maps.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers))
+    
     right.setCurrentValue(maps, forType: T.self)
 }
 
@@ -176,6 +194,10 @@ func <- <T: Mappable>(inout left: Set<T>, right: Reader) {
         return Mapper.readerForObject(mappable)
     }
     
+    let identifiers: [StoreableValue?] = maps.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers))
+    
     right.setCurrentValue(maps, forType: T.self)
 }
 
@@ -198,6 +220,10 @@ func <- <T: Mappable>(inout left: Set<T>?, right: Reader) {
     let maps = left?.map { mappable -> Reader in
         return Mapper.readerForObject(mappable)
     }
+    
+    let identifiers: [StoreableValue?]? = maps?.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers))
     
     right.setCurrentValue(maps, forType: T.self)
 }
@@ -223,6 +249,10 @@ func <- <T: Mappable>(inout left: Set<T>!, right: Reader) {
     let maps = left.map { mappable -> Reader in
         return Mapper.readerForObject(mappable)
     }
+    
+    let identifiers: [StoreableValue?] = maps.map {$0.identifierValue}
+    
+    right.setCurrentValue(JSONSerialisation.JSONFor(identifiers) as String)
     
     right.setCurrentValue(maps, forType: T.self)
 }

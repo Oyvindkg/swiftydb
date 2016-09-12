@@ -25,11 +25,3 @@ class BaseMap {
         self.type = type
     }
 }
-
-//extension BaseMap: Map {
-//    subscript(key: String) -> Map {
-//        currentKey = key
-//        
-//        return self
-//    }
-//}

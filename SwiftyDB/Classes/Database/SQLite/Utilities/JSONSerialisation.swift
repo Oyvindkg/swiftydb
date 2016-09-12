@@ -11,6 +11,31 @@ import Foundation
 struct JSONSerialisation {
     
     // MARK: - To JSON
+    static func JSONFor(array: [StoreableValue?]) -> String {
+        if array.elementType is Double.Type {
+            let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(NSNumber.self), options: [])
+            return String(data: data, encoding: NSUTF8StringEncoding)!
+        }
+        
+        if array.elementType is Int64.Type {
+            let numbers = array.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
+            let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
+            
+            return String(data: data, encoding: NSUTF8StringEncoding)!
+        }
+        
+        let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(String.self), options: [])
+        
+        return String(data: data, encoding: NSUTF8StringEncoding)!
+    }
+    
+    static func JSONFor(array: [StoreableValue?]?) -> String? {
+        if array == nil {
+            return nil
+        }
+        
+        return JSONFor(array!) as String
+    }
     
     static func JSONFor<T: StoreableValue>(array: [T?]) -> String {
         if T.self is Double.Type {
