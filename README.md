@@ -113,7 +113,7 @@ swifty.delete(Stark.self).filter("name" == "Eddard")
 ```
 
 ### <a name="definingObjects">Defining objects</a>
-Any object can be storeable by implementing the `Storeable` protocol as an extension. This protocol consists of the `Mappable` and `Identifiable` protocols. 
+Any object can be storable by implementing the `Storable` protocol as an extension. This protocol consists of the `Mappable` and `Identifiable` protocols. 
 
 ```Swift
 struct Stark {
