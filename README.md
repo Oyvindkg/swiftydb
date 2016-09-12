@@ -161,12 +161,12 @@ extension Stark: Migratable {
       migration.migrate("name").rename("firstName")
       
       /* Change the type of an exsisting property from `Double` to `Float` */
-      migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in       //The transform method will be changed before release
+      migration.migrate("weight").transform(Double.self) { doubleValue in
         return Float(doubleValue!)
       }
     
       /* Both rename and change the type of an existing property */
-      migration.migrate("name").rename("firstName").transform(String.self, to: Double.self) { stringValue in
+      migration.migrate("name").rename("firstName").transform(String.self) { stringValue in
         return Double(stringValue ?? "")
       }
     }
