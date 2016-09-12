@@ -112,6 +112,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         return try statement.execute().map { $0.dictionary }
     }
     
+    // TODO: Make sure operations are executed in the correct order
     private func migratedData(dataArray: [[String: SQLiteValue?]], withMigration migration: Migration, forType type: Storeable.Type) -> [[String: SQLiteValue?]] {
         var migratedDataArray = dataArray
         
@@ -119,8 +120,8 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             return migratedDataArray
         }
         
-        for i in 0 ..< migratedDataArray.count {
-            var migratedData = migratedDataArray[i]
+        for i in 0 ..< dataArray.count {
+            var migratedData = dataArray[i]
             
             /* Migrate data as specified in the types `migration(..)` function */
             for operation in migration.operations {

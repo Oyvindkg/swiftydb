@@ -35,6 +35,28 @@ internal class Migration: MigrationType, _MigrationType {
         )
     }
     
+    func add<T : RawRepresentable where T.RawValue : StoreableValueConvertible>(property: String, defaultValue: T) {
+        add(property, defaultValue: defaultValue.rawValue)
+    }
+    
+    func add<T : RawRepresentable where T.RawValue : StoreableValueConvertible>(property: String, defaultValue: [T]) {
+        add(property, defaultValue: defaultValue.map { $0.rawValue })
+    }
+    
+    func add<T : RawRepresentable where T.RawValue : StoreableValueConvertible>(property: String, defaultValue: Set<T>) {
+        add(property, defaultValue: Array(defaultValue))
+    }
+    
+    func add<T : StoreableValueConvertible, U : RawRepresentable where U.RawValue : StoreableValueConvertible, T.StoreableValueType : Hashable>(property: String, defaultValue: [T : U]) {
+        var storeableConvertibleDictionary: [T: U.RawValue] = [:]
+        
+        for (key, value) in defaultValue {
+            storeableConvertibleDictionary[key] = value.rawValue
+        }
+        
+        add(property, defaultValue: storeableConvertibleDictionary)
+    }
+    
     func add<T : StoreableValueConvertible>(property: String, defaultValue: T) {
         add(property, defaultValue: defaultValue.storeableValue)
     }

@@ -31,22 +31,21 @@ internal class PropertyMigration: PropertyMigrationType {
         
         return self
     }
-    
-    func transform<U: StoreableValueConvertible, V: StoreableValueConvertible>(previousType: U.Type, to currentType: V.Type, _ transform: U? -> V?) -> PropertyMigrationType {
 
-        let transformation: StoreableValue? -> StoreableValue? = { storeableValue in
+    func transform<U : StoreableValueConvertible, V : StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+        let transformation: StoreableValue? -> V.StoreableValueType? = { storeableValue in
             let previousValue: U? = self.valueFromStoreableValue(storeableValue as? U.StoreableValueType)
             
-            return transform(previousValue)?.storeableValue
+            return transformer(previousValue)?.storeableValue
         }
         
         migration.operations.append(
-            MigrationOperation.Transform(propertyName, transformation)
+            MigrationOperation.Transform(newPropertyName ?? propertyName, transformation)
         )
         
         return self
     }
-//    
+//
 //    func transform<U: StoreableValueConvertible, V: StoreableValueConvertible>(previousType: [U].Type, to currentType: [V].Type, _ transform: [U]? -> [V]?) -> PropertyMigrationType {
 //        
 //        self.transformation = { storeableValue in

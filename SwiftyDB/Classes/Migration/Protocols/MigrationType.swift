@@ -9,6 +9,8 @@
 import Foundation
 
 public protocol MigrationType {
+    var currentVersion: UInt { get }
+    
     func migrate(property: String) -> PropertyMigrationType
     
     func add(property: String)
@@ -17,9 +19,12 @@ public protocol MigrationType {
     func add<T: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
     func add<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(property: String, defaultValue: Dictionary<T, U>)
     
-    func remove(property: String)
+    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: T)
+    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: [T])
+    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
+    func add<T: StoreableValueConvertible, U: RawRepresentable where U.RawValue : StoreableValueConvertible, T.StoreableValueType : Hashable>(property: String, defaultValue: [T : U])
     
-    var currentVersion: UInt { get }
+    func remove(property: String)
 }
 
 protocol _MigrationType {

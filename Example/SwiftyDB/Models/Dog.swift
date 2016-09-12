@@ -59,13 +59,14 @@ extension Dog: Migratable {
         if migration.currentVersion < 1 {
             migration.add("age")
             migration.add("name")
-            migration.add("type", defaultValue: Breed.Dachs.rawValue)
+            migration.add("type", defaultValue: Breed.Dachs)
             migration.remove("name1")
             migration.remove("name2")
             migration.remove("name3")
             migration.remove("name4")
             migration.remove("name5")
             migration.remove("name6")
+            migration.migrate("age").rename("integer").transform(Double.self) { Int($0!) }
         }
     }
 }
