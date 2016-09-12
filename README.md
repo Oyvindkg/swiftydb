@@ -169,7 +169,7 @@ extension Stark: Identifiable {
 }
 ```
 
-> Apple's `NSUUID` (`UUID` in Swift 3) is a good source for unique values 
+> If an object identifier is `nil` when adding it to the database, an identifier will be generated automatically...
 
 
 ### <a name="migratingObjects">Migration</a>
