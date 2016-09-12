@@ -214,6 +214,8 @@ static func migrate(migration: MigrationType) {
 
 ### <a name="indexingObjects">Indexing</a>
 
+Creating an index on frequently queried properties can greatly increase thequery performance. Indexing a porperty, or collection of properties, can improve filtering and ordering of results.
+
 ```Swift
 protocol Indexable {
   static func index(index: IndexType)
