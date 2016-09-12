@@ -24,20 +24,20 @@ public class GetQuery<T: Storeable>: Query<T> {
         self.database.get(self, resultHandler: resultHandler)
     }
     
-    public func limit(limit: Int, resultHandler: (Result<ResultType> -> Void)?) {
-        self.limit(limit)
+    public func start(start: Int, resultHandler: (Result<ResultType> -> Void)?) {
+        self.start(start)
         
         self.database.get(self, resultHandler: resultHandler)
     }
     
-    public func offset(offset: Int, resultHandler: (Result<ResultType> -> Void)?) {
-        self.offset(offset)
+    public func max(max: Int, resultHandler: (Result<ResultType> -> Void)?) {
+        self.max(max)
         
         self.database.get(self, resultHandler: resultHandler)
     }
     
-    public func sort(property: String, ascending: Bool = true, resultHandler: (Result<ResultType> -> Void)?) {
-        self.sort(property, ascending: ascending)
+    public func sortBy(property: String, ascending: Bool = true, resultHandler: (Result<ResultType> -> Void)?) {
+        self.sortBy(property, ascending: ascending)
         
         self.database.get(self, resultHandler: resultHandler)
     }

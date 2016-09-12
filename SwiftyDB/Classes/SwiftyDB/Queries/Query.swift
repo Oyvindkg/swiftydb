@@ -16,8 +16,8 @@ public class Query<T: Storeable>: QueryType, _QueryType {
     internal let type: Storeable.Type = T.self
     
     internal var filter: FilterStatement?
-    internal var limit: Int?
-    internal var offset: Int?
+    internal var max: Int?
+    internal var start: Int?
     internal var sorting: Sorting = .None
     
     public func filter(filter: FilterStatement) -> Self {
@@ -26,19 +26,19 @@ public class Query<T: Storeable>: QueryType, _QueryType {
         return self
     }
     
-    public func limit(limit: Int) -> Self {
-        self.limit = limit
+    public func max(max: Int) -> Self {
+        self.max = max
         
         return self
     }
     
-    public func offset(offset: Int) -> Self {
-        self.offset = offset
+    public func start(start: Int) -> Self {
+        self.start = start
         
         return self
     }
     
-    public func sort(property: String, ascending: Bool = true) -> Self {
+    public func sortBy(property: String, ascending: Bool = true) -> Self {
         self.sorting = ascending ? .Ascending(property) : .Descending(property)
         
         return self

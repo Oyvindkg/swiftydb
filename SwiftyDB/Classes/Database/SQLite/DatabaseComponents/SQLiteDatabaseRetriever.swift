@@ -27,7 +27,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         var writers: [Writer] = []
         
         try databaseQueue.transaction { database in
-            writers = try self.getWritersForReader(reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.limit, offset: query.offset, database: database)
+            writers = try self.getWritersForReader(reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.max, offset: query.start, database: database)
         }
                 
         return writers
