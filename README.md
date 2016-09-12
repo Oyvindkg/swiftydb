@@ -42,10 +42,17 @@ let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
 ```swift
-swifty.get(Stark.self).filter("name" != "Rickon").limit(5).offset(2).orderBy("name") { result in
+swifty.get(Stark.self) { result in
   let starks = result.value
 }
 ```
+Query operations can be chained. The result is restrieved by adding a closure to the end of the chain
+```Swift
+swifty.get(Stark.self).filter("name" != "Rickon").orderBy("name").limit(5).offset(2) { result in
+  let starks = result.value
+}
+```
+Filters can be constructed using the following operators:
 
 | Operator | Function                                |
 |:--------:|:----------------------------------------|
