@@ -34,8 +34,8 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 - [x] Collections of objects or values
 - [x] Thread safe database operations
 - [x] Asynchronous database access
-- [x] Migration
 - [x] Custom indices
+- [x] Migration
 
 ## <a name="usage">Usage</a>
 
@@ -186,6 +186,12 @@ Unrecognized property names are treated as new properties unless a renaming has 
 static func migrate(migration: MigrationType) {
 
   if migration.currentVersion < 2 {
+  
+    /* Add a new property */
+    migration.add("height")
+    
+    /* Remove an existing property */
+    migration.remove("age")
     
     /* Rename an existing property */
     migration.migrate("name").rename("firstName")
@@ -203,6 +209,8 @@ static func migrate(migration: MigrationType) {
   }
 }
 ```
+
+> Automatically detecting added and removed properties can be enabled in the database configuration, but is not encouraged. Manually defining these changes will help avoid migration errors, and make versioning easier for developers.
 
 ### <a name="indexingObjects">Indexing</a>
 
