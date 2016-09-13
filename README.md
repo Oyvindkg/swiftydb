@@ -3,7 +3,7 @@
 
 <br>
 
-A typesafe, pure Swift database offering effortless persistence of objects. 
+A typesafe, pure Swift database offering effortless persistence of objects. It draws inspiration from brilliant libraries such as [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and [QueryKit](https://github.com/QueryKit/QueryKit) to create a powerfull and easy-to-use database.
 
 <br>
 
@@ -27,23 +27,37 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 [Performance](#performance)<br />
 [License](#license)
 
-## <a name="features">Features</a>
-- [x] Complex filtering
-- [x] Supports all property types
-- [x] Can store nested objects
-- [x] Collections of objects or values
-- [x] Thread safe database operations
+## <a name="features">Main features</a>
+- [x] Store nested objects
+- [x] Store array, set, and dictionary type properties
 - [x] Asynchronous database access
+- [x] Thread safe database operations
 - [x] Custom indices
 - [x] Migration
 
 ## <a name="usage">Usage</a>
 
 ### <a name="usingTheDatabase">Access the database</a>
+
+The easiest way to open a database, is simply providing a name for the database.
+
 ```Swift
-let swifty = Swifty()
+let swifty = Swifty(name: "Westeros")
 ```
+
+For a more detailed configuration, create a new `Configuration` object, and initiate the database
+
+```Swift
+var configuration = Configuration(name: "Westeros")
+
+configuration.databaseDirectory = "~/some/dir"
+configuration.dryRun = true
+
+let swifty = Swifty(configuration: configuration)
+```
+
 #### <a name="retrievingObjects">Retrieving objects</a>
+
 In order to retrieve all objects of a type from the database, simply call the `get(..)` method with the requested object type as a parameter.
 ```swift
 swifty.get(Stark.self) { result in
@@ -172,12 +186,12 @@ extension Stark: Identifiable {
 }
 ```
 
-> If an object identifier is `nil` when adding it to the database, an identifier will be generated automatically...
-
 
 ### <a name="migratingObjects">Migration</a>
 
-Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
+If Swifty detects that the properties of a type does not match those stored in the database, it will try to initiate a migration. Fot a Storable type to be migratable, you must implement the `Migratable` protocol. 
+
+`migrate(..)` instructs Swifty how to map the existing data to the updated properties. Currently, it supports adding, removing, renaming, and changing type.
 
 ```swift
 extension Stark: Migratable {
@@ -194,21 +208,16 @@ extension Stark: Migratable {
       /* Rename an existing property */
       migration.migrate("name").rename("firstName")
       
-      /* Change the type of an exsisting property from `Double` to `Float` */
-      migration.migrate("weight").transform(Double.self) { doubleValue in
-        return Float(doubleValue!)
-      }
-    
-      /* Both rename and change the type of an existing property */
-      migration.migrate("name").rename("firstName").transform(String.self) { stringValue in
-        return Double(stringValue ?? "")
+      /* Change the type of an exsisting property from `String` to `Double` */
+      migration.migrate("name").transform(String.self) { stringValue in
+        return Double(doubleValue!)
       }
     }
   }
 }
 ```
 
-> Automatically detecting added and removed properties can be enabled in the database configuration, but is not encouraged. Manually defining these changes will help avoid migration errors, and make versioning easier for developers.
+> When testing your migrations, activate `dryRun` in the database configuration to avoid unwanted changes in the database
 
 ### <a name="indexingObjects">Indexing</a>
 
@@ -228,10 +237,21 @@ These are some known limitations of the current version:
 
 - Cannot handle circular references between objects
 - It is not possible to query collections of values of objects
+- It is not possible to store dictionaries of `Storable` objects
 
 All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
 ## <a name="performance">Performance</a>
+
+Swifty is created for convenience, not speed. For most applications the performance is more than good enough, but is you are going to add and retrieve thousands of nested objects on a regular basis, this library probably isn't for you. 
+
+Time to add and get 1 000 objects with various properties.
+
+| Hardware | Add with simple properties  | Get with simple properties | Add with collection properties  | Get with collection properties | Add with a nested object | Get with a nested object |
+|:--------:|:------------------------|:------------------------|:------------------------|:------------------------|:------------------------|:------------------------|
+| iPhone 6 | ~ 0.6 s                 | ~ 0.2 s                 | ~ 1.0 s                 | ~ 0.7 s                 | ~ 1.0 s                 | ~ 0.5 s                 |
+
+The response time increases near linearly with the number of storable objects to retrieve. Retrieving 1 000 simple objects takes approximately the same time as retrieving 500 objects with a nested object.
 
 ## <a name="installation">Installation</a>
 
@@ -239,7 +259,7 @@ SwiftyDB is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "SwiftyDB"
+pod "SwiftyDB", "~>2.0"
 ```
 
 ## Author
