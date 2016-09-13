@@ -47,24 +47,6 @@ struct JSONSerialisation {
         return JSONFor(collection: collection!) as String
     }
     
-//    static func JSONFor<T: StoreableValue>(array: [T?]) -> String {
-//        if T.self is Double.Type {
-//            let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(NSNumber.self), options: [])
-//            return String(data: data, encoding: NSUTF8StringEncoding)!
-//        }
-//        
-//        if T.self is Int64.Type {
-//            let numbers = array.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
-//            let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
-//            
-//            return String(data: data, encoding: NSUTF8StringEncoding)!
-//        }
-//        
-//        let data = try! NSJSONSerialization.dataWithJSONObject(array.asType(String.self), options: [])
-//        
-//        return String(data: data, encoding: NSUTF8StringEncoding)!
-//    }
-    
     static func JSONFor<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(dictionary: [T:U]) -> String {
         
         var optionalDictionary: [T: U?] = [:]

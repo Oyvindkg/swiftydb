@@ -13,7 +13,7 @@ enum Breed: String {
 }
 
 class Dog: Storeable {
-    var bones           = [Bone(dnr: "12321"), Bone(dnr: "asdasdasdsda"), Bone(), Bone(dnr: "0123"), Bone(dnr: "0123")]
+    var bones           = [Bone(dnr: "12321"), Bone(dnr: "asdasdasdsda"), Bone(), Bone(dnr: "0123"), Bone(dnr: "0123"), Bone(dnr: "0123")]
     var ids: [Double]   = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     var dates           = [NSDate(), NSDate().dateByAddingTimeInterval(123123)]
     var type            = Breed.Dachs
@@ -32,7 +32,7 @@ class Dog: Storeable {
         name            <- map["name"]
         age             <- map["age"]
         type            <- map["type"]
-        bones           <- map["bones"]
+//        bones           <- map["bones"]
 //        superBone       <- map["superBone"]
         dates           <- map["dates"]
         ids             <- map["numbers"]

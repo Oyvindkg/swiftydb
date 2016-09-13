@@ -37,28 +37,25 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
     private func getWritersForReader(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
         let query = queryFactory.selectQueryForType(reader.storeableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
-        
         let statement = try database.prepare(query.query)
         
+        defer {
+            try! statement.finalize()
+        }
+
         try! statement.execute(query.parameters)
-        
-        let writers = statement.map { row -> Writer in
+
+        return try statement.map { row -> Writer in
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {
                 writer.storeableValues[property] = value as? StoreableValue
             }
             
+            try getStoreableWritersForWriter(writer, database: database)
+            
             return writer
         }
-        
-        try statement.finalize()
-        
-        for writer in writers {
-            try getStoreableWritersForWriter(writer, database: database)
-        }
-        
-        return writers
     }
     
     
@@ -88,11 +85,13 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
     private func getStoreableWritersForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer] {
         let propertyReader = Mapper.readerForType(type)
         
-        let ids: [String?] = JSONSerialisation.arrayFor(writer.storeableValues[property] as? String)!
+        if let ids: [String?] = JSONSerialisation.arrayFor(writer.storeableValues[property] as? String) {
+            let filter = type.identifier() << ids
+            
+            return try! getWritersForReader(propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
+        }
         
-        let filter = type.identifier() << ids
-        
-        return try! getWritersForReader(propertyReader, filter: filter as! SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
+        return []
     }
 }
 

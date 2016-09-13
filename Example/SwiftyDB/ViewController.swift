@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         
         
         
-        let dogs: [Dog] = (0 ..< 600).map { _ in Dog() }
+        let dogs: [Dog] = (0 ..< 4000).map { _ in Dog() }
         
         let addStart = NSDate()
         swifty.add(dogs) { result in

@@ -42,8 +42,6 @@
 		39F746301D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D91D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift */; };
 		39F746311D84302C00DB4362 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745DA1D84302C00DB4362 /* SQLiteDatabase.swift */; };
 		39F746321D84302C00DB4362 /* SQLiteQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745DB1D84302C00DB4362 /* SQLiteQuery.swift */; };
-		39F746331D84302C00DB4362 /* HasStoreable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745DD1D84302C00DB4362 /* HasStoreable.swift */; };
-		39F746341D84302C00DB4362 /* HasValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745DE1D84302C00DB4362 /* HasValue.swift */; };
 		39F746351D84302C00DB4362 /* JSONSerialisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745DF1D84302C00DB4362 /* JSONSerialisation.swift */; };
 		39F746361D84302C00DB4362 /* SQLiteDatatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E01D84302C00DB4362 /* SQLiteDatatype.swift */; };
 		39F746371D84302C00DB4362 /* SQLiteFilterStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E11D84302C00DB4362 /* SQLiteFilterStatement.swift */; };
@@ -152,9 +150,7 @@
 		39F745D91D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseTableCreator.swift; sourceTree = "<group>"; };
 		39F745DA1D84302C00DB4362 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		39F745DB1D84302C00DB4362 /* SQLiteQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQuery.swift; sourceTree = "<group>"; };
-		39F745DD1D84302C00DB4362 /* HasStoreable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasStoreable.swift; sourceTree = "<group>"; };
-		39F745DE1D84302C00DB4362 /* HasValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HasValue.swift; sourceTree = "<group>"; };
-		39F745DF1D84302C00DB4362 /* JSONSerialisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSerialisation.swift; sourceTree = "<group>"; };
+		39F745DF1D84302C00DB4362 /* JSONSerialisation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONSerialisation.swift; path = ../Database/SQLite/Utilities/JSONSerialisation.swift; sourceTree = "<group>"; };
 		39F745E01D84302C00DB4362 /* SQLiteDatatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatatype.swift; sourceTree = "<group>"; };
 		39F745E11D84302C00DB4362 /* SQLiteFilterStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteFilterStatement.swift; sourceTree = "<group>"; };
 		39F745E21D84302C00DB4362 /* SQLiteQueryFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQueryFactory.swift; sourceTree = "<group>"; };
@@ -379,9 +375,6 @@
 		39F745DC1D84302C00DB4362 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				39F745DD1D84302C00DB4362 /* HasStoreable.swift */,
-				39F745DE1D84302C00DB4362 /* HasValue.swift */,
-				39F745DF1D84302C00DB4362 /* JSONSerialisation.swift */,
 				39F745E01D84302C00DB4362 /* SQLiteDatatype.swift */,
 				39F745E11D84302C00DB4362 /* SQLiteFilterStatement.swift */,
 				39F745E21D84302C00DB4362 /* SQLiteQueryFactory.swift */,
@@ -535,6 +528,7 @@
 		39F7461F1D84302C00DB4362 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				39F745DF1D84302C00DB4362 /* JSONSerialisation.swift */,
 				39F746201D84302C00DB4362 /* ArrayExtensions.swift */,
 				39F746211D84302C00DB4362 /* Map+Storeable.swift */,
 			);
@@ -836,7 +830,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39F746331D84302C00DB4362 /* HasStoreable.swift in Sources */,
 				39F7462F1D84302C00DB4362 /* SQLiteDatabaseRetriever.swift in Sources */,
 				3978ECBE1D843C690019928A /* QueryType.swift in Sources */,
 				39F7464D1D84302C00DB4362 /* StoreableCharacter.swift in Sources */,
@@ -877,7 +870,6 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				39F7462D1D84302C00DB4362 /* SQLiteDatabaseMigrator.swift in Sources */,
 				39F746431D84302C00DB4362 /* BaseMap.swift in Sources */,
-				39F746341D84302C00DB4362 /* HasValue.swift in Sources */,
 				39F7466A1D84302C00DB4362 /* Map+Storeable.swift in Sources */,
 				39F746521D84302C00DB4362 /* StoreableNSData.swift in Sources */,
 				39F746311D84302C00DB4362 /* SQLiteDatabase.swift in Sources */,

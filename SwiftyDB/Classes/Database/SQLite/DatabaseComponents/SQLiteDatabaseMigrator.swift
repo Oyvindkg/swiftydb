@@ -40,8 +40,6 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
  
             try self.validateMigratedData(migratedData, forType: type)
             
-            try self.updateReferencesForData(existingData, andMigratedDataArray: migratedData, ofType: type, typeInformation: typeInformation, inDatabase: database)
-            
             try self.dropTableForType(type, inDatabase: database)
 
             try self.createTableForType(type, inDatabase: database)
@@ -58,45 +56,20 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
                 
         let missingProperties = typeProperties.subtract(migratedProperties)
         let extraProperties = migratedProperties.subtract(typeProperties)
-        print(migratedProperties)
-        print(typeProperties)
+
         guard missingProperties.isEmpty else {
-            throw SwiftyError.Migration("The following properties were not present after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.Migration("The following properties were missing after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
         
         guard extraProperties.isEmpty else {
-            throw SwiftyError.Migration("The following properties were not removed after migrating '\(type)', but are no longer valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.Migration("The following properties were present after migrating '\(type)', but are not valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
     }
     
     func migrateType(type: Storeable.Type) throws {
         try databaseQueue.transaction { database in
-            try! self.createTableForType(type, inDatabase: database)
+            try self.createTableForType(type, inDatabase: database)
         }
-    }
-    
-    private func updateReferencesForData(dataArray: [[String: SQLiteValue?]], andMigratedDataArray migratedDataArray: [[String: SQLiteValue?]], ofType type: Storeable.Type, typeInformation: TypeInformation, inDatabase database: DatabaseConnection) throws {
-        
-        let identifier = typeInformation.identifierName
-        let newIdentifier = type.identifier()
-        
-        guard identifier != newIdentifier else {
-            return
-        }
-        
-        let childStatement = try! database.prepare("UPDATE \(HasStoreable.self) SET childID = ? WHERE childType = '\(type)' AND childID = ?")
-        let parentStatement = try! database.prepare("UPDATE \(HasStoreable.self) SET parentID = ? WHERE parentType = '\(type)' AND parentID = ?")
-                        
-        for (data, migratedData) in zip(dataArray, migratedDataArray) {
-            let identifierValue = data[identifier]!
-            let newIdentifierValue = migratedData[newIdentifier]!
-            
-            try! childStatement.executeUpdate([newIdentifierValue, identifierValue])
-            try! parentStatement.executeUpdate([newIdentifierValue, identifierValue])
-        }
-        
-        try! childStatement.finalize()
-        try! parentStatement.finalize()
     }
     
     private func existingDataForType(type: Storeable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
@@ -166,7 +139,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         let reader = Mapper.readerForType(type)
         
         let insertQuery = self.queryFactory.insertQueryForReader(reader)
-        print(dataArray.first!, insertQuery.query)
+
         let insertStatement = try database.prepare(insertQuery.query)
         
         for data in dataArray {

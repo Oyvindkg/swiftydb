@@ -37,10 +37,6 @@ struct Mapper {
         return objects.map(readerForObject)
     }
     
-    static func readerForType<T: Mappable>(type: T.Type) -> Reader {
-        return readerForType(T.self)
-    }
-    
     static func readerForType(type: Mappable.Type) -> Reader {
         var readableObject = type.newInstance()
         
