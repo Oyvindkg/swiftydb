@@ -1,4 +1,3 @@
-# This is merely a placeholder at the moment :)
 
 [![Swifty logo](https://github.com/Oyvindkg/swiftydb/blob/swiftydb-2.0-dev/resources/logo.png)](https://github.com/Oyvindkg/swiftydb/blob/swiftydb-2.0-dev/resources/logo.png)
 
