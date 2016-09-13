@@ -236,7 +236,7 @@ extension Stark: Indexable {
 These are some known limitations of the current version:
 
 - Cannot handle circular references between objects
-- It is not possible to query collections of values of objects
+- It is not possible to query collection properties
 - It is not possible to store dictionaries of `Storable` objects
 
 All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
