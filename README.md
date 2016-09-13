@@ -56,6 +56,16 @@ swifty.get(Stark.self).filter("name" << ["Sansa", "Arya", "Brandon"]) { result i
   let livingStarks = result.value
 }
 ```
+It is also possible to filter results based on their nested objects' identifier
+```Swift
+let lady  = Wolf(name: "Lady")
+let ghost = Wolf(name: "Ghost")
+
+/* `"wolf" == lady` is short hand for `"wolf" == lady.name` */
+swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
+  let sansa = result.value
+}
+```
 
 | Operator | Function                                |
 |:--------:|:----------------------------------------|
@@ -214,8 +224,7 @@ extension Stark: Indexable {
 These are some known limitations of the current version:
 
 - Cannot handle circular references between objects
-- It is not possible to query collections or nested objects
-- Only collections where all elements are of the same type are supported
+- It is not possible to query collections of values of objects
 
 All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
