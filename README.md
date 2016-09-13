@@ -14,9 +14,6 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 [Usage](#usage)<br />
 &emsp; [Using the database](#usingTheDatabase)<br />
 &emsp;&emsp; [Retrieving objects](#retrievingObjects)<br />
-&emsp;&emsp;&emsp; [Filtering results](#filteringResults)<br />
-&emsp;&emsp;&emsp; [Sorting results](#sortingResults)<br />
-&emsp;&emsp;&emsp; [Limiting results](#limitingResults)<br />
 &emsp;&emsp; [Storing objects](#storingObjects)<br />
 &emsp;&emsp; [Deleting objects](#deletingObjects)<br />
 &emsp; [Defining objects](#definingObjects)<br />
@@ -34,8 +31,8 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 - [x] Collections of objects or values
 - [x] Thread safe database operations
 - [x] Asynchronous database access
-- [x] Migration
 - [x] Custom indices
+- [x] Migration
 
 ## <a name="usage">Usage</a>
 
@@ -44,17 +41,30 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 let swifty = Swifty()
 ```
 #### <a name="retrievingObjects">Retrieving objects</a>
+In order to retrieve all objects of a type from the database, simply call the `get(..)` method with the requested object type as a parameter.
 ```swift
 swifty.get(Stark.self) { result in
   let starks = result.value
 }
 ```
-##### <a name="filteringResults">Filtering results</a>
-```Swift
-swifty.get(Stark.self).filter("name" == "Sansa") { result in 
-  let sansa = result.values?.first
-}
 
+##### Filtering results
+
+Filtering results is really simple due to SwiftyDB's expressive and powerfull query language  
+```Swift
+swifty.get(Stark.self).filter("name" << ["Sansa", "Arya", "Brandon"]) { result in
+  let livingStarks = result.value
+}
+```
+It is also possible to filter results based on their nested objects' identifier
+```Swift
+let lady  = Wolf(name: "Lady")
+let ghost = Wolf(name: "Ghost")
+
+/* `"wolf" == lady` is short hand for `"wolf" == lady.name` */
+swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
+  let sansa = result.value
+}
 ```
 
 | Operator | Function                                |
@@ -77,19 +87,22 @@ swifty.get(Stark.self).filter("name" == "Sansa") { result in
 |    &&    | Conjunction of X and Y                  |
 |   \|\|   | Disjunction of X and Y                  |
 
+##### Sorting results
 
-
-##### <a name="sortingResults">Sorting results</a>
-```swift
-swifty.get(Stark.self).orderBy("age") { result in 
-  let starks = result.values
+Sorting the results is also possible by using the `sort(.., ascending: ..)` method.
+```Swift
+swifty.get(Stark.self).sort("name") { result in
+  let starks = result.value
 }
 ```
 
-##### <a name="limitingResults">Limiting results</a>
+##### Limitig results
+
+To improve the performance of your queries, SwiftyDB offers simple pagination using the `start(..)` and `max(..)` methods. `start(..)` specifies the index of the first included result element, and `max(..)` specifies the maximum number of elements to be retrieved.
 ```Swift
-swifty.get(Stark.self).limit(10).offset(5) { result in 
-  let starks = result.values
+/* Retrieve 4 starks, ignoring the 2 first results */
+swifty.get(Stark.self).start(2).max(4) { result in
+  let starks = result.value
 }
 ```
 
@@ -110,7 +123,7 @@ swifty.delete(Stark.self).filter("name" == "Eddard")
 ```
 
 ### <a name="definingObjects">Defining objects</a>
-Any object can be storeable by implementing the `Storeable` protocol as an extension. This protocol consists of the `Mappable` and `Identifiable` protocols. 
+Any object can be storable by implementing the `Storable` protocol as an extension. This protocol consists of the `Mappable` and `Identifiable` protocols. 
 
 ```Swift
 struct Stark {
@@ -126,13 +139,6 @@ struct Stark {
 ```
 #### Mappable
 Because the dynamic aspects of the Swift language are limited to read operations, this protocol is used to instantiate new objects and populate them with data dynamically.
-
-```Swift
-protocol Mappable {
-  static func newInstance() -> Mappable
-  mutating func mapping(map: Map)
-}
-```
 
 ```Swift
 extension Stark: Mappable {
@@ -153,13 +159,7 @@ extension Stark: Mappable {
 #### Identifiable
 This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. 
 
-```Swift
-protocol Identifiable {
-  static func identifier() -> String
-}
-```
-
-The `identifier()` should return the name of a property that uniquely identifies the individual objects of a type.
+`identifier()` should return the name of a property that uniquely identifies an object.
 
 ```Swift
 extension Stark: Identifiable {
@@ -169,48 +169,47 @@ extension Stark: Identifiable {
 }
 ```
 
-> Apple's `NSUUID` (`UUID` in Swift 3) is a good source for unique values 
+> If an object identifier is `nil` when adding it to the database, an identifier will be generated automatically...
 
 
 ### <a name="migratingObjects">Migration</a>
 
-```swift
-protocol Migratable {
-  static func migrate(migration: MigrationType)
-}
-```
 Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
 
 ```swift
+extension Stark: Migratable {
+  static func migrate(migration: MigrationType) {
 
-static func migrate(migration: MigrationType) {
-
-  if migration.currentVersion < 2 {
+    if migration.currentVersion < 2 {
+  
+      /* Add a new property */
+      migration.add("height")
+      
+      /* Remove an existing property */
+      migration.remove("age")
+      
+      /* Rename an existing property */
+      migration.migrate("name").rename("firstName")
+      
+      /* Change the type of an exsisting property from `Double` to `Float` */
+      migration.migrate("weight").transform(Double.self) { doubleValue in
+        return Float(doubleValue!)
+      }
     
-    /* Rename an existing property */
-    migration.migrate("name").rename("firstName")
-    
-    /* Change the type of an exsisting property from `Double` to `Float` */
-    migration.migrate("weight").transform(Double.self, to: Float.self) { doubleValue in       //The transform method will be changed before release
-      return Float(doubleValue!)
+      /* Both rename and change the type of an existing property */
+      migration.migrate("name").rename("firstName").transform(String.self) { stringValue in
+        return Double(stringValue ?? "")
+      }
     }
-    
-    /* Both rename and change the type of an existing property */
-    migration.migrate("name").rename("firstName").transform(String.self, to: Double.self) { stringValue in
-      return Double(stringValue ?? "")
-    }
-    
   }
 }
 ```
 
+> Automatically detecting added and removed properties can be enabled in the database configuration, but is not encouraged. Manually defining these changes will help avoid migration errors, and make versioning easier for developers.
+
 ### <a name="indexingObjects">Indexing</a>
 
-```Swift
-protocol Indexable {
-  static func index(index: IndexType)
-}
-```
+Creating an index on frequently queried properties can greatly increase thequery performance. Indexing a porperty, or collection of properties, can improve filtering and ordering of results.
 
 ```Swift
 extension Stark: Indexable {
@@ -222,6 +221,12 @@ extension Stark: Indexable {
 ```
 
 ## <a name="limitations">Limitations</a>
+These are some known limitations of the current version:
+
+- Cannot handle circular references between objects
+- It is not possible to query collections of values of objects
+
+All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
 ## <a name="performance">Performance</a>
 
