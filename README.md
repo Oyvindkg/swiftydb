@@ -245,13 +245,13 @@ All limitations are ment to be improved as fast as possible. Feel free to contri
 
 Swifty is created for convenience, not speed. For most applications the performance is more than good enough, but is you are going to add and retrieve thousands of nested objects on a regular basis, this library probably isn't for you. 
 
-Time to add and get 1 000 objects with various properties.
+Objects with various properties added and retrieved per second
 
 | Hardware | Add with simple properties  | Get with simple properties | Add with collection properties  | Get with collection properties | Add with a nested object | Get with a nested object |
-|:--------:|:------------------------|:------------------------|:------------------------|:------------------------|:------------------------|:------------------------|
-| iPhone 6 | ~ 0.6 s                 | ~ 0.2 s                 | ~ 1.0 s                 | ~ 0.7 s                 | ~ 1.0 s                 | ~ 0.5 s                 |
+|:---:|:---|:---|:---|:---|:---|:---|
+| iPhone 6 | 2500 | 3000 | 1000 | 1000 | 1200 | 1200 |
 
-The response time increases near linearly with the number of storable objects to retrieve. Retrieving 1 000 simple objects takes approximately the same time as retrieving 500 objects with a nested object.
+The performance will be improved in future updates. Until release, the focus will be on functionality
 
 ## <a name="installation">Installation</a>
 
