@@ -21,19 +21,22 @@ class Dog: Storeable {
     var name: String
     var age: Double
     var superBone: Bone
+    var weight: Double
     
     init() {
         superBone = Bone(dnr: "\(arc4random_uniform(100))")
         age = Double(arc4random_uniform(100))
         name = "\(arc4random())"
+        weight = 13.3
     }
     
     func mapping(map: MapType) {
         name            <- map["name"]
         age             <- map["age"]
         type            <- map["type"]
-//        bones           <- map["bones"]
-//        superBone       <- map["superBone"]
+        weight          <- map["weight"]
+        bones           <- map["bones"]
+        superBone       <- map["superBone"]
         dates           <- map["dates"]
         ids             <- map["numbers"]
     }

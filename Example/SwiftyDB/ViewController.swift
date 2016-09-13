@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     let configuration: Configuration = {
         var configuration = Configuration(databaseName: "database.sqlite")
         
-//        configuration.dryRun = true
+        configuration.dryRun = true
         
         return configuration
     }()
@@ -22,13 +22,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        try? NSFileManager.defaultManager().removeItemAtPath(configuration.databasePath)
+//        try? NSFileManager.defaultManager().removeItemAtPath(configuration.databasePath)
         
         let swifty = Swifty(configuration: configuration)
         
+//        swifty.delete(Dog.self, resultHandler: nil)
         
         
-        let dogs: [Dog] = (0 ..< 4000).map { _ in Dog() }
+        let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         
         let addStart = NSDate()
         swifty.add(dogs) { result in

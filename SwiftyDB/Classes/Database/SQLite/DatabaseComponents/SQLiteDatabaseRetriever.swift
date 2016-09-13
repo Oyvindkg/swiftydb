@@ -33,7 +33,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         return writers
     }
     
-    // TODO: Make this prettier
+
     private func getWritersForReader(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
         let query = queryFactory.selectQueryForType(reader.storeableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
@@ -43,8 +43,9 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
             try! statement.finalize()
         }
 
-        try! statement.execute(query.parameters)
+        try statement.execute(query.parameters)
 
+        /* Create writers and populate them with nested objects */
         return try statement.map { row -> Writer in
             let writer = Writer(type: reader.type)
             
@@ -70,7 +71,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
                 
             } else if let storeableArrayType = type as? StoreableArrayType.Type {
                 if let storeableType = storeableArrayType.storeableType {
-                    let maps: [MapType] = try getStoreableWritersForProperty(property, ofType: storeableType, forWriter: writer, database: database).matchType()
+                    let maps: [MapType]? = try getStoreableWritersForProperty(property, ofType: storeableType, forWriter: writer, database: database)?.matchType()
                     
                     writer.mappableArrays[property] = maps
                 }
@@ -79,19 +80,23 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
     }
     
     private func getStoreableWriterForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
-        return try getStoreableWritersForProperty(property, ofType: type, forWriter: writer, database: database).first
+        return try getStoreableWritersForProperty(property, ofType: type, forWriter: writer, database: database)?.first
     }
     
-    private func getStoreableWritersForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer] {
+    private func getStoreableWritersForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
         let propertyReader = Mapper.readerForType(type)
         
-        if let ids: [String?] = JSONSerialisation.arrayFor(writer.storeableValues[property] as? String) {
-            let filter = type.identifier() << ids
-            
-            return try! getWritersForReader(propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
+        guard let storableValue = writer.storeableValues[property] as? String else {
+            return nil
         }
         
-        return []
+        let ids: [String?] = JSONSerialisation.arrayFor(storableValue)!
+        
+        return ids.flatMap { id -> [Writer] in
+            let filter = type.identifier() == id
+            
+            return try! self.getWritersForReader(propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
+        }
     }
 }
 

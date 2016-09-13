@@ -9,12 +9,12 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabaseTableCreator {
+class SQLiteDatabaseTableCreator {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
     
-    let existingTables: Set<String> = []
+    var existingTables: Set<String> = []
     
     init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
         self.databaseQueue = databaseQueue
@@ -56,6 +56,8 @@ struct SQLiteDatabaseTableCreator {
                 .executeUpdate(query.parameters)
                 .finalize()
         }
+        
+        existingTables.insert(String(reader.type))
     }
     
     private func createTablesForNestedReadersIfNecessary(reader: Reader) throws {
@@ -86,6 +88,10 @@ struct SQLiteDatabaseTableCreator {
         
         try databaseQueue.database { database in
             containsTable = try database.containsTable(name)
+        }
+        
+        if containsTable {
+            existingTables.insert(name)
         }
         
         return containsTable

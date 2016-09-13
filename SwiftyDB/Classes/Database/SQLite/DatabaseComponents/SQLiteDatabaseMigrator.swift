@@ -49,6 +49,10 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
     }
     
     func validateMigratedData(migratedData: [[String: SQLiteValue?]], forType type: Storeable.Type) throws {
+        guard !migratedData.isEmpty else {
+            return
+        }
+        
         let reader = Mapper.readerForType(type)
         
         let migratedProperties = Set(migratedData.first!.keys)

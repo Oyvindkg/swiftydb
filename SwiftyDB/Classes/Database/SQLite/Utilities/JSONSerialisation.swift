@@ -9,42 +9,15 @@
 import Foundation
 
 struct JSONSerialisation {
+    private static let separator: String = "||…||"
     
     // MARK: - To JSON
     static func JSONFor<T: CollectionType>(collection collection: T) -> String {
-        guard !collection.isEmpty else {
-            return "[]"
-        }
-        
-        if collection.first is Double {
-            let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(NSNumber.self), options: [])
-            
-            return String(data: data, encoding: NSUTF8StringEncoding)!
-        }
-        
-        if collection.first is Int64 {
-            let numbers = collection.map { $0 != nil ? NSNumber(longLong: $0 as! Int64) : NSNull() }
-            
-            let data = try! NSJSONSerialization.dataWithJSONObject(numbers, options: [])
-            
-            return String(data: data, encoding: NSUTF8StringEncoding)!
-        }
-        
-        if collection.first is String {
-            let data = try! NSJSONSerialization.dataWithJSONObject(collection.asType(String.self), options: [])
-            
-            return String(data: data, encoding: NSUTF8StringEncoding)!
-        }
-        
-        fatalError("Did not recognize type: \(T.Generator.Element.self)")
+        return JSONFor(collection: collection)!
     }
     
     static func JSONFor<T: CollectionType>(collection collection: T?) -> String? {
-        if collection == nil {
-            return nil
-        }
-
-        return JSONFor(collection: collection!) as String
+        return collection?.map({ String($0) }).joinWithSeparator(separator)
     }
     
     static func JSONFor<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(dictionary: [T:U]) -> String {
@@ -110,17 +83,17 @@ struct JSONSerialisation {
     // MARK: - From JSON
     
     static func arrayFor<T: StoreableValue>(JSON: String) -> [T?] {
-        let array: [AnyObject] = try! NSJSONSerialization.JSONObjectWithData(JSON.dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as! [AnyObject]
-       
+        let array: [String] = JSON.componentsSeparatedByString(separator)
+        
         if T.self is String.Type {
             return array.asType(T.self)
         }
         
         if T.self is Double.Type {
-            return array.map { ($0 as? NSNumber)?.doubleValue as? T }
+            return array.map { Double($0) as? T }
         }
         
-        return array.map { ($0 as? NSNumber)?.longLongValue as? T }
+        return array.map { Int64($0) as? T }
     }
     
     static func arrayFor<T: StoreableValue>(JSON: String) -> [T] {
