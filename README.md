@@ -104,6 +104,7 @@ swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
 |    &&    | Conjunction of X and Y                  |
 |   \|\|   | Disjunction of X and Y                  |
 
+
 ##### Sorting results
 
 Sorting the results is also possible by using the `sort(.., ascending: ..)` method.
@@ -117,8 +118,8 @@ swifty.get(Stark.self).sort("name") { result in
 
 To improve the performance of your queries, SwiftyDB offers simple pagination using the `start(..)` and `max(..)` methods. `start(..)` specifies the index of the first included result element, and `max(..)` specifies the maximum number of elements to be retrieved.
 ```Swift
-/* Retrieve 4 starks, ignoring the 2 first results */
-swifty.get(Stark.self).start(2).max(4) { result in
+/* Retrieve 4 starks, skipping the first 2 results */
+swifty.get(Stark.self).skip(2).max(4) { result in
   let starks = result.value
 }
 ```
