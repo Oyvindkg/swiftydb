@@ -78,7 +78,7 @@ It is also possible to filter results based on their nested objects' identifier
 let lady  = Wolf(name: "Lady")
 let ghost = Wolf(name: "Ghost")
 
-/* `"wolf" == lady` is short hand for `"wolf" == lady.name` */
+/* Using a storable object in filters is short hand for `<Storable>.<identifier>` */
 swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
   let sansa = result.value
 }
