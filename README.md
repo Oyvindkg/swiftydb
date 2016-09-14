@@ -160,7 +160,7 @@ Because the dynamic aspects of the Swift language are limited to read operations
 
 ```Swift
 extension Stark: Mappable {
-  static func newInstance() -> Mappable {
+  static func mappableObject() -> Mappable {
     return Stark(name: "", age: 0)
   }
     
@@ -172,7 +172,7 @@ extension Stark: Mappable {
 }
 ```
 
-> Inheritance is supported by overriding `mapping(map: Map)` and `newInstance()` in the subtype. Remember to call `super.mapping(map)`
+> Inheritance is supported by overriding `mapping(map: Map)` and `mappableObject()` in the subtype. Remember to call `super.mapping(map)`
 
 #### Identifiable
 This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. 
@@ -190,7 +190,7 @@ extension Stark: Identifiable {
 
 ### <a name="migratingObjects">Migration</a>
 
-If Swifty detects that the properties of a type does not match those stored in the database, it will try to initiate a migration. Fot a Storable type to be migratable, you must implement the `Migratable` protocol. 
+If Swifty detects that the properties of a type does not match those stored in the database, it will try to initiate a migration. For a Storable type to be migratable, you must implement the `Migratable` protocol. 
 
 `migrate(..)` instructs Swifty how to map the existing data to the updated properties. Currently, it supports adding, removing, renaming, and changing type.
 
