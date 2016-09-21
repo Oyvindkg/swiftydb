@@ -1,8 +1,11 @@
-# This is merely a placeholder at the moment :)
 
-[![Swifty logo](https://s12.postimg.org/bsujdf8lp/Swifty.png)](https://postimg.org/image/4pmnxt361/)
+[![Swifty logo](https://github.com/Oyvindkg/swiftydb/blob/swiftydb-2.0-dev/resources/logo.png)](https://github.com/Oyvindkg/swiftydb/blob/swiftydb-2.0-dev/resources/logo.png)
 
-A typesafe, pure Swift database offering effortless persistence of objects. 
+<br>
+
+A typesafe, pure Swift database offering effortless persistence of objects. It draws inspiration from brilliant libraries such as [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and [QueryKit](https://github.com/QueryKit/QueryKit) to create a powerfull and easy-to-use database.
+
+<br>
 
 [![CI Status](https://img.shields.io/travis/Oyvindkg/swiftydb/master.svg?style=flat)](https://travis-ci.org/Oyvindkg/swiftydb)
 [![Version](https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
@@ -24,23 +27,37 @@ A typesafe, pure Swift database offering effortless persistence of objects.
 [Performance](#performance)<br />
 [License](#license)
 
-## <a name="features">Features</a>
-- [x] Complex filtering
-- [x] Supports all property types
-- [x] Can store nested objects
-- [x] Collections of objects or values
-- [x] Thread safe database operations
+## <a name="features">Main features</a>
+- [x] Store nested objects
+- [x] Store array, set, and dictionary type properties
 - [x] Asynchronous database access
+- [x] Thread safe database operations
 - [x] Custom indices
 - [x] Migration
 
 ## <a name="usage">Usage</a>
 
 ### <a name="usingTheDatabase">Access the database</a>
+
+The easiest way to open a database, is simply providing a name for the database.
+
 ```Swift
-let swifty = Swifty()
+let swifty = Swifty(name: "Westeros")
 ```
+
+For a more detailed configuration, create a new `Configuration` object, and initiate the database
+
+```Swift
+var configuration = Configuration(name: "Westeros")
+
+configuration.databaseDirectory = "~/some/dir"
+configuration.dryRun = true
+
+let swifty = Swifty(configuration: configuration)
+```
+
 #### <a name="retrievingObjects">Retrieving objects</a>
+
 In order to retrieve all objects of a type from the database, simply call the `get(..)` method with the requested object type as a parameter.
 ```swift
 swifty.get(Stark.self) { result in
@@ -61,7 +78,7 @@ It is also possible to filter results based on their nested objects' identifier
 let lady  = Wolf(name: "Lady")
 let ghost = Wolf(name: "Ghost")
 
-/* `"wolf" == lady` is short hand for `"wolf" == lady.name` */
+/* Using a storable object in filters is short hand for `<Storable>.<identifier>` */
 swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
   let sansa = result.value
 }
@@ -87,6 +104,7 @@ swifty.get(Stark.self).filter("wolf" == lady || "wolf" == ghost) { result in
 |    &&    | Conjunction of X and Y                  |
 |   \|\|   | Disjunction of X and Y                  |
 
+
 ##### Sorting results
 
 Sorting the results is also possible by using the `sort(.., ascending: ..)` method.
@@ -100,8 +118,8 @@ swifty.get(Stark.self).sort("name") { result in
 
 To improve the performance of your queries, SwiftyDB offers simple pagination using the `start(..)` and `max(..)` methods. `start(..)` specifies the index of the first included result element, and `max(..)` specifies the maximum number of elements to be retrieved.
 ```Swift
-/* Retrieve 4 starks, ignoring the 2 first results */
-swifty.get(Stark.self).start(2).max(4) { result in
+/* Retrieve 4 starks, skipping the first 2 results */
+swifty.get(Stark.self).skip(2).max(4) { result in
   let starks = result.value
 }
 ```
@@ -142,7 +160,7 @@ Because the dynamic aspects of the Swift language are limited to read operations
 
 ```Swift
 extension Stark: Mappable {
-  static func newInstance() -> Mappable {
+  static func mappableObject() -> Mappable {
     return Stark(name: "", age: 0)
   }
     
@@ -154,7 +172,7 @@ extension Stark: Mappable {
 }
 ```
 
-> Inheritance is supported by overriding `mapping(map: Map)` and `newInstance()` in the subtype. Remember to call `super.mapping(map)`
+> Inheritance is supported by overriding `mapping(map: Map)` and `mappableObject()` in the subtype. Remember to call `super.mapping(map)`
 
 #### Identifiable
 This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. 
@@ -169,12 +187,12 @@ extension Stark: Identifiable {
 }
 ```
 
-> If an object identifier is `nil` when adding it to the database, an identifier will be generated automatically...
-
 
 ### <a name="migratingObjects">Migration</a>
 
-Unrecognized property names are treated as new properties unless a renaming has been defined in the migration function. New properties are automtically added to the database. Removed properties are automatically removed....
+If Swifty detects that the properties of a type does not match those stored in the database, it will try to initiate a migration. For a Storable type to be migratable, you must implement the `Migratable` protocol. 
+
+`migrate(..)` instructs Swifty how to map the existing data to the updated properties. Currently, it supports adding, removing, renaming, and changing type.
 
 ```swift
 extension Stark: Migratable {
@@ -191,21 +209,16 @@ extension Stark: Migratable {
       /* Rename an existing property */
       migration.migrate("name").rename("firstName")
       
-      /* Change the type of an exsisting property from `Double` to `Float` */
-      migration.migrate("weight").transform(Double.self) { doubleValue in
-        return Float(doubleValue!)
-      }
-    
-      /* Both rename and change the type of an existing property */
-      migration.migrate("name").rename("firstName").transform(String.self) { stringValue in
-        return Double(stringValue ?? "")
+      /* Change the type of an exsisting property from `String` to `Double` */
+      migration.migrate("name").transform(String.self) { stringValue in
+        return Double(doubleValue!)
       }
     }
   }
 }
 ```
 
-> Automatically detecting added and removed properties can be enabled in the database configuration, but is not encouraged. Manually defining these changes will help avoid migration errors, and make versioning easier for developers.
+> When testing your migrations, activate `dryRun` in the database configuration to avoid unwanted changes in the database
 
 ### <a name="indexingObjects">Indexing</a>
 
@@ -224,11 +237,22 @@ extension Stark: Indexable {
 These are some known limitations of the current version:
 
 - Cannot handle circular references between objects
-- It is not possible to query collections of values of objects
+- It is not possible to query collection properties
+- It is not possible to store dictionaries of `Storable` objects
 
 All limitations are ment to be improved as fast as possible. Feel free to contribute 😬
 
 ## <a name="performance">Performance</a>
+
+Swifty is created for convenience, not speed. For most applications the performance is more than good enough, but is you are going to add and retrieve thousands of nested objects on a regular basis, this library probably isn't for you. 
+
+Objects with various properties added and retrieved per second
+
+| Hardware | Add with simple properties  | Get with simple properties | Add with collection properties  | Get with collection properties | Add with a nested object | Get with a nested object |
+|:---:|:---|:---|:---|:---|:---|:---|
+| iPhone 6 | 2500 | 3000 | 1000 | 1000 | 1200 | 1200 |
+
+The performance will be improved in future updates. Until release, the focus will be on functionality
 
 ## <a name="installation">Installation</a>
 
@@ -236,7 +260,7 @@ SwiftyDB is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "SwiftyDB"
+pod "SwiftyDB", "~>2.0"
 ```
 
 ## Author
