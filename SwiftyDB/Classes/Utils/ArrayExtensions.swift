@@ -43,4 +43,16 @@ extension CollectionType {
     var elementType: Generator.Element.Type {
         return Generator.Element.self
     }
+    
+    func groupBy<T: Hashable>(keyBlock: Generator.Element -> T) -> [T: [Generator.Element]] {
+        var grouped: [T: [Generator.Element]] = [:]
+        
+        let keys = Set(self.map(keyBlock))
+        
+        for key in keys {
+            grouped[key] = self.filter { keyBlock($0) == key }
+        }
+        
+        return grouped
+    }
 }

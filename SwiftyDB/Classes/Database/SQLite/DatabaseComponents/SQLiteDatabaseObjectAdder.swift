@@ -24,20 +24,27 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
             return
         }
         
+        let mappedReaders = readers.groupBy { String($0.type) }
+        
         try databaseQueue.transaction { database in
-            for reader in readers {
-                let query      = self.queryFactory.insertQueryForReader(reader)
-                
-                var parameters: [String: SQLiteValue?] = [:]
-                
-                for (key, value) in reader.storeableValues {
-                    parameters[key] = value as? SQLiteValue
-                }
+            for (_, readers) in mappedReaders {
+                let query      = self.queryFactory.insertQueryForReader(readers.first!)
                 
                 let statement = try! database.prepare(query.query)
                 
-                try! statement.executeUpdate(parameters)
-                try! statement.finalize()
+                defer {
+                    try! statement.finalize()
+                }
+                
+                for reader in readers {
+                    var parameters: [String: SQLiteValue?] = [:]
+                    
+                    for (key, value) in reader.storeableValues {
+                        parameters[key] = value as? SQLiteValue
+                    }
+                    
+                    try! statement.executeUpdate(parameters)
+                }
             }
         }
     }

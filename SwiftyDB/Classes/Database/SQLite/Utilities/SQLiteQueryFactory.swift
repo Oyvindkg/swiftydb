@@ -83,7 +83,7 @@ class SQLiteQueryFactory {
     
     private func buildInsertQueryForReader(reader: Reader, update: Bool = true) -> SQLiteQuery {
         let onCollision  = update ? "REPLACE" : "ABORT"
-        let properties   = reader.storeableValues.keys
+        let properties   = reader.types.keys
         let placeholders = properties.map { ":\($0)"}
         
         let escapedProperties = properties.map({"'\($0)'"})

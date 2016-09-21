@@ -35,10 +35,10 @@ class Dog: Storeable {
         age             <- map["age"]
         type            <- map["type"]
         weight          <- map["weight"]
-        bones           <- map["bones"]
+//        bones           <- map["bones"]
         superBone       <- map["superBone"]
-        dates           <- map["dates"]
-        ids             <- map["numbers"]
+//        dates           <- map["dates"]
+//        ids             <- map["numbers"]
     }
     
     class func newInstance() -> Mappable {
