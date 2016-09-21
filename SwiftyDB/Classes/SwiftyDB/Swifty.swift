@@ -9,6 +9,10 @@
 import Foundation
 
 
+/**
+ A database object used to add, retrieve and delete objects
+*/
+
 public class Swifty: ObjectDatabase {
     
     let database: DatabaseType
@@ -16,8 +20,18 @@ public class Swifty: ObjectDatabase {
     let migrator: MigratorType
     let indexer: IndexerType
     
+    /**
+     The database object's configuration
+     */
     public let configuration: ConfigurationType
     
+    
+    /**
+     Initiate a new database object using the provided configuration
+     
+     - parameters:
+        - configuration: database configuration
+     */
     public init(configuration: ConfigurationType) {
         self.configuration = configuration
         
@@ -27,6 +41,12 @@ public class Swifty: ObjectDatabase {
         indexer = Indexer()
     }
     
+    /**
+     Initiate a new database object using the default configuration with a provided database name
+     
+     - parameters:
+        - name: name of the database
+     */
     public convenience init(name: String) {
         let configuration = Configuration(databaseName: name)
         
@@ -36,10 +56,24 @@ public class Swifty: ObjectDatabase {
     
     // MARK: - Add
     
+    /**
+     Add an object to the database
+     
+     - parameters:
+        - object:           the object to be added
+        - resultHandler:    an optional result handler
+    */
     func add<T: Storeable>(object: T, resultHandler: (Result<Void> -> Void)?) {
         return add([object], resultHandler: resultHandler)
     }
     
+    /**
+     Add objects to the database
+     
+     - parameters:
+        - objects:          the objects to be added
+        - resultHandler:    an optional result handler
+     */
     func add<T: Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.addSync(objects)
@@ -60,10 +94,26 @@ public class Swifty: ObjectDatabase {
     
     // MARK: - Get
     
+    /**
+     Create a GetQuery for the provided type
+     
+     - returns:
+     A `GetQuery` object that can be used to filter, sort and limit the results
+     
+     - parameters:
+        - type: type of the objects to be retrieved
+     */
     func get<T : Storeable>(type: T.Type) -> GetQuery<T> {
         return GetQuery<T>(database: self)
     }
     
+    /**
+     Get objects for the provided type
+     
+     - parameters:
+        - type:             type of the objects to be retrieved
+        - resultHandler:    an optional result handler
+     */
     func get<T: Storeable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
         let query = Query<T>()
         
@@ -89,12 +139,28 @@ public class Swifty: ObjectDatabase {
     
     // MARK: - Delete
     
+    /**
+     Create a DeleteQuery for the provided type
+     
+     - returns:
+     A `DeleteQuery` object that can be used to filter objects to delete
+     
+     - parameters:
+        - type: type of the objects to be deleted
+     */
     func delete<T: Storeable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
         let query = Query<T>()
         
         delete(query, resultHandler: resultHandler)
     }
     
+    /**
+     Delete objects for the provided type
+     
+     - parameters:
+        - type:             type of the objects to be deleted
+        - resultHandler:    an optional result handler
+     */
     func delete<T: Storeable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.deleteSync(query)
@@ -111,7 +177,9 @@ public class Swifty: ObjectDatabase {
             return try self.database.delete(query)
         }
     }
-        // MARK: - Helpers
+    
+    
+    // MARK: - Helpers
     
     private func resultForValue<T>(block: Void throws -> T) -> Result<T>{
         do {

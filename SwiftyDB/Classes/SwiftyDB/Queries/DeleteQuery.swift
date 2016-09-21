@@ -18,6 +18,13 @@ public class DeleteQuery<T: Storeable>: Query<T> {
         self.database = database
     }
     
+    /**
+     Filter objects matching the provided statement and get the results
+     
+     - parameters:
+        - filter:           a filter statement
+        - resultHandler:    and optional result handler
+     */
     public func filter(filter: FilterStatement, resultHandler: (Result<ResultType> -> Void)?) {
         self.filter(filter)
         

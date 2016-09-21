@@ -28,7 +28,6 @@ class ViewController: UIViewController {
     
 //        swifty.delete(Dog.self, resultHandler: nil)
         
-        
         let dogs: [Dog] = (0 ..< 1200).map { _ in Dog() }
         
         let addStart = NSDate()
