@@ -117,11 +117,11 @@ public class Swifty: ObjectDatabaseType {
         do {
             let value = try block()
             
-            return .Success(value)
+            return .success(value)
         } catch let error as SwiftyError {
-            return .Error(error.description)
+            return .error(error.description)
         } catch let error {
-            return .Error("An unexpected error was encountered: \(error)")
+            return .error("An unexpected error was encountered: \(error)")
         }
     }
 }

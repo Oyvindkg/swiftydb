@@ -18,7 +18,7 @@ public class Query<T: Storeable>: QueryType, _QueryType {
     internal var filter: FilterStatement?
     internal var max: Int?
     internal var start: Int?
-    internal var sorting: Sorting = .None
+    internal var sorting: Sorting = .none
     
     public func filter(filter: FilterStatement) -> Self {
         self.filter = filter
@@ -39,7 +39,7 @@ public class Query<T: Storeable>: QueryType, _QueryType {
     }
     
     public func sortBy(property: String, ascending: Bool = true) -> Self {
-        self.sorting = ascending ? .Ascending(property) : .Descending(property)
+        self.sorting = ascending ? .ascending(property) : .descending(property)
         
         return self
     }

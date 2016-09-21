@@ -9,10 +9,10 @@
 import Foundation
 
 enum MigrationOperation {
-    case Add(String, StoreableValue?)
-    case Remove(String)
-    case Rename(String, String)
-    case Transform(String, StoreableValue? -> StoreableValue?)
+    case add(String, StoreableValue?)
+    case remove(String)
+    case rename(String, String)
+    case transform(String, StoreableValue? -> StoreableValue?)
 }
 
 internal class Migration: MigrationType, _MigrationType {
@@ -31,7 +31,7 @@ internal class Migration: MigrationType, _MigrationType {
     
     private func add(property: String, defaultValue: StoreableValue?) {
         operations.append(
-            MigrationOperation.Add(property, defaultValue)
+            MigrationOperation.add(property, defaultValue)
         )
     }
     
@@ -83,7 +83,7 @@ internal class Migration: MigrationType, _MigrationType {
     
     func remove(property: String) {
         operations.append(
-            .Remove(property)
+            .remove(property)
         )
     }
 }

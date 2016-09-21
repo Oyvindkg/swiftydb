@@ -95,7 +95,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         return ids.flatMap { id -> [Writer] in
             let filter = type.identifier() == id
             
-            return try! self.getWritersForReader(propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .None, limit: nil, offset: nil, database: database)
+            return try! self.getWritersForReader(propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .none, limit: nil, offset: nil, database: database)
         }
     }
 }

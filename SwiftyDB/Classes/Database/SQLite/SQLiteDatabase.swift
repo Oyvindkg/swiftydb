@@ -63,9 +63,9 @@ struct SQLiteDatabase: DatabaseType {
             
             return Mapper.objectsForWriters(writers)
         } catch is TinySQLite.Error {
-            throw SwiftyError.Query("Encountered an error during execution of the query. Are you sure all property names are valid?")
+            throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
-            throw SwiftyError.Unknown("An unexpected error was encountered: \(error)")
+            throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
         }
     }
 
@@ -75,9 +75,9 @@ struct SQLiteDatabase: DatabaseType {
             
             try deleter.delete(query)
         } catch is TinySQLite.Error {
-            throw SwiftyError.Query("Encountered an error during execution of the query. Are you sure all property names are valid?")
+            throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
-            throw SwiftyError.Unknown("An unexpected error was encountered: \(error)")
+            throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
         }
     }
     

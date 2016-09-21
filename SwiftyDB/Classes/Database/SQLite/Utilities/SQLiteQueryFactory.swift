@@ -10,11 +10,11 @@ import Foundation
 import TinySQLite
 
 private enum Operation: String {
-    case CreateTable = "CREATE_TABLE"
-    case CreateIndex = "CREATE_INDEX"
-    case Insert = "INSERT"
-    case Select = "SELECT"
-    case Delete = "DELETE"
+    case createTable = "CREATE_TABLE"
+    case createIndex = "CREATE_INDEX"
+    case insert = "INSERT"
+    case select = "SELECT"
+    case delete = "DELETE"
 }
 
 class SQLiteQueryFactory {
@@ -24,13 +24,13 @@ class SQLiteQueryFactory {
     // MARK: Create table
     
     func createTableQueryForReader(reader: Reader) -> SQLiteQuery {
-        if let query = cachedQueryForType(reader.storeableType, andOperation: .CreateTable) {
+        if let query = cachedQueryForType(reader.storeableType, andOperation: .createTable) {
             return query
         }
         
         let query = buildCreateTableQueryForReader(reader)
         
-        cacheQuery(query, forType: reader.storeableType, andOperation: .CreateTable)
+        cacheQuery(query, forType: reader.storeableType, andOperation: .createTable)
         
         return query
     }
@@ -76,7 +76,7 @@ class SQLiteQueryFactory {
         
         let query = buildInsertQueryForReader(reader)
         
-        cacheQuery(query, forType: reader.storeableType, andOperation: .Insert)
+        cacheQuery(query, forType: reader.storeableType, andOperation: .insert)
         
         return query
     }
@@ -128,11 +128,11 @@ class SQLiteQueryFactory {
     
     private func orderByComponentForSorting(sorting: Sorting) -> String {
         switch sorting {
-        case .Ascending(let property):
+        case .ascending(let property):
             return " ORDER BY \(property) ASC"
-        case .Descending(let property):
+        case .descending(let property):
             return " ORDER BY \(property) DESC"
-        case .None:
+        case .none:
             return ""
         }
     }
@@ -176,7 +176,7 @@ class SQLiteQueryFactory {
     // MARK: - Delete 
     
     func deleteQueryForType(type: Storeable.Type, withFilter filter: SQLiteFilterStatement?) -> SQLiteQuery {
-        if let query = cachedQueryForType(type, andOperation: .Delete) {
+        if let query = cachedQueryForType(type, andOperation: .delete) {
             return query
         }
         

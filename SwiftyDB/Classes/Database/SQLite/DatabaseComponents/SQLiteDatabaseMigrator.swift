@@ -23,7 +23,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
     
     func migrateType(type: Storeable.Type, fromTypeInformation typeInformation: TypeInformation) throws {
         guard let migratableType = type as? Migratable.Type else {
-            throw SwiftyError.Migration("\(type) needs migration, but does not conform to the Migratable protocol")
+            throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
         }
 
         // TODO: Make .version UInt
@@ -62,11 +62,11 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         let extraProperties = migratedProperties.subtract(typeProperties)
 
         guard missingProperties.isEmpty else {
-            throw SwiftyError.Migration("The following properties were missing after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.migration("The following properties were missing after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
         
         guard extraProperties.isEmpty else {
-            throw SwiftyError.Migration("The following properties were present after migrating '\(type)', but are not valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.migration("The following properties were present after migrating '\(type)', but are not valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
         }
     }
     
@@ -78,7 +78,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
     
     private func existingDataForType(type: Storeable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
-        let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .None, limit: nil, offset: nil)
+        let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
         
         let statement = try database.prepare(retrieveQuery.query)
         
@@ -104,14 +104,14 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             /* Migrate data as specified in the types `migration(..)` function */
             for operation in migration.operations {
                 switch operation {
-                case .Add(let property, let defaultValue):
+                case .add(let property, let defaultValue):
                     migratedData[property] = defaultValue as? SQLiteValue
-                case .Transform(let property, let transformation):
+                case .transform(let property, let transformation):
                     migratedData[property] = transformation(migratedData[property] as? StoreableValue) as? SQLiteValue
-                case .Rename(let property, let newProperty):
+                case .rename(let property, let newProperty):
                     migratedData[newProperty] = migratedData[property]
                     migratedData[property] = nil
-                case .Remove(let property):
+                case .remove(let property):
                     migratedData[property] = nil
                 }
             }

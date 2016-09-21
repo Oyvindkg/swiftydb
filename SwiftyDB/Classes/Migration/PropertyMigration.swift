@@ -28,7 +28,7 @@ internal class PropertyMigration: PropertyMigrationType {
         self.newPropertyName = newPropertyName
         
         migration.operations.append(
-            .Rename(propertyName, newPropertyName)
+            .rename(propertyName, newPropertyName)
         )
         
         return self
@@ -91,7 +91,7 @@ internal class PropertyMigration: PropertyMigrationType {
     
     private func addTransformation(transformation: StoreableValue? -> StoreableValue?) {
         migration.operations.append(
-            .Transform(newPropertyName ?? propertyName, transformation)
+            .transform(newPropertyName ?? propertyName, transformation)
         )
     }
     

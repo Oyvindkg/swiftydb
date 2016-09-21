@@ -16,72 +16,72 @@ protocol SQLiteFilterStatement: FilterStatement {
 extension Expression: SQLiteFilterStatement {
     var statement: String {
         switch self {
-        case .Equal(let property, _):
+        case .equal(let property, _):
             return "\(property) = ?"
-        case .NotEqual(let property, _):
+        case .notEqual(let property, _):
             return "\(property) != ?"
             
-        case .Less(let property, _):
+        case .less(let property, _):
             return "\(property) < ?"
-        case LessOrEqual(let property, _):
+        case .lessOrEqual(let property, _):
             return "\(property) <= ?"
             
-        case .Greater(let property, _):
+        case .greater(let property, _):
             return "\(property) > ?"
-        case .GreaterOrEqual(let property, _):
+        case .greaterOrEqual(let property, _):
             return "\(property) >= ?"
             
-        case .ContainedIn(let property, let values):
+        case .containedIn(let property, let values):
             let placeholders = values.map { _ in "?" }.joinWithSeparator(",")
             
             return "\(property) IN (\(placeholders))"
-        case .NotContainedIn(let property, let values):
+        case .notContainedIn(let property, let values):
             let placeholders = values.map { _ in "?" }.joinWithSeparator(",")
             
             return "\(property) NOT IN (\(placeholders))"
             
-        case .Between(let property, _, _):
+        case .between(let property, _, _):
             return "\(property) BETWEEN ? AND ?"
-        case .NotBetween(let property, _, _):
+        case .notBetween(let property, _, _):
             return "\(property) NOT BETWEEN ? AND ?"
             
-        case .Like(let property, _):
+        case .like(let property, _):
             return "\(property) LIKE ?"
-        case .NotLike(let property, _):
+        case .notLike(let property, _):
             return "\(property) NOT LIKE ?"
         }
     }
     
     var parameters: [StoreableValue?] {
         switch self {
-        case .Equal(_, let value):
+        case .equal(_, let value):
             return [value]
-        case .NotEqual(_, let value):
-            return [value]
-            
-        case .Less(_, let value):
-            return [value]
-        case LessOrEqual(_, let value):
+        case .notEqual(_, let value):
             return [value]
             
-        case .Greater(_, let value):
+        case .less(_, let value):
             return [value]
-        case .GreaterOrEqual(_, let value):
+        case .lessOrEqual(_, let value):
             return [value]
             
-        case .ContainedIn(_, let values):
+        case .greater(_, let value):
+            return [value]
+        case .greaterOrEqual(_, let value):
+            return [value]
+            
+        case .containedIn(_, let values):
             return values
-        case .NotContainedIn(_, let values):
+        case .notContainedIn(_, let values):
             return values
             
-        case .Between(_, let lower, let upper):
+        case .between(_, let lower, let upper):
             return [lower, upper]
-        case .NotBetween(_, let lower, let upper):
+        case .notBetween(_, let lower, let upper):
             return [lower, upper]
             
-        case .Like(_, let value):
+        case .like(_, let value):
             return [value]
-        case .NotLike(_, let value):
+        case .notLike(_, let value):
             return [value]
         }
     }
@@ -90,12 +90,12 @@ extension Expression: SQLiteFilterStatement {
 extension Connective: SQLiteFilterStatement {
     var statement: String {
         switch self {
-        case .Conjunction(let operand, let otherOperand):
+        case .conjunction(let operand, let otherOperand):
             let operandExpression = (operand as! SQLiteFilterStatement).statement
             let otherOperandExpression = (otherOperand as! SQLiteFilterStatement).statement
             
             return "(\(operandExpression) AND \(otherOperandExpression))"
-        case .Disjunction(let operand, let otherOperand):
+        case .disjunction(let operand, let otherOperand):
             let operandExpression = (operand as! SQLiteFilterStatement).statement
             let otherOperandExpression = (otherOperand as! SQLiteFilterStatement).statement
             
@@ -105,12 +105,12 @@ extension Connective: SQLiteFilterStatement {
     
     var parameters: [StoreableValue?] {
         switch self {
-        case .Conjunction(let operand, let otherOperand):
+        case .conjunction(let operand, let otherOperand):
             let operandParameters = (operand as! SQLiteFilterStatement).parameters
             let otherOperandParameters = (otherOperand as! SQLiteFilterStatement).parameters
             
             return operandParameters + otherOperandParameters
-        case .Disjunction(let operand, let otherOperand):
+        case .disjunction(let operand, let otherOperand):
             let operandParameters = (operand as! SQLiteFilterStatement).parameters
             let otherOperandParameters = (otherOperand as! SQLiteFilterStatement).parameters
             

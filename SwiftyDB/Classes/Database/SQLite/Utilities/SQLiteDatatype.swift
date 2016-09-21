@@ -9,10 +9,10 @@
 import Foundation
 
 enum SQLiteDatatype: String {
-    case Real       = "REAL"
-    case Integer    = "INTEGER"
-    case Blob       = "BLOB"
-    case Text       = "TEXT"
+    case real       = "REAL"
+    case integer    = "INTEGER"
+    case blob       = "BLOB"
+    case text       = "TEXT"
     
     init?<T>(value: T?) {
         self.init(type: T.self)

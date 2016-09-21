@@ -9,7 +9,7 @@
 import Foundation
 
 internal enum Sorting {
-    case None
-    case Ascending(String)
-    case Descending(String)
+    case none
+    case ascending(String)
+    case descending(String)
 }

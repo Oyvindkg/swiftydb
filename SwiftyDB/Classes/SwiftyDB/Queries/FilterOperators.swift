@@ -27,45 +27,45 @@ infix operator !~ {
 /* Between */
 
 public func << <T: StoreableValueConvertible where T: ForwardIndexType>(left: String, right: Range<T>) -> FilterStatement {
-    return Expression.Between(left, right.startIndex.storeableValue, right.endIndex.storeableValue)
+    return Expression.between(left, right.startIndex.storeableValue, right.endIndex.storeableValue)
 }
 
 public func !< <T: StoreableValueConvertible where T: ForwardIndexType>(left: String, right: Range<T>) -> FilterStatement {
-    return Expression.NotBetween(left, right.startIndex.storeableValue, right.endIndex.storeableValue)
+    return Expression.notBetween(left, right.startIndex.storeableValue, right.endIndex.storeableValue)
 }
 
 /* Contained */
 
 public func << <T: StoreableValueConvertible>(left: String, right: [T?]) -> FilterStatement {
-    return Expression.ContainedIn(left, right.map { $0?.storeableValue })
+    return Expression.containedIn(left, right.map { $0?.storeableValue })
 }
 
 public func << (left: String, right: [StoreableValue?]) -> FilterStatement {
-    return Expression.ContainedIn(left, right)
+    return Expression.containedIn(left, right)
 }
 
 public func !< <T: StoreableValueConvertible>(left: String, right: [T?]) -> FilterStatement {
-    return Expression.NotContainedIn(left, right.map { $0?.storeableValue })
+    return Expression.notContainedIn(left, right.map { $0?.storeableValue })
 }
 
 public func !< (left: String, right: [StoreableValue?]) -> FilterStatement {
-    return Expression.NotContainedIn(left, right)
+    return Expression.notContainedIn(left, right)
 }
 
 /* Like */
 
 public func ~= (left: String, right: String) -> FilterStatement {
-    return Expression.Like(left, right.storeableValue)
+    return Expression.like(left, right.storeableValue)
 }
 
 public func !~ (left: String, right: String) -> FilterStatement {
-    return Expression.NotLike(left, right.storeableValue)
+    return Expression.notLike(left, right.storeableValue)
 }
 
 
 public func == <T: Storeable>(left: String, right: T) -> FilterStatement {
     let reader = Mapper.readerForObject(right)
-    return Expression.Equal(left, reader.identifierValue)
+    return Expression.equal(left, reader.identifierValue)
 }
 
 public func == <T: Storeable>(left: String, right: T?) -> FilterStatement {
@@ -75,79 +75,79 @@ public func == <T: Storeable>(left: String, right: T?) -> FilterStatement {
         reader = Mapper.readerForObject(object)
     }
     
-    return Expression.Equal(left, reader?.identifierValue)
+    return Expression.equal(left, reader?.identifierValue)
 }
 
 
 public func == <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.Equal(left, right.storeableValue)
+    return Expression.equal(left, right.storeableValue)
 }
 
 public func == <T: StoreableValueConvertible>(left: String, right: T?) -> FilterStatement {
-    return Expression.Equal(left, right?.storeableValue)
+    return Expression.equal(left, right?.storeableValue)
 }
 
 
 
 public func != <T: Storeable>(left: String, right: T) -> FilterStatement {
     let reader = Mapper.readerForObject(right)
-    return Expression.NotEqual(left, reader.identifierValue)
+    return Expression.notEqual(left, reader.identifierValue)
 }
 
 public func != <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.NotEqual(left, right.storeableValue)
+    return Expression.notEqual(left, right.storeableValue)
 }
 
 public func != <T: StoreableValueConvertible>(left: String, right: T?) -> FilterStatement {
-    return Expression.NotEqual(left, right?.storeableValue)
+    return Expression.notEqual(left, right?.storeableValue)
 }
 
 
 public func < <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.Less(left, right.storeableValue)
+    return Expression.less(left, right.storeableValue)
 }
 
 public func > <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.Greater(left, right.storeableValue)
+    return Expression.greater(left, right.storeableValue)
 }
 
 public func <= <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.LessOrEqual(left, right.storeableValue)
+    return Expression.lessOrEqual(left, right.storeableValue)
 }
 
 public func >= <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.GreaterOrEqual(left, right.storeableValue)
+    return Expression.greaterOrEqual(left, right.storeableValue)
 }
 
 
 // MARK: RawRepresentable
 
 public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.Equal(left, right.rawValue.storeableValue)
+    return Expression.equal(left, right.rawValue.storeableValue)
 }
 
 public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(left: String, right: T?) -> FilterStatement {
-    return Expression.Equal(left, right?.rawValue.storeableValue)
+    return Expression.equal(left, right?.rawValue.storeableValue)
 }
 
 
 public func != <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.NotEqual(left, right.rawValue.storeableValue)
+    return Expression.notEqual(left, right.rawValue.storeableValue)
 }
 
 public func != <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(left: String, right: T?) -> FilterStatement {
-    return Expression.NotEqual(left, right?.rawValue.storeableValue)
+    return Expression.notEqual(left, right?.rawValue.storeableValue)
 }
 
 
 // MARK: - Connectives
 
 public func &&(left: FilterStatement, right: FilterStatement) -> FilterStatement {
-    return Connective.Conjunction(left, right)
+    return Connective.conjunction(left, right)
 }
 
 public func ||(left: FilterStatement, right: FilterStatement) -> FilterStatement {
-    return Connective.Disjunction(left, right)
+    return Connective.disjunction(left, right)
 }
 
 // MARK: - Negations

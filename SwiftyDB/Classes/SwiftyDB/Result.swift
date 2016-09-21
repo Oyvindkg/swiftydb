@@ -9,11 +9,11 @@
 import Foundation
 
 public enum Result<T> {
-    case Success(T)
-    case Error(String)
+    case success(T)
+    case error(String)
     
     var value: T? {
-        if case .Success(let value) = self {
+        if case .success(let value) = self {
             return value
         }
         
@@ -21,7 +21,7 @@ public enum Result<T> {
     }
     
     var errorMessage: String? {
-        if case .Error(let error) = self {
+        if case .error(let error) = self {
             return error
         }
         
@@ -31,10 +31,10 @@ public enum Result<T> {
     /** Transform the result without having to handle errors. Any encountered errors will be automatically propagated */
     func transform<R>(transformer: T -> R) -> Result<R> {
         switch self {
-        case .Success(let value):
-            return .Success(transformer(value))
-        case .Error(let message):
-            return .Error(message)
+        case .success(let value):
+            return .success(transformer(value))
+        case .error(let message):
+            return .error(message)
         }
     }
 }

@@ -10,17 +10,17 @@ import Foundation
 
 enum SwiftyError: ErrorType, CustomStringConvertible {
     
-    case Query(String)
-    case Migration(String)
-    case Unknown(String)
+    case query(String)
+    case migration(String)
+    case unknown(String)
     
     var description: String {
         switch self {
-        case .Query(let message):
+        case .query(let message):
             return message
-        case .Migration(let message):
+        case .migration(let message):
             return message
-        case .Unknown(let message):
+        case .unknown(let message):
             return message
         }
     }

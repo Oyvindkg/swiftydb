@@ -9,7 +9,7 @@
 import Foundation
 
 enum Scope {
-    case Singleton
+    case singleton
 }
 
 class Injector {
@@ -23,7 +23,7 @@ class Injector {
         singletons.append( instantiator )
     }
     
-    func autowire<T>(scope: Scope = .Singleton) -> T? {
+    func autowire<T>(scope: Scope = .singleton) -> T? {
         for instantiator in singletons {
             if let object = instantiator(self) as? T {
                 return object
@@ -33,7 +33,7 @@ class Injector {
         return nil
     }
     
-    func autowire<T>(scope: Scope = .Singleton) -> T {
+    func autowire<T>(scope: Scope = .singleton) -> T {
         return autowire()!
     }
 }
