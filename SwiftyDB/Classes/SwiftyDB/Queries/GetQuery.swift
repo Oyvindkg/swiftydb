@@ -12,9 +12,9 @@ public class GetQuery<T: Storeable>: Query<T> {
     
     public typealias ResultType = [SubjectType]
     
-    private let database: ObjectDatabaseType
+    private let database: ObjectDatabase
     
-    internal init(database: ObjectDatabaseType) {
+    internal init(database: ObjectDatabase) {
         self.database = database
     }
     

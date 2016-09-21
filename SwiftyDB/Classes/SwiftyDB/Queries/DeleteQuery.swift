@@ -12,9 +12,9 @@ public class DeleteQuery<T: Storeable>: Query<T> {
     
     public typealias ResultType = Void
     
-    private let database: ObjectDatabaseType
+    private let database: ObjectDatabase
     
-    internal init(database: ObjectDatabaseType) {
+    internal init(database: ObjectDatabase) {
         self.database = database
     }
     

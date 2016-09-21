@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     let configuration: Configuration = {
         var configuration = Configuration(databaseName: "database.sqlite")
         
-        configuration.dryRun = true
+        configuration.mode = .sandbox
         
         return configuration
     }()

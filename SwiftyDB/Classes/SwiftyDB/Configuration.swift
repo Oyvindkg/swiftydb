@@ -8,22 +8,27 @@
 
 import Foundation
 
-public protocol ConfigurationType {
+public protocol ConfigurationProtocol {
     init(databaseName: String)
     
     var databaseName: String { get set }
     var databaseDirectory: String { get set }
     var databasePath: String { get }
     
-    var dryRun: Bool { get set }
+    var mode: DatabaseMode { get set }
 }
 
-public struct Configuration: ConfigurationType {
+public enum DatabaseMode {
+    case normal
+    case sandbox
+}
+
+public struct Configuration: ConfigurationProtocol {
     
     public var databaseName: String
     public var databaseDirectory: String
     
-    public var dryRun: Bool
+    public var mode: DatabaseMode
     
     public var databasePath: String {
         return databaseDirectory + "/" + databaseName
@@ -33,6 +38,6 @@ public struct Configuration: ConfigurationType {
         self.databaseName = databaseName
         self.databaseDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         
-        self.dryRun       = false
+        self.mode       = .normal
     }
 }

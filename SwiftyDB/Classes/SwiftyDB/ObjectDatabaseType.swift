@@ -9,7 +9,7 @@
 import Foundation
 
 
-internal protocol ObjectDatabaseType {
+internal protocol ObjectDatabase {
     func add<T: Storeable>(object: T, resultHandler: (Result<Void> -> Void)?)
     func add<T: Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?)
     

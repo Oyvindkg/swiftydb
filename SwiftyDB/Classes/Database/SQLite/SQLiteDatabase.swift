@@ -22,10 +22,10 @@ struct SQLiteDatabase: DatabaseType {
     let deleter: DatabaseDeleterType
     let migrator: DatabaseMigratorType
     
-    init(configuration: ConfigurationType) {
+    init(configuration: ConfigurationProtocol) {
         
 
-        if configuration.dryRun {
+        if configuration.mode == .sandbox {
             let dryRunDatabasePath = configuration.databaseDirectory + "/dryrun-" + configuration.databaseName
             
             try? NSFileManager.defaultManager().removeItemAtPath(dryRunDatabasePath)

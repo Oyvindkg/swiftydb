@@ -9,16 +9,16 @@
 import Foundation
 
 
-public class Swifty: ObjectDatabaseType {
+public class Swifty: ObjectDatabase {
     
     let database: DatabaseType
     
     let migrator: MigratorType
     let indexer: IndexerType
     
-    public let configuration: ConfigurationType
+    public let configuration: ConfigurationProtocol
     
-    public init(configuration: ConfigurationType) {
+    public init(configuration: ConfigurationProtocol) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
