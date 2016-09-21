@@ -22,7 +22,7 @@ struct SQLiteDatabase: DatabaseType {
     let deleter: DatabaseDeleterType
     let migrator: DatabaseMigratorType
     
-    init(configuration: ConfigurationProtocol) {
+    init(configuration: ConfigurationType) {
         
 
         if configuration.mode == .sandbox {

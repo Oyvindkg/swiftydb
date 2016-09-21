@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ConfigurationProtocol {
+public protocol ConfigurationType {
     init(databaseName: String)
     
     var databaseName: String { get set }
@@ -23,7 +23,7 @@ public enum DatabaseMode {
     case sandbox
 }
 
-public struct Configuration: ConfigurationProtocol {
+public struct Configuration: ConfigurationType {
     
     public var databaseName: String
     public var databaseDirectory: String

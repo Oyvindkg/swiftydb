@@ -16,9 +16,9 @@ public class Swifty: ObjectDatabase {
     let migrator: MigratorType
     let indexer: IndexerType
     
-    public let configuration: ConfigurationProtocol
+    public let configuration: ConfigurationType
     
-    public init(configuration: ConfigurationProtocol) {
+    public init(configuration: ConfigurationType) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
