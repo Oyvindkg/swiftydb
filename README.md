@@ -50,8 +50,8 @@ For a more detailed configuration, create a new `Configuration` object, and init
 ```Swift
 var configuration = Configuration(name: "Westeros")
 
-configuration.databaseDirectory = "~/some/dir"
-configuration.dryRun = true
+configuration.directory = "~/some/dir"
+configuration.mode = .sandbox
 
 let swifty = Swifty(configuration: configuration)
 ```
@@ -137,7 +137,9 @@ swifty.add(arya) { result in
 
 #### <a name="deletingObjects">Deleting objects</a>
 ```Swift
-swifty.delete(Stark.self).filter("name" == "Eddard")
+swifty.delete(Stark.self).filter("name" == "Eddard") { result in
+  // Handle result
+}
 ```
 
 ### <a name="definingObjects">Defining objects</a>
@@ -196,12 +198,12 @@ If Swifty detects that the properties of a type does not match those stored in t
 
 ```swift
 extension Stark: Migratable {
-  static func migrate(migration: MigrationType) {
+  static func migrate(inout migration: MigrationType) {
 
-    if migration.currentVersion < 2 {
+    if migration.schemaVersion < 1 {
   
       /* Add a new property */
-      migration.add("height")
+      migration.add("height", defaultValue: 178.0)
       
       /* Remove an existing property */
       migration.remove("age")
@@ -211,14 +213,17 @@ extension Stark: Migratable {
       
       /* Change the type of an exsisting property from `String` to `Double` */
       migration.migrate("name").transform(String.self) { stringValue in
-        return Double(doubleValue!)
+        return Double(stringValue!)
       }
+      
+      /* Remember to update the schema version */
+      migration.schemaVersion = 1
     }
   }
 }
 ```
 
-> When testing your migrations, activate `dryRun` in the database configuration to avoid unwanted changes in the database
+> When testing your migrations, use `.sandbox` mode in the database configuration to avoid unwanted changes in the database
 
 ### <a name="indexingObjects">Indexing</a>
 
