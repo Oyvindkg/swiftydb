@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-class TestClass: Storeable {
+class TestClass: Storable {
     
     // MARK: Non-optionals
     
@@ -38,9 +38,9 @@ class TestClass: Storeable {
     
     var number                  = NSNumber(double: 123.213231)
     
-    var storeableArray          = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
-    var storeableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
-    var storeable               = Wolf(name: "Ghost", age: 9)
+    var storableArray          = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
+    var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
+    var storable               = Wolf(name: "Ghost", age: 9)
     
     var stringArray             = ["string", "otherString"]
     var intArray                = [1,23,32]
@@ -74,9 +74,9 @@ class TestClass: Storeable {
     
     var optionalNumber: NSNumber?       = 1.312
     
-    var optionalStoreableArray: [Wolf]?         = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
-    var optionalStoreableSet: Set<Wolf>?        = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
-    var optionalStoreable: Wolf?                = Wolf(name: "Ghost", age: 9)
+    var optionalStorableArray: [Wolf]?         = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
+    var optionalStorableSet: Set<Wolf>?        = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
+    var optionalStorable: Wolf?                = Wolf(name: "Ghost", age: 9)
     
     var optionalStringArray: [String]?          = ["string", "otherString"]
     var optionalIntArray: [Int]?                = [1,23,32]
@@ -113,9 +113,9 @@ extension TestClass: Mappable {
         data            <- map["data"]
         number          <- map["number"]
         
-        storeableArray  <- map["storeableArray"]
-        storeableSet    <- map["storeableSet"]
-        storeable       <- map["storeable"]
+        storableArray  <- map["storableArray"]
+        storableSet    <- map["storableSet"]
+        storable       <- map["storable"]
         
         stringArray     <- map["stringArray"]
         intArray        <- map["intArray"]
@@ -145,9 +145,9 @@ extension TestClass: Mappable {
         optionalData        <- map["optionalData"]
         optionalNumber      <- map["optionalNumber"]
         
-        optionalStoreableArray  <- map["optionalStoreableArray"]
-        optionalStoreableSet    <- map["optionalStoreableSet"]
-        optionalStoreable       <- map["optionalStoreable"]
+        optionalStorableArray  <- map["optionalStorableArray"]
+        optionalStorableSet    <- map["optionalStorableSet"]
+        optionalStorable       <- map["optionalStorable"]
         
         optionalStringArray     <- map["optionalStringArray"]
         optionalIntArray        <- map["optionalIntArray"]

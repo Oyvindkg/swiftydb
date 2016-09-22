@@ -12,36 +12,36 @@ import Foundation
 
 struct ObjectDatabaseMock: ObjectDatabase {
     
-    func add<T : Storeable>(object: T, resultHandler: (Result<Void> -> Void)?) {
+    func add<T : Storable>(object: T, resultHandler: (Result<Void> -> Void)?) {
         add([object], resultHandler: resultHandler)
     }
     
-    func add<T : Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
+    func add<T : Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
         resultHandler?(.success())
     }
     
 
-    func get<T : Storeable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
+    func get<T : Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
         resultHandler?(.success([]))
     }
 
-    func get<T : Storeable>(type: T.Type) -> GetQuery<T> {
+    func get<T : Storable>(type: T.Type) -> GetQuery<T> {
         return GetQuery(database: self)
     }
     
-    func get<T : Storeable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
+    func get<T : Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
         let query = Query<T>()
         
         get(query, resultHandler: resultHandler)
     }
     
-    func delete<T : Storeable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
+    func delete<T : Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
         let query = Query<T>()
         
         delete(query, resultHandler: resultHandler)
     }
     
-    func delete<T : Storeable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
+    func delete<T : Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
         resultHandler?(.success())
     }
     

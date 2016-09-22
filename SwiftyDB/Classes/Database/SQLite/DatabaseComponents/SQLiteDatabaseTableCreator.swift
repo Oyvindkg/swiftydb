@@ -21,7 +21,7 @@ class SQLiteDatabaseTableCreator {
         self.queryFactory = queryFactory
     }
     
-    func createTableForTypeIfNecessary(type: Storeable.Type) throws {
+    func createTableForTypeIfNecessary(type: Storable.Type) throws {
         let reader = Mapper.readerForType(type)
         
         try createTableForReader( reader )
@@ -62,10 +62,10 @@ class SQLiteDatabaseTableCreator {
     
     private func createTablesForNestedReadersIfNecessary(reader: Reader) throws {
         
-        /* Nested storeable objects */
+        /* Nested storable objects */
         try createTableForReadersIfNecessary( reader.mappables.map { $0.1 as! Reader } )
         
-        /* Nested arrays and sets of storeable objects */
+        /* Nested arrays and sets of storable objects */
         for (_, childMaps) in reader.mappableArrays {
             let childReaders: [Reader] = childMaps.matchType()
             
@@ -74,10 +74,10 @@ class SQLiteDatabaseTableCreator {
     }
     
     private func tableExistsForReader(reader: Reader) throws -> Bool {
-        return try tableExistsForType(reader.type as! Storeable.Type)
+        return try tableExistsForType(reader.type as! Storable.Type)
     }
     
-    private func tableExistsForType(type: Storeable.Type) throws -> Bool {
+    private func tableExistsForType(type: Storable.Type) throws -> Bool {
         let name = String(type)
 
         guard !existingTables.contains( name ) else {

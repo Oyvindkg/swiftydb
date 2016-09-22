@@ -1,5 +1,5 @@
 //
-//  StoreableValue.swift
+//  StorableValue.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 21/08/16.
@@ -9,8 +9,8 @@
 import Foundation
 
 /** A basic value that can be added to the database in its current form */
-public protocol StoreableValue {}
+public protocol StorableValue {}
 
-extension String: StoreableValue {}
-extension Double: StoreableValue {}
-extension Int64: StoreableValue {}
+extension String: StorableValue {}
+extension Double: StorableValue {}
+extension Int64: StorableValue {}

@@ -1,5 +1,5 @@
 //
-//  Map+Storeable.swift
+//  Map+Storable.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 08/09/16.
@@ -9,12 +9,13 @@
 import Foundation
 
 extension BaseMap {
-    var storeableType: Storeable.Type {
-        return type as! Storeable.Type
+    var storableType: Storable.Type {
+        return type as! Storable.Type
     }
     
-    var identifierValue: StoreableValue {
-        let identifier = storeableType.identifier()
-        return storeableValues[identifier]!
+    var identifierValue: StorableValue {
+        let identifier = storableType.identifier()
+        
+        return storableValues[identifier]!
     }
 }

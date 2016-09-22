@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-class Stark: Storeable {
+class Stark: Storable {
     var name: String
     var age: Int
     var weight: Double

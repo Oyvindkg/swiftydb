@@ -17,7 +17,7 @@ struct IndexingUtils {
         return "\(type):\(properties):\(filters)"
     }
     
-    static func indexForType(type: Storeable.Type) -> _IndexType? {
+    static func indexForType(type: Storable.Type) -> _IndexType? {
         if let indexableType = type as? Indexable.Type {
             let index = Index(type: type)
             
@@ -29,7 +29,7 @@ struct IndexingUtils {
         return nil
     }
     
-    static func indexNamesForType(type: Storeable.Type) -> Set<String> {
+    static func indexNamesForType(type: Storable.Type) -> Set<String> {
         if let index = indexForType(type) {
             return Set( index.indices.asType(_IndexInstanceType).map(IndexingUtils.nameForIndex) )
         }
@@ -37,7 +37,7 @@ struct IndexingUtils {
         return []
     }
     
-    static func typeInformationForType(type: Storeable.Type, version: Int = 0) -> TypeInformation {
+    static func typeInformationForType(type: Storable.Type, version: Int = 0) -> TypeInformation {
         let name        = String(type)
         let identifier  = type.identifier()
         let indices     = indexNamesForType(type)

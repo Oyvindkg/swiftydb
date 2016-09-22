@@ -12,17 +12,17 @@ class Migrator: MigratorType {
     
     var validTypes: Set<String> = [ String(TypeInformation) ]
     
-    func migrateTypeIfNecessary(type: Storeable.Type, inSwifty swifty: Swifty) throws {
+    func migrateTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         if validTypes.contains("\(type)") {
             return
         }
         
         for (_, childType) in Mapper.readerForType(type).types {
-            guard childType is Storeable.Type else {
+            guard childType is Storable.Type else {
                 continue
             }
             
-            try migrateTypeIfNecessary(childType as! Storeable.Type, inSwifty: swifty)
+            try migrateTypeIfNecessary(childType as! Storable.Type, inSwifty: swifty)
         }
         
         try migrateThisTypeIfNecessary(type, inSwifty: swifty)
@@ -31,8 +31,8 @@ class Migrator: MigratorType {
     }
     
     // TODO: Make this pretty
-    // TODO: Wont detect changes with the same storeable value type
-    private func migrateThisTypeIfNecessary(type: Storeable.Type, inSwifty swifty: Swifty) throws {
+    // TODO: Wont detect changes with the same storable value type
+    private func migrateThisTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         
         let query = Query<TypeInformation>().filter("name" == String(type))
         

@@ -8,14 +8,14 @@
 
 import Foundation
 
-extension Bool: StoreableValueConvertible {
-    public typealias StoreableValueType = Int64
+extension Bool: StorableValueConvertible {
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self ? 1 : 0)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Bool {
-        return storeableValue > 0
+    public static func fromStorableValue(storableValue: StorableValueType) -> Bool {
+        return storableValue > 0
     }
 }

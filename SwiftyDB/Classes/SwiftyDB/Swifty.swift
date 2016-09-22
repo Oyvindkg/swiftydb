@@ -63,7 +63,7 @@ public class Swifty: ObjectDatabase {
         - object:           the object to be added
         - resultHandler:    an optional result handler
     */
-    func add<T: Storeable>(object: T, resultHandler: (Result<Void> -> Void)?) {
+    func add<T: Storable>(object: T, resultHandler: (Result<Void> -> Void)?) {
         return add([object], resultHandler: resultHandler)
     }
     
@@ -74,7 +74,7 @@ public class Swifty: ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
+    func add<T: Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.addSync(objects)
             
@@ -83,7 +83,7 @@ public class Swifty: ObjectDatabase {
         
     }
     
-    internal func addSync<T: Storeable>(objects: [T]) -> Result<Void> {
+    internal func addSync<T: Storable>(objects: [T]) -> Result<Void> {
         return resultForValue {
             try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
             
@@ -103,7 +103,7 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be retrieved
      */
-    func get<T : Storeable>(type: T.Type) -> GetQuery<T> {
+    func get<T : Storable>(type: T.Type) -> GetQuery<T> {
         return GetQuery<T>(database: self)
     }
     
@@ -114,7 +114,7 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be retrieved
         - resultHandler:    an optional result handler
      */
-    func get<T: Storeable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
+    func get<T: Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
         let query = Query<T>()
         
         get(query, resultHandler: resultHandler)
@@ -127,7 +127,7 @@ public class Swifty: ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T: Storeable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
+    func get<T: Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.getSync(query)
             
@@ -135,7 +135,7 @@ public class Swifty: ObjectDatabase {
         }
     }
     
-    internal func getSync<T : Storeable>(query: Query<T>) -> Result<[T]> {
+    internal func getSync<T : Storable>(query: Query<T>) -> Result<[T]> {
         return resultForValue {
             try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
             try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)
@@ -155,7 +155,7 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be deleted
      */
-    func delete<T: Storeable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
+    func delete<T: Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
         let query = Query<T>()
         
         delete(query, resultHandler: resultHandler)
@@ -168,7 +168,7 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T: Storeable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
+    func delete<T: Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.deleteSync(query)
             
@@ -176,7 +176,7 @@ public class Swifty: ObjectDatabase {
         }
     }
     
-    internal func deleteSync<T : Storeable>(query: Query<T>) -> Result<Void> {
+    internal func deleteSync<T : Storable>(query: Query<T>) -> Result<Void> {
         return resultForValue {
             try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
             try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)

@@ -18,7 +18,7 @@ public protocol QueryType {
 
 /** A query representation used internally */
 protocol _QueryType {
-    var type: Storeable.Type {get}
+    var type: Storable.Type {get}
     var filter: FilterStatement? { get }
     var max: Int? {get}
     var start: Int? {get}

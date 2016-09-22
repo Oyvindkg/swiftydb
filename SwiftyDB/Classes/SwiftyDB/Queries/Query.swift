@@ -13,11 +13,11 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class Query<T: Storeable>: QueryType, _QueryType {
+public class Query<T: Storable>: QueryType, _QueryType {
     
     public typealias SubjectType = T
     
-    internal let type: Storeable.Type = T.self
+    internal let type: Storable.Type = T.self
     
     internal var filter: FilterStatement?
     internal var max: Int?

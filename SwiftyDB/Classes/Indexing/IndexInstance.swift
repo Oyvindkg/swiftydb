@@ -9,13 +9,13 @@
 import Foundation
 
 class IndexInstance: IndexInstanceType, _IndexInstanceType {
-    let type: Storeable.Type
+    let type: Storable.Type
     
     var filters: FilterStatement?
     
     var properties: [String] = []
     
-    init(type: Storeable.Type) {
+    init(type: Storable.Type) {
         self.type = type
     }
     

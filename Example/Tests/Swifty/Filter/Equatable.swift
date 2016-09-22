@@ -10,7 +10,7 @@ import Foundation
 
 @testable import SwiftyDB
 
-func ==(left: StoreableValue?, right: StoreableValue?) -> Bool {
+func ==(left: StorableValue?, right: StorableValue?) -> Bool {
     if let leftString = left as? String {
         if let rightString = right as? String {
             return leftString == rightString

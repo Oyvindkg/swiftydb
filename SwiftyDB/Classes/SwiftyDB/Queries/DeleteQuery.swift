@@ -13,7 +13,7 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class DeleteQuery<T: Storeable>: Query<T> {
+public class DeleteQuery<T: Storable>: Query<T> {
     
     public typealias ResultType = Void
     

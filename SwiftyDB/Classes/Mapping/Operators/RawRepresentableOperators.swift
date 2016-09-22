@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Raw representables
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T, right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T, right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -18,18 +18,18 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T, right: Reader) {
-    right.setCurrentValue(left.rawValue.storeableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T, right: Reader) {
+    right.setCurrentValue(left.rawValue.storableValue)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T, right: Writer) {
-    let storeableValue: T.RawValue.StoreableValueType = right.getCurrentValue()!
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T, right: Writer) {
+    let storableValue: T.RawValue.StorableValueType = right.getCurrentValue()!
     
-    left = rawRepresentableFromStoreableValue(storeableValue)!
+    left = rawRepresentableFromStorableValue(storableValue)!
 }
 
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T?, right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T?, right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -37,20 +37,20 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T?, right: Reader) {
-    right.setCurrentValue(left?.rawValue.storeableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T?, right: Reader) {
+    right.setCurrentValue(left?.rawValue.storableValue)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T?, right: Writer) {
-    if let storeableValue: T.RawValue.StoreableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromStoreableValue(storeableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T?, right: Writer) {
+    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
+        left = rawRepresentableFromStorableValue(storableValue)
     } else {
         left = nil
     }
 }
 
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T!, right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T!, right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -58,13 +58,13 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T!, right: Reader) {
-    right.setCurrentValue(left?.rawValue.storeableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T!, right: Reader) {
+    right.setCurrentValue(left?.rawValue.storableValue)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: T!, right: Writer) {
-    if let storeableValue: T.RawValue.StoreableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromStoreableValue(storeableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: T!, right: Writer) {
+    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
+        left = rawRepresentableFromStorableValue(storableValue)
     } else {
         left = nil
     }
@@ -72,7 +72,7 @@ func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout 
 
 // MARK: Array of raw representables
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T], right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T], right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -80,20 +80,20 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T], right: Reader) {
-    let storeableValues = left.map { $0.rawValue.storeableValue }
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T], right: Reader) {
+    let storableValues = left.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storeableValues)
+    right.setCurrentValue(storableValues)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T], right: Writer) {
-    let storeableValues: [T.RawValue.StoreableValueType] = right.getCurrentValue()!
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T], right: Writer) {
+    let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
     
-    left = storeableValues.map(rawRepresentableFromStoreableValue)
+    left = storableValues.map(rawRepresentableFromStorableValue)
 }
 
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]?, right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]?, right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -101,22 +101,22 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]?, right: Reader) {
-    let storeableValues = left?.map { $0.rawValue.storeableValue }
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]?, right: Reader) {
+    let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storeableValues)
+    right.setCurrentValue(storableValues)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]?, right: Writer) {
-    if let storeableValues: [T.RawValue.StoreableValueType] = right.getCurrentValue() {
-        left = storeableValues.map(rawRepresentableFromStoreableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]?, right: Writer) {
+    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
+        left = storableValues.map(rawRepresentableFromStorableValue)
     } else {
         left = nil
     }
 }
 
 
-public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]!, right: MapType) {
+public func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]!, right: MapType) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -124,15 +124,15 @@ public func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
     }
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]!, right: Reader) {
-    let storeableValues = left?.map { $0.rawValue.storeableValue }
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]!, right: Reader) {
+    let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storeableValues)
+    right.setCurrentValue(storableValues)
 }
 
-func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: [T]!, right: Writer) {
-    if let storeableValues: [T.RawValue.StoreableValueType] = right.getCurrentValue() {
-        left = storeableValues.map(rawRepresentableFromStoreableValue)
+func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: [T]!, right: Writer) {
+    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
+        left = storableValues.map(rawRepresentableFromStorableValue)
     } else {
         left = nil
     }
@@ -141,53 +141,53 @@ func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout 
 // MARK: Set of raw representables
 
 
-//func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: Set<T>, right: MapType) {
+//func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: Set<T>, right: MapType) {
 //    if right.mode == .Read {
-//        right.currentValue = left.map { $0.rawValue.storeableValue }
+//        right.currentValue = left.map { $0.rawValue.storableValue }
 //    } else {
-//        let storeableValues = right.currentValue as! [T.RawValue.StoreableValueType]
+//        let storableValues = right.currentValue as! [T.RawValue.StorableValueType]
 //
-//        left = Set(storeableValues.map(rawRepresentableFromStoreableValue))
+//        left = Set(storableValues.map(rawRepresentableFromStorableValue))
 //    }
 //}
 //
-//func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: Set<T>?, right: MapType) {
+//func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: Set<T>?, right: MapType) {
 //    if right.mode == .Read {
-//        right.currentValue = left?.map { $0.rawValue.storeableValue }
+//        right.currentValue = left?.map { $0.rawValue.storableValue }
 //    } else {
-//        if let storeableValues = right.currentValue as? [T.RawValue.StoreableValueType] {
-//            left = Set(storeableValues.map(rawRepresentableFromStoreableValue))
+//        if let storableValues = right.currentValue as? [T.RawValue.StorableValueType] {
+//            left = Set(storableValues.map(rawRepresentableFromStorableValue))
 //        } else {
 //            left = nil
 //        }
 //    }
 //}
 //
-//func <- <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(inout left: Set<T>!, right: MapType) {
+//func <- <T: RawRepresentable where T.RawValue: StorableValueConvertible>(inout left: Set<T>!, right: MapType) {
 //    if right.mode == .Read {
-//        right.currentValue = left?.map { $0.rawValue.storeableValue }
+//        right.currentValue = left?.map { $0.rawValue.storableValue }
 //    } else {
-//        let storeableValues = right.currentValue as! [T.RawValue.StoreableValueType]
+//        let storableValues = right.currentValue as! [T.RawValue.StorableValueType]
 //
-//        left = Set(storeableValues.map(rawRepresentableFromStoreableValue))
+//        left = Set(storableValues.map(rawRepresentableFromStorableValue))
 //    }
 //}
 
 
 // MARK: Helpers
 
-private func rawRepresentableFromStoreableValue <T: RawRepresentable where T.RawValue: StoreableValueConvertible> (storeableValue: T.RawValue.StoreableValueType) -> T {
-    let rawValue = T.RawValue.fromStoreableValue(storeableValue)
+private func rawRepresentableFromStorableValue <T: RawRepresentable where T.RawValue: StorableValueConvertible> (storableValue: T.RawValue.StorableValueType) -> T {
+    let rawValue = T.RawValue.fromStorableValue(storableValue)
     
     return T.init(rawValue: rawValue)!
 }
 
-private func rawRepresentableFromStoreableValue <T: RawRepresentable where T.RawValue: StoreableValueConvertible> (storeableValue: T.RawValue.StoreableValueType?) -> T? {
-    guard storeableValue != nil else {
+private func rawRepresentableFromStorableValue <T: RawRepresentable where T.RawValue: StorableValueConvertible> (storableValue: T.RawValue.StorableValueType?) -> T? {
+    guard storableValue != nil else {
         return nil
     }
     
-    let rawValue = T.RawValue.fromStoreableValue(storeableValue!)
+    let rawValue = T.RawValue.fromStorableValue(storableValue!)
     
     return T.init(rawValue: rawValue)
 }

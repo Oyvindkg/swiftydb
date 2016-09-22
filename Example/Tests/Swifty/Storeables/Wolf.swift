@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-struct Wolf: Storeable {
+struct Wolf: Storable {
     var name: String
     var age: Int
     

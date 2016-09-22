@@ -46,16 +46,16 @@ struct SQLiteDatabase: DatabaseType {
         migrator     = SQLiteDatabaseMigrator(databaseQueue: databaseQueue, queryFactory: queryFactory)
     }
     
-    func add<T : Storeable>(objects: [T]) throws {
+    func add<T : Storable>(objects: [T]) throws {
         
-        let readers = objects.flatMap(ObjectSerializer.readersForStoreable)
+        let readers = objects.flatMap(ObjectSerializer.readersForStorable)
         
         try tableCreator.createTableForReadersIfNecessary(readers)
         
         try inserter.add(readers)
     }
     
-    func get<T : Storeable>(query: Query<T>, nested: Bool = true) throws -> [T] {
+    func get<T : Storable>(query: Query<T>, nested: Bool = true) throws -> [T] {
         do {
             try tableCreator.createTableForTypeIfNecessary(T.self)
             
@@ -69,7 +69,7 @@ struct SQLiteDatabase: DatabaseType {
         }
     }
 
-    func delete<T : Storeable>(query: Query<T>) throws {
+    func delete<T : Storable>(query: Query<T>) throws {
         do {
             try tableCreator.createTableForTypeIfNecessary(T.self)
             
@@ -81,7 +81,7 @@ struct SQLiteDatabase: DatabaseType {
         }
     }
     
-    func migrate(type: Storeable.Type, fromTypeInformation typeInformation: TypeInformation) throws {
+    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws {
         try migrator.migrateType(type, fromTypeInformation: typeInformation)
     }
     

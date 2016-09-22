@@ -1,5 +1,5 @@
 //
-//  StoreableUInts.swift
+//  StorableUInts.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 20/08/16.
@@ -11,68 +11,68 @@ import Foundation
 
 //TODO: Can SQLite store undigned 64-bit integers?
 
-extension UInt: StoreableValueConvertible {
+extension UInt: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> UInt {
-        return UInt(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> UInt {
+        return UInt(storableValue)
     }
 }
 
-extension UInt8: StoreableValueConvertible {
+extension UInt8: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> UInt8 {
-        return UInt8(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> UInt8 {
+        return UInt8(storableValue)
     }
 }
 
-extension UInt16: StoreableValueConvertible {
+extension UInt16: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> UInt16 {
-        return UInt16(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> UInt16 {
+        return UInt16(storableValue)
     }
 }
 
-extension UInt32: StoreableValueConvertible {
+extension UInt32: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> UInt32 {
-        return UInt32(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> UInt32 {
+        return UInt32(storableValue)
 
     }
 }
 
-extension UInt64: StoreableValueConvertible {
+extension UInt64: StorableValueConvertible {
     
-    public typealias StoreableValueType = String
+    public typealias StorableValueType = String
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return String(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> UInt64 {
-        return UInt64(storeableValue)!
+    public static func fromStorableValue(storableValue: StorableValueType) -> UInt64 {
+        return UInt64(storableValue)!
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Storeable.swift
+//  Storable.swift
 //  ORM
 //
 //  Created by Øyvind Grimnes on 17/08/16.
@@ -15,4 +15,4 @@ import Foundation
  
  The object must be identifiable to let Swifty manage references and unique objects
  */
-public protocol Storeable: Identifiable, Mappable { }
+public protocol Storable: Identifiable, Mappable { }

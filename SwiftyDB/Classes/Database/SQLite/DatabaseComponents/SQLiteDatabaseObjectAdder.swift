@@ -39,7 +39,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
                 for reader in readers {
                     var parameters: [String: SQLiteValue?] = [:]
                     
-                    for (key, value) in reader.storeableValues {
+                    for (key, value) in reader.storableValues {
                         parameters[key] = value as? SQLiteValue
                     }
                     

@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct TypeInformation: Storeable {
+struct TypeInformation: Storable {
     
     var name = ""
     var properties: [String: String] = [:]

@@ -11,20 +11,20 @@ import Foundation
 
 class Writer: BaseMap {
     
-    func getCurrentValue<T: StoreableValue>() -> T? {
+    func getCurrentValue<T: StorableValue>() -> T? {
         guard let key = currentKey else {
             return nil
         }
         
-        return storeableValues[key] as? T
+        return storableValues[key] as? T
     }
     
-    func getCurrentValue<T: StoreableValue>() -> [T]? {
+    func getCurrentValue<T: StorableValue>() -> [T]? {
         guard let key = currentKey else {
             return nil
         }
         
-        return storeableValueArrays[key]?.map { $0 as! T }
+        return storableValueArrays[key]?.map { $0 as! T }
     }
     
     func getCurrentValue<T: MapType>() -> T? {

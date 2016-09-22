@@ -21,7 +21,7 @@ public func <- <T: Mappable>(inout left: T, right: MapType) {
 func <- <T: Mappable>(inout left: T, right: Reader) {
     let reader = Mapper.readerForObject(left)
     
-    right.storeableValues[right.currentKey!] = reader.identifierValue
+    right.storableValues[right.currentKey!] = reader.identifierValue
     
     right.setCurrentValue(reader, forType: T.self)
 }
@@ -48,7 +48,7 @@ func <- <T: Mappable>(inout left: T?, right: Reader) {
         reader = Mapper.readerForObject(object)
     }
     
-    right.storeableValues[right.currentKey!] = reader?.identifierValue
+    right.storableValues[right.currentKey!] = reader?.identifierValue
     
     right.setCurrentValue(reader, forType: T.self)
 }
@@ -79,7 +79,7 @@ func <- <T: Mappable>(inout left: T!, right: Reader) {
         reader = Mapper.readerForObject(object)
     }
     
-    right.storeableValues[right.currentKey!] = reader?.identifierValue
+    right.storableValues[right.currentKey!] = reader?.identifierValue
     
     right.setCurrentValue(reader, forType: T.self)
 }

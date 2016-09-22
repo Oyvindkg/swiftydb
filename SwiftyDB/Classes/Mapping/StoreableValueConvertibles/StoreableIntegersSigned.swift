@@ -8,67 +8,67 @@
 
 import Foundation
 
-extension Int: StoreableValueConvertible {
+extension Int: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType{
+    public var storableValue: StorableValueType{
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Int {
-        return Int(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Int {
+        return Int(storableValue)
     }
 }
 
-extension Int8: StoreableValueConvertible {
+extension Int8: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType{
+    public var storableValue: StorableValueType{
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Int8 {
-        return Int8(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Int8 {
+        return Int8(storableValue)
     }
 }
 
-extension Int16: StoreableValueConvertible {
+extension Int16: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType{
+    public var storableValue: StorableValueType{
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Int16 {
-        return Int16(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Int16 {
+        return Int16(storableValue)
     }
 }
 
-extension Int32: StoreableValueConvertible {
+extension Int32: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Int32 {
-        return Int32(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Int32 {
+        return Int32(storableValue)
     }
 }
 
-extension Int64: StoreableValueConvertible {
+extension Int64: StorableValueConvertible {
     
-    public typealias StoreableValueType = Int64
+    public typealias StorableValueType = Int64
     
-    public var storeableValue: StoreableValueType{
+    public var storableValue: StorableValueType{
         return self
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Int64 {
-        return storeableValue
+    public static func fromStorableValue(storableValue: StorableValueType) -> Int64 {
+        return storableValue
     }
 }

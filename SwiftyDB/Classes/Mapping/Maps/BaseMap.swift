@@ -15,8 +15,8 @@ class BaseMap {
     let type: Mappable.Type
     var currentKey: String?
     
-    var storeableValues: [String: StoreableValue] = [:]
-    var storeableValueArrays: [String: [StoreableValue?]] = [:]
+    var storableValues: [String: StorableValue] = [:]
+    var storableValueArrays: [String: [StorableValue?]] = [:]
     
     var mappables: [String: MapType] = [:]
     var mappableArrays: [String: [MapType]] = [:]

@@ -9,14 +9,14 @@
 import Foundation
 
 /** Defines values that can be converted to storable values */
-public protocol StoreableValueConvertible {
+public protocol StorableValueConvertible {
     
     /** The type used to store this type in the database */
-    associatedtype StoreableValueType: StoreableValue
+    associatedtype StorableValueType: StorableValue
     
     /** Get a storable representation of the value */
-    var storeableValue: StoreableValueType { get }
+    var storableValue: StorableValueType { get }
     
     /** Convert a storable value to its original type */
-    static func fromStoreableValue(storeableValue: StoreableValueType) -> Self
+    static func fromStorableValue(storableValue: StorableValueType) -> Self
 }

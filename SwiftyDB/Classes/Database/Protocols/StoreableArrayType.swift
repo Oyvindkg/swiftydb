@@ -1,5 +1,5 @@
 //
-//  StoreableArrayType.swift
+//  StorableArrayType.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 25/08/16.
@@ -9,12 +9,12 @@
 import Foundation
 
 
-protocol StoreableArrayType {
-    static var storeableType: Storeable.Type? { get }
+protocol StorableArrayType {
+    static var storableType: Storable.Type? { get }
 }
 
-extension Array: StoreableArrayType {
-    static var storeableType: Storeable.Type? {
-        return Element.self as? Storeable.Type
+extension Array: StorableArrayType {
+    static var storableType: Storable.Type? {
+        return Element.self as? Storable.Type
     }
 }

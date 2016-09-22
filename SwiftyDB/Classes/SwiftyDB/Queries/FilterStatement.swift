@@ -16,20 +16,20 @@ public protocol FilterStatement {
 
 /** An expression comparing a property to a value */
 internal enum Expression: FilterStatement {
-    case equal(String, StoreableValue?)
-    case notEqual(String, StoreableValue?)
+    case equal(String, StorableValue?)
+    case notEqual(String, StorableValue?)
     
-    case less(String, StoreableValue)
-    case greaterOrEqual(String, StoreableValue)
+    case less(String, StorableValue)
+    case greaterOrEqual(String, StorableValue)
     
-    case greater(String, StoreableValue)
-    case lessOrEqual(String, StoreableValue)
+    case greater(String, StorableValue)
+    case lessOrEqual(String, StorableValue)
     
-    case containedIn(String, [StoreableValue?])
-    case notContainedIn(String, [StoreableValue?])
+    case containedIn(String, [StorableValue?])
+    case notContainedIn(String, [StorableValue?])
     
-    case between(String, StoreableValue, StoreableValue)
-    case notBetween(String, StoreableValue, StoreableValue)
+    case between(String, StorableValue, StorableValue)
+    case notBetween(String, StorableValue, StorableValue)
     
     case like(String, String)
     case notLike(String, String)

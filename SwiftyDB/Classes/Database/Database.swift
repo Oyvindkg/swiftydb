@@ -10,13 +10,13 @@ import Foundation
 
 protocol DatabaseType {
     
-    func add<T: Storeable>(objects: [T]) throws
+    func add<T: Storable>(objects: [T]) throws
     
-    func get<T: Storeable>(query: Query<T>, nested: Bool) throws -> [T]
+    func get<T: Storable>(query: Query<T>, nested: Bool) throws -> [T]
     
-    func delete<T: Storeable>(query: Query<T>) throws
+    func delete<T: Storable>(query: Query<T>) throws
     
-    func migrate(type: Storeable.Type, fromTypeInformation typeInformation: TypeInformation) throws
+    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws
     
     func create(index: _IndexType) throws
 }

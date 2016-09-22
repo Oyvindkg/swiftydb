@@ -17,19 +17,19 @@ private let dateFormatter: NSDateFormatter = {
     return dateFormatter
 }()
 
-extension NSDate: StoreableValueConvertible {
+extension NSDate: StorableValueConvertible {
     
-    public typealias StoreableValueType = String
+    public typealias StorableValueType = String
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return dateFormatter.stringFromDate(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Self {
-        return fromStoreableValueHelper(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
+        return fromStorableValueHelper(storableValue)
     }
     
-    private static func fromStoreableValueHelper<T>(storeableValue: StoreableValueType) -> T {
-        return dateFormatter.dateFromString(storeableValue) as! T
+    private static func fromStorableValueHelper<T>(storableValue: StorableValueType) -> T {
+        return dateFormatter.dateFromString(storableValue) as! T
     }
 }

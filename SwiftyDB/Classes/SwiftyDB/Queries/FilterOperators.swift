@@ -33,8 +33,8 @@ infix operator !~ {
  
  - returns: a `FilterStatement`
  */
-public func << <T: StoreableValueConvertible where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
-    return Expression.between(property, range.startIndex.storeableValue, range.endIndex.storeableValue)
+public func << <T: StorableValueConvertible where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
+    return Expression.between(property, range.startIndex.storableValue, range.endIndex.storableValue)
 }
 
 /**
@@ -46,8 +46,8 @@ public func << <T: StoreableValueConvertible where T: ForwardIndexType>(property
  
  - returns: a `FilterStatement`
  */
-public func !< <T: StoreableValueConvertible where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
-    return Expression.notBetween(property, range.startIndex.storeableValue, range.endIndex.storeableValue)
+public func !< <T: StorableValueConvertible where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
+    return Expression.notBetween(property, range.startIndex.storableValue, range.endIndex.storableValue)
 }
 
 
@@ -61,8 +61,8 @@ public func !< <T: StoreableValueConvertible where T: ForwardIndexType>(property
  
  - returns: a `FilterStatement`
  */
-public func << <T: StoreableValueConvertible>(property: String, array: [T?]) -> FilterStatement {
-    return property << array.map { $0?.storeableValue }
+public func << <T: StorableValueConvertible>(property: String, array: [T?]) -> FilterStatement {
+    return property << array.map { $0?.storableValue }
 }
 
 /**
@@ -74,7 +74,7 @@ public func << <T: StoreableValueConvertible>(property: String, array: [T?]) -> 
  
  - returns: a `FilterStatement`
  */
-public func << (property: String, array: [StoreableValue?]) -> FilterStatement {
+public func << (property: String, array: [StorableValue?]) -> FilterStatement {
     return Expression.containedIn(property, array)
 }
 
@@ -87,8 +87,8 @@ public func << (property: String, array: [StoreableValue?]) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func !< <T: StoreableValueConvertible>(property: String, array: [T?]) -> FilterStatement {
-    return property !< array.map { $0?.storeableValue }
+public func !< <T: StorableValueConvertible>(property: String, array: [T?]) -> FilterStatement {
+    return property !< array.map { $0?.storableValue }
 }
 
 /**
@@ -100,7 +100,7 @@ public func !< <T: StoreableValueConvertible>(property: String, array: [T?]) -> 
  
  - returns: a `FilterStatement`
  */
-public func !< (property: String, array: [StoreableValue?]) -> FilterStatement {
+public func !< (property: String, array: [StorableValue?]) -> FilterStatement {
     return Expression.notContainedIn(property, array)
 }
 
@@ -118,7 +118,7 @@ public func !< (property: String, array: [StoreableValue?]) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func ~= (property: String, pattern: String) -> FilterStatement {
-    return Expression.like(property, pattern.storeableValue)
+    return Expression.like(property, pattern.storableValue)
 }
 
 /**
@@ -134,7 +134,7 @@ public func ~= (property: String, pattern: String) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func !~ (property: String, pattern: String) -> FilterStatement {
-    return Expression.notLike(property, pattern.storeableValue)
+    return Expression.notLike(property, pattern.storableValue)
 }
 
 /**
@@ -146,7 +146,7 @@ public func !~ (property: String, pattern: String) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func == <T: Storeable>(property: String, object: T) -> FilterStatement {
+public func == <T: Storable>(property: String, object: T) -> FilterStatement {
     let reader = Mapper.readerForObject(object)
     
     return Expression.equal(property, reader.identifierValue)
@@ -161,7 +161,7 @@ public func == <T: Storeable>(property: String, object: T) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func == <T: Storeable>(property: String, object: T?) -> FilterStatement {
+public func == <T: Storable>(property: String, object: T?) -> FilterStatement {
     var reader: Reader? = nil
     
     if let object = object {
@@ -181,8 +181,8 @@ public func == <T: Storeable>(property: String, object: T?) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func == <T: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.equal(property, value.storeableValue)
+public func == <T: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.equal(property, value.storableValue)
 }
 
 /**
@@ -194,8 +194,8 @@ public func == <T: StoreableValueConvertible>(property: String, value: T) -> Fil
  
  - returns: a `FilterStatement`
  */
-public func == <T: StoreableValueConvertible>(property: String, value: T?) -> FilterStatement {
-    return Expression.equal(property, value?.storeableValue)
+public func == <T: StorableValueConvertible>(property: String, value: T?) -> FilterStatement {
+    return Expression.equal(property, value?.storableValue)
 }
 
 
@@ -208,7 +208,7 @@ public func == <T: StoreableValueConvertible>(property: String, value: T?) -> Fi
  
  - returns: a `FilterStatement`
  */
-public func != <T: Storeable>(property: String, value: T) -> FilterStatement {
+public func != <T: Storable>(property: String, value: T) -> FilterStatement {
     let reader = Mapper.readerForObject(value)
     
     return Expression.notEqual(property, reader.identifierValue)
@@ -223,7 +223,7 @@ public func != <T: Storeable>(property: String, value: T) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func != <T: Storeable>(property: String, object: T?) -> FilterStatement {
+public func != <T: Storable>(property: String, object: T?) -> FilterStatement {
     guard object != nil else {
         return Expression.notEqual(property, nil)
     }
@@ -242,8 +242,8 @@ public func != <T: Storeable>(property: String, object: T?) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func != <T: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.notEqual(property, value.storeableValue)
+public func != <T: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.notEqual(property, value.storableValue)
 }
 
 /**
@@ -255,8 +255,8 @@ public func != <T: StoreableValueConvertible>(property: String, value: T) -> Fil
  
  - returns: a `FilterStatement`
  */
-public func != <T: StoreableValueConvertible>(property: String, value: T?) -> FilterStatement {
-    return Expression.notEqual(property, value?.storeableValue)
+public func != <T: StorableValueConvertible>(property: String, value: T?) -> FilterStatement {
+    return Expression.notEqual(property, value?.storableValue)
 }
 
 
@@ -269,8 +269,8 @@ public func != <T: StoreableValueConvertible>(property: String, value: T?) -> Fi
  
  - returns: a `FilterStatement`
  */
-public func < <T: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.less(property, value.storeableValue)
+public func < <T: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.less(property, value.storableValue)
 }
 
 /**
@@ -282,8 +282,8 @@ public func < <T: StoreableValueConvertible>(property: String, value: T) -> Filt
  
  - returns: a `FilterStatement`
  */
-public func > <T: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.greater(property, value.storeableValue)
+public func > <T: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.greater(property, value.storableValue)
 }
 
 /**
@@ -295,8 +295,8 @@ public func > <T: StoreableValueConvertible>(property: String, value: T) -> Filt
  
  - returns: a `FilterStatement`
  */
-public func <= <T: StoreableValueConvertible>(left: String, right: T) -> FilterStatement {
-    return Expression.lessOrEqual(left, right.storeableValue)
+public func <= <T: StorableValueConvertible>(left: String, right: T) -> FilterStatement {
+    return Expression.lessOrEqual(left, right.storableValue)
 }
 
 /**
@@ -308,8 +308,8 @@ public func <= <T: StoreableValueConvertible>(left: String, right: T) -> FilterS
  
  - returns: a `FilterStatement`
  */
-public func >= <T: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.greaterOrEqual(property, value.storeableValue)
+public func >= <T: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.greaterOrEqual(property, value.storableValue)
 }
 
 
@@ -324,8 +324,8 @@ public func >= <T: StoreableValueConvertible>(property: String, value: T) -> Fil
  
  - returns: a `FilterStatement`
  */
-public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.equal(property, value.rawValue.storeableValue)
+public func == <T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.equal(property, value.rawValue.storableValue)
 }
 
 /**
@@ -337,8 +337,8 @@ public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
  
  - returns: a `FilterStatement`
  */
-public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, value: T?) -> FilterStatement {
-    return Expression.equal(property, value?.rawValue.storeableValue)
+public func == <T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, value: T?) -> FilterStatement {
+    return Expression.equal(property, value?.rawValue.storableValue)
 }
 
 /**
@@ -350,8 +350,8 @@ public func == <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
  
  - returns: a `FilterStatement`
  */
-public func != <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, value: T) -> FilterStatement {
-    return Expression.notEqual(property, value.rawValue.storeableValue)
+public func != <T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, value: T) -> FilterStatement {
+    return Expression.notEqual(property, value.rawValue.storableValue)
 }
 
 /**
@@ -363,8 +363,8 @@ public func != <T: RawRepresentable where T.RawValue: StoreableValueConvertible>
  
  - returns: a `FilterStatement`
  */
-public func != <T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, value: T?) -> FilterStatement {
-    return Expression.notEqual(property, value?.rawValue.storeableValue)
+public func != <T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, value: T?) -> FilterStatement {
+    return Expression.notEqual(property, value?.rawValue.storableValue)
 }
 
 

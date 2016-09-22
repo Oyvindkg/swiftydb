@@ -18,7 +18,7 @@ internal protocol ObjectDatabase {
         - object:           the object to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storeable>(object: T, resultHandler: (Result<Void> -> Void)?)
+    func add<T: Storable>(object: T, resultHandler: (Result<Void> -> Void)?)
     
     /**
      Add objects to the database
@@ -27,7 +27,7 @@ internal protocol ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?)
+    func add<T: Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?)
     
     
     /**
@@ -38,7 +38,7 @@ internal protocol ObjectDatabase {
 
      - returns: A `GetQuery` object that can be used to filter, sort and limit the results
      */
-    func get<T : Storeable>(type: T.Type) -> GetQuery<T>
+    func get<T : Storable>(type: T.Type) -> GetQuery<T>
     
     /**
      Get objects for the provided type
@@ -47,7 +47,7 @@ internal protocol ObjectDatabase {
         - type:             type of the objects to be retrieved
         - resultHandler:    an optional result handler
      */
-    func get<T: Storeable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?)
+    func get<T: Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?)
     
     /**
      Get objects for the provided type
@@ -56,7 +56,7 @@ internal protocol ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T: Storeable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?)
+    func get<T: Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?)
     
     
     /**
@@ -67,7 +67,7 @@ internal protocol ObjectDatabase {
      
      - returns: A `DeleteQuery` object that can be used to filter objects to delete
      */
-    func delete<T: Storeable>(type: T.Type, resultHandler: (Result<Void> -> Void)?)
+    func delete<T: Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?)
     
     /**
      Delete objects for the provided type
@@ -76,5 +76,5 @@ internal protocol ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T: Storeable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?)
+    func delete<T: Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?)
 }

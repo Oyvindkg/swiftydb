@@ -35,7 +35,7 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
     
 
     private func getWritersForReader(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
-        let query = queryFactory.selectQueryForType(reader.storeableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
+        let query = queryFactory.selectQueryForType(reader.storableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
         let statement = try database.prepare(query.query)
         
@@ -50,28 +50,28 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {
-                writer.storeableValues[property] = value as? StoreableValue
+                writer.storableValues[property] = value as? StorableValue
             }
             
-            try getStoreableWritersForWriter(writer, database: database)
+            try getStorableWritersForWriter(writer, database: database)
             
             return writer
         }
     }
     
     
-    // MARK: - Storeable properties
+    // MARK: - Storable properties
     
-    private func getStoreableWritersForWriter(writer: Writer, database: DatabaseConnection) throws {
+    private func getStorableWritersForWriter(writer: Writer, database: DatabaseConnection) throws {
         let reader = Mapper.readerForType(writer.type)
         
         for (property, type) in reader.types {
-            if let storeableType = type as? Storeable.Type {
-                writer.mappables[property] = try getStoreableWriterForProperty(property, ofType: storeableType, forWriter: writer, database: database)
+            if let storableType = type as? Storable.Type {
+                writer.mappables[property] = try getStorableWriterForProperty(property, ofType: storableType, forWriter: writer, database: database)
                 
-            } else if let storeableArrayType = type as? StoreableArrayType.Type {
-                if let storeableType = storeableArrayType.storeableType {
-                    let maps: [MapType]? = try getStoreableWritersForProperty(property, ofType: storeableType, forWriter: writer, database: database)?.matchType()
+            } else if let storableArrayType = type as? StorableArrayType.Type {
+                if let storableType = storableArrayType.storableType {
+                    let maps: [MapType]? = try getStorableWritersForProperty(property, ofType: storableType, forWriter: writer, database: database)?.matchType()
                     
                     writer.mappableArrays[property] = maps
                 }
@@ -79,14 +79,14 @@ class SQLiteDatabaseRetriever: DatabaseRetrieverType {
         }
     }
     
-    private func getStoreableWriterForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
-        return try getStoreableWritersForProperty(property, ofType: type, forWriter: writer, database: database)?.first
+    private func getStorableWriterForProperty(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
+        return try getStorableWritersForProperty(property, ofType: type, forWriter: writer, database: database)?.first
     }
     
-    private func getStoreableWritersForProperty(property: String, ofType type: Storeable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
+    private func getStorableWritersForProperty(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
         let propertyReader = Mapper.readerForType(type)
         
-        guard let storableValue = writer.storeableValues[property] as? String else {
+        guard let storableValue = writer.storableValues[property] as? String else {
             return nil
         }
         

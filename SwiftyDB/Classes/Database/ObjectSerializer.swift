@@ -10,12 +10,12 @@ import Foundation
 
 struct ObjectSerializer: ObjectSerializerType {
     
-    static func readersForStoreable<T: Storeable>(storeable: T?) -> [Reader] {
-        guard storeable != nil else {
+    static func readersForStorable<T: Storable>(storable: T?) -> [Reader] {
+        guard storable != nil else {
             return []
         }
         
-        let reader = Mapper.readerForObject(storeable!)
+        let reader = Mapper.readerForObject(storable!)
         
         return readersForReader(reader)
     }

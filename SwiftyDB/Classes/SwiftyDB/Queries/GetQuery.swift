@@ -13,7 +13,7 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class GetQuery<T: Storeable>: Query<T> {
+public class GetQuery<T: Storable>: Query<T> {
     
     public typealias ResultType = [SubjectType]
     

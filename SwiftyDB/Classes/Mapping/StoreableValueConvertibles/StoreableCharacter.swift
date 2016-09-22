@@ -1,5 +1,5 @@
 //
-//  StoreableCharacter.swift
+//  StorableCharacter.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 20/08/16.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-extension Character: StoreableValueConvertible {
-    public typealias StoreableValueType = String
+extension Character: StorableValueConvertible {
+    public typealias StorableValueType = String
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return String(self)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Character {
-        return storeableValue.characters.first!
+    public static func fromStorableValue(storableValue: StorableValueType) -> Character {
+        return storableValue.characters.first!
     }
 }

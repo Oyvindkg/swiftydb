@@ -10,11 +10,11 @@ import Foundation
 
 /** Class used to create indices on a set of properties, with optional filters */
 class Index: IndexType, _IndexType {
-    let type: Storeable.Type
+    let type: Storable.Type
     
     var indices: [_IndexInstanceType]
     
-    init(type: Storeable.Type) {
+    init(type: Storable.Type) {
         self.type = type
         self.indices = []
     }

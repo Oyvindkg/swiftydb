@@ -16,7 +16,7 @@ import Nimble
 class SwiftyTests: XCTestCase {
 
     var configuration: ConfigurationType = {
-        var configuration = Configuration(databaseName: "database_test")
+        var configuration = Configuration(name: "database_test")
         
         configuration.mode = .sandbox
         
@@ -101,9 +101,9 @@ class SwiftyTests: XCTestCase {
                 expect(retrievedObject.number).to(equal(object.number))
                 expect(retrievedObject.date.timeIntervalSince1970).to(beCloseTo(object.date.timeIntervalSince1970, within: 0.0005))
                 
-                expect(retrievedObject.storeable).to(equal(object.storeable))
-                expect(retrievedObject.storeableSet).to(equal(object.storeableSet))
-                expect(retrievedObject.storeableArray).to(equal(object.storeableArray))
+                expect(retrievedObject.storable).to(equal(object.storable))
+                expect(retrievedObject.storableSet).to(equal(object.storableSet))
+                expect(retrievedObject.storableArray).to(equal(object.storableArray))
                 
                 expect(retrievedObject.stringArray).to(equal(object.stringArray))
                 expect(retrievedObject.intArray).to(equal(object.intArray))
@@ -135,9 +135,9 @@ class SwiftyTests: XCTestCase {
                 
                 expect(retrievedObject.optionalDate!.timeIntervalSince1970).to(beCloseTo(object.optionalDate!.timeIntervalSince1970, within: 0.0005))
                 
-                expect(retrievedObject.optionalStoreable).to(equal(object.optionalStoreable))
-                expect(retrievedObject.optionalStoreableSet).to(equal(object.optionalStoreableSet))
-                expect(retrievedObject.optionalStoreableArray).to(equal(object.optionalStoreableArray))
+                expect(retrievedObject.optionalStorable).to(equal(object.optionalStorable))
+                expect(retrievedObject.optionalStorableSet).to(equal(object.optionalStorableSet))
+                expect(retrievedObject.optionalStorableArray).to(equal(object.optionalStorableArray))
                 
                 expect(retrievedObject.optionalStringArray).to(equal(object.optionalStringArray))
                 expect(retrievedObject.optionalIntArray).to(equal(object.optionalIntArray))

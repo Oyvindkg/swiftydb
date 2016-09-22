@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Bone: Storeable {
+class Bone: Storable {
     var weight: Double = 12.3
     var dnr: String = "12321321"
     

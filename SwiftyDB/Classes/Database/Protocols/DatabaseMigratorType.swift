@@ -10,7 +10,7 @@ import Foundation
 
 protocol DatabaseMigratorType {
     
-    func migrateType(type: Storeable.Type, fromTypeInformation typeInformation: TypeInformation) throws
-    func migrateType(type: Storeable.Type) throws
+    func migrateType(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws
+    func migrateType(type: Storable.Type) throws
     
 }

@@ -23,28 +23,28 @@ public protocol MigrationType {
     func add(property: String)
     
     /** Add a new property with a default value */
-    func add<T: StoreableValueConvertible>(property: String, defaultValue: T)
+    func add<T: StorableValueConvertible>(property: String, defaultValue: T)
     
     /** Add a new array property with a default value */
-    func add<T: StoreableValueConvertible>(property: String, defaultValue: [T])
+    func add<T: StorableValueConvertible>(property: String, defaultValue: [T])
     
     /** Add a new set property with a default value */
-    func add<T: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
+    func add<T: StorableValueConvertible>(property: String, defaultValue: Set<T>)
     
     /** Add a new dictionary property with a default value */
-    func add<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(property: String, defaultValue: Dictionary<T, U>)
+    func add<T: StorableValueConvertible, U: StorableValueConvertible where T.StorableValueType: Hashable>(property: String, defaultValue: Dictionary<T, U>)
     
     /** Add a new raw representable property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: T)
+    func add<T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, defaultValue: T)
     
     /** Add a new raw representable array property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: [T])
+    func add<T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, defaultValue: [T])
     
     /** Add a new raw representable set property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
+    func add<T: RawRepresentable where T.RawValue: StorableValueConvertible>(property: String, defaultValue: Set<T>)
     
     /** Add a new raw representable dictionary property with a default value */
-    func add<T: StoreableValueConvertible, U: RawRepresentable where U.RawValue : StoreableValueConvertible, T.StoreableValueType : Hashable>(property: String, defaultValue: [T : U])
+    func add<T: StorableValueConvertible, U: RawRepresentable where U.RawValue : StorableValueConvertible, T.StorableValueType : Hashable>(property: String, defaultValue: [T : U])
     
     /** Remove an exsisting property */
     func remove(property: String)

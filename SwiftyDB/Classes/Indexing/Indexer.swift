@@ -15,7 +15,7 @@ class Indexer: IndexerType {
     var validTypes: Set<String> = []
     
     /** Creates indices for the provided type, and its nested types */
-    func indexTypeIfNecessary(type: Storeable.Type, inSwifty swifty: Swifty) throws {
+    func indexTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         let typeName = String(type)
         
         guard !validTypes.contains(typeName) else {
@@ -23,11 +23,11 @@ class Indexer: IndexerType {
         }
         
         for (_, childType) in Mapper.readerForType(type).types {
-            guard let storeableChildType = childType as? Storeable.Type else {
+            guard let storableChildType = childType as? Storable.Type else {
                 continue
             }
             
-            try indexTypeIfNecessary(storeableChildType, inSwifty: swifty)
+            try indexTypeIfNecessary(storableChildType, inSwifty: swifty)
         }
         
         try indexThisTypeIfNecessary(type, inSwifty: swifty)
@@ -36,7 +36,7 @@ class Indexer: IndexerType {
     }
     
     /** Creates indices for the provided type */
-    private func indexThisTypeIfNecessary(type: Storeable.Type, inSwifty swifty: Swifty) throws {
+    private func indexThisTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         guard type is Indexable.Type else {
             return
         }

@@ -22,7 +22,7 @@ public protocol IndexInstanceType {
 
 /** An internal index instance representation */
 protocol _IndexInstanceType {
-    var type: Storeable.Type { get }
+    var type: Storable.Type { get }
     var properties: [String] { get }
     var filters: FilterStatement? { get }
 }

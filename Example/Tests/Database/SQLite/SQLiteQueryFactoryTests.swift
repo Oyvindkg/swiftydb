@@ -48,7 +48,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         expect(query.query).to(contain("'age' INTEGER"))
     }
     
-    func testCreateTableUsesTextTypeForStoreableType() {
+    func testCreateTableUsesTextTypeForStorableType() {
         let query = sut.createTableQueryForReader(reader)
         
         expect(query.query).to(contain("'wolf' TEXT"))
@@ -84,7 +84,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         expect(query.query).to(contain("INTO '\(Stark.self)'"))
     }
     
-    func testInsertUpdatesAllStoreablePropertiesInTheReader() {
+    func testInsertUpdatesAllStorablePropertiesInTheReader() {
         let lady  = Wolf(name: "Lady", age: 3)
         let sansa = Stark(name: "Sansa", weight: 50, age: 14, wolf: lady)
         

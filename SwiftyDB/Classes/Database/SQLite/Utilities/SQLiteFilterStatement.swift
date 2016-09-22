@@ -10,7 +10,7 @@ import Foundation
 
 protocol SQLiteFilterStatement: FilterStatement {
     var statement: String { get }
-    var parameters: [StoreableValue?] { get }
+    var parameters: [StorableValue?] { get }
 }
 
 extension Expression: SQLiteFilterStatement {
@@ -52,7 +52,7 @@ extension Expression: SQLiteFilterStatement {
         }
     }
     
-    var parameters: [StoreableValue?] {
+    var parameters: [StorableValue?] {
         switch self {
         case .equal(_, let value):
             return [value]
@@ -103,7 +103,7 @@ extension Connective: SQLiteFilterStatement {
         }
     }
     
-    var parameters: [StoreableValue?] {
+    var parameters: [StorableValue?] {
         switch self {
         case .conjunction(let operand, let otherOperand):
             let operandParameters = (operand as! SQLiteFilterStatement).parameters

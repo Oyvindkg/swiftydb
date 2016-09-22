@@ -1,5 +1,5 @@
 //
-//  StoreableNSData.swift
+//  StorableNSData.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 20/08/16.
@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension NSData: StoreableValueConvertible {
+extension NSData: StorableValueConvertible {
     
-    public typealias StoreableValueType = String
+    public typealias StorableValueType = String
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Self {
-        return fromStoreableValueHelper(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
+        return fromStorableValueHelper(storableValue)
     }
     
-    private static func fromStoreableValueHelper<T: NSData>(storeableValue: StoreableValueType) -> T {
-        return T.init(base64EncodedString: storeableValue, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
+    private static func fromStorableValueHelper<T: NSData>(storableValue: StorableValueType) -> T {
+        return T.init(base64EncodedString: storableValue, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
     }
 }

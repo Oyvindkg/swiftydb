@@ -1,5 +1,5 @@
 //
-//  StoreableNSNumber.swift
+//  StorableNSNumber.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 20/08/16.
@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension NSNumber: StoreableValueConvertible {
+extension NSNumber: StorableValueConvertible {
     
-    public typealias StoreableValueType = Double
+    public typealias StorableValueType = Double
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return self.doubleValue
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> Self {
-        return fromStoreableValueHelper(storeableValue)
+    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
+        return fromStorableValueHelper(storableValue)
     }
     
-    private static func fromStoreableValueHelper<T: NSNumber>(storeableValue: StoreableValueType) -> T {
-        return T.init(double: storeableValue)
+    private static func fromStorableValueHelper<T: NSNumber>(storableValue: StorableValueType) -> T {
+        return T.init(double: storableValue)
     }
 }

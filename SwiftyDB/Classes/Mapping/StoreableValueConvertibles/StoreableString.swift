@@ -8,15 +8,15 @@
 
 import Foundation
 
-extension String: StoreableValueConvertible {
+extension String: StorableValueConvertible {
     
-    public typealias StoreableValueType = String
+    public typealias StorableValueType = String
     
-    public var storeableValue: StoreableValueType {
+    public var storableValue: StorableValueType {
         return self
     }
     
-    public static func fromStoreableValue(storeableValue: StoreableValueType) -> String {
-        return storeableValue
+    public static func fromStorableValue(storableValue: StorableValueType) -> String {
+        return storableValue
     }
 }
