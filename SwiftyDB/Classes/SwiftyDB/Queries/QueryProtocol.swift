@@ -9,7 +9,7 @@
 import Foundation
 
 /** Contains all valid filter methods */
-public protocol QueryType {
+public protocol QueryProtocol {
     func filter(_ filter: FilterStatement) -> Self
     func max(_ max: Int) -> Self
     func start(_ start: Int) -> Self
@@ -17,7 +17,7 @@ public protocol QueryType {
 }
 
 /** A query representation used internally */
-protocol _QueryType {
+protocol _QueryProtocol {
     var type: Storable.Type {get}
     var filter: FilterStatement? { get }
     var max: Int? {get}

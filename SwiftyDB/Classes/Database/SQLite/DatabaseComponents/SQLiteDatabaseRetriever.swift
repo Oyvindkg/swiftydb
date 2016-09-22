@@ -20,7 +20,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
         self.queryFactory = queryFactory
     }
 
-    func get(query: _QueryType) throws -> [Writer] {
+    func get(query: _QueryProtocol) throws -> [Writer] {
         
         let reader = Mapper.readerForType(query.type)
         

@@ -13,7 +13,7 @@ import Foundation
  
  This query object can be stored and reused times
  */
-open class Query<T: Storable>: QueryType, _QueryType {
+open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
     
     public typealias SubjectType = T
     

@@ -24,5 +24,4 @@ enum SwiftyError: Error, CustomStringConvertible {
             return message
         }
     }
-    
 }

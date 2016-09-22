@@ -17,7 +17,7 @@
 		3978ECB81D8435610019928A /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECB71D8435610019928A /* CHANGELOG.md */; };
 		3978ECBA1D843C3E0019928A /* DeleteQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECB91D843C3E0019928A /* DeleteQuery.swift */; };
 		3978ECBC1D843C510019928A /* GetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECBB1D843C510019928A /* GetQuery.swift */; };
-		3978ECBE1D843C690019928A /* QueryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECBD1D843C690019928A /* QueryType.swift */; };
+		3978ECBE1D843C690019928A /* QueryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECBD1D843C690019928A /* QueryProtocol.swift */; };
 		399C483C1D745567006393B5 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C483A1D745554006393B5 /* QueryTests.swift */; };
 		399C483D1D74556B006393B5 /* ObjectDatabaseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C48381D745326006393B5 /* ObjectDatabaseMock.swift */; };
 		399C48431D7456F5006393B5 /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399C483F1D745604006393B5 /* Stark.swift */; };
@@ -87,7 +87,7 @@
 		39F7465E1D84302C00DB4362 /* PropertyMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746121D84302C00DB4362 /* PropertyMigration.swift */; };
 		39F7465F1D84302C00DB4362 /* TypeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746131D84302C00DB4362 /* TypeInformation.swift */; };
 		39F746601D84302C00DB4362 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746151D84302C00DB4362 /* Configuration.swift */; };
-		39F746611D84302C00DB4362 /* ObjectDatabaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746161D84302C00DB4362 /* ObjectDatabaseType.swift */; };
+		39F746611D84302C00DB4362 /* ObjectDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746161D84302C00DB4362 /* ObjectDatabaseProtocol.swift */; };
 		39F746621D84302C00DB4362 /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746181D84302C00DB4362 /* FilterOperators.swift */; };
 		39F746631D84302C00DB4362 /* FilterStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746191D84302C00DB4362 /* FilterStatement.swift */; };
 		39F746641D84302C00DB4362 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7461A1D84302C00DB4362 /* Query.swift */; };
@@ -126,7 +126,7 @@
 		3978ECB71D8435610019928A /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		3978ECB91D843C3E0019928A /* DeleteQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteQuery.swift; sourceTree = "<group>"; };
 		3978ECBB1D843C510019928A /* GetQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetQuery.swift; sourceTree = "<group>"; };
-		3978ECBD1D843C690019928A /* QueryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryType.swift; sourceTree = "<group>"; };
+		3978ECBD1D843C690019928A /* QueryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryProtocol.swift; sourceTree = "<group>"; };
 		399C48381D745326006393B5 /* ObjectDatabaseMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectDatabaseMock.swift; path = Swifty/Filter/Mocks/ObjectDatabaseMock.swift; sourceTree = "<group>"; };
 		399C483A1D745554006393B5 /* QueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QueryTests.swift; path = Swifty/Filter/QueryTests.swift; sourceTree = "<group>"; };
 		399C483F1D745604006393B5 /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stark.swift; path = Swifty/Storeables/Stark.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		39F746121D84302C00DB4362 /* PropertyMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyMigration.swift; sourceTree = "<group>"; };
 		39F746131D84302C00DB4362 /* TypeInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeInformation.swift; sourceTree = "<group>"; };
 		39F746151D84302C00DB4362 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		39F746161D84302C00DB4362 /* ObjectDatabaseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDatabaseType.swift; sourceTree = "<group>"; };
+		39F746161D84302C00DB4362 /* ObjectDatabaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDatabaseProtocol.swift; sourceTree = "<group>"; };
 		39F746181D84302C00DB4362 /* FilterOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterOperators.swift; sourceTree = "<group>"; };
 		39F746191D84302C00DB4362 /* FilterStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterStatement.swift; sourceTree = "<group>"; };
 		39F7461A1D84302C00DB4362 /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
@@ -497,7 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				39F746151D84302C00DB4362 /* Configuration.swift */,
-				39F746161D84302C00DB4362 /* ObjectDatabaseType.swift */,
+				39F746161D84302C00DB4362 /* ObjectDatabaseProtocol.swift */,
 				39F746171D84302C00DB4362 /* Queries */,
 				39F7461C1D84302C00DB4362 /* Result.swift */,
 				39F7461D1D84302C00DB4362 /* Swifty.swift */,
@@ -510,7 +510,7 @@
 		39F746171D84302C00DB4362 /* Queries */ = {
 			isa = PBXGroup;
 			children = (
-				3978ECBD1D843C690019928A /* QueryType.swift */,
+				3978ECBD1D843C690019928A /* QueryProtocol.swift */,
 				39F7461A1D84302C00DB4362 /* Query.swift */,
 				3978ECBB1D843C510019928A /* GetQuery.swift */,
 				3978ECB91D843C3E0019928A /* DeleteQuery.swift */,
@@ -830,7 +830,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39F7462F1D84302C00DB4362 /* SQLiteDatabaseRetriever.swift in Sources */,
-				3978ECBE1D843C690019928A /* QueryType.swift in Sources */,
+				3978ECBE1D843C690019928A /* QueryProtocol.swift in Sources */,
 				39F7464D1D84302C00DB4362 /* StorableCharacter.swift in Sources */,
 				39F7465B1D84302C00DB4362 /* Migratable.swift in Sources */,
 				39F746631D84302C00DB4362 /* FilterStatement.swift in Sources */,
@@ -856,7 +856,7 @@
 				3978ECBA1D843C3E0019928A /* DeleteQuery.swift in Sources */,
 				39F746321D84302C00DB4362 /* SQLiteQuery.swift in Sources */,
 				39F746481D84302C00DB4362 /* StorableValueOperators.swift in Sources */,
-				39F746611D84302C00DB4362 /* ObjectDatabaseType.swift in Sources */,
+				39F746611D84302C00DB4362 /* ObjectDatabaseProtocol.swift in Sources */,
 				39F7462B1D84302C00DB4362 /* SQLiteDatabaseDeleter.swift in Sources */,
 				39F746261D84302C00DB4362 /* DatabaseMigrator.swift in Sources */,
 				39F746301D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift in Sources */,

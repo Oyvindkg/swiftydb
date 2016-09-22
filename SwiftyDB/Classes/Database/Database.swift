@@ -22,7 +22,7 @@ protocol Database {
 }
 
 protocol DatabaseRetriever {
-    func get(query: _QueryType) throws -> [Writer]
+    func get(query: _QueryProtocol) throws -> [Writer]
 }
 
 protocol DatabaseInserter {
@@ -30,6 +30,6 @@ protocol DatabaseInserter {
 }
 
 protocol DatabaseDeleter {
-    func delete(query: _QueryType) throws
+    func delete(query: _QueryProtocol) throws
 }
 
