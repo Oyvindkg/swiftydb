@@ -68,7 +68,7 @@ struct JSONSerialisation {
     }
     
     static func JSONFor<T: StorableProperty>(array: [T]) -> String {
-        let storableValues: [T.StorableValueType?] = array.map { $0.storableValue }
+        let storableValues = array.map { $0.storableValue }
         
         return JSONFor(collection: storableValues)
     }
@@ -83,6 +83,10 @@ struct JSONSerialisation {
     // MARK: - From JSON
     
     static func arrayFor<T: StorableValue>(JSON: String) -> [T?] {
+        guard !JSON.isEmpty else {
+            return []
+        }
+        
         let array: [String] = JSON.componentsSeparatedByString(separator)
         
         if T.self is String.Type {
@@ -98,7 +102,7 @@ struct JSONSerialisation {
     
     static func arrayFor<T: StorableValue>(JSON: String) -> [T] {
         let array: [T?] = arrayFor(JSON)
-
+        
         return array.matchType()
     }
 

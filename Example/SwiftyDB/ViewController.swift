@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         let swifty = Swifty(configuration: configuration)
     
         
-        let dogs: [Dog] = (0 ..< 1200).map { _ in Dog() }
+        let dogs: [Dog] = (0 ..< 1).map { _ in Dog() }
         
         
         let addStart = NSDate()

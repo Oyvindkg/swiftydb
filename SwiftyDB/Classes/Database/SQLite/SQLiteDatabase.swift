@@ -81,8 +81,8 @@ struct SQLiteDatabase: DatabaseType {
         }
     }
     
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws {
-        try migrator.migrateType(type, fromTypeInformation: typeInformation)
+    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
+        return try migrator.migrateType(type, fromTypeInformation: typeInformation)
     }
     
     func create(index: _IndexType) throws {

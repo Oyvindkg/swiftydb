@@ -17,12 +17,12 @@ enum MigrationOperation {
 
 internal class Migration: MigrationType, _MigrationType {
     
-    var currentVersion: UInt
+    var schemaVersion: UInt
     
     var operations: [MigrationOperation] = []
     
-    init(currentVersion: UInt) {
-        self.currentVersion = currentVersion
+    init(schemaVersion: UInt) {
+        self.schemaVersion = schemaVersion
     }
     
     func migrate(propertyName: String) -> PropertyMigrationType {

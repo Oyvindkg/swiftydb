@@ -21,22 +21,22 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         self.queryFactory = queryFactory
     }
     
-    func migrateType(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws {
+    func migrateType(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
         guard let migratableType = type as? Migratable.Type else {
             throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
         }
 
         // TODO: Make .version UInt
         
-        let migration = Migration(currentVersion: UInt(typeInformation.version))
+        var migration: MigrationType = Migration(schemaVersion: UInt(typeInformation.version))
                 
-        migratableType.migrate(migration)
+        migratableType.migrate(&migration)
         
         try databaseQueue.transaction { database in
             
             let existingData = try self.existingDataForType(type, fromDatabase: database)
             
-            let migratedData = self.migratedData(existingData, withMigration: migration, forType: type)
+            let migratedData = self.migratedData(existingData, withMigration: migration as! Migration, forType: type)
  
             try self.validateMigratedData(migratedData, forType: type)
             
@@ -46,6 +46,8 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             
             try! self.insertData(migratedData, forType: type, inDatabase: database)
         }
+        
+        return migration.schemaVersion
     }
     
     func validateMigratedData(migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
@@ -70,10 +72,12 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         }
     }
     
-    func migrateType(type: Storable.Type) throws {
+    func migrateType(type: Storable.Type) throws -> UInt {
         try databaseQueue.transaction { database in
             try self.createTableForType(type, inDatabase: database)
         }
+        
+        return 0
     }
     
     private func existingDataForType(type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {

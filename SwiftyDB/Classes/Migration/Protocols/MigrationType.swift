@@ -14,7 +14,7 @@ import Foundation
 public protocol MigrationType {
     
     /** The current schema version for the type */
-    var currentVersion: UInt { get set }
+    var schemaVersion: UInt { get set }
     
     /** Create a property migration used to rename or transform existing properties */
     func migrate(property: String) -> PropertyMigrationType

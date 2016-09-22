@@ -16,7 +16,7 @@ protocol DatabaseType {
     
     func delete<T: Storable>(query: Query<T>) throws
     
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws
+    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
     
     func create(index: _IndexType) throws
 }

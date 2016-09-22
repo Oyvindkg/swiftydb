@@ -61,9 +61,13 @@ class Migrator: MigratorType {
             }
             
             if needsMigration {
-                try swifty.database.migrate(type, fromTypeInformation: typeInformation)
+                let newSchemaVersion = try swifty.database.migrate(type, fromTypeInformation: typeInformation)
                 
-                let newTypeInformation = MigrationUtils.typeInformationForType(type, version: typeInformation.version+1)
+                guard newSchemaVersion > UInt(typeInformation.version) else {
+                    throw SwiftyError.migration("\(type) was migrated, but the schema version was not incremented")
+                }
+                
+                let newTypeInformation = MigrationUtils.typeInformationForType(type, version: Int(newSchemaVersion))
                 
                 swifty.addSync([newTypeInformation])
             }

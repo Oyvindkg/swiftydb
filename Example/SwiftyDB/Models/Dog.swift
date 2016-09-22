@@ -38,7 +38,7 @@ class Dog: Storable {
 //        bones           <- map["bones"]
         superBone       <- map["superBone"]
 //        dates           <- map["dates"]
-//        ids             <- map["numbers"]
+        ids             <- map["numbers"]
     }
     
     class func mappableObject() -> Mappable {
@@ -51,14 +51,12 @@ class Dog: Storable {
     }
 }
 
-class Dogger: Dog {
-    override class func mappableObject() -> Mappable {
-        return Dogger()
-    }
-}
-
 extension Dog: Migratable {
-    static func migrate(migration: MigrationType) {
-        
+    static func migrate(inout migration: MigrationType) {
+        if migration.schemaVersion < 1 {
+            migration.add("numbers", defaultValue: [] as [Double])
+
+            migration.schemaVersion = 1
+        }
     }
 }
