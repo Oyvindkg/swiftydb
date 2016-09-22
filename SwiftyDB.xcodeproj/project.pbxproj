@@ -81,11 +81,12 @@
 		390688D81D940B7F00F94658 /* SwiftyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906888E1D940B7F00F94658 /* SwiftyError.swift */; };
 		390688D91D940B7F00F94658 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688901D940B7F00F94658 /* ArrayExtensions.swift */; };
 		390688DA1D940B7F00F94658 /* Map+Storeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688911D940B7F00F94658 /* Map+Storeable.swift */; };
-		390688DD1D940BAB00F94658 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 390688DC1D940BAB00F94658 /* libsqlite3.tbd */; };
+		390688FF1D9418A700F94658 /* TinySQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390688FE1D9418A700F94658 /* TinySQLite.framework */; };
+		390689011D9418B700F94658 /* sqlite3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 390689001D9418B700F94658 /* sqlite3.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "SwiftyDB iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3906882C1D940B2100F94658 /* SwiftyDB_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyDB_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3906882F1D940B2100F94658 /* SwiftyDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyDB.h; sourceTree = "<group>"; };
 		390688301D940B2100F94658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		390688381D940B7F00F94658 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
@@ -162,6 +163,8 @@
 		390688901D940B7F00F94658 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		390688911D940B7F00F94658 /* Map+Storeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Map+Storeable.swift"; sourceTree = "<group>"; };
 		390688DC1D940BAB00F94658 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		390688FE1D9418A700F94658 /* TinySQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TinySQLite.framework; path = Carthage/Build/iOS/TinySQLite.framework; sourceTree = "<group>"; };
+		390689001D9418B700F94658 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = Carthage/Build/iOS/sqlite3.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +172,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				390688DD1D940BAB00F94658 /* libsqlite3.tbd in Frameworks */,
+				390689011D9418B700F94658 /* sqlite3.framework in Frameworks */,
+				390688FF1D9418A700F94658 /* TinySQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +192,7 @@
 		3906882D1D940B2100F94658 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */,
+				3906882C1D940B2100F94658 /* SwiftyDB_iOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -429,6 +433,8 @@
 		390688DB1D940BAB00F94658 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				390689001D9418B700F94658 /* sqlite3.framework */,
+				390688FE1D9418A700F94658 /* TinySQLite.framework */,
 				390688DC1D940BAB00F94658 /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
@@ -448,9 +454,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3906882B1D940B2100F94658 /* SwiftyDB iOS */ = {
+		3906882B1D940B2100F94658 /* SwiftyDB_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB iOS" */;
+			buildConfigurationList = 390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB_iOS" */;
 			buildPhases = (
 				390688271D940B2100F94658 /* Sources */,
 				390688281D940B2100F94658 /* Frameworks */,
@@ -461,9 +467,9 @@
 			);
 			dependencies = (
 			);
-			name = "SwiftyDB iOS";
+			name = SwiftyDB_iOS;
 			productName = SwiftyDB;
-			productReference = 3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */;
+			productReference = 3906882C1D940B2100F94658 /* SwiftyDB_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -494,7 +500,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3906882B1D940B2100F94658 /* SwiftyDB iOS */,
+				3906882B1D940B2100F94658 /* SwiftyDB_iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -704,6 +710,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SwiftyDB/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -723,6 +733,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SwiftyDB/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -744,7 +758,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB iOS" */ = {
+		390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				390688351D940B2100F94658 /* Debug */,
