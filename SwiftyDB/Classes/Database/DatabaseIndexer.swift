@@ -1,5 +1,5 @@
 //
-//  ObjectSerializerType.swift
+//  DatabaseIndexerType.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 08/09/16.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ObjectSerializerType {
-    static func readersForStorable<T: Storable>(_ storable: T?) -> [Reader]
+protocol DatabaseIndexer {
+    func create(index: _Index) throws
 }

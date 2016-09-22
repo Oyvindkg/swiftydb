@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabaseInserter: DatabaseInserterType {
+struct SQLiteDatabaseInserter: DatabaseInserter {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -19,7 +19,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
         self.queryFactory = queryFactory
     }
     
-    func add(_ readers: [Reader]) throws {
+    func add(readers: [Reader]) throws {
         guard readers.count > 0 else {
             return
         }

@@ -9,11 +9,11 @@
 import Foundation
 
 
-protocol StorableArrayType {
+protocol StorableArray {
     static var storableType: Storable.Type? { get }
 }
 
-extension Array: StorableArrayType {
+extension Array: StorableArray {
     static var storableType: Storable.Type? {
         return Element.self as? Storable.Type
     }

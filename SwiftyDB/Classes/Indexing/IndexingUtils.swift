@@ -9,7 +9,7 @@
 import Foundation
 
 struct IndexingUtils {
-    static func nameForIndex(_ index: _IndexInstanceType) -> String {
+    static func nameForIndex(_ index: _IndexInstance) -> String {
         let type = String(describing: index.type)
         let properties = index.properties.joined(separator: "")
         let filters = String(describing: index.filters)
@@ -17,11 +17,11 @@ struct IndexingUtils {
         return "\(type):\(properties):\(filters)"
     }
     
-    static func indexForType(_ type: Storable.Type) -> _IndexType? {
+    static func indexForType(_ type: Storable.Type) -> _Index? {
         if let indexableType = type as? Indexable.Type {
-            let index = Index(type: type)
+            let index = DefaultIndex(type: type)
             
-            indexableType.index(index)
+            indexableType.index(index: index)
             
             return index
         }
@@ -31,7 +31,7 @@ struct IndexingUtils {
     
     static func indexNamesForType(_ type: Storable.Type) -> Set<String> {
         if let index = indexForType(type) {
-            return Set( index.indices.asType(_IndexInstanceType).map(IndexingUtils.nameForIndex) )
+            return Set( index.indices.asType(_IndexInstance.self).map(IndexingUtils.nameForIndex) )
         }
         
         return []

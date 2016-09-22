@@ -9,7 +9,7 @@
 import Foundation
 
 /** Represents a single index with optional filters */
-public protocol IndexInstanceType {
+public protocol IndexInstance {
     
     /**
      Filter the objects to use in the index
@@ -17,11 +17,11 @@ public protocol IndexInstanceType {
      - parameters:
         - filter: a filter statement
      */
-    func filter(_ filter: FilterStatement) -> IndexInstanceType
+    func filter(_ filter: FilterStatement) -> IndexInstance
 }
 
 /** An internal index instance representation */
-protocol _IndexInstanceType {
+protocol _IndexInstance {
     var type: Storable.Type { get }
     var properties: [String] { get }
     var filters: FilterStatement? { get }

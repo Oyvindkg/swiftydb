@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct ObjectSerializer: ObjectSerializerType {
+struct DefaultObjectSerializer: ObjectSerializer {
     
-    static func readersForStorable<T: Storable>(_ storable: T?) -> [Reader] {
+    static func readersFor<T: Storable>(storable: T?) -> [Reader] {
         guard storable != nil else {
             return []
         }

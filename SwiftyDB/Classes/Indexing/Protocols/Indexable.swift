@@ -16,5 +16,5 @@ protocol Indexable {
      - parameters:
         - index: an index type used to define indices
      */
-    static func index(_ index: IndexType)
+    static func index(index: Index)
 }

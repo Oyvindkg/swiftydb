@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol IndexerType {
-    func indexTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws
+protocol Indexer {
+    func indexIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws
 }

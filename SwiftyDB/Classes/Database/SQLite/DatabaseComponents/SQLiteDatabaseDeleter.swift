@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabaseDeleter: DatabaseDeleterType {
+struct SQLiteDatabaseDeleter: DatabaseDeleter {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -19,7 +19,7 @@ struct SQLiteDatabaseDeleter: DatabaseDeleterType {
         self.queryFactory = queryFactory
     }
     
-    func delete(_ query: _QueryType) throws {
+    func delete(query: _QueryType) throws {
         
         let query = queryFactory.deleteQueryForType(query.type, withFilter: query.filter as? SQLiteFilterStatement)
         

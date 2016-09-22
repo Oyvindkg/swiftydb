@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseMigrator: DatabaseMigratorType {
+class SQLiteDatabaseMigrator: DatabaseMigrator {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -21,7 +21,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         self.queryFactory = queryFactory
     }
     
-    func migrateType(_ type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
+    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
         guard let migratableType = type as? Migratable.Type else {
             throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
         }
@@ -73,7 +73,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         }
     }
     
-    func migrateType(_ type: Storable.Type) throws -> UInt {
+    func migrate(type: Storable.Type) throws -> UInt {
         try databaseQueue.transaction { database in
             try self.createTableForType(type, inDatabase: database)
         }

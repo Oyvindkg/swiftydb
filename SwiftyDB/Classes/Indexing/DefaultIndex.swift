@@ -9,22 +9,22 @@
 import Foundation
 
 /** Class used to create indices on a set of properties, with optional filters */
-class Index: IndexType, _IndexType {
+class DefaultIndex: Index, _Index {
     let type: Storable.Type
     
-    var indices: [_IndexInstanceType]
+    var indices: [_IndexInstance]
     
     init(type: Storable.Type) {
         self.type = type
         self.indices = []
     }
     
-    func on(_ properties: String...) -> IndexInstanceType {
-        return on(properties)
+    func on(properties: String...) -> IndexInstance {
+        return on(properties: properties)
     }
     
-    func on(_ properties: [String]) -> IndexInstanceType {
-        let index = IndexInstance(type: type)
+    func on(properties: [String]) -> IndexInstance {
+        let index = DefaultIndexInstance(type: type)
         
         index.properties = properties
         

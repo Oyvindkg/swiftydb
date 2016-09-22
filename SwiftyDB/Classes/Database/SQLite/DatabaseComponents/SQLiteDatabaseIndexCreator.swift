@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseIndexer: DatabaseIndexerType {
+class SQLiteDatabaseIndexer: DatabaseIndexer {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -19,7 +19,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         self.queryFactory = queryFactory
     }
     
-    func create(_ index: _IndexType) throws {
+    func create(index: _Index) throws {
         try deleteIndicesForType(index.type)
         
         for index in index.indices {

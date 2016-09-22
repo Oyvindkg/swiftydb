@@ -29,13 +29,13 @@
 		39F3CE8D1D73487B00B87982 /* Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F3CE8B1D73476500B87982 /* Equatable.swift */; };
 		39F3CE971D744F0300B87982 /* ExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F3CE951D744EDD00B87982 /* ExpressionTests.swift */; };
 		39F746231D84302C00DB4362 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745C91D84302C00DB4362 /* Database.swift */; };
-		39F746241D84302C00DB4362 /* DatabaseIndexerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CA1D84302C00DB4362 /* DatabaseIndexerType.swift */; };
-		39F746251D84302C00DB4362 /* ObjectSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CB1D84302C00DB4362 /* ObjectSerializer.swift */; };
-		39F746261D84302C00DB4362 /* DatabaseMigratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CD1D84302C00DB4362 /* DatabaseMigratorType.swift */; };
+		39F746241D84302C00DB4362 /* DatabaseIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CA1D84302C00DB4362 /* DatabaseIndexer.swift */; };
+		39F746251D84302C00DB4362 /* DefaultObjectSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CB1D84302C00DB4362 /* DefaultObjectSerializer.swift */; };
+		39F746261D84302C00DB4362 /* DatabaseMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CD1D84302C00DB4362 /* DatabaseMigrator.swift */; };
 		39F746271D84302C00DB4362 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CE1D84302C00DB4362 /* Identifiable.swift */; };
-		39F746281D84302C00DB4362 /* ObjectSerializerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CF1D84302C00DB4362 /* ObjectSerializerType.swift */; };
+		39F746281D84302C00DB4362 /* ObjectSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745CF1D84302C00DB4362 /* ObjectSerializer.swift */; };
 		39F746291D84302C00DB4362 /* Storeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D01D84302C00DB4362 /* Storeable.swift */; };
-		39F7462A1D84302C00DB4362 /* StoreableArrayType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D11D84302C00DB4362 /* StoreableArrayType.swift */; };
+		39F7462A1D84302C00DB4362 /* StorableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D11D84302C00DB4362 /* StorableArray.swift */; };
 		39F7462B1D84302C00DB4362 /* SQLiteDatabaseDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D41D84302C00DB4362 /* SQLiteDatabaseDeleter.swift */; };
 		39F7462C1D84302C00DB4362 /* SQLiteDatabaseIndexCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D51D84302C00DB4362 /* SQLiteDatabaseIndexCreator.swift */; };
 		39F7462D1D84302C00DB4362 /* SQLiteDatabaseMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745D61D84302C00DB4362 /* SQLiteDatabaseMigrator.swift */; };
@@ -48,14 +48,14 @@
 		39F746361D84302C00DB4362 /* SQLiteDatatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E01D84302C00DB4362 /* SQLiteDatatype.swift */; };
 		39F746371D84302C00DB4362 /* SQLiteFilterStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E11D84302C00DB4362 /* SQLiteFilterStatement.swift */; };
 		39F746381D84302C00DB4362 /* SQLiteQueryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E21D84302C00DB4362 /* SQLiteQueryFactory.swift */; };
-		39F746391D84302C00DB4362 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E41D84302C00DB4362 /* Index.swift */; };
-		39F7463A1D84302C00DB4362 /* Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E51D84302C00DB4362 /* Indexer.swift */; };
+		39F746391D84302C00DB4362 /* DefaultIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E41D84302C00DB4362 /* DefaultIndex.swift */; };
+		39F7463A1D84302C00DB4362 /* DefaultIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E51D84302C00DB4362 /* DefaultIndexer.swift */; };
 		39F7463B1D84302C00DB4362 /* IndexingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E61D84302C00DB4362 /* IndexingUtils.swift */; };
-		39F7463C1D84302C00DB4362 /* IndexInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E71D84302C00DB4362 /* IndexInstance.swift */; };
+		39F7463C1D84302C00DB4362 /* DefaultIndexInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E71D84302C00DB4362 /* DefaultIndexInstance.swift */; };
 		39F7463D1D84302C00DB4362 /* Indexable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745E91D84302C00DB4362 /* Indexable.swift */; };
-		39F7463E1D84302C00DB4362 /* IndexerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EA1D84302C00DB4362 /* IndexerType.swift */; };
-		39F7463F1D84302C00DB4362 /* IndexInstanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EB1D84302C00DB4362 /* IndexInstanceType.swift */; };
-		39F746401D84302C00DB4362 /* IndexType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EC1D84302C00DB4362 /* IndexType.swift */; };
+		39F7463E1D84302C00DB4362 /* Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EA1D84302C00DB4362 /* Indexer.swift */; };
+		39F7463F1D84302C00DB4362 /* IndexInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EB1D84302C00DB4362 /* IndexInstance.swift */; };
+		39F746401D84302C00DB4362 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EC1D84302C00DB4362 /* Index.swift */; };
 		39F746421D84302C00DB4362 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F01D84302C00DB4362 /* Mapper.swift */; };
 		39F746431D84302C00DB4362 /* BaseMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F21D84302C00DB4362 /* BaseMap.swift */; };
 		39F746441D84302C00DB4362 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F31D84302C00DB4362 /* Reader.swift */; };
@@ -138,13 +138,13 @@
 		39F3CE8B1D73476500B87982 /* Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Equatable.swift; path = Swifty/Filter/Equatable.swift; sourceTree = "<group>"; };
 		39F3CE951D744EDD00B87982 /* ExpressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpressionTests.swift; path = Swifty/Filter/ExpressionTests.swift; sourceTree = "<group>"; };
 		39F745C91D84302C00DB4362 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		39F745CA1D84302C00DB4362 /* DatabaseIndexerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseIndexerType.swift; sourceTree = "<group>"; };
-		39F745CB1D84302C00DB4362 /* ObjectSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectSerializer.swift; sourceTree = "<group>"; };
-		39F745CD1D84302C00DB4362 /* DatabaseMigratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseMigratorType.swift; sourceTree = "<group>"; };
+		39F745CA1D84302C00DB4362 /* DatabaseIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseIndexer.swift; sourceTree = "<group>"; };
+		39F745CB1D84302C00DB4362 /* DefaultObjectSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultObjectSerializer.swift; sourceTree = "<group>"; };
+		39F745CD1D84302C00DB4362 /* DatabaseMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseMigrator.swift; sourceTree = "<group>"; };
 		39F745CE1D84302C00DB4362 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
-		39F745CF1D84302C00DB4362 /* ObjectSerializerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectSerializerType.swift; sourceTree = "<group>"; };
+		39F745CF1D84302C00DB4362 /* ObjectSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectSerializer.swift; sourceTree = "<group>"; };
 		39F745D01D84302C00DB4362 /* Storeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storeable.swift; sourceTree = "<group>"; };
-		39F745D11D84302C00DB4362 /* StoreableArrayType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreableArrayType.swift; sourceTree = "<group>"; };
+		39F745D11D84302C00DB4362 /* StorableArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableArray.swift; sourceTree = "<group>"; };
 		39F745D41D84302C00DB4362 /* SQLiteDatabaseDeleter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseDeleter.swift; sourceTree = "<group>"; };
 		39F745D51D84302C00DB4362 /* SQLiteDatabaseIndexCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseIndexCreator.swift; sourceTree = "<group>"; };
 		39F745D61D84302C00DB4362 /* SQLiteDatabaseMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseMigrator.swift; sourceTree = "<group>"; };
@@ -157,14 +157,14 @@
 		39F745E01D84302C00DB4362 /* SQLiteDatatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatatype.swift; sourceTree = "<group>"; };
 		39F745E11D84302C00DB4362 /* SQLiteFilterStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteFilterStatement.swift; sourceTree = "<group>"; };
 		39F745E21D84302C00DB4362 /* SQLiteQueryFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQueryFactory.swift; sourceTree = "<group>"; };
-		39F745E41D84302C00DB4362 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
-		39F745E51D84302C00DB4362 /* Indexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
+		39F745E41D84302C00DB4362 /* DefaultIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndex.swift; sourceTree = "<group>"; };
+		39F745E51D84302C00DB4362 /* DefaultIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndexer.swift; sourceTree = "<group>"; };
 		39F745E61D84302C00DB4362 /* IndexingUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexingUtils.swift; sourceTree = "<group>"; };
-		39F745E71D84302C00DB4362 /* IndexInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexInstance.swift; sourceTree = "<group>"; };
+		39F745E71D84302C00DB4362 /* DefaultIndexInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndexInstance.swift; sourceTree = "<group>"; };
 		39F745E91D84302C00DB4362 /* Indexable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indexable.swift; sourceTree = "<group>"; };
-		39F745EA1D84302C00DB4362 /* IndexerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexerType.swift; sourceTree = "<group>"; };
-		39F745EB1D84302C00DB4362 /* IndexInstanceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexInstanceType.swift; sourceTree = "<group>"; };
-		39F745EC1D84302C00DB4362 /* IndexType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexType.swift; sourceTree = "<group>"; };
+		39F745EA1D84302C00DB4362 /* Indexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
+		39F745EB1D84302C00DB4362 /* IndexInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexInstance.swift; sourceTree = "<group>"; };
+		39F745EC1D84302C00DB4362 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		39F745F01D84302C00DB4362 /* Mapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		39F745F21D84302C00DB4362 /* BaseMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMap.swift; sourceTree = "<group>"; };
 		39F745F31D84302C00DB4362 /* Reader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
@@ -329,8 +329,8 @@
 			isa = PBXGroup;
 			children = (
 				39F745C91D84302C00DB4362 /* Database.swift */,
-				39F745CA1D84302C00DB4362 /* DatabaseIndexerType.swift */,
-				39F745CB1D84302C00DB4362 /* ObjectSerializer.swift */,
+				39F745CA1D84302C00DB4362 /* DatabaseIndexer.swift */,
+				39F745CB1D84302C00DB4362 /* DefaultObjectSerializer.swift */,
 				39F745CC1D84302C00DB4362 /* Protocols */,
 				39F745D21D84302C00DB4362 /* SQLite */,
 				39F745FD1D84302C00DB4362 /* StorableProperties */,
@@ -341,12 +341,12 @@
 		39F745CC1D84302C00DB4362 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				39F745CD1D84302C00DB4362 /* DatabaseMigratorType.swift */,
+				39F745CD1D84302C00DB4362 /* DatabaseMigrator.swift */,
 				39F745CE1D84302C00DB4362 /* Identifiable.swift */,
-				39F745CF1D84302C00DB4362 /* ObjectSerializerType.swift */,
+				39F745CF1D84302C00DB4362 /* ObjectSerializer.swift */,
 				39F745D01D84302C00DB4362 /* Storeable.swift */,
 				39F746081D84302C00DB4362 /* StorableProperty.swift */,
-				39F745D11D84302C00DB4362 /* StoreableArrayType.swift */,
+				39F745D11D84302C00DB4362 /* StorableArray.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -388,10 +388,10 @@
 		39F745E31D84302C00DB4362 /* Indexing */ = {
 			isa = PBXGroup;
 			children = (
-				39F745E41D84302C00DB4362 /* Index.swift */,
-				39F745E51D84302C00DB4362 /* Indexer.swift */,
+				39F745E41D84302C00DB4362 /* DefaultIndex.swift */,
+				39F745E51D84302C00DB4362 /* DefaultIndexer.swift */,
 				39F745E61D84302C00DB4362 /* IndexingUtils.swift */,
-				39F745E71D84302C00DB4362 /* IndexInstance.swift */,
+				39F745E71D84302C00DB4362 /* DefaultIndexInstance.swift */,
 				39F745E81D84302C00DB4362 /* Protocols */,
 			);
 			path = Indexing;
@@ -401,9 +401,9 @@
 			isa = PBXGroup;
 			children = (
 				39F745E91D84302C00DB4362 /* Indexable.swift */,
-				39F745EA1D84302C00DB4362 /* IndexerType.swift */,
-				39F745EB1D84302C00DB4362 /* IndexInstanceType.swift */,
-				39F745EC1D84302C00DB4362 /* IndexType.swift */,
+				39F745EA1D84302C00DB4362 /* Indexer.swift */,
+				39F745EB1D84302C00DB4362 /* IndexInstance.swift */,
+				39F745EC1D84302C00DB4362 /* Index.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -834,37 +834,37 @@
 				39F7464D1D84302C00DB4362 /* StorableCharacter.swift in Sources */,
 				39F7465B1D84302C00DB4362 /* Migratable.swift in Sources */,
 				39F746631D84302C00DB4362 /* FilterStatement.swift in Sources */,
-				39F746281D84302C00DB4362 /* ObjectSerializerType.swift in Sources */,
+				39F746281D84302C00DB4362 /* ObjectSerializer.swift in Sources */,
 				39F746581D84302C00DB4362 /* MigrationUtils.swift in Sources */,
-				39F7463A1D84302C00DB4362 /* Indexer.swift in Sources */,
+				39F7463A1D84302C00DB4362 /* DefaultIndexer.swift in Sources */,
 				39F746421D84302C00DB4362 /* Mapper.swift in Sources */,
 				39F746651D84302C00DB4362 /* Sorting.swift in Sources */,
 				39F7465C1D84302C00DB4362 /* MigrationType.swift in Sources */,
 				39F7464F1D84302C00DB4362 /* StorableFloat.swift in Sources */,
 				39F7464C1D84302C00DB4362 /* StorableBool.swift in Sources */,
 				39F746501D84302C00DB4362 /* StorableIntegersSigned.swift in Sources */,
-				39F7462A1D84302C00DB4362 /* StoreableArrayType.swift in Sources */,
+				39F7462A1D84302C00DB4362 /* StorableArray.swift in Sources */,
 				39F746351D84302C00DB4362 /* JSONSerialisation.swift in Sources */,
 				39F7465A1D84302C00DB4362 /* PropertyMigration.swift in Sources */,
-				39F7463F1D84302C00DB4362 /* IndexInstanceType.swift in Sources */,
+				39F7463F1D84302C00DB4362 /* IndexInstance.swift in Sources */,
 				39F746471D84302C00DB4362 /* RawRepresentableOperators.swift in Sources */,
 				39F746491D84302C00DB4362 /* Mappable.swift in Sources */,
 				39F746511D84302C00DB4362 /* StorableIntegersUnsigned.swift in Sources */,
 				39F746361D84302C00DB4362 /* SQLiteDatatype.swift in Sources */,
-				39F746241D84302C00DB4362 /* DatabaseIndexerType.swift in Sources */,
+				39F746241D84302C00DB4362 /* DatabaseIndexer.swift in Sources */,
 				39F746591D84302C00DB4362 /* Migrator.swift in Sources */,
 				3978ECBA1D843C3E0019928A /* DeleteQuery.swift in Sources */,
 				39F746321D84302C00DB4362 /* SQLiteQuery.swift in Sources */,
 				39F746481D84302C00DB4362 /* StorableValueOperators.swift in Sources */,
 				39F746611D84302C00DB4362 /* ObjectDatabaseType.swift in Sources */,
 				39F7462B1D84302C00DB4362 /* SQLiteDatabaseDeleter.swift in Sources */,
-				39F746261D84302C00DB4362 /* DatabaseMigratorType.swift in Sources */,
+				39F746261D84302C00DB4362 /* DatabaseMigrator.swift in Sources */,
 				39F746301D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift in Sources */,
 				390689C91D946CEA00F94658 /* StorableData.swift in Sources */,
 				39F746691D84302C00DB4362 /* ArrayExtensions.swift in Sources */,
 				39F746621D84302C00DB4362 /* FilterOperators.swift in Sources */,
 				39F7465D1D84302C00DB4362 /* MigratorType.swift in Sources */,
-				39F746251D84302C00DB4362 /* ObjectSerializer.swift in Sources */,
+				39F746251D84302C00DB4362 /* DefaultObjectSerializer.swift in Sources */,
 				39F746531D84302C00DB4362 /* StorableNSDate.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				39F7462D1D84302C00DB4362 /* SQLiteDatabaseMigrator.swift in Sources */,
@@ -896,15 +896,15 @@
 				39F7463B1D84302C00DB4362 /* IndexingUtils.swift in Sources */,
 				39F746601D84302C00DB4362 /* Configuration.swift in Sources */,
 				39F7464B1D84302C00DB4362 /* StorableValue.swift in Sources */,
-				39F746401D84302C00DB4362 /* IndexType.swift in Sources */,
+				39F746401D84302C00DB4362 /* Index.swift in Sources */,
 				3978ECBC1D843C510019928A /* GetQuery.swift in Sources */,
 				39F7465F1D84302C00DB4362 /* TypeInformation.swift in Sources */,
 				3978ECB81D8435610019928A /* CHANGELOG.md in Sources */,
 				39F746371D84302C00DB4362 /* SQLiteFilterStatement.swift in Sources */,
-				39F7463C1D84302C00DB4362 /* IndexInstance.swift in Sources */,
-				39F746391D84302C00DB4362 /* Index.swift in Sources */,
+				39F7463C1D84302C00DB4362 /* DefaultIndexInstance.swift in Sources */,
+				39F746391D84302C00DB4362 /* DefaultIndex.swift in Sources */,
 				399C48491D745B50006393B5 /* Bone.swift in Sources */,
-				39F7463E1D84302C00DB4362 /* IndexerType.swift in Sources */,
+				39F7463E1D84302C00DB4362 /* Indexer.swift in Sources */,
 				39F746451D84302C00DB4362 /* Writer.swift in Sources */,
 				39F746231D84302C00DB4362 /* Database.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

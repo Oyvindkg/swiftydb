@@ -155,11 +155,11 @@ class SQLiteQueryFactory {
     
     // MARK: - Create index
     
-    func createIndexQueryFor(_ index: _IndexInstanceType) -> SQLiteQuery {
+    func createIndexQueryFor(_ index: _IndexInstance) -> SQLiteQuery {
         return buildCreateIndexQueryFor(index)
     }
     
-    func buildCreateIndexQueryFor(_ index: _IndexInstanceType) -> SQLiteQuery {
+    func buildCreateIndexQueryFor(_ index: _IndexInstance) -> SQLiteQuery {
         let name = IndexingUtils.nameForIndex(index)
         
         var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joined(separator: ", ")))"

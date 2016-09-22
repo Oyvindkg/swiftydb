@@ -10,12 +10,14 @@ import Foundation
 
 
 
-class Indexer: IndexerType {
+class DefaultIndexer: Indexer {
     
     var validTypes: Set<String> = []
     
+    // TODO: Rename and clean these
+    
     /** Creates indices for the provided type, and its nested types */
-    func indexTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
+    func indexIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         let typeName = String(describing: type)
         
         guard !validTypes.contains(typeName) else {
@@ -27,16 +29,16 @@ class Indexer: IndexerType {
                 continue
             }
             
-            try indexTypeIfNecessary(storableChildType, inSwifty: swifty)
+            try indexIfNecessary(type: storableChildType, inSwifty: swifty)
         }
         
-        try indexThisTypeIfNecessary(type, inSwifty: swifty)
+        try indexThisIfNecessary(type: type, inSwifty: swifty)
         
         validTypes.insert(typeName)
     }
     
     /** Creates indices for the provided type */
-    fileprivate func indexThisTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func indexThisIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         guard type is Indexable.Type else {
             return
         }
@@ -58,7 +60,7 @@ class Indexer: IndexerType {
         }
         
         if let index = IndexingUtils.indexForType(type) {
-            try swifty.database.create(index)
+            try swifty.database.create(index: index)
         }
         
         

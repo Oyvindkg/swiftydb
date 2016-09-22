@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IndexInstance: IndexInstanceType, _IndexInstanceType {
+class DefaultIndexInstance: IndexInstance, _IndexInstance {
     let type: Storable.Type
     
     var filters: FilterStatement?
@@ -19,7 +19,7 @@ class IndexInstance: IndexInstanceType, _IndexInstanceType {
         self.type = type
     }
     
-    func filter(_ filter: FilterStatement) -> IndexInstanceType {
+    func filter(_ filter: FilterStatement) -> IndexInstance {
         self.filters = filter
         
         return self

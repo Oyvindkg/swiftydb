@@ -15,10 +15,10 @@ import Foundation
 
 open class Swifty: ObjectDatabase {
     
-    let database: DatabaseType
+    let database: Database
     
     let migrator: MigratorType
-    let indexer: IndexerType
+    let indexer: Indexer
     
     /**
      The database object's configuration
@@ -38,7 +38,7 @@ open class Swifty: ObjectDatabase {
         database = SQLiteDatabase(configuration: configuration)
         
         migrator = Migrator()
-        indexer = Indexer()
+        indexer = DefaultIndexer()
     }
     
     /**
@@ -89,7 +89,7 @@ open class Swifty: ObjectDatabase {
                 try self.migrator.migrateTypeIfNecessary(type(of: object), inSwifty: self)
             }
             
-            try self.database.add(objects)
+            try self.database.add(objects: objects)
         }
     }
     
@@ -140,9 +140,9 @@ open class Swifty: ObjectDatabase {
     internal func getSync<T : Storable>(_ query: Query<T>) -> Result<[T]> {
         return resultForValue {
             try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
-            try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)
+            try self.indexer.indexIfNecessary(type: T.self, inSwifty: self)
             
-            return try self.database.get(query, nested: true)
+            return try self.database.get(query: query)
         }
     }
     
@@ -181,9 +181,9 @@ open class Swifty: ObjectDatabase {
     internal func deleteSync<T : Storable>(_ query: Query<T>) -> Result<Void> {
         return resultForValue {
             try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
-            try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)
+            try self.indexer.indexIfNecessary(type: T.self, inSwifty: self)
             
-            return try self.database.delete(query)
+            return try self.database.delete(query: query)
         }
     }
     
