@@ -152,7 +152,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         let insertStatement = try database.prepare(insertQuery.query)
         
         for data in dataArray {
-            try insertStatement.executeUpdate(data)
+            _ = try insertStatement.executeUpdate(data)
         }
         
         try insertStatement.finalize()

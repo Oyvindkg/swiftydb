@@ -31,9 +31,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
      */
     open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.filter(filter)
-        
-        self.database.get(self, resultHandler: resultHandler)
+        self.database.get(self.filter(filter), resultHandler: resultHandler)
     }
     
     /**
@@ -44,9 +42,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
      */
     open func start(_ start: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.start(start)
-        
-        self.database.get(self, resultHandler: resultHandler)
+        self.database.get(self.start(start), resultHandler: resultHandler)
     }
     
     /**
@@ -57,9 +53,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
     */
     open func max(_ max: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.max(max)
-        
-        self.database.get(self, resultHandler: resultHandler)
+        self.database.get(self.max(max), resultHandler: resultHandler)
     }
     
     /**
@@ -71,8 +65,6 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
     */
     open func sortBy(_ property: String, ascending: Bool = true, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.sortBy(property, ascending: ascending)
-        
-        self.database.get(self, resultHandler: resultHandler)
+        self.database.get(self.sortBy(property, ascending: ascending), resultHandler: resultHandler)
     }
 }

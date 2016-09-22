@@ -21,15 +21,3 @@ protocol Database {
     func create(index: _Index) throws
 }
 
-protocol DatabaseRetriever {
-    func get(query: _QueryProtocol) throws -> [Writer]
-}
-
-protocol DatabaseInserter {
-    func add(readers: [Reader]) throws
-}
-
-protocol DatabaseDeleter {
-    func delete(query: _QueryProtocol) throws
-}
-

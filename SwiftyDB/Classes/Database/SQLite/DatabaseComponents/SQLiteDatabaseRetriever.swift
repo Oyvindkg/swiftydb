@@ -43,10 +43,8 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
             try! statement.finalize()
         }
 
-        try statement.execute(query.parameters)
-
         /* Create writers and populate them with nested objects */
-        return try statement.map { row -> Writer in
+        return try statement.execute(query.parameters).map { row -> Writer in
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {

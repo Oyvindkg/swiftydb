@@ -8,18 +8,10 @@
 
 import Foundation
 
-
 infix operator <<
 
-infix operator !< {
-    associativity none
-    precedence 160
-}
-
-infix operator !~ {
-    associativity none
-    precedence 130
-}
+infix operator !<: ComparisonPrecedence
+infix operator !~: ComparisonPrecedence
 
 
 // MARK: - Comparators

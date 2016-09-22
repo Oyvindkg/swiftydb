@@ -22,7 +22,7 @@ struct SQLiteDatabase: Database {
     let deleter: DatabaseDeleter
     let migrator: DatabaseMigrator
     
-    init(configuration: ConfigurationType) {
+    init(configuration: ConfigurationProtocol) {
         
         /* Copy any exsiting database to create a sandbox database */
         if configuration.mode == .sandbox {

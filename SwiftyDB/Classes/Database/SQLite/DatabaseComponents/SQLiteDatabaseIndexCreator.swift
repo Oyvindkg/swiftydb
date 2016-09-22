@@ -43,7 +43,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
             let statement = try database.prepare(query)
             
             for indexName in indexNames {
-                try statement.executeUpdate([indexName])
+                _ = try statement.executeUpdate([indexName])
             }
             
             try statement.finalize()

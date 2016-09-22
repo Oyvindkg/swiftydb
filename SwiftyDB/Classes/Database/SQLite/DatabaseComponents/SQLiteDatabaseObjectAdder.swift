@@ -43,7 +43,7 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
                         parameters[key] = value as? SQLiteValue
                     }
                     
-                    try statement.executeUpdate(parameters)
+                    _ = try statement.executeUpdate(parameters)
                 }
             }
         }

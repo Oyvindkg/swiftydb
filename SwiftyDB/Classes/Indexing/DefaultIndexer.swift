@@ -66,7 +66,7 @@ class DefaultIndexer: Indexer {
         
         typeInformation.indices = IndexingUtils.indexNamesForType(type)
         
-        swifty.addSync([typeInformation])
+        _ = swifty.addSync([typeInformation])
     }
     
 }

@@ -203,7 +203,7 @@ struct JSONSerialisation {
             return NSNumber(value: longLongValue as Int64)
         }
         
-        return value as! AnyObject
+        return value as AnyObject
     }
     
 }

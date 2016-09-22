@@ -23,7 +23,7 @@ open class Swifty: ObjectDatabase {
     /**
      The database object's configuration
      */
-    open let configuration: ConfigurationType
+    open let configuration: ConfigurationProtocol
     
     
     /**
@@ -32,7 +32,7 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - configuration: database configuration
      */
-    public init(configuration: ConfigurationType) {
+    public init(configuration: ConfigurationProtocol) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)

@@ -69,12 +69,12 @@ class DefaultMigrator: Migrator {
                 
                 let newTypeInformation = MigrationUtils.typeInformationForType(type, version: Int(newSchemaVersion))
                 
-                swifty.addSync([newTypeInformation])
+                _ = swifty.addSync([newTypeInformation])
             }
         } else {
             let newTypeInformation = MigrationUtils.typeInformationForType(type)
             
-            swifty.addSync([newTypeInformation])
+            _ = swifty.addSync([newTypeInformation])
         }
     }
 }

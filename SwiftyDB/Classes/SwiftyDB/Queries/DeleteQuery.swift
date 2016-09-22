@@ -31,8 +31,6 @@ open class DeleteQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
      */
     open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.filter(filter)
-        
-        self.database.delete(self, resultHandler: resultHandler)
+        self.database.delete(self.filter(filter), resultHandler: resultHandler)
     }
 }
