@@ -35,7 +35,7 @@ class FilterOperatorsTests: XCTestCase {
     func testEqualOperatorCreatesEqualExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property == stringValue
         
-        let expression = Expression.Equal(property, stringValue)
+        let expression = Expression.equal(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -43,7 +43,7 @@ class FilterOperatorsTests: XCTestCase {
     func testNotEqualOperatorCreatesNotEqualExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property != stringValue
         
-        let expression = Expression.NotEqual(property, stringValue)
+        let expression = Expression.notEqual(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -51,7 +51,7 @@ class FilterOperatorsTests: XCTestCase {
     func testLikeOperatorCreatesLikeExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property ~= stringValue
         
-        let expression = Expression.Like(property, stringValue)
+        let expression = Expression.like(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -59,7 +59,7 @@ class FilterOperatorsTests: XCTestCase {
     func testNotLikeOperatorCreatesNotLikeExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property !~ stringValue
         
-        let expression = Expression.NotLike(property, stringValue)
+        let expression = Expression.notLike(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -67,7 +67,7 @@ class FilterOperatorsTests: XCTestCase {
     func testLessThanOperatorCreatesLessThanExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property < stringValue
         
-        let expression = Expression.Less(property, stringValue)
+        let expression = Expression.less(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -75,7 +75,7 @@ class FilterOperatorsTests: XCTestCase {
     func testGreaterThanOperatorCreatesGreaterThanExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property > stringValue
         
-        let expression = Expression.Greater(property, stringValue)
+        let expression = Expression.greater(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -83,7 +83,7 @@ class FilterOperatorsTests: XCTestCase {
     func testLessThanOrEqualOperatorCreatesLessThanOrEqualExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property <= stringValue
         
-        let expression = Expression.LessOrEqual(property, stringValue)
+        let expression = Expression.lessOrEqual(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -91,7 +91,7 @@ class FilterOperatorsTests: XCTestCase {
     func testGreaterThanOrEqualOperatorCreatesGreaterThanOrEqualExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property >= stringValue
         
-        let expression = Expression.GreaterOrEqual(property, stringValue)
+        let expression = Expression.greaterOrEqual(property, stringValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -99,7 +99,7 @@ class FilterOperatorsTests: XCTestCase {
     func testInOperatorCreatesBetweenExpressionForRanges() {
         let filter: FilterStatement = property << (intValue..<otherIntValue)
         
-        let expression = Expression.Between(property, intValue, otherIntValue)
+        let expression = Expression.between(property, intValue, otherIntValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -107,7 +107,7 @@ class FilterOperatorsTests: XCTestCase {
     func testNotInOperatorCreatesNotBetweenExpressionForRanges() {
         let filter: FilterStatement = property !< (intValue..<otherIntValue)
         
-        let expression = Expression.NotBetween(property, intValue, otherIntValue)
+        let expression = Expression.notBetween(property, intValue, otherIntValue)
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -115,7 +115,7 @@ class FilterOperatorsTests: XCTestCase {
     func testInOperatorCreatesInExpressionForArrays() {
         let filter: FilterStatement = property << [stringValue]
         
-        let expression = Expression.ContainedIn(property, [stringValue])
+        let expression = Expression.containedIn(property, [stringValue])
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -123,7 +123,7 @@ class FilterOperatorsTests: XCTestCase {
     func testNotInOperatorCreatesNotInExpressionForArrays() {
         let filter: FilterStatement = property !< [stringValue]
         
-        let expression = Expression.NotContainedIn(property, [stringValue])
+        let expression = Expression.notContainedIn(property, [stringValue])
         
         expect(filter as? SwiftyDB.Expression).to(equal(expression))
     }
@@ -158,7 +158,7 @@ class FilterOperatorsTests: XCTestCase {
     
     private func isConjunction(connective: Connective) -> Bool {
         switch connective {
-        case .Conjunction:
+        case .conjunction:
             return true
         default:
             return false

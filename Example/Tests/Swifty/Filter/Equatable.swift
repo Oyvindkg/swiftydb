@@ -40,29 +40,40 @@ func ==(left: StoreableValue?, right: StoreableValue?) -> Bool {
 
 func ==(left: Expression, right: Expression) -> Bool {
     switch (left, right) {
-    case (.Equal(let property, let value), .Equal(let otherProperty, let otherValue)):
+    case (.equal(let property, let value), .equal(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.NotEqual(let property, let value), .NotEqual(let otherProperty, let otherValue)):
+        
+    case (.notEqual(let property, let value), .notEqual(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.Less(let property, let value), .Less(let otherProperty, let otherValue)):
+        
+    case (.less(let property, let value), .less(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.LessOrEqual(let property, let value), .LessOrEqual(let otherProperty, let otherValue)):
+        
+    case (.lessOrEqual(let property, let value), .lessOrEqual(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.Greater(let property, let value), .Greater(let otherProperty, let otherValue)):
+        
+    case (.greater(let property, let value), .greater(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.GreaterOrEqual(let property, let value), .GreaterOrEqual(let otherProperty, let otherValue)):
+        
+    case (.greaterOrEqual(let property, let value), .greaterOrEqual(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.ContainedIn(let property, let values), .ContainedIn(let otherProperty, let otherValues)):
+        
+    case (.containedIn(let property, let values), .containedIn(let otherProperty, let otherValues)):
         return property == otherProperty && values.elementsEqual(otherValues, isEquivalent: ==)
-    case (.NotContainedIn(let property, let values), .NotContainedIn(let otherProperty, let otherValues)):
+        
+    case (.notContainedIn(let property, let values), .notContainedIn(let otherProperty, let otherValues)):
         return property == otherProperty && values.elementsEqual(otherValues, isEquivalent: ==)
-    case (.Between(let property, let lower, let upper), .Between(let otherProperty, let otherLower, let otherUpper)):
+        
+    case (.between(let property, let lower, let upper), .between(let otherProperty, let otherLower, let otherUpper)):
         return property == otherProperty && lower == otherLower && upper == otherUpper
-    case (.NotBetween(let property, let lower, let upper), .NotBetween(let otherProperty, let otherLower, let otherUpper)):
+        
+    case (.notBetween(let property, let lower, let upper), .notBetween(let otherProperty, let otherLower, let otherUpper)):
         return property == otherProperty && lower == otherLower && upper == otherUpper
-    case (.Like(let property, let value), .Like(let otherProperty, let otherValue)):
+        
+    case (.like(let property, let value), .like(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
-    case (.NotLike(let property, let value), .NotLike(let otherProperty, let otherValue)):
+        
+    case (.notLike(let property, let value), .notLike(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue
     default:
         return false

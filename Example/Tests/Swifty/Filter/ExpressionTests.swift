@@ -28,9 +28,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testEqualNegationIsNotEqual() {
-        let equal: SwiftyDB.Expression = .Equal(property, intValue)
+        let equal = Expression.equal(property, intValue)
         
-        if case .NotEqual(_,_) = equal.negated() {
+        if case .notEqual(_,_) = equal.negated() {
             return
         }
         
@@ -38,9 +38,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testNotEqualNegationIsEqual() {
-        let equal: SwiftyDB.Expression = .NotEqual(property, intValue)
+        let equal = Expression.notEqual(property, intValue)
         
-        if case .Equal(_,_) = equal.negated() {
+        if case .equal(_,_) = equal.negated() {
             return
         }
         
@@ -48,9 +48,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testLessNegationIsGreaterOrEqual() {
-        let equal: SwiftyDB.Expression = .Less(property, intValue)
+        let equal = Expression.less(property, intValue)
         
-        if case .GreaterOrEqual(_,_) = equal.negated() {
+        if case .greaterOrEqual(_,_) = equal.negated() {
             return
         }
         
@@ -58,9 +58,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testGreaterNegationIsLessOrEqual() {
-        let equal: SwiftyDB.Expression = .Greater(property, intValue)
+        let equal = Expression.greater(property, intValue)
         
-        if case .LessOrEqual(_,_) = equal.negated() {
+        if case .lessOrEqual(_,_) = equal.negated() {
             return
         }
         
@@ -68,9 +68,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testLessOrEqualNegationIsGreater() {
-        let equal: SwiftyDB.Expression = .LessOrEqual(property, intValue)
+        let equal = Expression.lessOrEqual(property, intValue)
         
-        if case .Greater(_,_) = equal.negated() {
+        if case .greater(_,_) = equal.negated() {
             return
         }
         
@@ -78,9 +78,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testGreaterOrEqualNegationIsLess() {
-        let equal: SwiftyDB.Expression = .GreaterOrEqual(property, intValue)
+        let equal = Expression.greaterOrEqual(property, intValue)
         
-        if case .Less(_,_) = equal.negated() {
+        if case .less(_,_) = equal.negated() {
             return
         }
         
@@ -88,9 +88,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testContainedInNegationIsNotContainedIn() {
-        let equal: SwiftyDB.Expression = .ContainedIn(property, [intValue])
+        let equal = Expression.containedIn(property, [intValue])
         
-        if case .NotContainedIn(_,_) = equal.negated() {
+        if case .notContainedIn(_,_) = equal.negated() {
             return
         }
         
@@ -98,9 +98,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testNotContainedInNegationIsContainedIn() {
-        let equal: SwiftyDB.Expression = .NotContainedIn(property, [intValue])
+        let equal = Expression.notContainedIn(property, [intValue])
         
-        if case .ContainedIn(_,_) = equal.negated() {
+        if case .containedIn(_,_) = equal.negated() {
             return
         }
         
@@ -108,9 +108,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testBetweenNegationIsNotBetween() {
-        let equal: SwiftyDB.Expression = .Between(property, intValue, otherIntValue)
+        let equal = Expression.between(property, intValue, otherIntValue)
         
-        if case .NotBetween(_,_,_) = equal.negated() {
+        if case .notBetween(_,_,_) = equal.negated() {
             return
         }
         
@@ -118,9 +118,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testNotBetweenNegationIsBetween() {
-        let equal: SwiftyDB.Expression = .NotBetween(property, intValue, otherIntValue)
+        let equal = Expression.notBetween(property, intValue, otherIntValue)
         
-        if case .Between(_,_,_) = equal.negated() {
+        if case .between(_,_,_) = equal.negated() {
             return
         }
         
@@ -128,9 +128,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testLikeNegationIsNotLike() {
-        let equal: SwiftyDB.Expression = .Like(property, stringValue)
+        let equal = Expression.like(property, stringValue)
         
-        if case .NotLike(_,_) = equal.negated() {
+        if case .notLike(_,_) = equal.negated() {
             return
         }
         
@@ -138,9 +138,9 @@ class ExpressionTests: XCTestCase {
     }
     
     func testNotLikeNegationIsLike() {
-        let equal: SwiftyDB.Expression = .NotLike(property, stringValue)
+        let equal = Expression.notLike(property, stringValue)
         
-        if case .Like(_,_) = equal.negated() {
+        if case .like(_,_) = equal.negated() {
             return
         }
         

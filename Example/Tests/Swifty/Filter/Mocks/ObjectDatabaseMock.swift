@@ -10,19 +10,19 @@ import Foundation
 
 @testable import SwiftyDB
 
-struct ObjectDatabaseMock: ObjectDatabaseType {
+struct ObjectDatabaseMock: ObjectDatabase {
     
     func add<T : Storeable>(object: T, resultHandler: (Result<Void> -> Void)?) {
         add([object], resultHandler: resultHandler)
     }
     
     func add<T : Storeable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
-        resultHandler?(.Success())
+        resultHandler?(.success())
     }
     
 
     func get<T : Storeable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
-        resultHandler?(.Success([]))
+        resultHandler?(.success([]))
     }
 
     func get<T : Storeable>(type: T.Type) -> GetQuery<T> {
@@ -42,7 +42,7 @@ struct ObjectDatabaseMock: ObjectDatabaseType {
     }
     
     func delete<T : Storeable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
-        resultHandler?(.Success())
+        resultHandler?(.success())
     }
     
 }

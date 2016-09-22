@@ -26,17 +26,18 @@ class ViewController: UIViewController {
         
         let swifty = Swifty(configuration: configuration)
     
-//        swifty.delete(Dog.self, resultHandler: nil)
         
         let dogs: [Dog] = (0 ..< 1200).map { _ in Dog() }
         
+        
         let addStart = NSDate()
+        
         swifty.add(dogs) { result in
             print("Added:", -addStart.timeIntervalSinceNow, result)
             
             let start = NSDate()
             
-            swifty.get(Dog.self).filter("age" < 50).sortBy("name", ascending: false) { result in
+            swifty.get(Dog.self).filter("age" < 50).sortBy("name") { result in
                 print(result.value?.count)
                 print("Get:", -start.timeIntervalSinceNow)
             }

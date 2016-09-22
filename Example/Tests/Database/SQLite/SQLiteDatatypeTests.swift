@@ -27,25 +27,25 @@ class SQLiteDatatypeTests: XCTestCase {
     func testReturnsTextTypeForStrings() {
         let datatype = SQLiteDatatype.init(value: "string")
         
-        expect(datatype).to(equal(SQLiteDatatype.Text))
+        expect(datatype).to(equal(SQLiteDatatype.text))
     }
     
     func testReturnsTextTypeForCharacters() {
         let datatype = SQLiteDatatype.init(value: Character("s"))
         
-        expect(datatype).to(equal(SQLiteDatatype.Text))
+        expect(datatype).to(equal(SQLiteDatatype.text))
     }
     
     func testReturnsRealTypeForDoubles() {
         let datatype = SQLiteDatatype.init(value: 1.3)
         
-        expect(datatype).to(equal(SQLiteDatatype.Real))
+        expect(datatype).to(equal(SQLiteDatatype.real))
     }
     
     func testReturnsRealTypeForFloats() {
         let datatype = SQLiteDatatype.init(value: Float(1.3))
         
-        expect(datatype).to(equal(SQLiteDatatype.Real))
+        expect(datatype).to(equal(SQLiteDatatype.real))
     }
     
     func testReturnsIntegerTypeForIntegers() {
@@ -54,16 +54,16 @@ class SQLiteDatatypeTests: XCTestCase {
         let int16 = SQLiteDatatype.init(value: Int8(1))
         let int64 = SQLiteDatatype.init(value: Int64(1))
         
-        expect(int).to(equal(SQLiteDatatype.Integer))
-        expect(int8).to(equal(SQLiteDatatype.Integer))
-        expect(int16).to(equal(SQLiteDatatype.Integer))
-        expect(int64).to(equal(SQLiteDatatype.Integer))
+        expect(int).to(equal(SQLiteDatatype.integer))
+        expect(int8).to(equal(SQLiteDatatype.integer))
+        expect(int16).to(equal(SQLiteDatatype.integer))
+        expect(int64).to(equal(SQLiteDatatype.integer))
     }
     
     func testReturnsIntegerTypeForBools() {
         let type = SQLiteDatatype.init(value: false)
         
-        expect(type).to(equal(SQLiteDatatype.Integer))
+        expect(type).to(equal(SQLiteDatatype.integer))
     }
     
     func testReturnsNiForUnsignedLongLong() {
@@ -73,14 +73,14 @@ class SQLiteDatatypeTests: XCTestCase {
     }
     
     func testRealRawValueIsReal() {
-        expect(SQLiteDatatype.Real.rawValue).to(equal("REAL"))
+        expect(SQLiteDatatype.real.rawValue).to(equal("REAL"))
     }
     
     func testIntegerRawValueIsInteger() {
-        expect(SQLiteDatatype.Integer.rawValue).to(equal("INTEGER"))
+        expect(SQLiteDatatype.integer.rawValue).to(equal("INTEGER"))
     }
     
     func testTextRawValueIsText() {
-        expect(SQLiteDatatype.Text.rawValue).to(equal("TEXT"))
+        expect(SQLiteDatatype.text.rawValue).to(equal("TEXT"))
     }
 }

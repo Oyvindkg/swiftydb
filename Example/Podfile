@@ -1,6 +1,7 @@
 use_frameworks!
 
 target 'SwiftyDB_Example' do
+  # pod 'TinySQLite', :git => "https://github.com/Oyvindkg/tinysqlite", :branch => "swift3.0"
   pod 'SwiftyDB', :path => '../'
 
   target 'SwiftyDB_Tests' do
@@ -10,3 +11,10 @@ target 'SwiftyDB_Example' do
   end
 end
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SWIFT_VERSION'] = '2.3'
+    end
+  end
+end

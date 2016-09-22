@@ -24,8 +24,6 @@ infix operator !~ {
 
 // MARK: - Comparators
 
-/* Between */
-
 /**
  A property's value is in a provided range
  
@@ -52,7 +50,7 @@ public func !< <T: StoreableValueConvertible where T: ForwardIndexType>(property
     return Expression.notBetween(property, range.startIndex.storeableValue, range.endIndex.storeableValue)
 }
 
-/* Contained */
+
 
 /**
  A property's value is in a provided array
@@ -106,7 +104,6 @@ public func !< (left: String, right: [StoreableValue?]) -> FilterStatement {
     return Expression.notContainedIn(left, right)
 }
 
-/* Like */
 
 /**
  A property's value matches a provided pattern

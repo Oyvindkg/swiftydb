@@ -15,12 +15,20 @@ import Nimble
 /** Component testing the database */
 class SwiftyTests: XCTestCase {
 
-    var swifty = Swifty(name: "database_test")
+    var configuration: ConfigurationType = {
+        var configuration = Configuration(databaseName: "database_test")
+        
+        configuration.mode = .sandbox
+        
+        return configuration
+    }()
+    
+    var swifty = Swifty(name: "sad")
     
     override func setUp() {
         super.setUp()
         
-        self.swifty = Swifty(name: "database_test")
+        self.swifty = Swifty(configuration: configuration)
     }
     
     override func tearDown() {
