@@ -8,6 +8,11 @@
 
 import Foundation
 
+/**
+ A database query used to delete objects
+ 
+ This query object can be stored and reused times
+ */
 public class DeleteQuery<T: Storeable>: Query<T> {
     
     public typealias ResultType = Void

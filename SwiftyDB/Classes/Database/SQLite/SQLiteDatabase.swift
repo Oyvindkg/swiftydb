@@ -24,17 +24,17 @@ struct SQLiteDatabase: DatabaseType {
     
     init(configuration: ConfigurationType) {
         
-
+        /* Copy any exsiting database to create a sandbox database */
         if configuration.mode == .sandbox {
-            let dryRunDatabasePath = configuration.databaseDirectory + "/dryrun-" + configuration.databaseName
+            var normalConfiguration = configuration
             
-            try? NSFileManager.defaultManager().removeItemAtPath(dryRunDatabasePath)
-            try? NSFileManager.defaultManager().copyItemAtPath(configuration.databasePath, toPath: dryRunDatabasePath)
+            normalConfiguration.mode = .normal
             
-            databaseQueue = DatabaseQueue(path: dryRunDatabasePath)
-        } else {
-            databaseQueue = DatabaseQueue(path: configuration.databasePath)
+            try? NSFileManager.defaultManager().removeItemAtPath(configuration.path)
+            try? NSFileManager.defaultManager().copyItemAtPath(normalConfiguration.path, toPath: configuration.path)
         }
+        
+        databaseQueue = DatabaseQueue(path: configuration.path)
         
         queryFactory = SQLiteQueryFactory()
         

@@ -17,7 +17,7 @@ enum MigrationOperation {
 
 internal class Migration: MigrationType, _MigrationType {
     
-    let currentVersion: UInt
+    var currentVersion: UInt
     
     var operations: [MigrationOperation] = []
     

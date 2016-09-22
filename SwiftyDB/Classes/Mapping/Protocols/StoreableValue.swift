@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+/** A basic value that can be added to the database in its current form */
 public protocol StoreableValue {}
 
 extension String: StoreableValue {}

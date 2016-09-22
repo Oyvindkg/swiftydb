@@ -8,13 +8,56 @@
 
 import Foundation
 
+/** Type representing the migration of an existing property */
 public protocol PropertyMigrationType {
+    
+    /**
+     Rename the property
+     
+     - parameters:
+        - newName: the new property name
+     */
     func rename(newName: String) -> PropertyMigrationType
     
+    /**
+     Transform a property
+     
+     - parameters:
+        - fromType: the type of the value currently in the database
+        - transformer: a closure mapping the value from the database to its new value
+     */
     func transform<U: StoreableValueConvertible, V: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType
+    
+    /**
+     Transform a property
+     
+     - parameters:
+        - fromType: the type of the value currently in the database
+        - transformer: a closure mapping the value from the database to its new value
+     */
     func transform<U: RawRepresentable, V: RawRepresentable where U.RawValue: StoreableValueConvertible, V.RawValue: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType
+    
+    /**
+     Transform a property
+     
+     - parameters:
+        - fromType: the type of the value currently in the database
+        - transformer: a closure mapping the value from the database to its new value
+     */
     func transform<U: RawRepresentable, V: StoreableValueConvertible where U.RawValue: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType
+    
+    /**
+     Transform a property
+     
+     - parameters:
+        - fromType: the type of the value currently in the database
+        - transformer: a closure mapping the value from the database to its new value
+     */
     func transform<U: StoreableValueConvertible, V: RawRepresentable where V.RawValue: StoreableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType
+    
+    
+    
+    
     
 //    func transformArrayOf<U: StoreableValueConvertible, V: StoreableValueConvertible>(fromElementType: U.Type, _ transformer: Array<U>? -> Array<V>?) -> PropertyMigrationType
 //    func transformSetOf<U: StoreableValueConvertible, V: StoreableValueConvertible>(fromElementType: U.Type, _ transformer: Set<U>? -> Set<V>?) -> PropertyMigrationType

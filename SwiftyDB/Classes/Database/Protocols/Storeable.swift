@@ -8,4 +8,11 @@
 
 import Foundation
 
+/** 
+ Defines an object that can be stored in the database 
+ 
+ The object must be mappable in order to retrieve objects from the database
+ 
+ The object must be identifiable to let Swifty manage references and unique objects
+ */
 public protocol Storeable: Identifiable, Mappable { }

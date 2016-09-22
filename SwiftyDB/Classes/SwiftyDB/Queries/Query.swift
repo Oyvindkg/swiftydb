@@ -8,7 +8,11 @@
 
 import Foundation
 
-
+/**
+ A database query
+ 
+ This query object can be stored and reused times
+ */
 public class Query<T: Storeable>: QueryType, _QueryType {
     
     public typealias SubjectType = T

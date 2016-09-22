@@ -8,6 +8,11 @@
 
 import Foundation
 
+/**
+ A database query used to retrieve objects
+ 
+ This query object can be stored and reused times
+ */
 public class GetQuery<T: Storeable>: Query<T> {
     
     public typealias ResultType = [SubjectType]

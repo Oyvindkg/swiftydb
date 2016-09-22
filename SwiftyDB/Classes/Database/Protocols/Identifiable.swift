@@ -8,6 +8,9 @@
 
 import Foundation
 
+/** Protocol used to define an identifying property */
 public protocol Identifiable {
+    
+    /** Returns the name of a property that uniquely identifies an object */
     static func identifier() -> String
 }

@@ -8,25 +8,49 @@
 
 import Foundation
 
+/**
+ An interface used to define migrations
+ */
 public protocol MigrationType {
-    var currentVersion: UInt { get }
     
+    /** The current schema version for the type */
+    var currentVersion: UInt { get set }
+    
+    /** Create a property migration used to rename or transform existing properties */
     func migrate(property: String) -> PropertyMigrationType
     
+    /** Add a new property without a default value */
     func add(property: String)
+    
+    /** Add a new property with a default value */
     func add<T: StoreableValueConvertible>(property: String, defaultValue: T)
+    
+    /** Add a new array property with a default value */
     func add<T: StoreableValueConvertible>(property: String, defaultValue: [T])
+    
+    /** Add a new set property with a default value */
     func add<T: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
+    
+    /** Add a new dictionary property with a default value */
     func add<T: StoreableValueConvertible, U: StoreableValueConvertible where T.StoreableValueType: Hashable>(property: String, defaultValue: Dictionary<T, U>)
     
+    /** Add a new raw representable property with a default value */
     func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: T)
+    
+    /** Add a new raw representable array property with a default value */
     func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: [T])
+    
+    /** Add a new raw representable set property with a default value */
     func add<T: RawRepresentable where T.RawValue: StoreableValueConvertible>(property: String, defaultValue: Set<T>)
+    
+    /** Add a new raw representable dictionary property with a default value */
     func add<T: StoreableValueConvertible, U: RawRepresentable where U.RawValue : StoreableValueConvertible, T.StoreableValueType : Hashable>(property: String, defaultValue: [T : U])
     
+    /** Remove an exsisting property */
     func remove(property: String)
 }
 
+/** And internal migration representation */
 protocol _MigrationType {
     var operations: [MigrationOperation] { get set }
 }

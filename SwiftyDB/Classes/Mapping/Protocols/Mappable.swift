@@ -8,10 +8,16 @@
 
 import Foundation
 
+/** Defines mappable objects */
 public protocol Mappable {
     /** Objects must be initializeable in order to be mapped */
     static func newInstance() -> Mappable
     
-    /** Used to map properties when reading from and writing to the object */
+    /** 
+     Used to map properties when reading from and writing to the object 
+     
+     - parameters:
+        - map: a map to be read or written
+     */
     mutating func mapping (map: MapType)
 }

@@ -48,7 +48,7 @@ public class Swifty: ObjectDatabase {
         - name: name of the database
      */
     public convenience init(name: String) {
-        let configuration = Configuration(databaseName: name)
+        let configuration = Configuration(name: name)
         
         self.init(configuration: configuration)
     }
@@ -120,6 +120,13 @@ public class Swifty: ObjectDatabase {
         get(query, resultHandler: resultHandler)
     }
     
+    /**
+     Get objects for the provided type
+     
+     - parameters:
+        - query:            query to be executed
+        - resultHandler:    an optional result handler
+     */
     func get<T: Storeable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.getSync(query)
