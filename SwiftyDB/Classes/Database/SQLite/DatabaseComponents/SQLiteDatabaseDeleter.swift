@@ -14,12 +14,6 @@ struct SQLiteDatabaseDeleter: DatabaseDeleterType {
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
     
-    init(databaseQueue: DatabaseQueue) {
-        self.databaseQueue = databaseQueue
-        
-        self.queryFactory = Injector.defaultInstance.autowire()!
-    }
-    
     init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
         self.databaseQueue = databaseQueue
         self.queryFactory = queryFactory

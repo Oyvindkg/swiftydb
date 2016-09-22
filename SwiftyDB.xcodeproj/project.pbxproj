@@ -36,7 +36,6 @@
 		390688AB1D940B7F00F94658 /* IndexerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688571D940B7F00F94658 /* IndexerType.swift */; };
 		390688AC1D940B7F00F94658 /* IndexInstanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688581D940B7F00F94658 /* IndexInstanceType.swift */; };
 		390688AD1D940B7F00F94658 /* IndexType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688591D940B7F00F94658 /* IndexType.swift */; };
-		390688AE1D940B7F00F94658 /* Injector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906885B1D940B7F00F94658 /* Injector.swift */; };
 		390688AF1D940B7F00F94658 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906885D1D940B7F00F94658 /* Mapper.swift */; };
 		390688B01D940B7F00F94658 /* BaseMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3906885F1D940B7F00F94658 /* BaseMap.swift */; };
 		390688B11D940B7F00F94658 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390688601D940B7F00F94658 /* Reader.swift */; };
@@ -117,7 +116,6 @@
 		390688571D940B7F00F94658 /* IndexerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexerType.swift; sourceTree = "<group>"; };
 		390688581D940B7F00F94658 /* IndexInstanceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexInstanceType.swift; sourceTree = "<group>"; };
 		390688591D940B7F00F94658 /* IndexType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexType.swift; sourceTree = "<group>"; };
-		3906885B1D940B7F00F94658 /* Injector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injector.swift; sourceTree = "<group>"; };
 		3906885D1D940B7F00F94658 /* Mapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		3906885F1D940B7F00F94658 /* BaseMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMap.swift; sourceTree = "<group>"; };
 		390688601D940B7F00F94658 /* Reader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 			children = (
 				390688371D940B7F00F94658 /* Database */,
 				390688501D940B7F00F94658 /* Indexing */,
-				3906885A1D940B7F00F94658 /* Injection */,
 				3906885C1D940B7F00F94658 /* Mapping */,
 				390688761D940B7F00F94658 /* Migration */,
 				390688811D940B7F00F94658 /* SwiftyDB */,
@@ -295,15 +292,6 @@
 				390688591D940B7F00F94658 /* IndexType.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		3906885A1D940B7F00F94658 /* Injection */ = {
-			isa = PBXGroup;
-			children = (
-				3906885B1D940B7F00F94658 /* Injector.swift */,
-			);
-			name = Injection;
-			path = Classes/Injection;
 			sourceTree = "<group>";
 		};
 		3906885C1D940B7F00F94658 /* Mapping */ = {
@@ -588,7 +576,6 @@
 				390688921D940B7F00F94658 /* Database.swift in Sources */,
 				390688BF1D940B7F00F94658 /* StorableNSData.swift in Sources */,
 				390688A01D940B7F00F94658 /* SQLiteDatabase.swift in Sources */,
-				390688AE1D940B7F00F94658 /* Injector.swift in Sources */,
 				390688A21D940B7F00F94658 /* JSONSerialisation.swift in Sources */,
 				390688B81D940B7F00F94658 /* StorableValue.swift in Sources */,
 				390688D81D940B7F00F94658 /* SwiftyError.swift in Sources */,
