@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3906882B1D940B2100F94658"
-               BuildableName = "SwiftyDB_iOS.framework"
-               BlueprintName = "SwiftyDB_iOS"
+               BuildableName = "SwiftyDB iOS.framework"
+               BlueprintName = "SwiftyDB iOS"
                ReferencedContainer = "container:SwiftyDB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3906882B1D940B2100F94658"
-            BuildableName = "SwiftyDB_iOS.framework"
-            BlueprintName = "SwiftyDB_iOS"
+            BuildableName = "SwiftyDB iOS.framework"
+            BlueprintName = "SwiftyDB iOS"
             ReferencedContainer = "container:SwiftyDB.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3906882B1D940B2100F94658"
-            BuildableName = "SwiftyDB_iOS.framework"
-            BlueprintName = "SwiftyDB_iOS"
+            BuildableName = "SwiftyDB iOS.framework"
+            BlueprintName = "SwiftyDB iOS"
             ReferencedContainer = "container:SwiftyDB.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
