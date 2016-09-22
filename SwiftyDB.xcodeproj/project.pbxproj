@@ -86,7 +86,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "SwiftyDB iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3906882C1D940B2100F94658 /* SwiftyDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3906882F1D940B2100F94658 /* SwiftyDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyDB.h; sourceTree = "<group>"; };
 		390688301D940B2100F94658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		390688381D940B7F00F94658 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 		3906882D1D940B2100F94658 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */,
+				3906882C1D940B2100F94658 /* SwiftyDB.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -454,9 +454,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3906882B1D940B2100F94658 /* SwiftyDB iOS */ = {
+		3906882B1D940B2100F94658 /* SwiftyDB */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB iOS" */;
+			buildConfigurationList = 390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB" */;
 			buildPhases = (
 				390688271D940B2100F94658 /* Sources */,
 				390688281D940B2100F94658 /* Frameworks */,
@@ -467,9 +467,9 @@
 			);
 			dependencies = (
 			);
-			name = "SwiftyDB iOS";
+			name = SwiftyDB;
 			productName = SwiftyDB;
-			productReference = 3906882C1D940B2100F94658 /* SwiftyDB iOS.framework */;
+			productReference = 3906882C1D940B2100F94658 /* SwiftyDB.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -500,7 +500,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3906882B1D940B2100F94658 /* SwiftyDB iOS */,
+				3906882B1D940B2100F94658 /* SwiftyDB */,
 			);
 		};
 /* End PBXProject section */
@@ -758,7 +758,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB iOS" */ = {
+		390688341D940B2100F94658 /* Build configuration list for PBXNativeTarget "SwiftyDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				390688351D940B2100F94658 /* Debug */,
