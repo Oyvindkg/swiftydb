@@ -85,7 +85,9 @@ public class Swifty: ObjectDatabase {
     
     internal func addSync<T: Storable>(objects: [T]) -> Result<Void> {
         return resultForValue {
-            try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
+            for object in objects {
+                try self.migrator.migrateTypeIfNecessary(object.dynamicType, inSwifty: self)
+            }
             
             try self.database.add(objects)
         }
