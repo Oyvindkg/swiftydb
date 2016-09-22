@@ -198,7 +198,7 @@ If Swifty detects that the properties of a type does not match those stored in t
 
 ```swift
 extension Stark: Migratable {
-  static func migrate(inout migration: Migration) {
+  static func migrate(migration: inout Migration) {
 
     if migration.schemaVersion < 1 {
   
