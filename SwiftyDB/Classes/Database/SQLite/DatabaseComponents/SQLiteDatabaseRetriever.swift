@@ -88,7 +88,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
             return nil
         }
         
-        let ids: [String?] = JSONSerialisation.arrayFor(storableValue)!
+        let ids: [String?] = CollectionSerialization.arrayFor(string: storableValue)!
         
         return try ids.flatMap { id -> [Writer] in
             let filter = type.identifier() == id

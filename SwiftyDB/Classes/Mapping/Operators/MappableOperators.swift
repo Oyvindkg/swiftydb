@@ -112,7 +112,7 @@ func <- <T: Mappable>(left: inout [T], right: Reader) {
     
     let identifiers = maps.map {$0.identifierValue}
     
-    let JSON: String = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
         
@@ -141,7 +141,7 @@ func <- <T: Mappable>(left: inout [T]?, right: Reader) {
     
     let identifiers = maps?.map {$0.identifierValue}
     
-    let JSON: String? = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
     
@@ -172,7 +172,7 @@ func <- <T: Mappable>(left: inout [T]!, right: Reader) {
     
     let identifiers = maps.map {$0.identifierValue}
     
-    let JSON: String = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
     
@@ -202,7 +202,7 @@ func <- <T: Mappable>(left: inout Set<T>, right: Reader) {
     
     let identifiers = maps.map {$0.identifierValue}
     
-    let JSON: String = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
     
@@ -231,7 +231,7 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Reader) {
     
     let identifiers = maps?.map {$0.identifierValue}
     
-    let JSON: String? = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
     
@@ -262,7 +262,7 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
     
     let identifiers = maps.map {$0.identifierValue}
     
-    let JSON: String = JSONSerialisation.JSONFor(collection: identifiers)
+    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
     right.setCurrentValue(JSON)
     

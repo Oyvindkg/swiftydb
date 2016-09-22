@@ -66,13 +66,13 @@ internal class DefaultMigration: Migration, _Migration {
     }
     
     func add<T : StorableProperty>(_ property: String, defaultValue: [T]) {
-        let storableValue = JSONSerialisation.JSONFor(defaultValue)
+        let storableValue = CollectionSerialization.stringFor(array: defaultValue)
         
         add(property, defaultValue: storableValue)
     }
     
     func add<T : StorableProperty, U : StorableProperty>(_ property: String, defaultValue: Dictionary<T, U>) where T.StorableValueType : Hashable {
-        let storableValue = JSONSerialisation.JSONFor(defaultValue)
+        let storableValue = CollectionSerialization.stringFor(dictionary: defaultValue)
         
         add(property, defaultValue: storableValue)
     }
