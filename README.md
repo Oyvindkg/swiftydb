@@ -198,7 +198,7 @@ If Swifty detects that the properties of a type does not match those stored in t
 
 ```swift
 extension Stark: Migratable {
-  static func migrate(inout migration: MigrationType) {
+  static func migrate(inout migration: Migration) {
 
     if migration.schemaVersion < 1 {
   
@@ -231,7 +231,7 @@ Creating an index on frequently queried properties can greatly increase thequery
 
 ```Swift
 extension Stark: Indexable {
-  static func index(index: IndexType) {
+  static func index(index: Index) {
     index.on("age")
     index.on("age").filter("name" << ["Arya", "Sansa"] && "age" > 8)
   }
