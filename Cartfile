@@ -1,1 +1,1 @@
-github "Oyvindkg/tinysqlite"  # GitHub.com
+github "Oyvindkg/tinysqlite" "carthage" # GitHub.com
