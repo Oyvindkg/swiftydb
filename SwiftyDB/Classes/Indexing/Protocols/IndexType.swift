@@ -30,5 +30,7 @@ public protocol IndexType {
 
 /* An internal index type representation */
 protocol _IndexType {
+    var type: Storable.Type { get }
+    
     var indices: [_IndexInstanceType] { get }
 }

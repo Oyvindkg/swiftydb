@@ -86,8 +86,6 @@ struct SQLiteDatabase: DatabaseType {
     }
     
     func create(index: _IndexType) throws {
-        for index in index.indices {
-            try indexer.create(index)
-        }
+        try indexer.create(index)
     }
 }
