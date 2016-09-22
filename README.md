@@ -50,8 +50,8 @@ For a more detailed configuration, create a new `Configuration` object, and init
 ```Swift
 var configuration = Configuration(name: "Westeros")
 
-configuration.databaseDirectory = "~/some/dir"
-configuration.dryRun = true
+configuration.directory = "~/some/dir"
+configuration.mode = .sandbox
 
 let swifty = Swifty(configuration: configuration)
 ```
@@ -137,7 +137,9 @@ swifty.add(arya) { result in
 
 #### <a name="deletingObjects">Deleting objects</a>
 ```Swift
-swifty.delete(Stark.self).filter("name" == "Eddard")
+swifty.delete(Stark.self).filter("name" == "Eddard") { result in
+  // Handle result
+}
 ```
 
 ### <a name="definingObjects">Defining objects</a>
@@ -218,7 +220,7 @@ extension Stark: Migratable {
 }
 ```
 
-> When testing your migrations, activate `dryRun` in the database configuration to avoid unwanted changes in the database
+> When testing your migrations, use `.sandbox` mode in the database configuration to avoid unwanted changes in the database
 
 ### <a name="indexingObjects">Indexing</a>
 
