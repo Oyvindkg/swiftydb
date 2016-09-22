@@ -23,7 +23,7 @@ class SQLiteQueryFactory {
     
     // MARK: Create table
     
-    func createTableQueryForReader(reader: Reader) -> SQLiteQuery {
+    func createTableQueryForReader(_ reader: Reader) -> SQLiteQuery {
         if let query = cachedQueryForType(reader.storableType, andOperation: .createTable) {
             return query
         }
@@ -35,8 +35,8 @@ class SQLiteQueryFactory {
         return query
     }
     
-    private func buildCreateTableQueryForReader(reader: Reader) -> SQLiteQuery {
-        let name       = String(reader.type)
+    fileprivate func buildCreateTableQueryForReader(_ reader: Reader) -> SQLiteQuery {
+        let name       = String(describing: reader.type)
         let identifier = reader.storableType.identifier()
         
         var query = "CREATE TABLE '\(name)' ("
@@ -60,7 +60,7 @@ class SQLiteQueryFactory {
             columnDefinitions.append( columnDefinition )
         }
         
-        query += columnDefinitions.joinWithSeparator(", ")
+        query += columnDefinitions.joined(separator: ", ")
         query += ")"
         
         return SQLiteQuery(query: query, parameters: [])
@@ -68,7 +68,7 @@ class SQLiteQueryFactory {
     
     // MARK: Insert
     
-    func insertQueryForReader(reader: Reader, update: Bool = true) -> SQLiteQuery {
+    func insertQueryForReader(_ reader: Reader, update: Bool = true) -> SQLiteQuery {
         /* Does not work for optional values in the current implementation */
 //        if let query = cachedQueryForType(reader.storableType, andOperation: .Insert) {
 //            return query
@@ -81,7 +81,7 @@ class SQLiteQueryFactory {
         return query
     }
     
-    private func buildInsertQueryForReader(reader: Reader, update: Bool = true) -> SQLiteQuery {
+    fileprivate func buildInsertQueryForReader(_ reader: Reader, update: Bool = true) -> SQLiteQuery {
         let onCollision  = update ? "REPLACE" : "ABORT"
         let properties   = reader.types.keys
         let placeholders = properties.map { ":\($0)"}
@@ -90,9 +90,9 @@ class SQLiteQueryFactory {
         
         var query = "INSERT OR \(onCollision) INTO '\(reader.type)'"
         
-        query += " (" + escapedProperties.joinWithSeparator(", ") + ")"
+        query += " (" + escapedProperties.joined(separator: ", ") + ")"
         
-        query += " VALUES (" + placeholders.joinWithSeparator(", ") + ")"
+        query += " VALUES (" + placeholders.joined(separator: ", ") + ")"
         
         let parameters: [SQLiteValue?] = properties.map { reader.storableValues[$0] as? SQLiteValue }
         
@@ -101,11 +101,11 @@ class SQLiteQueryFactory {
     
     // MARK: Select
     
-    func selectQueryForType(type: Storable.Type, andFilter filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
+    func selectQueryForType(_ type: Storable.Type, andFilter filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
         return buildSelectQueryForType(type, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
     }
     
-    func buildSelectQueryForType(type: Storable.Type, andFilter filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
+    func buildSelectQueryForType(_ type: Storable.Type, andFilter filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
         
         var query = "SELECT * FROM '\(type)'"
         var parameters: [SQLiteValue?] = []
@@ -126,7 +126,7 @@ class SQLiteQueryFactory {
         return SQLiteQuery(query: query, parameters: parameters)
     }
     
-    private func orderByComponentForSorting(sorting: Sorting) -> String {
+    fileprivate func orderByComponentForSorting(_ sorting: Sorting) -> String {
         switch sorting {
         case .ascending(let property):
             return " ORDER BY \(property) ASC"
@@ -137,7 +137,7 @@ class SQLiteQueryFactory {
         }
     }
     
-    private func limitComponentForLimit(limit: Int?, andOffset offset: Int?) -> (String, [SQLiteValue?]) {
+    fileprivate func limitComponentForLimit(_ limit: Int?, andOffset offset: Int?) -> (String, [SQLiteValue?]) {
         if limit != nil && offset != nil {
             return (" LIMIT ? OFFSET ?", [limit, offset])
         }
@@ -155,14 +155,14 @@ class SQLiteQueryFactory {
     
     // MARK: - Create index
     
-    func createIndexQueryFor(index: _IndexInstanceType) -> SQLiteQuery {
+    func createIndexQueryFor(_ index: _IndexInstanceType) -> SQLiteQuery {
         return buildCreateIndexQueryFor(index)
     }
     
-    func buildCreateIndexQueryFor(index: _IndexInstanceType) -> SQLiteQuery {
+    func buildCreateIndexQueryFor(_ index: _IndexInstanceType) -> SQLiteQuery {
         let name = IndexingUtils.nameForIndex(index)
         
-        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joinWithSeparator(", ")))"
+        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joined(separator: ", ")))"
         var parameters: [SQLiteValue?] = []
         
         if let filter = index.filters as? SQLiteFilterStatement {
@@ -175,7 +175,7 @@ class SQLiteQueryFactory {
     
     // MARK: - Delete 
     
-    func deleteQueryForType(type: Storable.Type, withFilter filter: SQLiteFilterStatement?) -> SQLiteQuery {
+    func deleteQueryForType(_ type: Storable.Type, withFilter filter: SQLiteFilterStatement?) -> SQLiteQuery {
         if let query = cachedQueryForType(type, andOperation: .delete) {
             return query
         }
@@ -185,7 +185,7 @@ class SQLiteQueryFactory {
         return query
     }
     
-    func buildDeleteQueryForType(type: Storable.Type, withFilter filter: SQLiteFilterStatement?) -> SQLiteQuery {
+    func buildDeleteQueryForType(_ type: Storable.Type, withFilter filter: SQLiteFilterStatement?) -> SQLiteQuery {
         var query = "DELETE FROM \(type)"
         var parameters: [SQLiteValue?] = []
         
@@ -200,11 +200,11 @@ class SQLiteQueryFactory {
     
     // MARK: - Cache
     
-    private func cachedQueryForType(type: Storable.Type, andOperation operation: Operation) -> SQLiteQuery? {
+    fileprivate func cachedQueryForType(_ type: Storable.Type, andOperation operation: Operation) -> SQLiteQuery? {
         return queryCache["\(operation.rawValue):\(type)"]
     }
     
-    private func cacheQuery(query: SQLiteQuery, forType type: Storable.Type, andOperation operation: Operation) {
+    fileprivate func cacheQuery(_ query: SQLiteQuery, forType type: Storable.Type, andOperation operation: Operation) {
         queryCache["\(operation.rawValue):\(type)"] = query
     }
 }

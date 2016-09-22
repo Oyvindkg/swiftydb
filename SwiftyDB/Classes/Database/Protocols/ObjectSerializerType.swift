@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ObjectSerializerType {
-    static func readersForStorable<T: Storable>(storable: T?) -> [Reader]
+    static func readersForStorable<T: Storable>(_ storable: T?) -> [Reader]
 }

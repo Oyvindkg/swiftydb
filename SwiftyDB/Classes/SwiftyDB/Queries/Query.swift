@@ -13,7 +13,7 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class Query<T: Storable>: QueryType, _QueryType {
+open class Query<T: Storable>: QueryType, _QueryType {
     
     public typealias SubjectType = T
     
@@ -32,7 +32,7 @@ public class Query<T: Storable>: QueryType, _QueryType {
      
      - returns: self
      */
-    public func filter(filter: FilterStatement) -> Self {
+    open func filter(_ filter: FilterStatement) -> Self {
         self.filter = filter
         
         return self
@@ -46,7 +46,7 @@ public class Query<T: Storable>: QueryType, _QueryType {
      
      - returns: self
      */
-    public func max(max: Int) -> Self {
+    open func max(_ max: Int) -> Self {
         self.max = max
         
         return self
@@ -60,7 +60,7 @@ public class Query<T: Storable>: QueryType, _QueryType {
      
      - returns: self
      */
-    public func start(start: Int) -> Self {
+    open func start(_ start: Int) -> Self {
         self.start = start
         
         return self
@@ -75,7 +75,7 @@ public class Query<T: Storable>: QueryType, _QueryType {
      
      - returns: self
      */
-    public func sortBy(property: String, ascending: Bool = true) -> Self {
+    open func sortBy(_ property: String, ascending: Bool = true) -> Self {
         self.sorting = ascending ? .ascending(property) : .descending(property)
         
         return self

@@ -13,11 +13,11 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class DeleteQuery<T: Storable>: Query<T> {
+open class DeleteQuery<T: Storable>: Query<T> {
     
     public typealias ResultType = Void
     
-    private let database: ObjectDatabase
+    fileprivate let database: ObjectDatabase
     
     internal init(database: ObjectDatabase) {
         self.database = database
@@ -30,7 +30,7 @@ public class DeleteQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
         - resultHandler:    and optional result handler
      */
-    public func filter(filter: FilterStatement, resultHandler: (Result<ResultType> -> Void)?) {
+    open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
         self.filter(filter)
         
         self.database.delete(self, resultHandler: resultHandler)

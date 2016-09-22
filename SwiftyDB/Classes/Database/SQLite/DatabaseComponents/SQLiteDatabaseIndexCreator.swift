@@ -19,7 +19,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         self.queryFactory = queryFactory
     }
     
-    func create(index: _IndexType) throws {
+    func create(_ index: _IndexType) throws {
         try deleteIndicesForType(index.type)
         
         for index in index.indices {
@@ -33,7 +33,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         }
     }
     
-    private func deleteIndicesForType(type: Storable.Type) throws {
+    fileprivate func deleteIndicesForType(_ type: Storable.Type) throws {
         let indexNames = try indexNamesForType(type)
         
         let query = "DROP INDEX ?"
@@ -50,7 +50,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         }
     }
     
-    private func indexNamesForType(type: Storable.Type) throws -> [String] {
+    fileprivate func indexNamesForType(_ type: Storable.Type) throws -> [String] {
         let query = "SELECT name FROM sqlite_master WHERE type == 'index' AND tbl_name == ?"
         
         var indexNames: [String] = []
@@ -58,7 +58,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         try databaseQueue.database { database in
             let statement = try database.prepare(query)
 
-            indexNames = try statement.execute([String(type)]).map { $0.stringForColumn(0)! }
+            indexNames = try statement.execute([String(describing: type)]).map { $0.stringForColumn(0)! }
             
             try statement.finalize()
         }

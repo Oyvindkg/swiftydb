@@ -10,10 +10,10 @@ import Foundation
 
 /** Contains all valid filter methods */
 public protocol QueryType {
-    func filter(filter: FilterStatement) -> Self
-    func max(max: Int) -> Self
-    func start(start: Int) -> Self
-    func sortBy(property: String, ascending: Bool) -> Self
+    func filter(_ filter: FilterStatement) -> Self
+    func max(_ max: Int) -> Self
+    func start(_ start: Int) -> Self
+    func sortBy(_ property: String, ascending: Bool) -> Self
 }
 
 /** A query representation used internally */

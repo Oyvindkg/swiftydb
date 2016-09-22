@@ -17,7 +17,7 @@ public protocol IndexInstanceType {
      - parameters:
         - filter: a filter statement
      */
-    func filter(filter: FilterStatement) -> IndexInstanceType
+    func filter(_ filter: FilterStatement) -> IndexInstanceType
 }
 
 /** An internal index instance representation */

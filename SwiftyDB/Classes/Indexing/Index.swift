@@ -19,11 +19,11 @@ class Index: IndexType, _IndexType {
         self.indices = []
     }
     
-    func on(properties: String...) -> IndexInstanceType {
+    func on(_ properties: String...) -> IndexInstanceType {
         return on(properties)
     }
     
-    func on(properties: [String]) -> IndexInstanceType {
+    func on(_ properties: [String]) -> IndexInstanceType {
         let index = IndexInstance(type: type)
         
         index.properties = properties

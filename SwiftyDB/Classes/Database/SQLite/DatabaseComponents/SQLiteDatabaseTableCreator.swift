@@ -21,13 +21,13 @@ class SQLiteDatabaseTableCreator {
         self.queryFactory = queryFactory
     }
     
-    func createTableForTypeIfNecessary(type: Storable.Type) throws {
+    func createTableForTypeIfNecessary(_ type: Storable.Type) throws {
         let reader = Mapper.readerForType(type)
         
         try createTableForReader( reader )
     }
     
-    func createTableForReadersIfNecessary(readers: [Reader]) throws {
+    func createTableForReadersIfNecessary(_ readers: [Reader]) throws {
         
         for reader in readers {
             let tableExists = try tableExistsForReader(reader)
@@ -40,7 +40,7 @@ class SQLiteDatabaseTableCreator {
         }
     }
     
-    private func createTableForReader(reader: Reader) throws {
+    fileprivate func createTableForReader(_ reader: Reader) throws {
         
         try createTablesForNestedReadersIfNecessary(reader)
         
@@ -57,10 +57,10 @@ class SQLiteDatabaseTableCreator {
                 .finalize()
         }
         
-        existingTables.insert(String(reader.type))
+        existingTables.insert(String(describing: reader.type))
     }
     
-    private func createTablesForNestedReadersIfNecessary(reader: Reader) throws {
+    fileprivate func createTablesForNestedReadersIfNecessary(_ reader: Reader) throws {
         
         /* Nested storable objects */
         try createTableForReadersIfNecessary( reader.mappables.map { $0.1 as! Reader } )
@@ -73,12 +73,12 @@ class SQLiteDatabaseTableCreator {
         }
     }
     
-    private func tableExistsForReader(reader: Reader) throws -> Bool {
+    fileprivate func tableExistsForReader(_ reader: Reader) throws -> Bool {
         return try tableExistsForType(reader.type as! Storable.Type)
     }
     
-    private func tableExistsForType(type: Storable.Type) throws -> Bool {
-        let name = String(type)
+    fileprivate func tableExistsForType(_ type: Storable.Type) throws -> Bool {
+        let name = String(describing: type)
 
         guard !existingTables.contains( name ) else {
             return true

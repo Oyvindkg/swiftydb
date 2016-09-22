@@ -13,10 +13,10 @@ import Nimble
 
 
 class ExpressionTests: XCTestCase {
-    private let property             = "name"
-    private let stringValue          = "John"
-    private let intValue: Int64      = 0
-    private let otherIntValue: Int64 = 10
+    fileprivate let property             = "name"
+    fileprivate let stringValue          = "John"
+    fileprivate let intValue: Int64      = 0
+    fileprivate let otherIntValue: Int64 = 10
     
     
     override func setUp() {

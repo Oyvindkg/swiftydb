@@ -19,7 +19,7 @@ class IndexInstance: IndexInstanceType, _IndexInstanceType {
         self.type = type
     }
     
-    func filter(filter: FilterStatement) -> IndexInstanceType {
+    func filter(_ filter: FilterStatement) -> IndexInstanceType {
         self.filters = filter
         
         return self

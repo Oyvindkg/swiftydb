@@ -19,5 +19,5 @@ public protocol Mappable {
      - parameters:
         - map: a map to be read or written
      */
-    mutating func mapping (map: MapType)
+    mutating func mapping (_ map: MapType)
 }

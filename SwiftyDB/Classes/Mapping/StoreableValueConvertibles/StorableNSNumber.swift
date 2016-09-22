@@ -16,11 +16,11 @@ extension NSNumber: StorableProperty {
         return self.doubleValue
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> Self {
         return fromStorableValueHelper(storableValue)
     }
     
-    private static func fromStorableValueHelper<T: NSNumber>(storableValue: StorableValueType) -> T {
-        return T.init(double: storableValue)
+    fileprivate static func fromStorableValueHelper<T: NSNumber>(_ storableValue: StorableValueType) -> T {
+        return T.init(value: storableValue)
     }
 }

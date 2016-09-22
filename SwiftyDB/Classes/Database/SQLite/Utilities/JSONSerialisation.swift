@@ -9,18 +9,18 @@
 import Foundation
 
 struct JSONSerialisation {
-    private static let separator: String = "||…||"
+    fileprivate static let separator: String = "||…||"
     
     // MARK: - To JSON
-    static func JSONFor<T: CollectionType>(collection collection: T) -> String {
+    static func JSONFor<T: Collection>(collection: T) -> String {
         return JSONFor(collection: collection)!
     }
     
-    static func JSONFor<T: CollectionType>(collection collection: T?) -> String? {
-        return collection?.map({ String($0) }).joinWithSeparator(separator)
+    static func JSONFor<T: Collection>(collection: T?) -> String? {
+        return collection?.map({ String(describing: $0) }).joined(separator: separator)
     }
     
-    static func JSONFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(dictionary: [T:U]) -> String {
+    static func JSONFor<T: StorableProperty, U: StorableProperty>(_ dictionary: [T:U]) -> String where T.StorableValueType: Hashable {
         
         var optionalDictionary: [T: U?] = [:]
         
@@ -32,20 +32,18 @@ struct JSONSerialisation {
         
     }
     
-    static func JSONFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(dictionary: [T:U?]) -> String {
-        
-        let storableDictionary: NSMutableDictionary = [:]
-        
-        for (key, value) in dictionary {
-            storableDictionary[ objectForValue(key.storableValue) as! NSCopying ] = objectForValue(value?.storableValue)
+    static func JSONFor<T: StorableProperty, U: StorableProperty>(_ dictionary: [T:U?]) -> String where T.StorableValueType: Hashable {
+        let strings = dictionary.map { (key, value) -> String in
+            let keyString = String(describing: key.storableValue)
+            let valueString = value != nil ? String(describing: value!.storableValue) : "nil"
+            
+            return keyString + separator + valueString
         }
         
-        let data = try! NSJSONSerialization.dataWithJSONObject(storableDictionary, options: [])
-        
-        return String(data: data, encoding: NSUTF8StringEncoding)!
+        return strings.joined(separator: separator)
     }
     
-    static func JSONFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(dictionary: [T:U?]?) -> String? {
+    static func JSONFor<T: StorableProperty, U: StorableProperty>(_ dictionary: [T:U?]?) -> String? where T.StorableValueType: Hashable {
         guard dictionary != nil else {
             return nil
         }
@@ -53,7 +51,7 @@ struct JSONSerialisation {
         return JSONFor(dictionary!) as String
     }
     
-    static func JSONFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(dictionary: [T:U]?) -> String? {
+    static func JSONFor<T: StorableProperty, U: StorableProperty>(_ dictionary: [T:U]?) -> String? where T.StorableValueType: Hashable {
         guard dictionary != nil else {
             return nil
         }
@@ -61,19 +59,19 @@ struct JSONSerialisation {
         return JSONFor(dictionary!) as String
     }
     
-    static func JSONFor<T: StorableProperty>(array: [T?]) -> String {
+    static func JSONFor<T: StorableProperty>(_ array: [T?]) -> String {
         let storableValues = array.map { $0?.storableValue }
         
         return JSONFor(collection: storableValues)
     }
     
-    static func JSONFor<T: StorableProperty>(array: [T]) -> String {
+    static func JSONFor<T: StorableProperty>(_ array: [T]) -> String {
         let storableValues = array.map { $0.storableValue }
         
         return JSONFor(collection: storableValues)
     }
     
-    static func JSONFor<T: StorableProperty>(array: [T]?) -> String? {
+    static func JSONFor<T: StorableProperty>(_ array: [T]?) -> String? {
 
         let storableValues = array?.map { $0.storableValue }
         
@@ -82,12 +80,12 @@ struct JSONSerialisation {
     
     // MARK: - From JSON
     
-    static func arrayFor<T: StorableValue>(JSON: String) -> [T?] {
+    static func arrayFor<T: StorableValue>(_ JSON: String) -> [T?] {
         guard !JSON.isEmpty else {
             return []
         }
         
-        let array: [String] = JSON.componentsSeparatedByString(separator)
+        let array: [String] = JSON.components(separatedBy: separator)
         
         if T.self is String.Type {
             return array.asType(T.self)
@@ -100,25 +98,25 @@ struct JSONSerialisation {
         return array.map { Int64($0) as? T }
     }
     
-    static func arrayFor<T: StorableValue>(JSON: String) -> [T] {
+    static func arrayFor<T: StorableValue>(_ JSON: String) -> [T] {
         let array: [T?] = arrayFor(JSON)
         
         return array.matchType()
     }
 
-    static func arrayFor<T: StorableProperty>(JSON: String) -> [T?] {
+    static func arrayFor<T: StorableProperty>(_ JSON: String) -> [T?] {
         let array: [T.StorableValueType?] = arrayFor(JSON)
         
         return array.map { $0 != nil ? T.fromStorableValue($0!) : nil }
     }
     
-    static func arrayFor<T: StorableProperty>(JSON: String) -> [T] {
+    static func arrayFor<T: StorableProperty>(_ JSON: String) -> [T] {
         let array: [T.StorableValueType] = arrayFor(JSON)
         
         return array.map(T.fromStorableValue)
     }
     
-    static func arrayFor<T: StorableProperty>(JSON: String?) -> [T?]? {
+    static func arrayFor<T: StorableProperty>(_ JSON: String?) -> [T?]? {
         guard let JSON = JSON else {
             return nil
         }
@@ -128,7 +126,7 @@ struct JSONSerialisation {
         return array.map { $0 != nil ? T.fromStorableValue($0!) : nil }
     }
     
-    static func arrayFor<T: StorableProperty>(JSON: String?) -> [T]? {
+    static func arrayFor<T: StorableProperty>(_ JSON: String?) -> [T]? {
         guard let JSON = JSON else {
             return nil
         }
@@ -139,7 +137,7 @@ struct JSONSerialisation {
     }
     
     
-    static func dictionaryFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(JSON: String?) -> [T: U?]? {
+    static func dictionaryFor<T: StorableProperty, U: StorableProperty>(_ JSON: String?) -> [T: U?]? where T.StorableValueType: Hashable {
         guard JSON != nil else {
             return nil
         }
@@ -147,25 +145,48 @@ struct JSONSerialisation {
         return dictionaryFor(JSON!) as [T: U?]
     }
     
-    static func dictionaryFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(JSON: String) -> [T: U?] {
-        let storableDictionary = try! NSJSONSerialization.JSONObjectWithData(JSON.dataUsingEncoding(NSUTF8StringEncoding)!, options: []) as! NSDictionary
+    static func dictionaryFor<T: StorableProperty, U: StorableProperty>(_ JSON: String) -> [T: U?] where T.StorableValueType: Hashable {
+        guard !JSON.isEmpty else {
+            return [:]
+        }
+        
+        let components: [String] = JSON.components(separatedBy: separator)
         
         var dictionary: [T: U?] = [:]
         
-        for (key, value) in storableDictionary {
-            dictionary[key as! T] = value as? U
+        for i in stride(from: 0, to: components.count, by: 2) {
+            let key: T.StorableValueType
+            let value: U.StorableValueType?
+            
+            if T.StorableValueType.self is Double.Type {
+                key = Double(components[i]) as! T.StorableValueType
+            } else if T.StorableValueType.self is Int64.Type {
+                key = Int64(components[i]) as! T.StorableValueType
+            } else {
+                key = components[i] as! T.StorableValueType
+            }
+            
+            if U.StorableValueType.self is Double.Type {
+                value = Double(components[i+1]) as? U.StorableValueType
+            } else if T.StorableValueType.self is Int64.Type {
+                value = Int64(components[i+1]) as? U.StorableValueType
+            } else {
+                value = components[i+1] as? U.StorableValueType
+            }
+            
+            dictionary[T.fromStorableValue(key)] = value != nil ? U.fromStorableValue(value!) : nil
         }
-        
+
         return dictionary
     }
     
-    static func dictionaryFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(JSON: String) -> [T: U] {
+    static func dictionaryFor<T: StorableProperty, U: StorableProperty>(_ JSON: String) -> [T: U] where T.StorableValueType: Hashable {
         let optionalDictionary: [T: U?] = dictionaryFor(JSON)
         
         return optionalDictionary as! [T: U]
     }
     
-    static func dictionaryFor<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(JSON: String?) -> [T: U]? {
+    static func dictionaryFor<T: StorableProperty, U: StorableProperty>(_ JSON: String?) -> [T: U]? where T.StorableValueType: Hashable {
         guard JSON != nil else {
             return nil
         }
@@ -173,16 +194,16 @@ struct JSONSerialisation {
         return dictionaryFor(JSON!) as [T: U]
     }
     
-    private static func objectForValue<T: StorableValue>(value: T?) -> AnyObject? {
+    fileprivate static func objectFor<T: StorableValue>(value: T?) -> AnyObject {
         guard value != nil else {
             return NSNull()
         }
         
         if let longLongValue = value as? Int64 {
-            return NSNumber(longLong: longLongValue)
+            return NSNumber(value: longLongValue as Int64)
         }
         
-        return value as? AnyObject
+        return value as! AnyObject
     }
     
 }

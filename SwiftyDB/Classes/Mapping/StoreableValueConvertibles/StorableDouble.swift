@@ -16,7 +16,7 @@ extension Double: StorableProperty {
         return self
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> Double {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> Double {
         return storableValue
     }
 }

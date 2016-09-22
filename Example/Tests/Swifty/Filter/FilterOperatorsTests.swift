@@ -12,15 +12,15 @@ import Nimble
 @testable import SwiftyDB
 
 
-infix operator << {}
+infix operator <<
 
 
 class FilterOperatorsTests: XCTestCase {
     
-    private let property             = "name"
-    private let stringValue          = "John"
-    private let intValue: Int64      = 0
-    private let otherIntValue: Int64 = 10
+    fileprivate let property             = "name"
+    fileprivate let stringValue          = "John"
+    fileprivate let intValue: Int64      = 0
+    fileprivate let otherIntValue: Int64 = 10
     
     
     override func setUp() {
@@ -156,7 +156,7 @@ class FilterOperatorsTests: XCTestCase {
     }
     
     
-    private func isConjunction(connective: Connective) -> Bool {
+    fileprivate func isConjunction(_ connective: Connective) -> Bool {
         switch connective {
         case .conjunction:
             return true

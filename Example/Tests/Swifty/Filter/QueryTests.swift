@@ -13,9 +13,9 @@ import Nimble
 
 
 class QueryTests: XCTestCase {
-    private let intValue    = 7
+    fileprivate let intValue    = 7
     
-    private var databaseMock: ObjectDatabaseMock?
+    fileprivate var databaseMock: ObjectDatabaseMock?
     
     
     

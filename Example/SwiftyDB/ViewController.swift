@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TinySQLite
 
 class ViewController: UIViewController {
 
@@ -22,20 +23,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //try? NSFileManager.defaultManager().removeItemAtPath(configuration.path)
+        try? FileManager.default.removeItem(atPath: configuration.path)
         
         let swifty = Swifty(configuration: configuration)
     
         
-        let dogs: [Dog] = (0 ..< 1).map { _ in Dog() }
+        let queue = DatabaseQueue(path: configuration.path)
+        
+
+        
+        let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         
         
-        let addStart = NSDate()
+        let addStart = Date()
         
         swifty.add(dogs) { result in
             print("Added:", -addStart.timeIntervalSinceNow, result)
             
-            let start = NSDate()
+            let start = Date()
             
             swifty.get(Dog.self).filter("age" < 50).sortBy("name") { result in
                 print(result.value?.count)

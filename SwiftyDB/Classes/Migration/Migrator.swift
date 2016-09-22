@@ -10,9 +10,9 @@ import Foundation
 
 class Migrator: MigratorType {
     
-    var validTypes: Set<String> = [ String(TypeInformation) ]
+    var validTypes: Set<String> = [ String(describing: TypeInformation.self) ]
     
-    func migrateTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    func migrateTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
         if validTypes.contains("\(type)") {
             return
         }
@@ -32,9 +32,9 @@ class Migrator: MigratorType {
     
     // TODO: Make this pretty
     // TODO: Wont detect changes with the same storable value type
-    private func migrateThisTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func migrateThisTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
         
-        let query = Query<TypeInformation>().filter("name" == String(type))
+        let query = Query<TypeInformation>().filter("name" == String(describing: type))
         
         let result = swifty.getSync(query)
         

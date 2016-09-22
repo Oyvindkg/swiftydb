@@ -62,7 +62,7 @@ public struct Configuration: ConfigurationType {
     
     public init(name: String) {
         self.name       = name
-        self.directory  = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        self.directory  = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         self.mode       = .normal
     }
 }

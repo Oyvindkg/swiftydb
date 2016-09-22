@@ -19,7 +19,7 @@ extension UInt: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> UInt {
         return UInt(storableValue)
     }
 }
@@ -32,7 +32,7 @@ extension UInt8: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt8 {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> UInt8 {
         return UInt8(storableValue)
     }
 }
@@ -45,7 +45,7 @@ extension UInt16: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt16 {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> UInt16 {
         return UInt16(storableValue)
     }
 }
@@ -58,7 +58,7 @@ extension UInt32: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt32 {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> UInt32 {
         return UInt32(storableValue)
 
     }
@@ -72,7 +72,7 @@ extension UInt64: StorableProperty {
         return String(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt64 {
+    public static func fromStorableValue(_ storableValue: StorableValueType) -> UInt64 {
         return UInt64(storableValue)!
     }
 }

@@ -17,7 +17,7 @@ public protocol IndexType {
      - parameters:
         - properties: the properties to be used in the index
      */
-    func on(properties: String...) -> IndexInstanceType
+    func on(_ properties: String...) -> IndexInstanceType
     
     /**
      Define an index on a collection of properties
@@ -25,7 +25,7 @@ public protocol IndexType {
      - parameters:
         - properties: the properties to be used in the index
      */
-    func on(properties: [String]) -> IndexInstanceType
+    func on(_ properties: [String]) -> IndexInstanceType
 }
 
 /* An internal index type representation */

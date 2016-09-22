@@ -12,7 +12,7 @@ enum MigrationOperation {
     case add(String, StorableValue?)
     case remove(String)
     case rename(String, String)
-    case transform(String, StorableValue? -> StorableValue?)
+    case transform(String, (StorableValue?) -> StorableValue?)
 }
 
 internal class Migration: MigrationType, _MigrationType {
@@ -25,29 +25,29 @@ internal class Migration: MigrationType, _MigrationType {
         self.schemaVersion = schemaVersion
     }
     
-    func migrate(propertyName: String) -> PropertyMigrationType {
+    func migrate(_ propertyName: String) -> PropertyMigrationType {
         return PropertyMigration(propertyName: propertyName, migration: self)
     }
     
-    private func add(property: String, defaultValue: StorableValue?) {
+    fileprivate func add(_ property: String, defaultValue: StorableValue?) {
         operations.append(
             MigrationOperation.add(property, defaultValue)
         )
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: T) {
+    func add<T : RawRepresentable>(_ property: String, defaultValue: T) where T.RawValue : StorableProperty {
         add(property, defaultValue: defaultValue.rawValue)
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: [T]) {
+    func add<T : RawRepresentable>(_ property: String, defaultValue: [T]) where T.RawValue : StorableProperty {
         add(property, defaultValue: defaultValue.map { $0.rawValue })
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: Set<T>) {
+    func add<T : RawRepresentable>(_ property: String, defaultValue: Set<T>) where T.RawValue : StorableProperty {
         add(property, defaultValue: Array(defaultValue))
     }
     
-    func add<T : StorableProperty, U : RawRepresentable where U.RawValue : StorableProperty, T.StorableValueType : Hashable>(property: String, defaultValue: [T : U]) {
+    func add<T : StorableProperty, U : RawRepresentable>(_ property: String, defaultValue: [T : U]) where U.RawValue : StorableProperty, T.StorableValueType : Hashable {
         var storableConvertibleDictionary: [T: U.RawValue] = [:]
         
         for (key, value) in defaultValue {
@@ -57,31 +57,31 @@ internal class Migration: MigrationType, _MigrationType {
         add(property, defaultValue: storableConvertibleDictionary)
     }
     
-    func add<T : StorableProperty>(property: String, defaultValue: T) {
+    func add<T : StorableProperty>(_ property: String, defaultValue: T) {
         add(property, defaultValue: defaultValue.storableValue)
     }
     
-    func add(property: String) {
+    func add(_ property: String) {
         add(property, defaultValue: nil)
     }
     
-    func add<T : StorableProperty>(property: String, defaultValue: [T]) {
+    func add<T : StorableProperty>(_ property: String, defaultValue: [T]) {
         let storableValue = JSONSerialisation.JSONFor(defaultValue)
         
         add(property, defaultValue: storableValue)
     }
     
-    func add<T : StorableProperty, U : StorableProperty where T.StorableValueType : Hashable>(property: String, defaultValue: Dictionary<T, U>) {
+    func add<T : StorableProperty, U : StorableProperty>(_ property: String, defaultValue: Dictionary<T, U>) where T.StorableValueType : Hashable {
         let storableValue = JSONSerialisation.JSONFor(defaultValue)
         
         add(property, defaultValue: storableValue)
     }
     
-    func add<T : StorableProperty>(property: String, defaultValue: Set<T>) {
+    func add<T : StorableProperty>(_ property: String, defaultValue: Set<T>) {
         add(property, defaultValue: Array(defaultValue))
     }
     
-    func remove(property: String) {
+    func remove(_ property: String) {
         operations.append(
             .remove(property)
         )

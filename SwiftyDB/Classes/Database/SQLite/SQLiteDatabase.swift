@@ -30,8 +30,8 @@ struct SQLiteDatabase: DatabaseType {
             
             normalConfiguration.mode = .normal
             
-            try? NSFileManager.defaultManager().removeItemAtPath(configuration.path)
-            try? NSFileManager.defaultManager().copyItemAtPath(normalConfiguration.path, toPath: configuration.path)
+            try? FileManager.default.removeItem(atPath: configuration.path)
+            try? FileManager.default.copyItem(atPath: normalConfiguration.path, toPath: configuration.path)
         }
         
         databaseQueue = DatabaseQueue(path: configuration.path)
@@ -46,7 +46,7 @@ struct SQLiteDatabase: DatabaseType {
         migrator     = SQLiteDatabaseMigrator(databaseQueue: databaseQueue, queryFactory: queryFactory)
     }
     
-    func add<T : Storable>(objects: [T]) throws {
+    func add<T : Storable>(_ objects: [T]) throws {
         
         let readers = objects.flatMap(ObjectSerializer.readersForStorable)
         
@@ -55,37 +55,37 @@ struct SQLiteDatabase: DatabaseType {
         try inserter.add(readers)
     }
     
-    func get<T : Storable>(query: Query<T>, nested: Bool = true) throws -> [T] {
+    func get<T : Storable>(_ query: Query<T>, nested: Bool = true) throws -> [T] {
         do {
-            try tableCreator.createTableForTypeIfNecessary(T.self)
+            //try tableCreator.createTableForTypeIfNecessary(T.self)
             
             let writers = try retriever.get(query, nested: nested)
             
             return Mapper.objectsForWriters(writers)
-        } catch is TinySQLite.Error {
+        } catch is TinyError {
             throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
             throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
         }
     }
 
-    func delete<T : Storable>(query: Query<T>) throws {
+    func delete<T : Storable>(_ query: Query<T>) throws {
         do {
             try tableCreator.createTableForTypeIfNecessary(T.self)
             
             try deleter.delete(query)
-        } catch is TinySQLite.Error {
+        } catch is TinyError {
             throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
             throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
         }
     }
     
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
+    func migrate(_ type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
         return try migrator.migrateType(type, fromTypeInformation: typeInformation)
     }
     
-    func create(index: _IndexType) throws {
+    func create(_ index: _IndexType) throws {
         try indexer.create(index)
     }
 }

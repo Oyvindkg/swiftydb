@@ -9,5 +9,5 @@
 import Foundation
 
 protocol IndexerType {
-    func indexTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws
+    func indexTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws
 }

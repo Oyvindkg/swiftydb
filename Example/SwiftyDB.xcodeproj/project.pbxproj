@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		152E7F9F1FE5B4FDB8BDDD5E /* Pods_SwiftyDB_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FBA7E18EE80DA2FAE16642 /* Pods_SwiftyDB_Example.framework */; };
+		390689C71D946CB600F94658 /* StorableDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390689C61D946CB600F94658 /* StorableDate.swift */; };
+		390689C91D946CEA00F94658 /* StorableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390689C81D946CEA00F94658 /* StorableData.swift */; };
 		395673771D759FB8004F2BD8 /* SQLiteDatatypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395673751D759FAB004F2BD8 /* SQLiteDatatypeTests.swift */; };
 		395673791D75A32B004F2BD8 /* SQLiteQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395673781D75A32B004F2BD8 /* SQLiteQueryTests.swift */; };
 		3956737B1D75A936004F2BD8 /* SwiftyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3956737A1D75A936004F2BD8 /* SwiftyTests.swift */; };
@@ -74,7 +76,7 @@
 		39F746531D84302C00DB4362 /* StorableNSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746051D84302C00DB4362 /* StorableNSDate.swift */; };
 		39F746541D84302C00DB4362 /* StorableNSNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746061D84302C00DB4362 /* StorableNSNumber.swift */; };
 		39F746551D84302C00DB4362 /* StorableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746071D84302C00DB4362 /* StorableString.swift */; };
-		39F746561D84302C00DB4362 /* StorableValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746081D84302C00DB4362 /* StorableValueConvertible.swift */; };
+		39F746561D84302C00DB4362 /* StorableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746081D84302C00DB4362 /* StorableProperty.swift */; };
 		39F746571D84302C00DB4362 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460A1D84302C00DB4362 /* Migration.swift */; };
 		39F746581D84302C00DB4362 /* MigrationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460B1D84302C00DB4362 /* MigrationUtils.swift */; };
 		39F746591D84302C00DB4362 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460C1D84302C00DB4362 /* Migrator.swift */; };
@@ -115,6 +117,8 @@
 
 /* Begin PBXFileReference section */
 		0862094CD83CCC68F5866600 /* Pods-SwiftyDB_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyDB_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyDB_Tests/Pods-SwiftyDB_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		390689C61D946CB600F94658 /* StorableDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableDate.swift; sourceTree = "<group>"; };
+		390689C81D946CEA00F94658 /* StorableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableData.swift; sourceTree = "<group>"; };
 		395673751D759FAB004F2BD8 /* SQLiteDatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteDatatypeTests.swift; path = Database/SQLite/SQLiteDatatypeTests.swift; sourceTree = "<group>"; };
 		395673781D75A32B004F2BD8 /* SQLiteQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteQueryTests.swift; path = Database/SQLite/SQLiteQueryTests.swift; sourceTree = "<group>"; };
 		3956737A1D75A936004F2BD8 /* SwiftyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyTests.swift; path = Swifty/SwiftyTests.swift; sourceTree = "<group>"; };
@@ -181,7 +185,7 @@
 		39F746051D84302C00DB4362 /* StorableNSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableNSDate.swift; sourceTree = "<group>"; };
 		39F746061D84302C00DB4362 /* StorableNSNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableNSNumber.swift; sourceTree = "<group>"; };
 		39F746071D84302C00DB4362 /* StorableString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableString.swift; sourceTree = "<group>"; };
-		39F746081D84302C00DB4362 /* StorableValueConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorableValueConvertible.swift; path = ../StoreableValueConvertibles/StorableValueConvertible.swift; sourceTree = "<group>"; };
+		39F746081D84302C00DB4362 /* StorableProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorableProperty.swift; path = ../../Mapping/StoreableValueConvertibles/StorableProperty.swift; sourceTree = "<group>"; };
 		39F7460A1D84302C00DB4362 /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		39F7460B1D84302C00DB4362 /* MigrationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationUtils.swift; sourceTree = "<group>"; };
 		39F7460C1D84302C00DB4362 /* Migrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
@@ -329,6 +333,7 @@
 				39F745CB1D84302C00DB4362 /* ObjectSerializer.swift */,
 				39F745CC1D84302C00DB4362 /* Protocols */,
 				39F745D21D84302C00DB4362 /* SQLite */,
+				39F745FD1D84302C00DB4362 /* StorableProperties */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 		39F745CC1D84302C00DB4362 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				39F746081D84302C00DB4362 /* StorableProperty.swift */,
 				39F745CD1D84302C00DB4362 /* DatabaseMigratorType.swift */,
 				39F745CE1D84302C00DB4362 /* Identifiable.swift */,
 				39F745CF1D84302C00DB4362 /* ObjectSerializerType.swift */,
@@ -409,7 +415,6 @@
 				39F745F01D84302C00DB4362 /* Mapper.swift */,
 				39F745F11D84302C00DB4362 /* Maps */,
 				39F745F51D84302C00DB4362 /* Operators */,
-				39F745FD1D84302C00DB4362 /* StorableValueConvertibles */,
 			);
 			path = Mapping;
 			sourceTree = "<group>";
@@ -437,7 +442,6 @@
 		39F745F91D84302C00DB4362 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				39F746081D84302C00DB4362 /* StorableValueConvertible.swift */,
 				39F745FA1D84302C00DB4362 /* Mappable.swift */,
 				39F745FB1D84302C00DB4362 /* MapType.swift */,
 				39F745FC1D84302C00DB4362 /* StorableValue.swift */,
@@ -445,7 +449,7 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		39F745FD1D84302C00DB4362 /* StorableValueConvertibles */ = {
+		39F745FD1D84302C00DB4362 /* StorableProperties */ = {
 			isa = PBXGroup;
 			children = (
 				39F745FE1D84302C00DB4362 /* StorableBool.swift */,
@@ -454,13 +458,15 @@
 				39F746011D84302C00DB4362 /* StorableFloat.swift */,
 				39F746021D84302C00DB4362 /* StorableIntegersSigned.swift */,
 				39F746031D84302C00DB4362 /* StorableIntegersUnsigned.swift */,
-				39F746041D84302C00DB4362 /* StorableNSData.swift */,
-				39F746051D84302C00DB4362 /* StorableNSDate.swift */,
-				39F746061D84302C00DB4362 /* StorableNSNumber.swift */,
 				39F746071D84302C00DB4362 /* StorableString.swift */,
+				390689C61D946CB600F94658 /* StorableDate.swift */,
+				390689C81D946CEA00F94658 /* StorableData.swift */,
+				39F746051D84302C00DB4362 /* StorableNSDate.swift */,
+				39F746041D84302C00DB4362 /* StorableNSData.swift */,
+				39F746061D84302C00DB4362 /* StorableNSNumber.swift */,
 			);
-			name = StorableValueConvertibles;
-			path = StoreableValueConvertibles;
+			name = StorableProperties;
+			path = ../Mapping/StoreableValueConvertibles;
 			sourceTree = "<group>";
 		};
 		39F746091D84302C00DB4362 /* Migration */ = {
@@ -671,15 +677,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = FXWNTJ4XVX;
+						LastSwiftMigration = 0800;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
@@ -852,6 +860,7 @@
 				39F7462B1D84302C00DB4362 /* SQLiteDatabaseDeleter.swift in Sources */,
 				39F746261D84302C00DB4362 /* DatabaseMigratorType.swift in Sources */,
 				39F746301D84302C00DB4362 /* SQLiteDatabaseTableCreator.swift in Sources */,
+				390689C91D946CEA00F94658 /* StorableData.swift in Sources */,
 				39F746691D84302C00DB4362 /* ArrayExtensions.swift in Sources */,
 				39F746621D84302C00DB4362 /* FilterOperators.swift in Sources */,
 				39F7465D1D84302C00DB4362 /* MigratorType.swift in Sources */,
@@ -871,11 +880,12 @@
 				39F7464E1D84302C00DB4362 /* StorableDouble.swift in Sources */,
 				39F7462E1D84302C00DB4362 /* SQLiteDatabaseObjectAdder.swift in Sources */,
 				39F746271D84302C00DB4362 /* Identifiable.swift in Sources */,
-				39F746561D84302C00DB4362 /* StorableValueConvertible.swift in Sources */,
+				39F746561D84302C00DB4362 /* StorableProperty.swift in Sources */,
 				39F746441D84302C00DB4362 /* Reader.swift in Sources */,
 				39F7462C1D84302C00DB4362 /* SQLiteDatabaseIndexCreator.swift in Sources */,
 				39F746641D84302C00DB4362 /* Query.swift in Sources */,
 				39F746381D84302C00DB4362 /* SQLiteQueryFactory.swift in Sources */,
+				390689C71D946CB600F94658 /* StorableDate.swift in Sources */,
 				39F746571D84302C00DB4362 /* Migration.swift in Sources */,
 				39F746661D84302C00DB4362 /* Result.swift in Sources */,
 				39F746551D84302C00DB4362 /* StorableString.swift in Sources */,
@@ -963,8 +973,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -992,7 +1004,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1009,8 +1021,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1029,7 +1043,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1078,6 +1093,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftyDB_Example.app/SwiftyDB_Example";
 			};
 			name = Debug;
@@ -1094,6 +1110,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftyDB_Example.app/SwiftyDB_Example";
 			};
 			name = Release;

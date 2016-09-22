@@ -26,7 +26,7 @@ enum SQLiteDatatype: String {
             self.init(rawValue: "REAL")
         case is String.Type, is Character.Type:
             self.init(rawValue: "TEXT")
-        case is NSData.Type:
+        case is Data.Type:
             self.init(rawValue: "BLOB")
         default:
             return nil

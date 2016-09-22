@@ -13,11 +13,11 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public class GetQuery<T: Storable>: Query<T> {
+open class GetQuery<T: Storable>: Query<T> {
     
     public typealias ResultType = [SubjectType]
     
-    private let database: ObjectDatabase
+    fileprivate let database: ObjectDatabase
     
     internal init(database: ObjectDatabase) {
         self.database = database
@@ -30,7 +30,7 @@ public class GetQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
         - resultHandler:    and optional result handler
      */
-    public func filter(filter: FilterStatement, resultHandler: (Result<ResultType> -> Void)?) {
+    open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
         self.filter(filter)
         
         self.database.get(self, resultHandler: resultHandler)
@@ -43,7 +43,7 @@ public class GetQuery<T: Storable>: Query<T> {
         - start:            number of results to skip
         - resultHandler:    and optional result handler
      */
-    public func start(start: Int, resultHandler: (Result<ResultType> -> Void)?) {
+    open func start(_ start: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
         self.start(start)
         
         self.database.get(self, resultHandler: resultHandler)
@@ -56,7 +56,7 @@ public class GetQuery<T: Storable>: Query<T> {
         - max:              the maximum number of results
         - resultHandler:    and optional result handler
     */
-    public func max(max: Int, resultHandler: (Result<ResultType> -> Void)?) {
+    open func max(_ max: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
         self.max(max)
         
         self.database.get(self, resultHandler: resultHandler)
@@ -70,7 +70,7 @@ public class GetQuery<T: Storable>: Query<T> {
         - ascending:        boolean indicating whether the objects should be sorted ascending or descending
         - resultHandler:    and optional result handler
     */
-    public func sortBy(property: String, ascending: Bool = true, resultHandler: (Result<ResultType> -> Void)?) {
+    open func sortBy(_ property: String, ascending: Bool = true, resultHandler: ((Result<ResultType>) -> Void)?) {
         self.sortBy(property, ascending: ascending)
         
         self.database.get(self, resultHandler: resultHandler)

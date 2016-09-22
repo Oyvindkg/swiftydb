@@ -21,7 +21,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         self.queryFactory = queryFactory
     }
     
-    func migrateType(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
+    func migrateType(_ type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
         guard let migratableType = type as? Migratable.Type else {
             throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
         }
@@ -50,7 +50,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         return migration.schemaVersion
     }
     
-    func validateMigratedData(migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
+    func validateMigratedData(_ migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
         guard !migratedData.isEmpty else {
             return
         }
@@ -59,20 +59,21 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         
         let migratedProperties = Set(migratedData.first!.keys)
         let typeProperties = Set(reader.types.keys)
-                
-        let missingProperties = typeProperties.subtract(migratedProperties)
-        let extraProperties = migratedProperties.subtract(typeProperties)
+        
+        
+        let missingProperties = typeProperties.subtracting(migratedProperties)
+        let extraProperties = migratedProperties.subtracting(typeProperties)
 
         guard missingProperties.isEmpty else {
-            throw SwiftyError.migration("The following properties were missing after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.migration("The following properties were missing after migrating '\(type)': \(missingProperties.map({"'\($0)'"}).joined(separator: ", "))")
         }
         
         guard extraProperties.isEmpty else {
-            throw SwiftyError.migration("The following properties were present after migrating '\(type)', but are not valid properties: \(extraProperties.map({"'\($0)'"}).joinWithSeparator(", "))")
+            throw SwiftyError.migration("The following properties were present after migrating '\(type)', but are not valid properties: \(extraProperties.map({"'\($0)'"}).joined(separator: ", "))")
         }
     }
     
-    func migrateType(type: Storable.Type) throws -> UInt {
+    func migrateType(_ type: Storable.Type) throws -> UInt {
         try databaseQueue.transaction { database in
             try self.createTableForType(type, inDatabase: database)
         }
@@ -80,7 +81,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         return 0
     }
     
-    private func existingDataForType(type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
+    fileprivate func existingDataForType(_ type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
         let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
         
@@ -95,7 +96,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
     }
     
     // TODO: Make sure operations are executed in the correct order
-    private func migratedData(dataArray: [[String: SQLiteValue?]], withMigration migration: Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
+    fileprivate func migratedData(_ dataArray: [[String: SQLiteValue?]], withMigration migration: Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
         var migratedDataArray = dataArray
         
         if dataArray.isEmpty {
@@ -127,13 +128,13 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
         return migratedDataArray
     }
     
-    private func dropTableForType(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func dropTableForType(_ type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         try database.prepare("DROP TABLE \(type)")
             .executeUpdate()
             .finalize()
     }
     
-    private func createTableForType(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func createTableForType(_ type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerForType(type)
         
         let createTableQuery = self.queryFactory.createTableQueryForReader(reader)
@@ -143,7 +144,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
             .finalize()
     }
     
-    private func insertData(dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func insertData(_ dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerForType(type)
         
         let insertQuery = self.queryFactory.insertQueryForReader(reader)

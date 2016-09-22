@@ -21,7 +21,7 @@ struct Wolf: Storable {
         return Wolf(name: "", age: 0)
     }
     
-    mutating func mapping(map: MapType) {
+    mutating func mapping(_ map: MapType) {
         name <- map["name"]
         age  <- map["age"]
     }

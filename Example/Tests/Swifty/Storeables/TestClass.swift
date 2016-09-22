@@ -89,7 +89,7 @@ extension TestClass: Mappable {
         return TestClass()
     }
     
-    func mapping(map: MapType) {
+    func mapping(_ map: MapType) {
         string          <- map["string"]
         character       <- map["character"]
         

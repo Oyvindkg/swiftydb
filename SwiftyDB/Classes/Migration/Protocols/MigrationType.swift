@@ -17,37 +17,37 @@ public protocol MigrationType {
     var schemaVersion: UInt { get set }
     
     /** Create a property migration used to rename or transform existing properties */
-    func migrate(property: String) -> PropertyMigrationType
+    func migrate(_ property: String) -> PropertyMigrationType
     
     /** Add a new property without a default value */
-    func add(property: String)
+    func add(_ property: String)
     
     /** Add a new property with a default value */
-    func add<T: StorableProperty>(property: String, defaultValue: T)
+    func add<T: StorableProperty>(_ property: String, defaultValue: T)
     
     /** Add a new array property with a default value */
-    func add<T: StorableProperty>(property: String, defaultValue: [T])
+    func add<T: StorableProperty>(_ property: String, defaultValue: [T])
     
     /** Add a new set property with a default value */
-    func add<T: StorableProperty>(property: String, defaultValue: Set<T>)
+    func add<T: StorableProperty>(_ property: String, defaultValue: Set<T>)
     
     /** Add a new dictionary property with a default value */
-    func add<T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(property: String, defaultValue: Dictionary<T, U>)
+    func add<T: StorableProperty, U: StorableProperty>(_ property: String, defaultValue: Dictionary<T, U>) where T.StorableValueType: Hashable
     
     /** Add a new raw representable property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StorableProperty>(property: String, defaultValue: T)
+    func add<T: RawRepresentable>(_ property: String, defaultValue: T) where T.RawValue: StorableProperty
     
     /** Add a new raw representable array property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StorableProperty>(property: String, defaultValue: [T])
+    func add<T: RawRepresentable>(_ property: String, defaultValue: [T]) where T.RawValue: StorableProperty
     
     /** Add a new raw representable set property with a default value */
-    func add<T: RawRepresentable where T.RawValue: StorableProperty>(property: String, defaultValue: Set<T>)
+    func add<T: RawRepresentable>(_ property: String, defaultValue: Set<T>) where T.RawValue: StorableProperty
     
     /** Add a new raw representable dictionary property with a default value */
-    func add<T: StorableProperty, U: RawRepresentable where U.RawValue : StorableProperty, T.StorableValueType : Hashable>(property: String, defaultValue: [T : U])
+    func add<T: StorableProperty, U: RawRepresentable>(_ property: String, defaultValue: [T : U]) where U.RawValue : StorableProperty, T.StorableValueType : Hashable
     
     /** Remove an exsisting property */
-    func remove(property: String)
+    func remove(_ property: String)
 }
 
 /** And internal migration representation */

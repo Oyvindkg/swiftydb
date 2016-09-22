@@ -15,8 +15,8 @@ class Indexer: IndexerType {
     var validTypes: Set<String> = []
     
     /** Creates indices for the provided type, and its nested types */
-    func indexTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
-        let typeName = String(type)
+    func indexTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
+        let typeName = String(describing: type)
         
         guard !validTypes.contains(typeName) else {
             return
@@ -36,12 +36,12 @@ class Indexer: IndexerType {
     }
     
     /** Creates indices for the provided type */
-    private func indexThisTypeIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func indexThisTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
         guard type is Indexable.Type else {
             return
         }
         
-        let query = Query<TypeInformation>().filter("name" == String(type))
+        let query = Query<TypeInformation>().filter("name" == String(describing: type))
         
         let result = swifty.getSync(query)
         

@@ -19,12 +19,12 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
         self.queryFactory = queryFactory
     }
     
-    func add(readers: [Reader]) throws {
+    func add(_ readers: [Reader]) throws {
         guard readers.count > 0 else {
             return
         }
         
-        let mappedReaders = readers.groupBy { String($0.type) }
+        let mappedReaders = readers.groupBy { String(describing: $0.type) }
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
