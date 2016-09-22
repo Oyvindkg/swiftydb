@@ -25,7 +25,7 @@ extension NSDate: StorableProperty {
         return dateFormatter.string(from: self as Date)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Self {
+    public static func from(storableValue: StorableValueType) -> Self {
         return fromHelper(storableValue: storableValue)
     }
     

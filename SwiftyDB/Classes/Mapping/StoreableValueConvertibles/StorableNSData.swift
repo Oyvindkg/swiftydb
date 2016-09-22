@@ -16,11 +16,11 @@ extension NSData: StorableProperty {
         return self.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Self {
-        return fromStorableValueHelper(storableValue)
+    public static func from(storableValue: StorableValueType) -> Self {
+        return fromHelper(storableValue: storableValue)
     }
     
-    fileprivate static func fromStorableValueHelper<T: NSData>(_ storableValue: StorableValueType) -> T {
+    fileprivate static func fromHelper<T: NSData>(storableValue: StorableValueType) -> T {
         return T.init(base64Encoded: storableValue, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)!
     }
 }

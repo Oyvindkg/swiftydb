@@ -16,7 +16,7 @@ extension Float: StorableProperty {
         return Double(self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Float {
+    public static func from(storableValue: StorableValueType) -> Float {
         return Float(storableValue)
     }
 }

@@ -26,7 +26,7 @@ func <- <T: StorableProperty>(left: inout T, right: Reader) {
 
 func <- <T: StorableProperty>(left: inout T, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     }
 }
 
@@ -45,7 +45,7 @@ func <- <T: StorableProperty>(left: inout T?, right: Reader) {
 
 func <- <T: StorableProperty>(left: inout T?, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     } else {
         left = nil
     }
@@ -66,7 +66,7 @@ func <- <T: StorableProperty>(left: inout T!, right: Reader) {
 
 func <- <T: StorableProperty>(left: inout T!, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     } else {
         left = nil
     }
@@ -142,7 +142,7 @@ func <- <T: StorableProperty>(left: inout Set<T>, right: Reader) {
 func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
     let storableValues: [T.StorableValueType] = right.getCurrentValue()!
         
-    left = Set( storableValues.map(T.fromStorableValue) )
+    left = Set( storableValues.map(T.from) )
 }
 
 
@@ -160,7 +160,7 @@ func <- <T: StorableProperty>(left: inout Set<T>?, right: Reader) {
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
     if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.fromStorableValue) )
+        left = Set( storableValues.map(T.from) )
     } else {
         left = nil
     }
@@ -181,7 +181,7 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
     if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.fromStorableValue) )
+        left = Set( storableValues.map(T.from) )
     } else {
         left = nil
     }

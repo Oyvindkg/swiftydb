@@ -25,7 +25,7 @@ extension Date: StorableProperty {
         return dateFormatter.string(from: self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Date {
+    public static func from(storableValue: StorableValueType) -> Date {
         return dateFormatter.date(from: storableValue)!
     }
 }

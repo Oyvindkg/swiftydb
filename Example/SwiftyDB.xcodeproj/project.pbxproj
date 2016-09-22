@@ -341,11 +341,11 @@
 		39F745CC1D84302C00DB4362 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				39F746081D84302C00DB4362 /* StorableProperty.swift */,
 				39F745CD1D84302C00DB4362 /* DatabaseMigratorType.swift */,
 				39F745CE1D84302C00DB4362 /* Identifiable.swift */,
 				39F745CF1D84302C00DB4362 /* ObjectSerializerType.swift */,
 				39F745D01D84302C00DB4362 /* Storeable.swift */,
+				39F746081D84302C00DB4362 /* StorableProperty.swift */,
 				39F745D11D84302C00DB4362 /* StoreableArrayType.swift */,
 			);
 			path = Protocols;

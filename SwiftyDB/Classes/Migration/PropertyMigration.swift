@@ -101,7 +101,7 @@ internal class PropertyMigration: PropertyMigrationType {
             return nil
         }
         
-        return T.fromStorableValue(storableValue)
+        return T.from(storableValue: storableValue)
     }
     
     fileprivate func rawRepresentableFromStorableValue<T: RawRepresentable>(_ storableValue: StorableValue?) -> T? where T.RawValue: StorableProperty {
@@ -109,7 +109,7 @@ internal class PropertyMigration: PropertyMigrationType {
             return nil
         }
         
-        let rawValue = T.RawValue.fromStorableValue(storableValue)
+        let rawValue = T.RawValue.from(storableValue: storableValue)
         
         return T.init(rawValue: rawValue)
     }

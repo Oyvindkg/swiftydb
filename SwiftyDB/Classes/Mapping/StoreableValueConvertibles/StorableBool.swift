@@ -15,7 +15,7 @@ extension Bool: StorableProperty {
         return Int64(self ? 1 : 0)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Bool {
+    public static func from(storableValue: StorableValueType) -> Bool {
         return storableValue > 0
     }
 }

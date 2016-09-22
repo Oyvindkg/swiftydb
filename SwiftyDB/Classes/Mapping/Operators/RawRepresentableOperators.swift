@@ -177,7 +177,7 @@ func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue:
 // MARK: Helpers
 
 private func rawRepresentableFromStorableValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
-    let rawValue = T.RawValue.fromStorableValue(storableValue)
+    let rawValue = T.RawValue.from(storableValue: storableValue)
     
     return T.init(rawValue: rawValue)!
 }
@@ -187,7 +187,7 @@ private func rawRepresentableFromStorableValue <T: RawRepresentable> (_ storable
         return nil
     }
     
-    let rawValue = T.RawValue.fromStorableValue(storableValue!)
+    let rawValue = T.RawValue.from(storableValue: storableValue!)
     
     return T.init(rawValue: rawValue)
 }

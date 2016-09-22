@@ -107,13 +107,13 @@ struct JSONSerialisation {
     static func arrayFor<T: StorableProperty>(_ JSON: String) -> [T?] {
         let array: [T.StorableValueType?] = arrayFor(JSON)
         
-        return array.map { $0 != nil ? T.fromStorableValue($0!) : nil }
+        return array.map { $0 != nil ? T.from(storableValue: $0!) : nil }
     }
     
     static func arrayFor<T: StorableProperty>(_ JSON: String) -> [T] {
         let array: [T.StorableValueType] = arrayFor(JSON)
         
-        return array.map(T.fromStorableValue)
+        return array.map(T.from)
     }
     
     static func arrayFor<T: StorableProperty>(_ JSON: String?) -> [T?]? {
@@ -123,7 +123,7 @@ struct JSONSerialisation {
         
         let array: [T.StorableValueType?] = arrayFor(JSON)
         
-        return array.map { $0 != nil ? T.fromStorableValue($0!) : nil }
+        return array.map { $0 != nil ? T.from(storableValue: $0!) : nil }
     }
     
     static func arrayFor<T: StorableProperty>(_ JSON: String?) -> [T]? {
@@ -133,7 +133,7 @@ struct JSONSerialisation {
         
         let array: [T.StorableValueType] = arrayFor(JSON)
         
-        return array.map(T.fromStorableValue)
+        return array.map(T.from)
     }
     
     
@@ -174,7 +174,7 @@ struct JSONSerialisation {
                 value = components[i+1] as? U.StorableValueType
             }
             
-            dictionary[T.fromStorableValue(key)] = value != nil ? U.fromStorableValue(value!) : nil
+            dictionary[T.from(storableValue: key)] = value != nil ? U.from(storableValue: value!) : nil
         }
 
         return dictionary

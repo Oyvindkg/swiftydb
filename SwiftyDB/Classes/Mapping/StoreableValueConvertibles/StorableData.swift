@@ -17,7 +17,7 @@ extension Data: StorableProperty {
         return self.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Data {
+    public static func from(storableValue: StorableValueType) -> Data {
         return Data(base64Encoded: storableValue)!
     }
 }

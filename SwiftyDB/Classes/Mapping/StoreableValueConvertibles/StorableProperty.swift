@@ -15,7 +15,7 @@ public protocol StorableValueExpressible {
     associatedtype StorableValueType: StorableValue
     
     /** Convert a storable value to its original type */
-    static func fromStorableValue(_ storableValue: StorableValueType) -> Self
+    static func from(storableValue: StorableValueType) -> Self
 }
 
 /** Defines values that can be converted to storable values */

@@ -16,7 +16,7 @@ extension String: StorableProperty {
         return self
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> String {
+    public static func from(storableValue: StorableValueType) -> String {
         return storableValue
     }
 }

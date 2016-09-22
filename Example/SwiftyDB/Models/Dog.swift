@@ -15,7 +15,7 @@ enum Breed: String {
 class Dog: Storable {
     var bones           = [Bone(dnr: "12321"), Bone(dnr: "asdasdasdsda"), Bone(), Bone(dnr: "0123"), Bone(dnr: "0123"), Bone(dnr: "0123")]
     var ids: [Double]   = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    var dates           = [NSDate(), NSDate().addingTimeInterval(123123)]
+    var dates           = [Date(), Date().addingTimeInterval(123123)]
     var type            = Breed.dachs
     
     var name: String

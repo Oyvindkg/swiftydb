@@ -16,7 +16,7 @@ extension Int: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Int {
+    public static func from(storableValue: StorableValueType) -> Int {
         return Int(storableValue)
     }
 }
@@ -29,7 +29,7 @@ extension Int8: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Int8 {
+    public static func from(storableValue: StorableValueType) -> Int8 {
         return Int8(storableValue)
     }
 }
@@ -42,7 +42,7 @@ extension Int16: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Int16 {
+    public static func from(storableValue: StorableValueType) -> Int16 {
         return Int16(storableValue)
     }
 }
@@ -55,7 +55,7 @@ extension Int32: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Int32 {
+    public static func from(storableValue: StorableValueType) -> Int32 {
         return Int32(storableValue)
     }
 }
@@ -68,7 +68,7 @@ extension Int64: StorableProperty {
         return self
     }
     
-    public static func fromStorableValue(_ storableValue: StorableValueType) -> Int64 {
+    public static func from(storableValue: StorableValueType) -> Int64 {
         return storableValue
     }
 }
