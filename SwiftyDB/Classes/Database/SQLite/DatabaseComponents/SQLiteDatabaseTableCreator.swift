@@ -52,7 +52,7 @@ class SQLiteDatabaseTableCreator {
         let query = queryFactory.createTableQueryForReader(reader)
         
         try databaseQueue.database { database in
-            try! database.prepare(query.query)
+            try database.prepare(query.query)
                 .executeUpdate(query.parameters)
                 .finalize()
         }

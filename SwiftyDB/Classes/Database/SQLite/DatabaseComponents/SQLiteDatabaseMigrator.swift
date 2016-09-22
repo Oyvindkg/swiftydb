@@ -44,7 +44,7 @@ class SQLiteDatabaseMigrator: DatabaseMigratorType {
 
             try self.createTableForType(type, inDatabase: database)
             
-            try! self.insertData(migratedData, forType: type, inDatabase: database)
+            try self.insertData(migratedData, forType: type, inDatabase: database)
         }
         
         return migration.schemaVersion

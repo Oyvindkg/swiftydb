@@ -30,7 +30,7 @@ struct SQLiteDatabaseDeleter: DatabaseDeleterType {
         let query = queryFactory.deleteQueryForType(query.type, withFilter: query.filter as? SQLiteFilterStatement)
         
         try databaseQueue.database { database in
-            try! database.prepare(query.query)
+            try database.prepare(query.query)
                 .executeUpdate(query.parameters)
                 .finalize()
         }

@@ -30,7 +30,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
             for (_, readers) in mappedReaders {
                 let query      = self.queryFactory.insertQueryForReader(readers.first!)
                 
-                let statement = try! database.prepare(query.query)
+                let statement = try database.prepare(query.query)
                 
                 defer {
                     try! statement.finalize()
@@ -43,7 +43,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
                         parameters[key] = value as? SQLiteValue
                     }
                     
-                    try! statement.executeUpdate(parameters)
+                    try statement.executeUpdate(parameters)
                 }
             }
         }
