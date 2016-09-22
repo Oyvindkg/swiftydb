@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Migrator: MigratorType {
+class DefaultMigrator: Migrator {
     
     var validTypes: Set<String> = [ String(describing: TypeInformation.self) ]
     
-    func migrateTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
+    func migrateIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         if validTypes.contains("\(type)") {
             return
         }
@@ -22,17 +22,17 @@ class Migrator: MigratorType {
                 continue
             }
             
-            try migrateTypeIfNecessary(childType as! Storable.Type, inSwifty: swifty)
+            try migrateIfNecessary(type: childType as! Storable.Type, inSwifty: swifty)
         }
         
-        try migrateThisTypeIfNecessary(type, inSwifty: swifty)
+        try migrateThisIfNecessary(type: type, inSwifty: swifty)
         
         validTypes.insert("\(type)")
     }
     
     // TODO: Make this pretty
     // TODO: Wont detect changes with the same storable value type
-    fileprivate func migrateThisTypeIfNecessary(_ type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func migrateThisIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
         
         let query = Query<TypeInformation>().filter("name" == String(describing: type))
         

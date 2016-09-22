@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Mappable objects
 
-public func <- <T: Mappable>(left: inout T, right: MapType) {
+public func <- <T: Mappable>(left: inout T, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -33,7 +33,7 @@ func <- <T: Mappable>(left: inout T, right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout T?, right: MapType) {
+public func <- <T: Mappable>(left: inout T?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -64,7 +64,7 @@ func <- <T: Mappable>(left: inout T?, right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout T!, right: MapType) {
+public func <- <T: Mappable>(left: inout T!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -97,7 +97,7 @@ func <- <T: Mappable>(left: inout T!, right: Writer) {
 
 // MARK: Array of mappable objects
 
-public func <- <T: Mappable>(left: inout [T], right: MapType) {
+public func <- <T: Mappable>(left: inout [T], right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -126,7 +126,7 @@ func <- <T: Mappable>(left: inout [T], right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout [T]?, right: MapType) {
+public func <- <T: Mappable>(left: inout [T]?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -157,7 +157,7 @@ func <- <T: Mappable>(left: inout [T]?, right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout [T]!, right: MapType) {
+public func <- <T: Mappable>(left: inout [T]!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -187,7 +187,7 @@ func <- <T: Mappable>(left: inout [T]!, right: Writer) {
 
 // MARK: Array of mappable objects
 
-public func <- <T: Mappable>(left: inout Set<T>, right: MapType) {
+public func <- <T: Mappable>(left: inout Set<T>, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -216,7 +216,7 @@ func <- <T: Mappable>(left: inout Set<T>, right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout Set<T>?, right: MapType) {
+public func <- <T: Mappable>(left: inout Set<T>?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -247,7 +247,7 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Writer) {
 }
 
 
-public func <- <T: Mappable>(left: inout Set<T>!, right: MapType) {
+public func <- <T: Mappable>(left: inout Set<T>!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {

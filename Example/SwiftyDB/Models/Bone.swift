@@ -22,7 +22,7 @@ class Bone: Storable {
         return Bone()
     }
     
-    func mapping(_ map: MapType) {
+    func mapping(map: Map) {
         dnr     <- map["dnr"]
         weight  <- map["weight"]
     }

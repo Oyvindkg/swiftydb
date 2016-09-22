@@ -44,13 +44,13 @@ class Reader: BaseMap {
             return
         }
         
-        mappableArrays[key] = value?.map { $0 as MapType }
+        mappableArrays[key] = value?.asType(Map.self)
         types[key] = [T].self
     }
 }
 
-extension Reader: MapType {
-    subscript(key: String) -> MapType {
+extension Reader: Map {
+    subscript(key: String) -> Map {
         currentKey = key
         
         return self

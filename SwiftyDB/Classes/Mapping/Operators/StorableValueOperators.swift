@@ -12,7 +12,7 @@ infix operator <-
 
 // MARK: - Storable properties
 
-public func <- <T: StorableProperty>(left: inout T, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -31,7 +31,7 @@ func <- <T: StorableProperty>(left: inout T, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout T?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -52,7 +52,7 @@ func <- <T: StorableProperty>(left: inout T?, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout T!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -74,7 +74,7 @@ func <- <T: StorableProperty>(left: inout T!, right: Writer) {
 
 // MARK: Array of storable properties
 
-public func <- <T: StorableProperty>(left: inout [T], right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T], right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -91,7 +91,7 @@ func <- <T: StorableProperty>(left: inout [T], right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout [T]?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T]?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -108,7 +108,7 @@ func <- <T: StorableProperty>(left: inout [T]?, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout [T]!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T]!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -127,7 +127,7 @@ func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
 
 // MARK: Set of storable properties
 
-public func <- <T: StorableProperty>(left: inout Set<T>, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -146,7 +146,7 @@ func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout Set<T>?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -167,7 +167,7 @@ func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout Set<T>!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -190,7 +190,7 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
 
 // MARK: Storable value dicitonaries
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: MapType) where T.StorableValueType: Hashable {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -208,7 +208,7 @@ func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Wr
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: MapType) where T.StorableValueType: Hashable {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -225,7 +225,7 @@ func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: W
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: MapType) where T.StorableValueType: Hashable {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {

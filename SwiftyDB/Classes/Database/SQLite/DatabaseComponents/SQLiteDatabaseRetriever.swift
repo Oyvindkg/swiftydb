@@ -71,7 +71,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
                 
             } else if let storableArrayType = type as? StorableArray.Type {
                 if let storableType = storableArrayType.storableType {
-                    let maps: [MapType]? = try getStorableWritersForProperty(property, ofType: storableType, forWriter: writer, database: database)?.matchType()
+                    let maps: [Map]? = try getStorableWritersForProperty(property, ofType: storableType, forWriter: writer, database: database)?.matchType()
                     
                     writer.mappableArrays[property] = maps
                 }

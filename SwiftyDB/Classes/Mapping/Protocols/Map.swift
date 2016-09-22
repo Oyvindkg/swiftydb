@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol MapType {
-    subscript(key: String) -> MapType { get }
+public protocol Map {
+    subscript(key: String) -> Map { get }
 }

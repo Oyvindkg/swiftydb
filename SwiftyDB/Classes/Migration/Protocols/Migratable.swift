@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol Migratable {
-    static func migrate(_ migration: inout MigrationType)
+    static func migrate(migration: inout Migration)
 }

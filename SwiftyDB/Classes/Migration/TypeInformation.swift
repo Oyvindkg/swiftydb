@@ -21,7 +21,7 @@ struct TypeInformation: Storable {
         return TypeInformation()
     }
     
-    mutating func mapping(_ map: MapType) {
+    mutating func mapping(map: Map) {
         name            <- map["name"]
         properties      <- map["properties"]
         version         <- map["version"]

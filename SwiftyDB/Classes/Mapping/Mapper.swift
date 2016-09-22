@@ -13,7 +13,7 @@ struct Mapper {
     static func objectForWriter<T: Mappable>(_ writer: Writer) -> T {
         var object = T.mappableObject() as! T
 
-        object.mapping(writer)
+        object.mapping(map: writer)
 
         return object
     }
@@ -28,7 +28,7 @@ struct Mapper {
         
         let reader = Reader(type: T.self)
         
-        readableObject.mapping(reader)
+        readableObject.mapping(map: reader)
         
         return reader
     }
@@ -42,7 +42,7 @@ struct Mapper {
         
         let reader = Reader(type: type)
         
-        readableObject.mapping(reader)
+        readableObject.mapping(map: reader)
         
         return reader
     }

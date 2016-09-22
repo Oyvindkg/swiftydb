@@ -11,13 +11,13 @@ import Foundation
 /**
  An interface used to define migrations
  */
-public protocol MigrationType {
+public protocol Migration {
     
     /** The current schema version for the type */
     var schemaVersion: UInt { get set }
     
     /** Create a property migration used to rename or transform existing properties */
-    func migrate(_ property: String) -> PropertyMigrationType
+    func migrate(_ property: String) -> PropertyMigration
     
     /** Add a new property without a default value */
     func add(_ property: String)
@@ -51,6 +51,6 @@ public protocol MigrationType {
 }
 
 /** And internal migration representation */
-protocol _MigrationType {
+protocol _Migration {
     var operations: [MigrationOperation] { get set }
 }

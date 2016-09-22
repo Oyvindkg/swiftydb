@@ -64,7 +64,7 @@
 		39F746471D84302C00DB4362 /* RawRepresentableOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F71D84302C00DB4362 /* RawRepresentableOperators.swift */; };
 		39F746481D84302C00DB4362 /* StorableValueOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F81D84302C00DB4362 /* StorableValueOperators.swift */; };
 		39F746491D84302C00DB4362 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FA1D84302C00DB4362 /* Mappable.swift */; };
-		39F7464A1D84302C00DB4362 /* MapType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FB1D84302C00DB4362 /* MapType.swift */; };
+		39F7464A1D84302C00DB4362 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FB1D84302C00DB4362 /* Map.swift */; };
 		39F7464B1D84302C00DB4362 /* StorableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FC1D84302C00DB4362 /* StorableValue.swift */; };
 		39F7464C1D84302C00DB4362 /* StorableBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FE1D84302C00DB4362 /* StorableBool.swift */; };
 		39F7464D1D84302C00DB4362 /* StorableCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745FF1D84302C00DB4362 /* StorableCharacter.swift */; };
@@ -77,14 +77,14 @@
 		39F746541D84302C00DB4362 /* StorableNSNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746061D84302C00DB4362 /* StorableNSNumber.swift */; };
 		39F746551D84302C00DB4362 /* StorableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746071D84302C00DB4362 /* StorableString.swift */; };
 		39F746561D84302C00DB4362 /* StorableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746081D84302C00DB4362 /* StorableProperty.swift */; };
-		39F746571D84302C00DB4362 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460A1D84302C00DB4362 /* Migration.swift */; };
+		39F746571D84302C00DB4362 /* DefaultMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460A1D84302C00DB4362 /* DefaultMigration.swift */; };
 		39F746581D84302C00DB4362 /* MigrationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460B1D84302C00DB4362 /* MigrationUtils.swift */; };
-		39F746591D84302C00DB4362 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460C1D84302C00DB4362 /* Migrator.swift */; };
-		39F7465A1D84302C00DB4362 /* PropertyMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460D1D84302C00DB4362 /* PropertyMigration.swift */; };
+		39F746591D84302C00DB4362 /* DefaultMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460C1D84302C00DB4362 /* DefaultMigrator.swift */; };
+		39F7465A1D84302C00DB4362 /* DefaultPropertyMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460D1D84302C00DB4362 /* DefaultPropertyMigration.swift */; };
 		39F7465B1D84302C00DB4362 /* Migratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F7460F1D84302C00DB4362 /* Migratable.swift */; };
-		39F7465C1D84302C00DB4362 /* MigrationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746101D84302C00DB4362 /* MigrationType.swift */; };
-		39F7465D1D84302C00DB4362 /* MigratorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746111D84302C00DB4362 /* MigratorType.swift */; };
-		39F7465E1D84302C00DB4362 /* PropertyMigrationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746121D84302C00DB4362 /* PropertyMigrationType.swift */; };
+		39F7465C1D84302C00DB4362 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746101D84302C00DB4362 /* Migration.swift */; };
+		39F7465D1D84302C00DB4362 /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746111D84302C00DB4362 /* Migrator.swift */; };
+		39F7465E1D84302C00DB4362 /* PropertyMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746121D84302C00DB4362 /* PropertyMigration.swift */; };
 		39F7465F1D84302C00DB4362 /* TypeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746131D84302C00DB4362 /* TypeInformation.swift */; };
 		39F746601D84302C00DB4362 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746151D84302C00DB4362 /* Configuration.swift */; };
 		39F746611D84302C00DB4362 /* ObjectDatabaseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F746161D84302C00DB4362 /* ObjectDatabaseType.swift */; };
@@ -173,7 +173,7 @@
 		39F745F71D84302C00DB4362 /* RawRepresentableOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawRepresentableOperators.swift; sourceTree = "<group>"; };
 		39F745F81D84302C00DB4362 /* StorableValueOperators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableValueOperators.swift; sourceTree = "<group>"; };
 		39F745FA1D84302C00DB4362 /* Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
-		39F745FB1D84302C00DB4362 /* MapType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapType.swift; sourceTree = "<group>"; };
+		39F745FB1D84302C00DB4362 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		39F745FC1D84302C00DB4362 /* StorableValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableValue.swift; sourceTree = "<group>"; };
 		39F745FE1D84302C00DB4362 /* StorableBool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableBool.swift; sourceTree = "<group>"; };
 		39F745FF1D84302C00DB4362 /* StorableCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableCharacter.swift; sourceTree = "<group>"; };
@@ -186,14 +186,14 @@
 		39F746061D84302C00DB4362 /* StorableNSNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableNSNumber.swift; sourceTree = "<group>"; };
 		39F746071D84302C00DB4362 /* StorableString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableString.swift; sourceTree = "<group>"; };
 		39F746081D84302C00DB4362 /* StorableProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorableProperty.swift; path = ../../Mapping/StoreableValueConvertibles/StorableProperty.swift; sourceTree = "<group>"; };
-		39F7460A1D84302C00DB4362 /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
+		39F7460A1D84302C00DB4362 /* DefaultMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMigration.swift; sourceTree = "<group>"; };
 		39F7460B1D84302C00DB4362 /* MigrationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationUtils.swift; sourceTree = "<group>"; };
-		39F7460C1D84302C00DB4362 /* Migrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
-		39F7460D1D84302C00DB4362 /* PropertyMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyMigration.swift; sourceTree = "<group>"; };
+		39F7460C1D84302C00DB4362 /* DefaultMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMigrator.swift; sourceTree = "<group>"; };
+		39F7460D1D84302C00DB4362 /* DefaultPropertyMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPropertyMigration.swift; sourceTree = "<group>"; };
 		39F7460F1D84302C00DB4362 /* Migratable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migratable.swift; sourceTree = "<group>"; };
-		39F746101D84302C00DB4362 /* MigrationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationType.swift; sourceTree = "<group>"; };
-		39F746111D84302C00DB4362 /* MigratorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigratorType.swift; sourceTree = "<group>"; };
-		39F746121D84302C00DB4362 /* PropertyMigrationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyMigrationType.swift; sourceTree = "<group>"; };
+		39F746101D84302C00DB4362 /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
+		39F746111D84302C00DB4362 /* Migrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
+		39F746121D84302C00DB4362 /* PropertyMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyMigration.swift; sourceTree = "<group>"; };
 		39F746131D84302C00DB4362 /* TypeInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeInformation.swift; sourceTree = "<group>"; };
 		39F746151D84302C00DB4362 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		39F746161D84302C00DB4362 /* ObjectDatabaseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDatabaseType.swift; sourceTree = "<group>"; };
@@ -443,7 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				39F745FA1D84302C00DB4362 /* Mappable.swift */,
-				39F745FB1D84302C00DB4362 /* MapType.swift */,
+				39F745FB1D84302C00DB4362 /* Map.swift */,
 				39F745FC1D84302C00DB4362 /* StorableValue.swift */,
 			);
 			path = Protocols;
@@ -473,10 +473,10 @@
 			isa = PBXGroup;
 			children = (
 				39F7460E1D84302C00DB4362 /* Protocols */,
-				39F7460A1D84302C00DB4362 /* Migration.swift */,
+				39F7460A1D84302C00DB4362 /* DefaultMigration.swift */,
 				39F7460B1D84302C00DB4362 /* MigrationUtils.swift */,
-				39F7460C1D84302C00DB4362 /* Migrator.swift */,
-				39F7460D1D84302C00DB4362 /* PropertyMigration.swift */,
+				39F7460C1D84302C00DB4362 /* DefaultMigrator.swift */,
+				39F7460D1D84302C00DB4362 /* DefaultPropertyMigration.swift */,
 				39F746131D84302C00DB4362 /* TypeInformation.swift */,
 			);
 			path = Migration;
@@ -486,9 +486,9 @@
 			isa = PBXGroup;
 			children = (
 				39F7460F1D84302C00DB4362 /* Migratable.swift */,
-				39F746101D84302C00DB4362 /* MigrationType.swift */,
-				39F746111D84302C00DB4362 /* MigratorType.swift */,
-				39F746121D84302C00DB4362 /* PropertyMigrationType.swift */,
+				39F746101D84302C00DB4362 /* Migration.swift */,
+				39F746111D84302C00DB4362 /* Migrator.swift */,
+				39F746121D84302C00DB4362 /* PropertyMigration.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -839,20 +839,20 @@
 				39F7463A1D84302C00DB4362 /* DefaultIndexer.swift in Sources */,
 				39F746421D84302C00DB4362 /* Mapper.swift in Sources */,
 				39F746651D84302C00DB4362 /* Sorting.swift in Sources */,
-				39F7465C1D84302C00DB4362 /* MigrationType.swift in Sources */,
+				39F7465C1D84302C00DB4362 /* Migration.swift in Sources */,
 				39F7464F1D84302C00DB4362 /* StorableFloat.swift in Sources */,
 				39F7464C1D84302C00DB4362 /* StorableBool.swift in Sources */,
 				39F746501D84302C00DB4362 /* StorableIntegersSigned.swift in Sources */,
 				39F7462A1D84302C00DB4362 /* StorableArray.swift in Sources */,
 				39F746351D84302C00DB4362 /* JSONSerialisation.swift in Sources */,
-				39F7465A1D84302C00DB4362 /* PropertyMigration.swift in Sources */,
+				39F7465A1D84302C00DB4362 /* DefaultPropertyMigration.swift in Sources */,
 				39F7463F1D84302C00DB4362 /* IndexInstance.swift in Sources */,
 				39F746471D84302C00DB4362 /* RawRepresentableOperators.swift in Sources */,
 				39F746491D84302C00DB4362 /* Mappable.swift in Sources */,
 				39F746511D84302C00DB4362 /* StorableIntegersUnsigned.swift in Sources */,
 				39F746361D84302C00DB4362 /* SQLiteDatatype.swift in Sources */,
 				39F746241D84302C00DB4362 /* DatabaseIndexer.swift in Sources */,
-				39F746591D84302C00DB4362 /* Migrator.swift in Sources */,
+				39F746591D84302C00DB4362 /* DefaultMigrator.swift in Sources */,
 				3978ECBA1D843C3E0019928A /* DeleteQuery.swift in Sources */,
 				39F746321D84302C00DB4362 /* SQLiteQuery.swift in Sources */,
 				39F746481D84302C00DB4362 /* StorableValueOperators.swift in Sources */,
@@ -863,7 +863,7 @@
 				390689C91D946CEA00F94658 /* StorableData.swift in Sources */,
 				39F746691D84302C00DB4362 /* ArrayExtensions.swift in Sources */,
 				39F746621D84302C00DB4362 /* FilterOperators.swift in Sources */,
-				39F7465D1D84302C00DB4362 /* MigratorType.swift in Sources */,
+				39F7465D1D84302C00DB4362 /* Migrator.swift in Sources */,
 				39F746251D84302C00DB4362 /* DefaultObjectSerializer.swift in Sources */,
 				39F746531D84302C00DB4362 /* StorableNSDate.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
@@ -872,9 +872,9 @@
 				39F7466A1D84302C00DB4362 /* Map+Storeable.swift in Sources */,
 				39F746521D84302C00DB4362 /* StorableNSData.swift in Sources */,
 				39F746311D84302C00DB4362 /* SQLiteDatabase.swift in Sources */,
-				39F7464A1D84302C00DB4362 /* MapType.swift in Sources */,
+				39F7464A1D84302C00DB4362 /* Map.swift in Sources */,
 				39F7463D1D84302C00DB4362 /* Indexable.swift in Sources */,
-				39F7465E1D84302C00DB4362 /* PropertyMigrationType.swift in Sources */,
+				39F7465E1D84302C00DB4362 /* PropertyMigration.swift in Sources */,
 				39F746541D84302C00DB4362 /* StorableNSNumber.swift in Sources */,
 				39F746671D84302C00DB4362 /* Swifty.swift in Sources */,
 				39F7464E1D84302C00DB4362 /* StorableDouble.swift in Sources */,
@@ -886,7 +886,7 @@
 				39F746641D84302C00DB4362 /* Query.swift in Sources */,
 				39F746381D84302C00DB4362 /* SQLiteQueryFactory.swift in Sources */,
 				390689C71D946CB600F94658 /* StorableDate.swift in Sources */,
-				39F746571D84302C00DB4362 /* Migration.swift in Sources */,
+				39F746571D84302C00DB4362 /* DefaultMigration.swift in Sources */,
 				39F746661D84302C00DB4362 /* Result.swift in Sources */,
 				39F746551D84302C00DB4362 /* StorableString.swift in Sources */,
 				39F746461D84302C00DB4362 /* MappableOperators.swift in Sources */,

@@ -28,15 +28,15 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
 
         // TODO: Make .version UInt
         
-        var migration: MigrationType = Migration(schemaVersion: UInt(typeInformation.version))
+        var migration: Migration = DefaultMigration(schemaVersion: UInt(typeInformation.version))
                 
-        migratableType.migrate(&migration)
+        migratableType.migrate(migration: &migration)
         
         try databaseQueue.transaction { database in
             
             let existingData = try self.existingDataForType(type, fromDatabase: database)
             
-            let migratedData = self.migratedData(existingData, withMigration: migration as! Migration, forType: type)
+            let migratedData = self.migratedData(existingData, withMigration: migration as! _Migration, forType: type)
  
             try self.validateMigratedData(migratedData, forType: type)
             
@@ -96,7 +96,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     // TODO: Make sure operations are executed in the correct order
-    fileprivate func migratedData(_ dataArray: [[String: SQLiteValue?]], withMigration migration: Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
+    fileprivate func migratedData(_ dataArray: [[String: SQLiteValue?]], withMigration migration: _Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
         var migratedDataArray = dataArray
         
         if dataArray.isEmpty {

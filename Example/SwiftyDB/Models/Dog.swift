@@ -30,7 +30,7 @@ class Dog: Storable {
         weight = 13.3
     }
     
-    func mapping(_ map: MapType) {
+    func mapping(map: Map) {
         name            <- map["name"]
         age             <- map["age"]
         type            <- map["type"]
@@ -52,7 +52,7 @@ class Dog: Storable {
 }
 
 extension Dog: Migratable {
-    static func migrate(_ migration: inout MigrationType) {
+    static func migrate(migration: inout Migration) {
         if migration.schemaVersion < 1 {
             migration.remove("weight")
             

@@ -18,8 +18,8 @@ class BaseMap {
     var storableValues: [String: StorableValue] = [:]
     var storableValueArrays: [String: [StorableValue?]] = [:]
     
-    var mappables: [String: MapType] = [:]
-    var mappableArrays: [String: [MapType]] = [:]
+    var mappables: [String: Map] = [:]
+    var mappableArrays: [String: [Map]] = [:]
     
     init(type: Mappable.Type) {
         self.type = type

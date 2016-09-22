@@ -15,7 +15,7 @@ enum MigrationOperation {
     case transform(String, (StorableValue?) -> StorableValue?)
 }
 
-internal class Migration: MigrationType, _MigrationType {
+internal class DefaultMigration: Migration, _Migration {
     
     var schemaVersion: UInt
     
@@ -25,8 +25,8 @@ internal class Migration: MigrationType, _MigrationType {
         self.schemaVersion = schemaVersion
     }
     
-    func migrate(_ propertyName: String) -> PropertyMigrationType {
-        return PropertyMigration(propertyName: propertyName, migration: self)
+    func migrate(_ propertyName: String) -> PropertyMigration {
+        return DefaultPropertyMigration(propertyName: propertyName, migration: self)
     }
     
     fileprivate func add(_ property: String, defaultValue: StorableValue?) {
