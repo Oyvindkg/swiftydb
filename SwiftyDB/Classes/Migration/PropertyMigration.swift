@@ -34,7 +34,7 @@ internal class PropertyMigration: PropertyMigrationType {
         return self
     }
     
-    func transform<U : StorableValueConvertible, V : StorableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+    func transform<U : StorableProperty, V : StorableProperty>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         let transformation: StorableValue? -> V.StorableValueType? = { storableValue in
             let previousValue: U? = self.valueFromStorableValue(storableValue)
             
@@ -49,7 +49,7 @@ internal class PropertyMigration: PropertyMigrationType {
     
     // MARK: - Raw representables
     
-    func transform<U : RawRepresentable, V : RawRepresentable where U.RawValue: StorableValueConvertible, V.RawValue: StorableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+    func transform<U : RawRepresentable, V : RawRepresentable where U.RawValue: StorableProperty, V.RawValue: StorableProperty>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         
         let transformation: StorableValue? -> V.RawValue.StorableValueType? = { storableValue in
             let previousValue: U? = self.rawRepresentableFromStorableValue(storableValue)
@@ -62,7 +62,7 @@ internal class PropertyMigration: PropertyMigrationType {
         return self
     }
     
-    func transform<U : RawRepresentable, V : StorableValueConvertible where U.RawValue : StorableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+    func transform<U : RawRepresentable, V : StorableProperty where U.RawValue : StorableProperty>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         let transformation: StorableValue? -> V.StorableValueType? = { storableValue in
             let previousValue: U? = self.rawRepresentableFromStorableValue(storableValue)
             
@@ -74,7 +74,7 @@ internal class PropertyMigration: PropertyMigrationType {
         return self
     }
     
-    func transform<U : StorableValueConvertible, V : RawRepresentable where V.RawValue : StorableValueConvertible>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
+    func transform<U : StorableProperty, V : RawRepresentable where V.RawValue : StorableProperty>(fromType: U.Type, _ transformer: U? -> V?) -> PropertyMigrationType {
         let transformation: StorableValue? -> V.RawValue.StorableValueType? = { storableValue in
             let previousValue: U? = self.valueFromStorableValue(storableValue)
             
@@ -96,7 +96,7 @@ internal class PropertyMigration: PropertyMigrationType {
     }
     
 
-    private func valueFromStorableValue<T: StorableValueConvertible>(storableValue: StorableValue?) -> T? {
+    private func valueFromStorableValue<T: StorableProperty>(storableValue: StorableValue?) -> T? {
         guard let storableValue = storableValue as? T.StorableValueType else {
             return nil
         }
@@ -104,7 +104,7 @@ internal class PropertyMigration: PropertyMigrationType {
         return T.fromStorableValue(storableValue)
     }
     
-    private func rawRepresentableFromStorableValue<T: RawRepresentable where T.RawValue: StorableValueConvertible>(storableValue: StorableValue?) -> T? {
+    private func rawRepresentableFromStorableValue<T: RawRepresentable where T.RawValue: StorableProperty>(storableValue: StorableValue?) -> T? {
         guard let storableValue = storableValue as? T.RawValue.StorableValueType else {
             return nil
         }

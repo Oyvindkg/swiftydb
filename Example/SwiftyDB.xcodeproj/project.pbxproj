@@ -183,7 +183,7 @@
 		39F746051D84302C00DB4362 /* StoreableNSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreableNSDate.swift; sourceTree = "<group>"; };
 		39F746061D84302C00DB4362 /* StoreableNSNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreableNSNumber.swift; sourceTree = "<group>"; };
 		39F746071D84302C00DB4362 /* StoreableString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreableString.swift; sourceTree = "<group>"; };
-		39F746081D84302C00DB4362 /* StoreableValueConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreableValueConvertible.swift; sourceTree = "<group>"; };
+		39F746081D84302C00DB4362 /* StoreableValueConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoreableValueConvertible.swift; path = ../StoreableValueConvertibles/StoreableValueConvertible.swift; sourceTree = "<group>"; };
 		39F7460A1D84302C00DB4362 /* Migration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		39F7460B1D84302C00DB4362 /* MigrationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationUtils.swift; sourceTree = "<group>"; };
 		39F7460C1D84302C00DB4362 /* Migrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
@@ -448,6 +448,7 @@
 		39F745F91D84302C00DB4362 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				39F746081D84302C00DB4362 /* StoreableValueConvertible.swift */,
 				39F745FA1D84302C00DB4362 /* Mappable.swift */,
 				39F745FB1D84302C00DB4362 /* MapType.swift */,
 				39F745FC1D84302C00DB4362 /* StoreableValue.swift */,
@@ -468,7 +469,6 @@
 				39F746051D84302C00DB4362 /* StoreableNSDate.swift */,
 				39F746061D84302C00DB4362 /* StoreableNSNumber.swift */,
 				39F746071D84302C00DB4362 /* StoreableString.swift */,
-				39F746081D84302C00DB4362 /* StoreableValueConvertible.swift */,
 			);
 			path = StoreableValueConvertibles;
 			sourceTree = "<group>";

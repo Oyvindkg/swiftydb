@@ -35,19 +35,19 @@ internal class Migration: MigrationType, _MigrationType {
         )
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableValueConvertible>(property: String, defaultValue: T) {
+    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: T) {
         add(property, defaultValue: defaultValue.rawValue)
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableValueConvertible>(property: String, defaultValue: [T]) {
+    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: [T]) {
         add(property, defaultValue: defaultValue.map { $0.rawValue })
     }
     
-    func add<T : RawRepresentable where T.RawValue : StorableValueConvertible>(property: String, defaultValue: Set<T>) {
+    func add<T : RawRepresentable where T.RawValue : StorableProperty>(property: String, defaultValue: Set<T>) {
         add(property, defaultValue: Array(defaultValue))
     }
     
-    func add<T : StorableValueConvertible, U : RawRepresentable where U.RawValue : StorableValueConvertible, T.StorableValueType : Hashable>(property: String, defaultValue: [T : U]) {
+    func add<T : StorableProperty, U : RawRepresentable where U.RawValue : StorableProperty, T.StorableValueType : Hashable>(property: String, defaultValue: [T : U]) {
         var storableConvertibleDictionary: [T: U.RawValue] = [:]
         
         for (key, value) in defaultValue {
@@ -57,7 +57,7 @@ internal class Migration: MigrationType, _MigrationType {
         add(property, defaultValue: storableConvertibleDictionary)
     }
     
-    func add<T : StorableValueConvertible>(property: String, defaultValue: T) {
+    func add<T : StorableProperty>(property: String, defaultValue: T) {
         add(property, defaultValue: defaultValue.storableValue)
     }
     
@@ -65,19 +65,19 @@ internal class Migration: MigrationType, _MigrationType {
         add(property, defaultValue: nil)
     }
     
-    func add<T : StorableValueConvertible>(property: String, defaultValue: [T]) {
+    func add<T : StorableProperty>(property: String, defaultValue: [T]) {
         let storableValue = JSONSerialisation.JSONFor(defaultValue)
         
         add(property, defaultValue: storableValue)
     }
     
-    func add<T : StorableValueConvertible, U : StorableValueConvertible where T.StorableValueType : Hashable>(property: String, defaultValue: Dictionary<T, U>) {
+    func add<T : StorableProperty, U : StorableProperty where T.StorableValueType : Hashable>(property: String, defaultValue: Dictionary<T, U>) {
         let storableValue = JSONSerialisation.JSONFor(defaultValue)
         
         add(property, defaultValue: storableValue)
     }
     
-    func add<T : StorableValueConvertible>(property: String, defaultValue: Set<T>) {
+    func add<T : StorableProperty>(property: String, defaultValue: Set<T>) {
         add(property, defaultValue: Array(defaultValue))
     }
     

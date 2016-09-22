@@ -17,7 +17,7 @@ private let dateFormatter: NSDateFormatter = {
     return dateFormatter
 }()
 
-extension NSDate: StorableValueConvertible {
+extension NSDate: StorableProperty {
     
     public typealias StorableValueType = String
     

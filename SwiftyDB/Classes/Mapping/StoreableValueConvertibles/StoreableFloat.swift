@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Float: StorableValueConvertible {
+extension Float: StorableProperty {
 
     public typealias StorableValueType = Double
     

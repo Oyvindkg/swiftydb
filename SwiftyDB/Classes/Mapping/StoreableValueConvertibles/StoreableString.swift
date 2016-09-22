@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String: StorableValueConvertible {
+extension String: StorableProperty {
     
     public typealias StorableValueType = String
     

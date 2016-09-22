@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSData: StorableValueConvertible {
+extension NSData: StorableProperty {
     
     public typealias StorableValueType = String
     

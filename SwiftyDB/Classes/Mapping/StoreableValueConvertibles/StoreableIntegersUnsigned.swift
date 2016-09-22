@@ -11,7 +11,7 @@ import Foundation
 
 //TODO: Can SQLite store undigned 64-bit integers?
 
-extension UInt: StorableValueConvertible {
+extension UInt: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -24,7 +24,7 @@ extension UInt: StorableValueConvertible {
     }
 }
 
-extension UInt8: StorableValueConvertible {
+extension UInt8: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -37,7 +37,7 @@ extension UInt8: StorableValueConvertible {
     }
 }
 
-extension UInt16: StorableValueConvertible {
+extension UInt16: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -50,7 +50,7 @@ extension UInt16: StorableValueConvertible {
     }
 }
 
-extension UInt32: StorableValueConvertible {
+extension UInt32: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -64,7 +64,7 @@ extension UInt32: StorableValueConvertible {
     }
 }
 
-extension UInt64: StorableValueConvertible {
+extension UInt64: StorableProperty {
     
     public typealias StorableValueType = String
     

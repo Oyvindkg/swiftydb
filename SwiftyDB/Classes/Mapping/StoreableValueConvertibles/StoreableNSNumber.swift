@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSNumber: StorableValueConvertible {
+extension NSNumber: StorableProperty {
     
     public typealias StorableValueType = Double
     

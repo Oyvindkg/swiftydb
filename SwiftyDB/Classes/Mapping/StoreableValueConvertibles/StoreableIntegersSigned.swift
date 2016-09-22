@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Int: StorableValueConvertible {
+extension Int: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -21,7 +21,7 @@ extension Int: StorableValueConvertible {
     }
 }
 
-extension Int8: StorableValueConvertible {
+extension Int8: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -34,7 +34,7 @@ extension Int8: StorableValueConvertible {
     }
 }
 
-extension Int16: StorableValueConvertible {
+extension Int16: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -47,7 +47,7 @@ extension Int16: StorableValueConvertible {
     }
 }
 
-extension Int32: StorableValueConvertible {
+extension Int32: StorableProperty {
     
     public typealias StorableValueType = Int64
     
@@ -60,7 +60,7 @@ extension Int32: StorableValueConvertible {
     }
 }
 
-extension Int64: StorableValueConvertible {
+extension Int64: StorableProperty {
     
     public typealias StorableValueType = Int64
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Bool: StorableValueConvertible {
+extension Bool: StorableProperty {
     public typealias StorableValueType = Int64
     
     public var storableValue: StorableValueType {
