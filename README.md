@@ -198,12 +198,12 @@ If Swifty detects that the properties of a type does not match those stored in t
 
 ```swift
 extension Stark: Migratable {
-  static func migrate(migration: MigrationType) {
+  static func migrate(inout migration: MigrationType) {
 
-    if migration.currentVersion < 2 {
+    if migration.schemaVersion < 1 {
   
       /* Add a new property */
-      migration.add("height")
+      migration.add("height", defaultValue: 178.0)
       
       /* Remove an existing property */
       migration.remove("age")
@@ -215,6 +215,9 @@ extension Stark: Migratable {
       migration.migrate("name").transform(String.self) { stringValue in
         return Double(doubleValue!)
       }
+      
+      /* Remember to update the schema version */
+      migration.schemaVersion = 1
     }
   }
 }
