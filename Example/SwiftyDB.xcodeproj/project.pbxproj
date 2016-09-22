@@ -54,7 +54,6 @@
 		39F7463E1D84302C00DB4362 /* IndexerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EA1D84302C00DB4362 /* IndexerType.swift */; };
 		39F7463F1D84302C00DB4362 /* IndexInstanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EB1D84302C00DB4362 /* IndexInstanceType.swift */; };
 		39F746401D84302C00DB4362 /* IndexType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EC1D84302C00DB4362 /* IndexType.swift */; };
-		39F746411D84302C00DB4362 /* Injector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745EE1D84302C00DB4362 /* Injector.swift */; };
 		39F746421D84302C00DB4362 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F01D84302C00DB4362 /* Mapper.swift */; };
 		39F746431D84302C00DB4362 /* BaseMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F21D84302C00DB4362 /* BaseMap.swift */; };
 		39F746441D84302C00DB4362 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F745F31D84302C00DB4362 /* Reader.swift */; };
@@ -162,7 +161,6 @@
 		39F745EA1D84302C00DB4362 /* IndexerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexerType.swift; sourceTree = "<group>"; };
 		39F745EB1D84302C00DB4362 /* IndexInstanceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexInstanceType.swift; sourceTree = "<group>"; };
 		39F745EC1D84302C00DB4362 /* IndexType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexType.swift; sourceTree = "<group>"; };
-		39F745EE1D84302C00DB4362 /* Injector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injector.swift; sourceTree = "<group>"; };
 		39F745F01D84302C00DB4362 /* Mapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		39F745F21D84302C00DB4362 /* BaseMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMap.swift; sourceTree = "<group>"; };
 		39F745F31D84302C00DB4362 /* Reader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 			children = (
 				39F745C81D84302C00DB4362 /* Database */,
 				39F745E31D84302C00DB4362 /* Indexing */,
-				39F745ED1D84302C00DB4362 /* Injection */,
 				39F745EF1D84302C00DB4362 /* Mapping */,
 				39F746091D84302C00DB4362 /* Migration */,
 				39F746141D84302C00DB4362 /* Swifty */,
@@ -403,14 +400,6 @@
 				39F745EC1D84302C00DB4362 /* IndexType.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		39F745ED1D84302C00DB4362 /* Injection */ = {
-			isa = PBXGroup;
-			children = (
-				39F745EE1D84302C00DB4362 /* Injector.swift */,
-			);
-			path = Injection;
 			sourceTree = "<group>";
 		};
 		39F745EF1D84302C00DB4362 /* Mapping */ = {
@@ -847,7 +836,6 @@
 				39F7464C1D84302C00DB4362 /* StorableBool.swift in Sources */,
 				39F746501D84302C00DB4362 /* StorableIntegersSigned.swift in Sources */,
 				39F7462A1D84302C00DB4362 /* StoreableArrayType.swift in Sources */,
-				39F746411D84302C00DB4362 /* Injector.swift in Sources */,
 				39F746351D84302C00DB4362 /* JSONSerialisation.swift in Sources */,
 				39F7465A1D84302C00DB4362 /* PropertyMigration.swift in Sources */,
 				39F7463F1D84302C00DB4362 /* IndexInstanceType.swift in Sources */,

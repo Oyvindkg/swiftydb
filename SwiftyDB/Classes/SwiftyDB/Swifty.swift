@@ -63,7 +63,7 @@ public class Swifty: ObjectDatabase {
         - object:           the object to be added
         - resultHandler:    an optional result handler
     */
-    func add<T: Storable>(object: T, resultHandler: (Result<Void> -> Void)?) {
+    public func add<T: Storable>(object: T, resultHandler: (Result<Void> -> Void)?) {
         return add([object], resultHandler: resultHandler)
     }
     
@@ -74,7 +74,7 @@ public class Swifty: ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
+    public func add<T: Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.addSync(objects)
             
@@ -116,7 +116,7 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be retrieved
         - resultHandler:    an optional result handler
      */
-    func get<T: Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
+    public func get<T: Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
         let query = Query<T>()
         
         get(query, resultHandler: resultHandler)
@@ -129,7 +129,7 @@ public class Swifty: ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T: Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
+    public func get<T: Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.getSync(query)
             
@@ -157,7 +157,7 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be deleted
      */
-    func delete<T: Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
+    public func delete<T: Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
         let query = Query<T>()
         
         delete(query, resultHandler: resultHandler)
@@ -170,7 +170,7 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T: Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
+    public func delete<T: Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let result = self.deleteSync(query)
             
