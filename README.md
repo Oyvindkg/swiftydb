@@ -213,7 +213,7 @@ extension Stark: Migratable {
       
       /* Change the type of an exsisting property from `String` to `Double` */
       migration.migrate("name").transform(String.self) { stringValue in
-        return Double(doubleValue!)
+        return Double(stringValue!)
       }
       
       /* Remember to update the schema version */
