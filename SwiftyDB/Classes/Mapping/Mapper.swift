@@ -11,7 +11,7 @@ import Foundation
 struct Mapper {
     
     static func objectForWriter<T: Mappable>(writer: Writer) -> T {
-        var object = T.newInstance() as! T
+        var object = T.mappableObject() as! T
 
         object.mapping(writer)
 
@@ -38,7 +38,7 @@ struct Mapper {
     }
     
     static func readerForType(type: Mappable.Type) -> Reader {
-        var readableObject = type.newInstance()
+        var readableObject = type.mappableObject()
         
         let reader = Reader(type: type)
         

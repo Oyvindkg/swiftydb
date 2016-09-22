@@ -23,7 +23,7 @@ class Stark: Storable {
         self.wolf = wolf
     }
     
-    static func newInstance() -> Mappable {
+    static func mappableObject() -> Mappable {
         return Stark(name: "Sansa", weight: 56.2, age: 14)
     }
     

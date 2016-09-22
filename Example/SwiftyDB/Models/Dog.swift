@@ -41,7 +41,7 @@ class Dog: Storable {
 //        ids             <- map["numbers"]
     }
     
-    class func newInstance() -> Mappable {
+    class func mappableObject() -> Mappable {
         return Dog()
     }
     
@@ -52,7 +52,7 @@ class Dog: Storable {
 }
 
 class Dogger: Dog {
-    override class func newInstance() -> Mappable {
+    override class func mappableObject() -> Mappable {
         return Dogger()
     }
 }
