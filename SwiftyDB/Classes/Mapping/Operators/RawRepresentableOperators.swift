@@ -25,7 +25,7 @@ func <- <T: RawRepresentable>(left: inout T, right: Reader) where T.RawValue: St
 func <- <T: RawRepresentable>(left: inout T, right: Writer) where T.RawValue: StorableProperty {
     let storableValue: T.RawValue.StorableValueType = right.getCurrentValue()!
     
-    left = rawRepresentableFrom(storableValue: storableValue)!
+    left = rawRepresentableFromValue(storableValue)!
 }
 
 
@@ -43,7 +43,7 @@ func <- <T: RawRepresentable>(left: inout T?, right: Reader) where T.RawValue: S
 
 func <- <T: RawRepresentable>(left: inout T?, right: Writer) where T.RawValue: StorableProperty {
     if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFrom(storableValue: storableValue)
+        left = rawRepresentableFromValue(storableValue)
     } else {
         left = nil
     }
@@ -64,7 +64,7 @@ func <- <T: RawRepresentable>(left: inout T!, right: Reader) where T.RawValue: S
 
 func <- <T: RawRepresentable>(left: inout T!, right: Writer) where T.RawValue: StorableProperty {
     if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFrom(storableValue: storableValue)
+        left = rawRepresentableFromValue(storableValue)
     } else {
         left = nil
     }
@@ -82,14 +82,14 @@ public func <- <T: RawRepresentable>(left: inout [T], right: Map) where T.RawVal
 
 func <- <T: RawRepresentable>(left: inout [T], right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left.map { $0.rawValue.storableValue }
-    
-    right.setCurrent(value: storableValues)
+
+    right.setCurrent(values: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T], right: Writer) where T.RawValue: StorableProperty {
     let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
     
-    left = storableValues.map(rawRepresentableFrom)
+    left = storableValues.map(rawRepresentableFromValue)
 }
 
 
@@ -104,12 +104,12 @@ public func <- <T: RawRepresentable>(left: inout [T]?, right: Map) where T.RawVa
 func <- <T: RawRepresentable>(left: inout [T]?, right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrent(value: storableValues)
+    right.setCurrent(values: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]?, right: Writer) where T.RawValue: StorableProperty {
     if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFrom)
+        left = storableValues.map(rawRepresentableFromValue)
     } else {
         left = nil
     }
@@ -127,12 +127,12 @@ public func <- <T: RawRepresentable>(left: inout [T]!, right: Map) where T.RawVa
 func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrent(value: storableValues)
+    right.setCurrent(values: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue: StorableProperty {
     if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFrom)
+        left = storableValues.map(rawRepresentableFromValue)
     } else {
         left = nil
     }
@@ -141,48 +141,81 @@ func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue:
 // MARK: Set of raw representables
 
 
-//func <- <T: RawRepresentable where T.RawValue: StorableProperty>(inout left: Set<T>, right: Map) {
-//    if right.mode == .Read {
-//        right.currentValue = left.map { $0.rawValue.storableValue }
-//    } else {
-//        let storableValues = right.currentValue as! [T.RawValue.StorableValueType]
-//
-//        left = Set(storableValues.map(rawRepresentableFromStorableValue))
-//    }
-//}
-//
-//func <- <T: RawRepresentable where T.RawValue: StorableProperty>(inout left: Set<T>?, right: Map) {
-//    if right.mode == .Read {
-//        right.currentValue = left?.map { $0.rawValue.storableValue }
-//    } else {
-//        if let storableValues = right.currentValue as? [T.RawValue.StorableValueType] {
-//            left = Set(storableValues.map(rawRepresentableFromStorableValue))
-//        } else {
-//            left = nil
-//        }
-//    }
-//}
-//
-//func <- <T: RawRepresentable where T.RawValue: StorableProperty>(inout left: Set<T>!, right: Map) {
-//    if right.mode == .Read {
-//        right.currentValue = left?.map { $0.rawValue.storableValue }
-//    } else {
-//        let storableValues = right.currentValue as! [T.RawValue.StorableValueType]
-//
-//        left = Set(storableValues.map(rawRepresentableFromStorableValue))
-//    }
-//}
+public func <- <T: RawRepresentable>(left: inout Set<T>, right: Map) where T.RawValue: StorableProperty {
+    if let reader = right as? Reader {
+        left <- reader
+    } else if let writer = right as? Writer {
+        left <- writer
+    }
+}
 
+func <- <T: RawRepresentable>(left: inout Set<T>, right: Reader) where T.RawValue: StorableProperty {
+    let storableValues = left.map { $0.rawValue.storableValue }
+    
+    right.setCurrent(values: storableValues)
+}
+
+func <- <T: RawRepresentable>(left: inout Set<T>, right: Writer) where T.RawValue: StorableProperty {
+    let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
+    
+    left = Set(storableValues.map(rawRepresentableFromValue))
+}
+
+
+public func <- <T: RawRepresentable>(left: inout Set<T>?, right: Map) where T.RawValue: StorableProperty {
+    if let reader = right as? Reader {
+        left <- reader
+    } else if let writer = right as? Writer {
+        left <- writer
+    }
+}
+
+func <- <T: RawRepresentable>(left: inout Set<T>?, right: Reader) where T.RawValue: StorableProperty {
+    let storableValues = left?.map { $0.rawValue.storableValue }
+    
+    right.setCurrent(values: storableValues)
+}
+
+func <- <T: RawRepresentable>(left: inout Set<T>?, right: Writer) where T.RawValue: StorableProperty {
+    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
+        left = Set(storableValues.map(rawRepresentableFromValue))
+    } else {
+        left = nil
+    }
+}
+
+
+public func <- <T: RawRepresentable>(left: inout Set<T>!, right: Map) where T.RawValue: StorableProperty {
+    if let reader = right as? Reader {
+        left <- reader
+    } else if let writer = right as? Writer {
+        left <- writer
+    }
+}
+
+func <- <T: RawRepresentable>(left: inout Set<T>!, right: Reader) where T.RawValue: StorableProperty {
+    let storableValues = left?.map { $0.rawValue.storableValue }
+    
+    right.setCurrent(values: storableValues)
+}
+
+func <- <T: RawRepresentable>(left: inout Set<T>!, right: Writer) where T.RawValue: StorableProperty {
+    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
+        left = Set(storableValues.map(rawRepresentableFromValue))
+    } else {
+        left = nil
+    }
+}
 
 // MARK: Helpers
 
-private func rawRepresentableFrom <T: RawRepresentable> (storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
+private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
     let rawValue = T.RawValue.from(storableValue: storableValue)
     
     return T.init(rawValue: rawValue)!
 }
 
-private func rawRepresentableFrom <T: RawRepresentable> (storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
+private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
     guard storableValue != nil else {
         return nil
     }

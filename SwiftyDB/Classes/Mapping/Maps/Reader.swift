@@ -21,30 +21,30 @@ class Reader: BaseMap {
         types[key] = type
     }
     
-    func setCurrent<T: StorableValue>(value: [T]?, forType type: Any.Type = T.self) {
+    func setCurrent<T: StorableValue>(values: [T]?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
             return
         }
         
-        storableValueArrays[key] = value?.map { $0 }
+        storableValueArrays[key] = values?.map { $0 }
         types[key] = [T].self
     }
     
-    func setCurrent<T: Mappable>(value: Reader?, forType type: T.Type) {
+    func setCurrent<T: Mappable>(reader: Reader?, forType type: T.Type) {
         guard let key = currentKey else {
             return
         }
         
-        mappables[key] = value
+        mappables[key] = reader
         types[key] = T.self
     }
     
-    func setCurrent<T: Mappable>(value: [Reader]?, forType type: T.Type) {
+    func setCurrent<T: Mappable>(readers: [Reader]?, forType type: T.Type) {
         guard let key = currentKey else {
             return
         }
         
-        mappableArrays[key] = value?.to(type: Map.self)
+        mappableArrays[key] = readers?.to(type: Map.self)
         types[key] = [T].self
     }
 }
