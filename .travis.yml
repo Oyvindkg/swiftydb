@@ -22,7 +22,7 @@ osx_image: xcode8
 language: objective-c
 before_install: 
   - brew update
-  # - carthage update
+  - carthage update
 script:
-  - cd Example; pod install; cd ..;
-  # - xcodebuild clean test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
+  - cd Example; pod install; xcodebuild clean test -workspace SwiftyDB.xcworkspace -scheme SwiftyDB-example -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty; cd ..;
+  - xcodebuild clean test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
