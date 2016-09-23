@@ -15,15 +15,13 @@
 # - gem install xcpretty
 # - carthage update
 # script:
-# - set -o pipefail && xcodebuild test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=9.2,name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
+# - set -o pipefail && 
 # # - pod lib lint --allow-warnings
 
 osx_image: xcode8
 language: objective-c
-xcode_project: SwiftyDB.xcodeproj
 before_install: 
   - brew update
-  # - brew upgrade xctool
-  # - brew update carthage
-  - carthage bootstrap --verbose
-xcode_scheme: SwiftyDB iOS
+  - carthage update
+script:
+  - xcodebuild test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
