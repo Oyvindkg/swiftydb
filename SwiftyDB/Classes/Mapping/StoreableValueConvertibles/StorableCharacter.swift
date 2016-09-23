@@ -15,7 +15,7 @@ extension Character: StorableProperty {
         return String(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> Character {
+    public static func from(storableValue: StorableValueType) -> Character {
         return storableValue.characters.first!
     }
 }

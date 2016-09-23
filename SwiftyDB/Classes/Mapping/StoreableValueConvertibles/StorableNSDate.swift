@@ -8,11 +8,11 @@
 
 import Foundation
 
-private let dateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
     
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-    dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     
     return dateFormatter
 }()
@@ -22,14 +22,14 @@ extension NSDate: StorableProperty {
     public typealias StorableValueType = String
     
     public var storableValue: StorableValueType {
-        return dateFormatter.stringFromDate(self)
+        return dateFormatter.string(from: self as Date)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
-        return fromStorableValueHelper(storableValue)
+    public static func from(storableValue: StorableValueType) -> Self {
+        return fromHelper(storableValue: storableValue)
     }
     
-    private static func fromStorableValueHelper<T>(storableValue: StorableValueType) -> T {
-        return dateFormatter.dateFromString(storableValue) as! T
+    private static func fromHelper<T>(storableValue: StorableValueType) -> T {
+        return dateFormatter.date(from: storableValue) as! T
     }
 }

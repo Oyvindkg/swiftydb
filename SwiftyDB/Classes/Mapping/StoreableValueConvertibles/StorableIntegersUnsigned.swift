@@ -9,19 +9,31 @@
 import Foundation
 
 
-//TODO: Can SQLite store undigned 64-bit integers?
+//TODO: Should this simply be a string?
 
+/* UInt is 64 bit on 64 bit systems. Detect and store as string if necessary */
 extension UInt: StorableProperty {
+#if arch(x86_64) || arch(arm64)
+    public typealias StorableValueType = String
+
+    public var storableValue: StorableValueType {
+        return String(self)
+    }
     
+    public static func from(storableValue: StorableValueType) -> UInt {
+        return UInt(storableValue)!
+    }
+#else
     public typealias StorableValueType = Int64
     
     public var storableValue: StorableValueType {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt {
+    public static func from(storableValue: StorableValueType) -> UInt {
         return UInt(storableValue)
     }
+#endif    
 }
 
 extension UInt8: StorableProperty {
@@ -32,7 +44,7 @@ extension UInt8: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt8 {
+    public static func from(storableValue: StorableValueType) -> UInt8 {
         return UInt8(storableValue)
     }
 }
@@ -45,7 +57,7 @@ extension UInt16: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt16 {
+    public static func from(storableValue: StorableValueType) -> UInt16 {
         return UInt16(storableValue)
     }
 }
@@ -58,7 +70,7 @@ extension UInt32: StorableProperty {
         return Int64(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt32 {
+    public static func from(storableValue: StorableValueType) -> UInt32 {
         return UInt32(storableValue)
 
     }
@@ -72,7 +84,7 @@ extension UInt64: StorableProperty {
         return String(self)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> UInt64 {
+    public static func from(storableValue: StorableValueType) -> UInt64 {
         return UInt64(storableValue)!
     }
 }

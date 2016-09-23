@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3921A9441D950E2C004D3AD5"
+               BuildableName = "SwiftyDB iOS Tests.xctest"
+               BlueprintName = "SwiftyDB iOS Tests"
+               ReferencedContainer = "container:SwiftyDB.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "390689111D941FC400F94658"
+            BuildableName = "SwiftyDB.framework"
+            BlueprintName = "SwiftyDB iOS"
+            ReferencedContainer = "container:SwiftyDB.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

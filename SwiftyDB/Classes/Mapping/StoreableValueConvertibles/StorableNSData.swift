@@ -13,14 +13,14 @@ extension NSData: StorableProperty {
     public typealias StorableValueType = String
     
     public var storableValue: StorableValueType {
-        return self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        return self.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
     }
     
-    public static func fromStorableValue(storableValue: StorableValueType) -> Self {
-        return fromStorableValueHelper(storableValue)
+    public static func from(storableValue: StorableValueType) -> Self {
+        return fromHelper(storableValue: storableValue)
     }
     
-    private static func fromStorableValueHelper<T: NSData>(storableValue: StorableValueType) -> T {
-        return T.init(base64EncodedString: storableValue, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
+    fileprivate static func fromHelper<T: NSData>(storableValue: StorableValueType) -> T {
+        return T.init(base64Encoded: storableValue, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)!
     }
 }

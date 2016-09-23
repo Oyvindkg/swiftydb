@@ -8,11 +8,11 @@
 
 import Foundation
 
-infix operator <- {}
+infix operator <-
 
 // MARK: - Storable properties
 
-public func <- <T: StorableProperty>(inout left: T, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -20,18 +20,18 @@ public func <- <T: StorableProperty>(inout left: T, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: T, right: Reader) {
-    right.setCurrentValue(left.storableValue)
+func <- <T: StorableProperty>(left: inout T, right: Reader) {
+    right.setCurrent(value: left.storableValue)
 }
 
-func <- <T: StorableProperty>(inout left: T, right: Writer) {
+func <- <T: StorableProperty>(left: inout T, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     }
 }
 
 
-public func <- <T: StorableProperty>(inout left: T?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -39,20 +39,20 @@ public func <- <T: StorableProperty>(inout left: T?, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: T?, right: Reader) {
-    right.setCurrentValue(left?.storableValue)
+func <- <T: StorableProperty>(left: inout T?, right: Reader) {
+    right.setCurrent(value: left?.storableValue)
 }
 
-func <- <T: StorableProperty>(inout left: T?, right: Writer) {
+func <- <T: StorableProperty>(left: inout T?, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     } else {
         left = nil
     }
 }
 
 
-public func <- <T: StorableProperty>(inout left: T!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout T!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -60,13 +60,13 @@ public func <- <T: StorableProperty>(inout left: T!, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: T!, right: Reader) {
-    right.setCurrentValue(left?.storableValue)
+func <- <T: StorableProperty>(left: inout T!, right: Reader) {
+    right.setCurrent(value: left?.storableValue)
 }
 
-func <- <T: StorableProperty>(inout left: T!, right: Writer) {
+func <- <T: StorableProperty>(left: inout T!, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.fromStorableValue(storableValue)
+        left = T.from(storableValue: storableValue)
     } else {
         left = nil
     }
@@ -74,7 +74,7 @@ func <- <T: StorableProperty>(inout left: T!, right: Writer) {
 
 // MARK: Array of storable properties
 
-public func <- <T: StorableProperty>(inout left: [T], right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T], right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -82,16 +82,16 @@ public func <- <T: StorableProperty>(inout left: [T], right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: [T], right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left)!, forType: [T].self  )
+func <- <T: StorableProperty>(left: inout [T], right: Reader) {
+    right.setCurrent(value:  CollectionSerialization.stringFor(array: left)!, forType: [T].self  )
 }
 
-func <- <T: StorableProperty>(inout left: [T], right: Writer) {
-    left = JSONSerialisation.arrayFor( right.getCurrentValue()! )
+func <- <T: StorableProperty>(left: inout [T], right: Writer) {
+    left = CollectionSerialization.arrayFor(string: right.getCurrentValue()!)
 }
 
 
-public func <- <T: StorableProperty>(inout left: [T]?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T]?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -99,16 +99,16 @@ public func <- <T: StorableProperty>(inout left: [T]?, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: [T]?, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T].self  )
+func <- <T: StorableProperty>(left: inout [T]?, right: Reader) {
+    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self  )
 }
 
-func <- <T: StorableProperty>(inout left: [T]?, right: Writer) {
-    left = JSONSerialisation.arrayFor( right.getCurrentValue() )
+func <- <T: StorableProperty>(left: inout [T]?, right: Writer) {
+    left = CollectionSerialization.arrayFor(string: right.getCurrentValue())
 }
 
 
-public func <- <T: StorableProperty>(inout left: [T]!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout [T]!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -116,18 +116,18 @@ public func <- <T: StorableProperty>(inout left: [T]!, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: [T]!, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T].self )
+func <- <T: StorableProperty>(left: inout [T]!, right: Reader) {
+    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self )
 }
 
-func <- <T: StorableProperty>(inout left: [T]!, right: Writer) {
-    left = JSONSerialisation.arrayFor( right.getCurrentValue() )
+func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
+    left = CollectionSerialization.arrayFor(string: right.getCurrentValue() )
 }
 
 
 // MARK: Set of storable properties
 
-public func <- <T: StorableProperty>(inout left: Set<T>, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -135,18 +135,18 @@ public func <- <T: StorableProperty>(inout left: Set<T>, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>, right: Reader) {
-    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left)!, forType: Set<T>.self)
+func <- <T: StorableProperty>(left: inout Set<T>, right: Reader) {
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left)!, forType: Set<T>.self)
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>, right: Writer) {
+func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
     let storableValues: [T.StorableValueType] = right.getCurrentValue()!
         
-    left = Set( storableValues.map(T.fromStorableValue) )
+    left = Set( storableValues.map(T.from) )
 }
 
 
-public func <- <T: StorableProperty>(inout left: Set<T>?, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>?, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -154,20 +154,20 @@ public func <- <T: StorableProperty>(inout left: Set<T>?, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>?, right: Reader) {
-    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left), forType: Set<T>.self)
+func <- <T: StorableProperty>(left: inout Set<T>?, right: Reader) {
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>?, right: Writer) {
+func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
     if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.fromStorableValue) )
+        left = Set( storableValues.map(T.from) )
     } else {
         left = nil
     }
 }
 
 
-public func <- <T: StorableProperty>(inout left: Set<T>!, right: MapType) {
+public func <- <T: StorableProperty>(left: inout Set<T>!, right: Map) {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -175,13 +175,13 @@ public func <- <T: StorableProperty>(inout left: Set<T>!, right: MapType) {
     }
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>!, right: Reader) {
-    right.setCurrentValue(JSONSerialisation.JSONFor(collection: left), forType: Set<T>.self)
+func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
 }
 
-func <- <T: StorableProperty>(inout left: Set<T>!, right: Writer) {
+func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
     if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.fromStorableValue) )
+        left = Set( storableValues.map(T.from) )
     } else {
         left = nil
     }
@@ -190,7 +190,7 @@ func <- <T: StorableProperty>(inout left: Set<T>!, right: Writer) {
 
 // MARK: Storable value dicitonaries
 
-public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U], right: MapType) {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -198,17 +198,17 @@ public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueTy
     }
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U], right: Reader) {
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
     
-    right.setCurrentValue( JSONSerialisation.JSONFor(Optional(left)), forType: [T: U].self  )
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U], right: Writer) {
-    left = JSONSerialisation.dictionaryFor( right.getCurrentValue()! )
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.StorableValueType: Hashable {
+    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue()! )
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]?, right: MapType) {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -216,16 +216,16 @@ public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueTy
     }
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]?, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T: U].self  )
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]?, right: Writer) {
-    left = JSONSerialisation.dictionaryFor( right.getCurrentValue() )
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.StorableValueType: Hashable {
+    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]!, right: MapType) {
+public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Map) where T.StorableValueType: Hashable {
     if let reader = right as? Reader {
         left <- reader
     } else if let writer = right as? Writer {
@@ -233,11 +233,11 @@ public func <- <T: StorableProperty, U: StorableProperty where T.StorableValueTy
     }
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]!, right: Reader) {
-    right.setCurrentValue( JSONSerialisation.JSONFor(left), forType: [T: U].self )
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
 }
 
-func <- <T: StorableProperty, U: StorableProperty where T.StorableValueType: Hashable>(inout left: [T: U]!, right: Writer) {
-    left = JSONSerialisation.dictionaryFor( right.getCurrentValue() )
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.StorableValueType: Hashable {
+    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
 }
 

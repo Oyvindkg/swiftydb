@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Nimble
+
 
 @testable import SwiftyDB
 
@@ -32,32 +32,32 @@ class SQLiteQueryFactoryTests: XCTestCase {
     
     func testCreateTableUsesTextTypeForStringValues() {
         let query = sut.createTableQueryForReader(reader)
-
-        expect(query.query).to(contain("'name' TEXT"))
+        
+        XCTAssert(query.query.contains("'name' TEXT"), "String properties should be defined as text")
     }
     
     func testCreateTableUsesRealTypeForDoubleValues() {
         let query = sut.createTableQueryForReader(reader)
         
-        expect(query.query).to(contain("'weight' REAL"))
+        XCTAssert(query.query.contains("'weight' REAL"), "Double properties should be defined as real")
     }
     
     func testCreateTableUsesIntegerTypeForIntegerValues() {
         let query = sut.createTableQueryForReader(reader)
         
-        expect(query.query).to(contain("'age' INTEGER"))
+        XCTAssert(query.query.contains("'age' INTEGER"), "Int properties should be defined as integers")
     }
     
     func testCreateTableUsesTextTypeForStorableType() {
         let query = sut.createTableQueryForReader(reader)
         
-        expect(query.query).to(contain("'wolf' TEXT"))
+        XCTAssert(query.query.contains("'wolf' TEXT"), "Storable properties should be defined as text")
     }
     
     func testCreateTableUsesReaderTypeAsTableName() {
         let query = sut.createTableQueryForReader(reader)
         
-        expect(query.query).to(contain("TABLE '\(Stark.self)'"))
+        XCTAssert(query.query.contains("TABLE '\(Stark.self)'"), "The table name should be the escaped name of the type")
     }
     
     func testCreateTableAssignsIdentifierAsPrimaryKey() {
@@ -66,7 +66,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.createTableQueryForReader(reader)
         
-        expect(query.query).to(contain("'\(identifier)' \(identifierDatatype.rawValue) PRIMARY KEY"))
+        XCTAssert(query.query.contains("'\(identifier)' \(identifierDatatype.rawValue) PRIMARY KEY"), "The identifier should be defined as the primary key")
     }
     
     
@@ -75,13 +75,13 @@ class SQLiteQueryFactoryTests: XCTestCase {
     func testInsertQueryUpdatesExistingValueIfPresent() {
         let query = sut.insertQueryForReader(reader)
 
-        expect(query.query).to(contain("INSERT OR REPLACE"))
+        XCTAssert(query.query.contains("INSERT OR REPLACE"), "Existing objects should be replaced")
     }
     
     func testInsertUsesReaderTypeAsTableName() {
         let query = sut.insertQueryForReader(reader)
         
-        expect(query.query).to(contain("INTO '\(Stark.self)'"))
+        XCTAssert(query.query.contains("INTO '\(Stark.self)'"), "Should insert into the correct table")
     }
     
     func testInsertUpdatesAllStorablePropertiesInTheReader() {
@@ -92,7 +92,9 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.insertQueryForReader(reader)
         
-        expect(query.query).to(contain("'age'", "'name'", "'weight'"))
+        XCTAssert(query.query.contains("'age'"), "All properties should be updated")
+        XCTAssert(query.query.contains("'name'"), "All properties should be updated")
+        XCTAssert(query.query.contains("'weight'"), "All properties should be updated")
     }
     
     
@@ -104,6 +106,8 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.insertQueryForReader(reader)
         
-        expect(query.query).to(contain(":age", ":name", ":weight"))
+        XCTAssert(query.query.contains("':age'"), "All properties should be parameterized")
+        XCTAssert(query.query.contains("':name'"), "All properties should be parameterized")
+        XCTAssert(query.query.contains("':weight'"), "All properties should be parameterized")
     }
 }

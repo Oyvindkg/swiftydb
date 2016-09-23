@@ -13,17 +13,17 @@ import Foundation
  A database object used to add, retrieve and delete objects
 */
 
-public class Swifty: ObjectDatabase {
+open class Swifty: ObjectDatabase {
     
-    let database: DatabaseType
+    let database: Database
     
-    let migrator: MigratorType
-    let indexer: IndexerType
+    let migrator: Migrator
+    let indexer: Indexer
     
     /**
      The database object's configuration
      */
-    public let configuration: ConfigurationType
+    open let configuration: ConfigurationProtocol
     
     
     /**
@@ -32,13 +32,13 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - configuration: database configuration
      */
-    public init(configuration: ConfigurationType) {
+    public init(configuration: ConfigurationProtocol) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
         
-        migrator = Migrator()
-        indexer = Indexer()
+        migrator = DefaultMigrator()
+        indexer = DefaultIndexer()
     }
     
     /**
@@ -63,7 +63,7 @@ public class Swifty: ObjectDatabase {
         - object:           the object to be added
         - resultHandler:    an optional result handler
     */
-    public func add<T: Storable>(object: T, resultHandler: (Result<Void> -> Void)?) {
+    open func add<T: Storable>(_ object: T, resultHandler: ((Result<Void>) -> Void)?) {
         return add([object], resultHandler: resultHandler)
     }
     
@@ -74,8 +74,8 @@ public class Swifty: ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    public func add<T: Storable>(objects: [T], resultHandler: (Result<Void> -> Void)?) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    open func add<T: Storable>(_ objects: [T], resultHandler: ((Result<Void>) -> Void)?) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = self.addSync(objects)
             
             resultHandler?(result)
@@ -83,13 +83,13 @@ public class Swifty: ObjectDatabase {
         
     }
     
-    internal func addSync<T: Storable>(objects: [T]) -> Result<Void> {
+    internal func addSync<T: Storable>(_ objects: [T]) -> Result<Void> {
         return resultForValue {
             for object in objects {
-                try self.migrator.migrateTypeIfNecessary(object.dynamicType, inSwifty: self)
+                try self.migrator.migrateIfNecessary(type: type(of: object), inSwifty: self)
             }
             
-            try self.database.add(objects)
+            try self.database.add(objects: objects)
         }
     }
     
@@ -105,7 +105,7 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be retrieved
      */
-    func get<T : Storable>(type: T.Type) -> GetQuery<T> {
+    func get<T : Storable>(_ type: T.Type) -> GetQuery<T> {
         return GetQuery<T>(database: self)
     }
     
@@ -116,7 +116,7 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be retrieved
         - resultHandler:    an optional result handler
      */
-    public func get<T: Storable>(type: T.Type, resultHandler: (Result<[T]> -> Void)?) {
+    open func get<T: Storable>(_ type: T.Type, resultHandler: ((Result<[T]>) -> Void)?) {
         let query = Query<T>()
         
         get(query, resultHandler: resultHandler)
@@ -129,20 +129,20 @@ public class Swifty: ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    public func get<T: Storable>(query: Query<T>, resultHandler: (Result<[T]> -> Void)?) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    open func get<T: Storable>(_ query: Query<T>, resultHandler: ((Result<[T]>) -> Void)?) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = self.getSync(query)
             
             resultHandler?(result)
         }
     }
     
-    internal func getSync<T : Storable>(query: Query<T>) -> Result<[T]> {
+    internal func getSync<T : Storable>(_ query: Query<T>) -> Result<[T]> {
         return resultForValue {
-            try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
-            try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)
+            try self.migrator.migrateIfNecessary(type: T.self, inSwifty: self)
+            try self.indexer.indexIfNecessary(type: T.self, inSwifty: self)
             
-            return try self.database.get(query, nested: true)
+            return try self.database.get(query: query)
         }
     }
     
@@ -157,7 +157,7 @@ public class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be deleted
      */
-    public func delete<T: Storable>(type: T.Type, resultHandler: (Result<Void> -> Void)?) {
+    open func delete<T: Storable>(_ type: T.Type, resultHandler: ((Result<Void>) -> Void)?) {
         let query = Query<T>()
         
         delete(query, resultHandler: resultHandler)
@@ -170,27 +170,27 @@ public class Swifty: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    public func delete<T: Storable>(query: Query<T>, resultHandler: (Result<Void> -> Void)?) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    open func delete<T: Storable>(_ query: Query<T>, resultHandler: ((Result<Void>) -> Void)?) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = self.deleteSync(query)
             
             resultHandler?(result)
         }
     }
     
-    internal func deleteSync<T : Storable>(query: Query<T>) -> Result<Void> {
+    internal func deleteSync<T : Storable>(_ query: Query<T>) -> Result<Void> {
         return resultForValue {
-            try self.migrator.migrateTypeIfNecessary(T.self, inSwifty: self)
-            try self.indexer.indexTypeIfNecessary(T.self, inSwifty: self)
+            try self.migrator.migrateIfNecessary(type: T.self, inSwifty: self)
+            try self.indexer.indexIfNecessary(type: T.self, inSwifty: self)
             
-            return try self.database.delete(query)
+            return try self.database.delete(query: query)
         }
     }
     
     
     // MARK: - Helpers
     
-    private func resultForValue<T>(block: Void throws -> T) -> Result<T>{
+    fileprivate func resultForValue<T>(_ block: (Void) throws -> T) -> Result<T>{
         do {
             let value = try block()
             

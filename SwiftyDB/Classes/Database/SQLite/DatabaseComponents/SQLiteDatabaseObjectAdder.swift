@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabaseInserter: DatabaseInserterType {
+struct SQLiteDatabaseInserter: DatabaseInserter {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -24,7 +24,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
             return
         }
         
-        let mappedReaders = readers.groupBy { String($0.type) }
+        let mappedReaders = readers.group { String(describing: $0.type) }
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
@@ -43,7 +43,7 @@ struct SQLiteDatabaseInserter: DatabaseInserterType {
                         parameters[key] = value as? SQLiteValue
                     }
                     
-                    try statement.executeUpdate(parameters)
+                    _ = try statement.executeUpdate(parameters)
                 }
             }
         }

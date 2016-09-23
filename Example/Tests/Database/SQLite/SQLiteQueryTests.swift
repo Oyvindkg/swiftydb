@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import Nimble
 import TinySQLite
 
 @testable import SwiftyDB
@@ -17,7 +16,7 @@ class SQLiteQueryTests: XCTestCase {
     func testTheProvidedQueryIsReturned() {
         let query = "This is a query"
         
-        expect(SQLiteQuery(query: query, parameters: []).query).to(equal(query))
+        XCTAssert(SQLiteQuery(query: query, parameters: []).query == query)
     }
     
     func testTheProvidedParametersAreReturned() {
@@ -26,8 +25,11 @@ class SQLiteQueryTests: XCTestCase {
         
         let queryParameters = SQLiteQuery(query: query, parameters: parameters).parameters
         
-        expect(queryParameters[0] as? String).to(equal(parameters[0] as? String))
-        expect(queryParameters[1] as? Int).to(equal(parameters[1] as? Int))
+        XCTAssert(queryParameters[0] is String)
+        XCTAssert(queryParameters[1] is Int)
+        
+        XCTAssert(queryParameters[0] as! String == parameters[0] as! String, "The parameters should not be shuffled")
+        XCTAssert(queryParameters[1] as! Int == parameters[1] as! Int, "The parameters should not be shuffled")
     }
 
 }

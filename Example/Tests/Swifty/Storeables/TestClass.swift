@@ -34,9 +34,9 @@ class TestClass: Storable {
     
     var date                    = NSDate()
     
-    var data                    = NSData(base64EncodedString: "data", options: [])!
+    var data                    = NSData(base64Encoded: "data", options: [])!
     
-    var number                  = NSNumber(double: 123.213231)
+    var number                  = NSNumber(value: 123.213231)
     
     var storableArray          = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
@@ -70,7 +70,7 @@ class TestClass: Storable {
     
     var optionalDate: NSDate?           = NSDate()
     
-    var optionalData: NSData?           = NSData(base64EncodedString: "optionalData", options: [])
+    var optionalData: NSData?           = NSData(base64Encoded: "optionalData", options: [])
     
     var optionalNumber: NSNumber?       = 1.312
     
@@ -89,7 +89,7 @@ extension TestClass: Mappable {
         return TestClass()
     }
     
-    func mapping(map: MapType) {
+    func mapping(map: Map) {
         string          <- map["string"]
         character       <- map["character"]
         

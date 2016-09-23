@@ -10,10 +10,10 @@ import Foundation
 
 extension Array {
     
-    func mapping<Key: Hashable, Value>(block: (Index, Element) -> (Key, Value?)) -> [Key: Value?] {
+    func mapping<Key: Hashable, Value>(_ block: (Index, Element) -> (Key, Value?)) -> [Key: Value?] {
         var mapping: [Key: Value?] = [:]
         
-        for (index, element) in self.enumerate() {
+        for (index, element) in self.enumerated() {
             let (key, value) = block(index, element)
             mapping[key] = value
         }
@@ -22,13 +22,13 @@ extension Array {
     }
 }
 
-extension CollectionType {
+extension Collection {
     
-    func asType<T>(type: T.Type) -> [T?] {
+    func to<T>(type: T.Type) -> [T?] {
         return self.map { $0 as? T }
     }
     
-    func asType<T>(type: T.Type) -> [T] {
+    func to<T>(type: T.Type) -> [T] {
         return self.map { $0 as! T }
     }
     
@@ -40,17 +40,17 @@ extension CollectionType {
         return self.map { $0 as? T }
     }
 
-    var elementType: Generator.Element.Type {
-        return Generator.Element.self
+    var elementType: Iterator.Element.Type {
+        return Iterator.Element.self
     }
     
-    func groupBy<T: Hashable>(keyBlock: Generator.Element -> T) -> [T: [Generator.Element]] {
-        var grouped: [T: [Generator.Element]] = [:]
+    func group<T: Hashable>(by: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
+        var grouped: [T: [Iterator.Element]] = [:]
         
-        let keys = Set(self.map(keyBlock))
+        let keys = Set(self.map(by))
         
         for key in keys {
-            grouped[key] = self.filter { keyBlock($0) == key }
+            grouped[key] = self.filter { by($0) == key }
         }
         
         return grouped

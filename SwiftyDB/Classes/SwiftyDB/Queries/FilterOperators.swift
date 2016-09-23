@@ -8,18 +8,10 @@
 
 import Foundation
 
+infix operator <<
 
-infix operator << {}
-
-infix operator !< {
-    associativity none
-    precedence 160
-}
-
-infix operator !~ {
-    associativity none
-    precedence 130
-}
+infix operator !<: ComparisonPrecedence
+infix operator !~: ComparisonPrecedence
 
 
 // MARK: - Comparators
@@ -33,8 +25,8 @@ infix operator !~ {
  
  - returns: a `FilterStatement`
  */
-public func << <T: StorableProperty where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
-    return Expression.between(property, range.startIndex.storableValue, range.endIndex.storableValue)
+public func << <T: StorableProperty>(property: String, range: Range<T>) -> FilterStatement where T: Comparable {
+    return Expression.between(property, range.lowerBound.storableValue, range.upperBound.storableValue)
 }
 
 /**
@@ -46,8 +38,8 @@ public func << <T: StorableProperty where T: ForwardIndexType>(property: String,
  
  - returns: a `FilterStatement`
  */
-public func !< <T: StorableProperty where T: ForwardIndexType>(property: String, range: Range<T>) -> FilterStatement {
-    return Expression.notBetween(property, range.startIndex.storableValue, range.endIndex.storableValue)
+public func !< <T: StorableProperty>(property: String, range: Range<T>) -> FilterStatement where T: Comparable {
+    return Expression.notBetween(property, range.lowerBound.storableValue, range.upperBound.storableValue)
 }
 
 
@@ -324,7 +316,7 @@ public func >= <T: StorableProperty>(property: String, value: T) -> FilterStatem
  
  - returns: a `FilterStatement`
  */
-public func == <T: RawRepresentable where T.RawValue: StorableProperty>(property: String, value: T) -> FilterStatement {
+public func == <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
     return Expression.equal(property, value.rawValue.storableValue)
 }
 
@@ -337,7 +329,7 @@ public func == <T: RawRepresentable where T.RawValue: StorableProperty>(property
  
  - returns: a `FilterStatement`
  */
-public func == <T: RawRepresentable where T.RawValue: StorableProperty>(property: String, value: T?) -> FilterStatement {
+public func == <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
     return Expression.equal(property, value?.rawValue.storableValue)
 }
 
@@ -350,7 +342,7 @@ public func == <T: RawRepresentable where T.RawValue: StorableProperty>(property
  
  - returns: a `FilterStatement`
  */
-public func != <T: RawRepresentable where T.RawValue: StorableProperty>(property: String, value: T) -> FilterStatement {
+public func != <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
     return Expression.notEqual(property, value.rawValue.storableValue)
 }
 
@@ -363,7 +355,7 @@ public func != <T: RawRepresentable where T.RawValue: StorableProperty>(property
  
  - returns: a `FilterStatement`
  */
-public func != <T: RawRepresentable where T.RawValue: StorableProperty>(property: String, value: T?) -> FilterStatement {
+public func != <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
     return Expression.notEqual(property, value?.rawValue.storableValue)
 }
 

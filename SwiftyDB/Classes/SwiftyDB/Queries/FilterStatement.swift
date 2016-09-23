@@ -43,7 +43,7 @@ internal enum Expression: FilterStatement {
             
         case .less(let property, let value):
             return .greaterOrEqual(property, value)
-        case lessOrEqual(let property, let value):
+        case .lessOrEqual(let property, let value):
             return .greater(property, value)
             
         case .greater(let property, let value):
@@ -79,7 +79,7 @@ internal enum Connective: FilterStatement {
         case .conjunction(let operand, let otherOperand):
             return .disjunction(operand.negated(), otherOperand.negated())
         case .disjunction(let operand, let otherOperand):
-            return conjunction(operand.negated(), otherOperand.negated())
+            return .conjunction(operand.negated(), otherOperand.negated())
         }
     }
 }

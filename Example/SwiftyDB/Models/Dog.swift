@@ -15,7 +15,7 @@ enum Breed: String {
 class Dog: Storable {
     var bones           = [Bone(dnr: "12321"), Bone(dnr: "asdasdasdsda"), Bone(), Bone(dnr: "0123"), Bone(dnr: "0123"), Bone(dnr: "0123")]
     var ids: [Double]   = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    var dates           = [NSDate(), NSDate().dateByAddingTimeInterval(123123)]
+    var dates           = [Date(), Date().addingTimeInterval(123123)]
     var type            = Breed.dachs
     
     var name: String
@@ -30,7 +30,7 @@ class Dog: Storable {
         weight = 13.3
     }
     
-    func mapping(map: MapType) {
+    func mapping(map: Map) {
         name            <- map["name"]
         age             <- map["age"]
         type            <- map["type"]
@@ -52,10 +52,10 @@ class Dog: Storable {
 }
 
 extension Dog: Migratable {
-    static func migrate(inout migration: MigrationType) {
+    static func migrate(migration: inout Migration) {
         if migration.schemaVersion < 1 {
-            migration.add("numbers", defaultValue: [] as [Double])
-
+            migration.remove(property: "weight")
+            
             migration.schemaVersion = 1
         }
     }

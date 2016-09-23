@@ -59,10 +59,10 @@ func ==(left: Expression, right: Expression) -> Bool {
         return property == otherProperty && value == otherValue
         
     case (.containedIn(let property, let values), .containedIn(let otherProperty, let otherValues)):
-        return property == otherProperty && values.elementsEqual(otherValues, isEquivalent: ==)
+        return property == otherProperty && values.elementsEqual(otherValues, by: ==)
         
     case (.notContainedIn(let property, let values), .notContainedIn(let otherProperty, let otherValues)):
-        return property == otherProperty && values.elementsEqual(otherValues, isEquivalent: ==)
+        return property == otherProperty && values.elementsEqual(otherValues, by: ==)
         
     case (.between(let property, let lower, let upper), .between(let otherProperty, let otherLower, let otherUpper)):
         return property == otherProperty && lower == otherLower && upper == otherUpper

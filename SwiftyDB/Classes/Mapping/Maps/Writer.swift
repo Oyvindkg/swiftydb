@@ -27,7 +27,7 @@ class Writer: BaseMap {
         return storableValueArrays[key]?.map { $0 as! T }
     }
     
-    func getCurrentValue<T: MapType>() -> T? {
+    func getCurrentValue<T: Map>() -> T? {
         guard let key = currentKey else {
             return nil
         }
@@ -36,7 +36,7 @@ class Writer: BaseMap {
     }
     
     
-    func getCurrentValue<T: MapType>() -> [T]? {
+    func getCurrentValue<T: Map>() -> [T]? {
         guard let key = currentKey else {
             return nil
         }
@@ -49,8 +49,8 @@ class Writer: BaseMap {
     }
 }
 
-extension Writer: MapType {
-    subscript(key: String) -> MapType {
+extension Writer: Map {
+    subscript(key: String) -> Map {
         currentKey = key
         
         return self

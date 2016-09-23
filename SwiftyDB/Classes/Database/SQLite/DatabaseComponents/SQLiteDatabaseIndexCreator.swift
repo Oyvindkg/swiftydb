@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseIndexer: DatabaseIndexerType {
+class SQLiteDatabaseIndexer: DatabaseIndexer {
     
     let databaseQueue: DatabaseQueue
     let queryFactory: SQLiteQueryFactory
@@ -19,11 +19,11 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         self.queryFactory = queryFactory
     }
     
-    func create(index: _IndexType) throws {
-        try deleteIndicesForType(index.type)
+    func create(index: _Index) throws {
+        try deleteIndicesFor(type: index.type)
         
         for index in index.indices {
-            let query = queryFactory.createIndexQueryFor(index)
+            let query = queryFactory.createIndexQueryForIndex(index)
 
             try databaseQueue.database { database in
                 try database.prepare(query.query)
@@ -33,8 +33,8 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         }
     }
     
-    private func deleteIndicesForType(type: Storable.Type) throws {
-        let indexNames = try indexNamesForType(type)
+    fileprivate func deleteIndicesFor(type: Storable.Type) throws {
+        let indexNames = try indexNamesFor(type: type)
         
         let query = "DROP INDEX ?"
         
@@ -43,14 +43,14 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
             let statement = try database.prepare(query)
             
             for indexName in indexNames {
-                try statement.executeUpdate([indexName])
+                _ = try statement.executeUpdate([indexName])
             }
             
             try statement.finalize()
         }
     }
     
-    private func indexNamesForType(type: Storable.Type) throws -> [String] {
+    fileprivate func indexNamesFor(type: Storable.Type) throws -> [String] {
         let query = "SELECT name FROM sqlite_master WHERE type == 'index' AND tbl_name == ?"
         
         var indexNames: [String] = []
@@ -58,7 +58,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexerType {
         try databaseQueue.database { database in
             let statement = try database.prepare(query)
 
-            indexNames = try statement.execute([String(type)]).map { $0.stringForColumn(0)! }
+            indexNames = try statement.execute([String(describing: type)]).map { $0.stringForColumn(0)! }
             
             try statement.finalize()
         }

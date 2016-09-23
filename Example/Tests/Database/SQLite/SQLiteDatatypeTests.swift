@@ -9,7 +9,6 @@
 import Foundation
 
 import XCTest
-import Nimble
 
 @testable import SwiftyDB
 
@@ -25,62 +24,62 @@ class SQLiteDatatypeTests: XCTestCase {
     }
     
     func testReturnsTextTypeForStrings() {
-        let datatype = SQLiteDatatype.init(value: "string")
+        let datatype = SQLiteDatatype(value: "string")
         
-        expect(datatype).to(equal(SQLiteDatatype.text))
+        XCTAssert(datatype == .text)
     }
     
     func testReturnsTextTypeForCharacters() {
-        let datatype = SQLiteDatatype.init(value: Character("s"))
+        let datatype = SQLiteDatatype(value: Character("s"))
         
-        expect(datatype).to(equal(SQLiteDatatype.text))
+        XCTAssert(datatype == .text)
     }
     
     func testReturnsRealTypeForDoubles() {
-        let datatype = SQLiteDatatype.init(value: 1.3)
+        let datatype = SQLiteDatatype(value: 1.3)
         
-        expect(datatype).to(equal(SQLiteDatatype.real))
+        XCTAssert(datatype == .real)
     }
     
     func testReturnsRealTypeForFloats() {
         let datatype = SQLiteDatatype.init(value: Float(1.3))
         
-        expect(datatype).to(equal(SQLiteDatatype.real))
+        XCTAssert(datatype == .real)
     }
     
     func testReturnsIntegerTypeForIntegers() {
-        let int = SQLiteDatatype.init(value: 1)
-        let int8 = SQLiteDatatype.init(value: Int8(1))
-        let int16 = SQLiteDatatype.init(value: Int8(1))
-        let int64 = SQLiteDatatype.init(value: Int64(1))
+        let int = SQLiteDatatype(value: 1)
+        let int8 = SQLiteDatatype(value: Int8(1))
+        let int16 = SQLiteDatatype(value: Int8(1))
+        let int64 = SQLiteDatatype(value: Int64(1))
         
-        expect(int).to(equal(SQLiteDatatype.integer))
-        expect(int8).to(equal(SQLiteDatatype.integer))
-        expect(int16).to(equal(SQLiteDatatype.integer))
-        expect(int64).to(equal(SQLiteDatatype.integer))
+        XCTAssert(int == .integer)
+        XCTAssert(int8 == .integer)
+        XCTAssert(int16 == .integer)
+        XCTAssert(int64 == .integer)
     }
     
     func testReturnsIntegerTypeForBools() {
-        let type = SQLiteDatatype.init(value: false)
+        let type = SQLiteDatatype(value: false)
         
-        expect(type).to(equal(SQLiteDatatype.integer))
+        XCTAssert(type == .integer)
     }
     
     func testReturnsNiForUnsignedLongLong() {
-        let uint64 = SQLiteDatatype.init(value: UInt64(1))
+        let uint64 = SQLiteDatatype(value: UInt64(1))
         
-        expect(uint64).to(beNil())
+        XCTAssert(uint64 == nil)
     }
     
     func testRealRawValueIsReal() {
-        expect(SQLiteDatatype.real.rawValue).to(equal("REAL"))
+        XCTAssert(SQLiteDatatype.real.rawValue == "REAL")
     }
     
     func testIntegerRawValueIsInteger() {
-        expect(SQLiteDatatype.integer.rawValue).to(equal("INTEGER"))
+        XCTAssert(SQLiteDatatype.integer.rawValue == "INTEGER")
     }
     
     func testTextRawValueIsText() {
-        expect(SQLiteDatatype.text.rawValue).to(equal("TEXT"))
+        XCTAssert(SQLiteDatatype.text.rawValue == "TEXT")
     }
 }

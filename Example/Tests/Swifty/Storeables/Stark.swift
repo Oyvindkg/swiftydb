@@ -31,7 +31,7 @@ class Stark: Storable {
         return "age"
     }
     
-    func mapping(map: MapType) {
+    func mapping(map: Map) {
         name   <- map["name"]
         age    <- map["age"]
         weight <- map["weight"]

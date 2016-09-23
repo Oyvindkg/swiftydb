@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SwiftyError: ErrorType, CustomStringConvertible {
+enum SwiftyError: Error, CustomStringConvertible {
     
     case query(String)
     case migration(String)
@@ -24,5 +24,4 @@ enum SwiftyError: ErrorType, CustomStringConvertible {
             return message
         }
     }
-    
 }

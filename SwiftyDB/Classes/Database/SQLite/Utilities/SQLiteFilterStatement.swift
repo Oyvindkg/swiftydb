@@ -32,11 +32,11 @@ extension Expression: SQLiteFilterStatement {
             return "\(property) >= ?"
             
         case .containedIn(let property, let values):
-            let placeholders = values.map { _ in "?" }.joinWithSeparator(",")
+            let placeholders = values.map { _ in "?" }.joined(separator: ",")
             
             return "\(property) IN (\(placeholders))"
         case .notContainedIn(let property, let values):
-            let placeholders = values.map { _ in "?" }.joinWithSeparator(",")
+            let placeholders = values.map { _ in "?" }.joined(separator: ",")
             
             return "\(property) NOT IN (\(placeholders))"
             
