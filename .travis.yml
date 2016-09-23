@@ -24,4 +24,4 @@ before_install:
   - brew update
   - carthage update
 script:
-  - xcodebuild test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
+  - xcodebuild clean test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
