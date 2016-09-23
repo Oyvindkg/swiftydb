@@ -69,7 +69,7 @@ swifty.get(Stark.self) { result in
 
 Filtering results is really simple due to SwiftyDB's expressive and powerfull query language  
 ```Swift
-swifty.get(Stark.self).filter("name" << ["Sansa", "Arya", "Brandon"]) { result in
+swifty.get(Stark.self).filter( ("name" == "Sansa" && "age" < 20) || "name" == "Arya") { result in
   let livingStarks = result.value
 }
 ```

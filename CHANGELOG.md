@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 
 
 ## [2.0.0](https://github.com/Oyvindkg/swiftydb/releases/tag/2.0.0) (//2016)
-Rebuilt from the ground up to provide a type safe, and versatile database....
+Rebuilt from the ground up to provide a type safe, and versatile object database.
+
+**Main features**
+* Any type can be made storable in an extension
+* Store any property type, nested objects, and collections
+* Create custom indices to improve query performance
+* Migrate data when updating your models
+
+**Supported package managers**
+* CocoaPods
+* Cathage
 
 ### [1.1.3](https://github.com/Oyvindkg/swiftydb/releases/tag/1.1.3) (05/10/2016)
 
