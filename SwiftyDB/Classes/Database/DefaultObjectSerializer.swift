@@ -15,7 +15,7 @@ struct DefaultObjectSerializer: ObjectSerializer {
             return []
         }
         
-        let reader = Mapper.readerFor(object: storable!)
+        let reader = Mapper.readerForObject(storable!)
         
         return readersFor(reader: reader)
     }

@@ -139,7 +139,7 @@ public func !~ (property: String, pattern: String) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func == <T: Storable>(property: String, object: T) -> FilterStatement {
-    let reader = Mapper.readerFor(object: object)
+    let reader = Mapper.readerForObject(object)
     
     return Expression.equal(property, reader.identifierValue)
 }
@@ -157,7 +157,7 @@ public func == <T: Storable>(property: String, object: T?) -> FilterStatement {
     var reader: Reader? = nil
     
     if let object = object {
-        reader = Mapper.readerFor(object: object)
+        reader = Mapper.readerForObject(object)
     }
     
     return Expression.equal(property, reader?.identifierValue)
@@ -201,7 +201,7 @@ public func == <T: StorableProperty>(property: String, value: T?) -> FilterState
  - returns: a `FilterStatement`
  */
 public func != <T: Storable>(property: String, value: T) -> FilterStatement {
-    let reader = Mapper.readerFor(object: value)
+    let reader = Mapper.readerForObject(value)
     
     return Expression.notEqual(property, reader.identifierValue)
 }
@@ -220,7 +220,7 @@ public func != <T: Storable>(property: String, object: T?) -> FilterStatement {
         return Expression.notEqual(property, nil)
     }
     
-    let reader = Mapper.readerFor(object: object!)
+    let reader = Mapper.readerForObject(object!)
     
     return Expression.notEqual(property, reader.identifierValue)
 }

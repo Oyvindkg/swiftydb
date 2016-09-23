@@ -55,7 +55,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
             return
         }
         
-        let reader = Mapper.readerFor(type: type)
+        let reader = Mapper.readerForType(type)
         
         let migratedProperties = Set(migratedData.first!.keys)
         let typeProperties = Set(reader.types.keys)
@@ -83,7 +83,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     
     fileprivate func existingDataFor(type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
-        let retrieveQuery = self.queryFactory.selectQueryFor(type: type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
+        let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
         
         let statement = try database.prepare(retrieveQuery.query)
         
@@ -135,9 +135,9 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     fileprivate func createTableFor(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
-        let reader = Mapper.readerFor(type: type)
+        let reader = Mapper.readerForType(type)
         
-        let createTableQuery = self.queryFactory.createTableQueryFor(reader: reader)
+        let createTableQuery = self.queryFactory.createTableQueryForReader(reader)
         
         try database.prepare(createTableQuery.query)
             .executeUpdate(createTableQuery.parameters)
@@ -145,9 +145,9 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     fileprivate func insert(data dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
-        let reader = Mapper.readerFor(type: type)
+        let reader = Mapper.readerForType(type)
         
-        let insertQuery = self.queryFactory.insertQueryFor(reader: reader)
+        let insertQuery = self.queryFactory.insertQueryForReader(reader)
 
         let insertStatement = try database.prepare(insertQuery.query)
         

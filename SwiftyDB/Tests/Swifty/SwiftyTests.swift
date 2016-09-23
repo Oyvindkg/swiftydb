@@ -16,18 +16,13 @@ import XCTest
 class SwiftyTests: XCTestCase {
 
     var configuration: ConfigurationProtocol = {
-        var configuration = Configuration(name: "database_test")
-        
-//        configuration.mode = .sandbox
-        
-        return configuration
+        return Configuration(name: "database_test")
     }()
     
-    var swifty = Swifty(name: "sad")
+    var swifty = Swifty(name: "database_test")
     
     override func setUp() {
         super.setUp()
-        
         
         try? FileManager.default.removeItem(atPath: configuration.path)
         

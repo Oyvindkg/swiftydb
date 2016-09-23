@@ -35,7 +35,7 @@ class SQLiteDatabaseTableCreator {
     }
 
     func createTableIfNecessaryFor(type: Storable.Type) throws {
-        let reader = Mapper.readerFor(type: type)
+        let reader = Mapper.readerForType(type)
         
         try createTableFor(reader: reader )
     }
@@ -49,7 +49,7 @@ class SQLiteDatabaseTableCreator {
             return
         }
         
-        let query = queryFactory.createTableQueryFor(reader: reader)
+        let query = queryFactory.createTableQueryForReader(reader)
         
         try databaseQueue.database { database in
             try database.prepare(query.query)

@@ -28,7 +28,7 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
-                let query      = self.queryFactory.insertQueryFor(reader: readers.first!)
+                let query      = self.queryFactory.insertQueryForReader(readers.first!)
                 
                 let statement = try database.prepare(query.query)
                 

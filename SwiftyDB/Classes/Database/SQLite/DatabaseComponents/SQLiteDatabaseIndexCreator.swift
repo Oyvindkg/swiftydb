@@ -23,7 +23,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
         try deleteIndicesFor(type: index.type)
         
         for index in index.indices {
-            let query = queryFactory.createIndexQueryFor(index: index)
+            let query = queryFactory.createIndexQueryForIndex(index)
 
             try databaseQueue.database { database in
                 try database.prepare(query.query)

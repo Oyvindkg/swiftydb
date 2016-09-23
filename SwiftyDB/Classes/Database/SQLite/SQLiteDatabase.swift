@@ -61,7 +61,7 @@ struct SQLiteDatabase: Database {
             
             let writers = try retriever.get(query: query)
             
-            return Mapper.objectsFor(writers: writers)
+            return Mapper.objectsForWriters(writers)
         } catch is TinyError {
             throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
