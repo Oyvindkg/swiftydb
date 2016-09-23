@@ -2,18 +2,28 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
+# language: objective-c
+# osx_image: xcode8
+# cache: 
+# - carthage
+# - xcpretty
+# podfile: Example/Podfile
+# # rvm:
+# # - 2.2.2
+# before_install:
+# - brew install carthage
+# - gem install xcpretty
+# - carthage update
+# script:
+# - set -o pipefail && xcodebuild test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=9.2,name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
+# # - pod lib lint --allow-warnings
+
+osx_image: xcode8
 language: objective-c
-osx_image: xcode8.0
-cache: 
-- carthage
-- xcpretty
-podfile: Example/Podfile
-# rvm:
-# - 2.2.2
-before_install:
-- brew install carthage
-- gem install xcpretty
-- carthage update
-script:
-- set -o pipefail && xcodebuild test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=9.2,name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
-# - pod lib lint --allow-warnings
+xcode_project: SwiftyDB.xcodeproj
+before_install: 
+  - brew update
+  - brew upgrade xctool
+  - brew install carthage
+  - carthage bootstrap --verbose
+xcode_scheme: SwiftyDB iOS
