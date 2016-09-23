@@ -24,5 +24,5 @@ before_install:
   - brew update
   # - carthage update
 script:
-  - cd Example; pod lib lint --allow-warnings; cd ..
+  - pod lib lint --allow-warnings
   # - xcodebuild clean test -project SwiftyDB.xcodeproj -scheme SwiftyDB\ iOS -sdk iphonesimulator -destination 'name=iPhone 6' ONLY_ACTIVE_ARCH=NO | xcpretty
