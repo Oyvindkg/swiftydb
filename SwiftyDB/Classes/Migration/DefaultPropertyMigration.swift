@@ -24,7 +24,7 @@ internal class DefaultPropertyMigration: PropertyMigration {
         self.migration    = migration
     }
     
-    func renameTo(name: String) -> PropertyMigration {
+    func rename(to name: String) -> PropertyMigration {
         self.newPropertyName = name
         
         migration.operations.append(
@@ -34,14 +34,14 @@ internal class DefaultPropertyMigration: PropertyMigration {
         return self
     }
     
-    func transformFrom<U : StorableProperty, V : StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration {
+    func transformFromType<U : StorableProperty, V : StorableProperty>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration {
         let transformation: (StorableValue?) -> V.StorableValueType? = { storableValue in
             let previousValue: U? = self.valueFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.storableValue
         }
         
-        add(transformation: transformation)
+        addTransformation(transformation)
         
         return self
     }
@@ -49,7 +49,7 @@ internal class DefaultPropertyMigration: PropertyMigration {
     
     // MARK: - Raw representables
     
-    func transformFrom<U : RawRepresentable, V : RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty {
+    func transformFromType<U : RawRepresentable, V : RawRepresentable>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty {
         
         let transformation: (StorableValue?) -> V.RawValue.StorableValueType? = { storableValue in
             let previousValue: U? = self.rawRepresentableFrom(storableValue: storableValue)
@@ -57,31 +57,31 @@ internal class DefaultPropertyMigration: PropertyMigration {
             return transformer(previousValue)?.rawValue.storableValue
         }
         
-        add(transformation: transformation)
+        addTransformation(transformation)
         
         return self
     }
     
-    func transformFrom<U : RawRepresentable, V : StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue : StorableProperty {
+    func transformFromType<U : RawRepresentable, V : StorableProperty>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue : StorableProperty {
         let transformation: (StorableValue?) -> V.StorableValueType? = { storableValue in
             let previousValue: U? = self.rawRepresentableFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.storableValue
         }
         
-        add(transformation: transformation)
+        addTransformation(transformation)
         
         return self
     }
     
-    func transformFrom<U : StorableProperty, V : RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue : StorableProperty {
+    func transformFromType<U : StorableProperty, V : RawRepresentable>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue : StorableProperty {
         let transformation: (StorableValue?) -> V.RawValue.StorableValueType? = { storableValue in
             let previousValue: U? = self.valueFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.rawValue.storableValue
         }
         
-        add(transformation: transformation)
+        addTransformation(transformation)
         
         return self
     }
@@ -89,7 +89,7 @@ internal class DefaultPropertyMigration: PropertyMigration {
     
     // MARK: - Helpers
     
-    fileprivate func add(transformation: @escaping (StorableValue?) -> StorableValue?) {
+    fileprivate func addTransformation(_ transformation: @escaping (StorableValue?) -> StorableValue?) {
         migration.operations.append(
             .transform(newPropertyName ?? propertyName, transformation)
         )

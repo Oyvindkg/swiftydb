@@ -17,7 +17,7 @@ public protocol PropertyMigration {
      - parameters:
         - newName: the new property name
      */
-    func renameTo(name: String) -> PropertyMigration
+    func rename(to name: String) -> PropertyMigration
     
     /**
      Transform a property
@@ -26,7 +26,7 @@ public protocol PropertyMigration {
         - fromType: the type of the value currently in the database
         - transformer: a closure mapping the value from the database to its new value
      */
-    func transformFrom<U: StorableProperty, V: StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration
+    func transformFromType<U: StorableProperty, V: StorableProperty>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration
     
     /**
      Transform a property
@@ -35,7 +35,7 @@ public protocol PropertyMigration {
         - fromType: the type of the value currently in the database
         - transformer: a closure mapping the value from the database to its new value
      */
-    func transformFrom<U: RawRepresentable, V: RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty
+    func transformFromType<U: RawRepresentable, V: RawRepresentable>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty
     
     /**
      Transform a property
@@ -44,7 +44,7 @@ public protocol PropertyMigration {
         - fromType: the type of the value currently in the database
         - transformer: a closure mapping the value from the database to its new value
      */
-    func transformFrom<U: RawRepresentable, V: StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty
+    func transformFromType<U: RawRepresentable, V: StorableProperty>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty
     
     /**
      Transform a property
@@ -53,7 +53,7 @@ public protocol PropertyMigration {
         - fromType: the type of the value currently in the database
         - transformer: a closure mapping the value from the database to its new value
      */
-    func transformFrom<U: StorableProperty, V: RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue: StorableProperty
+    func transformFromType<U: StorableProperty, V: RawRepresentable>(_ type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue: StorableProperty
     
     
     

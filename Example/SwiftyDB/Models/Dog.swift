@@ -54,7 +54,7 @@ class Dog: Storable {
 extension Dog: Migratable {
     static func migrate(migration: inout Migration) {
         if migration.schemaVersion < 1 {
-            migration.remove("weight")
+            migration.remove(property: "weight")
             
             migration.schemaVersion = 1
         }

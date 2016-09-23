@@ -27,9 +27,6 @@ class ViewController: UIViewController {
         
         let swifty = Swifty(configuration: configuration)
     
-        
-        let queue = DatabaseQueue(path: configuration.path)
-        
 
         
         let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
