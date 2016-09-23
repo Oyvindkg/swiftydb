@@ -10,7 +10,7 @@ import Foundation
 
 internal struct MigrationUtils {
     
-    static func propertyDefinitionsForType(_ type: Mappable.Type) -> [String: String] {
+    static func propertyDefinitionsFor(type: Mappable.Type) -> [String: String] {
         
         let reader = Mapper.readerFor(type: type)
         
@@ -23,11 +23,11 @@ internal struct MigrationUtils {
         return definitions
     }
     
-    static func typeInformationForType(_ type: Storable.Type, version: Int = 0) -> TypeInformation {
-        let name = String(describing: type)
-        let properties = propertyDefinitionsForType(type)
+    static func typeInformationFor(type: Storable.Type, version: Int = 0) -> TypeInformation {
+        let name       = String(describing: type)
+        let properties = propertyDefinitionsFor(type: type)
         let identifier = type.identifier()
-        let indices: Set<String> = []
+        let indices    = Set<String>()
         
         return TypeInformation(name: name, properties: properties, version: version, identifierName: identifier, indices: indices)
     }

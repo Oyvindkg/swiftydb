@@ -23,7 +23,7 @@ func <- <T: Mappable>(left: inout T, right: Reader) {
     
     right.storableValues[right.currentKey!] = reader.identifierValue
     
-    right.setCurrentValue(reader, forType: T.self)
+    right.setCurrent(value: reader, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout T, right: Writer) {
@@ -50,7 +50,7 @@ func <- <T: Mappable>(left: inout T?, right: Reader) {
     
     right.storableValues[right.currentKey!] = reader?.identifierValue
     
-    right.setCurrentValue(reader, forType: T.self)
+    right.setCurrent(value: reader, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout T?, right: Writer) {
@@ -80,8 +80,8 @@ func <- <T: Mappable>(left: inout T!, right: Reader) {
     }
     
     right.storableValues[right.currentKey!] = reader?.identifierValue
-    
-    right.setCurrentValue(reader, forType: T.self)
+
+    right.setCurrent(value: reader, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout T!, right: Writer) {
@@ -114,9 +114,8 @@ func <- <T: Mappable>(left: inout [T], right: Reader) {
     
     let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-        
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout [T], right: Writer) {
@@ -143,9 +142,8 @@ func <- <T: Mappable>(left: inout [T]?, right: Reader) {
     
     let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-    
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout [T]?, right: Writer) {
@@ -174,9 +172,8 @@ func <- <T: Mappable>(left: inout [T]!, right: Reader) {
     
     let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-    
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout [T]!, right: Writer) {
@@ -204,9 +201,8 @@ func <- <T: Mappable>(left: inout Set<T>, right: Reader) {
     
     let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-    
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout Set<T>, right: Writer) {
@@ -233,9 +229,8 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Reader) {
     
     let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-    
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout Set<T>?, right: Writer) {
@@ -264,9 +259,8 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
     
     let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
     
-    right.setCurrentValue(JSON)
-    
-    right.setCurrentValue(maps, forType: T.self)
+    right.setCurrent(value: JSON)
+    right.setCurrent(value: maps, forType: T.self)
 }
 
 func <- <T: Mappable>(left: inout Set<T>!, right: Writer) {

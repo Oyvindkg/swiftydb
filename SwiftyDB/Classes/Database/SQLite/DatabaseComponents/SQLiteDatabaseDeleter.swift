@@ -21,7 +21,7 @@ struct SQLiteDatabaseDeleter: DatabaseDeleter {
     
     func delete(query: _QueryProtocol) throws {
         
-        let query = queryFactory.deleteQueryForType(query.type, withFilter: query.filter as? SQLiteFilterStatement)
+        let query = queryFactory.deleteQueryFor(type: query.type, withFilter: query.filter as? SQLiteFilterStatement)
         
         try databaseQueue.database { database in
             try database.prepare(query.query)

@@ -50,7 +50,7 @@ struct SQLiteDatabase: Database {
         
         let readers = objects.flatMap(DefaultObjectSerializer.readersFor)
         
-        try tableCreator.createTableForReadersIfNecessary(readers)
+        try tableCreator.createTableIfNecessaryFor(readers: readers)
         
         try inserter.add(readers: readers)
     }
@@ -71,7 +71,7 @@ struct SQLiteDatabase: Database {
 
     func delete<T : Storable>(query: Query<T>) throws {
         do {
-            try tableCreator.createTableForTypeIfNecessary(T.self)
+            try tableCreator.createTableIfNecessaryFor(type: T.self)
             
             try deleter.delete(query: query)
         } catch is TinyError {

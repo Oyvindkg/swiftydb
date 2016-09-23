@@ -12,7 +12,7 @@ class Reader: BaseMap {
     
     var types: [String: Any.Type] = [:]
     
-    func setCurrentValue<T: StorableValue>(_ value: T?, forType type: Any.Type = T.self) {
+    func setCurrent<T: StorableValue>(value: T?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
             return
         }
@@ -21,7 +21,7 @@ class Reader: BaseMap {
         types[key] = type
     }
     
-    func setCurrentValue<T: StorableValue>(_ value: [T]?, forType type: Any.Type = T.self) {
+    func setCurrent<T: StorableValue>(value: [T]?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
             return
         }
@@ -30,7 +30,7 @@ class Reader: BaseMap {
         types[key] = [T].self
     }
     
-    func setCurrentValue<T: Mappable>(_ value: Reader?, forType type: T.Type) {
+    func setCurrent<T: Mappable>(value: Reader?, forType type: T.Type) {
         guard let key = currentKey else {
             return
         }
@@ -39,7 +39,7 @@ class Reader: BaseMap {
         types[key] = T.self
     }
     
-    func setCurrentValue<T: Mappable>(_ value: [Reader]?, forType type: T.Type) {
+    func setCurrent<T: Mappable>(value: [Reader]?, forType type: T.Type) {
         guard let key = currentKey else {
             return
         }

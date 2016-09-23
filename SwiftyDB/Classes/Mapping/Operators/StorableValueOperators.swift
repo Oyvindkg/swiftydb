@@ -21,7 +21,7 @@ public func <- <T: StorableProperty>(left: inout T, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout T, right: Reader) {
-    right.setCurrentValue(left.storableValue)
+    right.setCurrent(value: left.storableValue)
 }
 
 func <- <T: StorableProperty>(left: inout T, right: Writer) {
@@ -40,7 +40,7 @@ public func <- <T: StorableProperty>(left: inout T?, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout T?, right: Reader) {
-    right.setCurrentValue(left?.storableValue)
+    right.setCurrent(value: left?.storableValue)
 }
 
 func <- <T: StorableProperty>(left: inout T?, right: Writer) {
@@ -61,7 +61,7 @@ public func <- <T: StorableProperty>(left: inout T!, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout T!, right: Reader) {
-    right.setCurrentValue(left?.storableValue)
+    right.setCurrent(value: left?.storableValue)
 }
 
 func <- <T: StorableProperty>(left: inout T!, right: Writer) {
@@ -83,7 +83,7 @@ public func <- <T: StorableProperty>(left: inout [T], right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout [T], right: Reader) {
-    right.setCurrentValue( CollectionSerialization.stringFor(array: left)!, forType: [T].self  )
+    right.setCurrent(value:  CollectionSerialization.stringFor(array: left)!, forType: [T].self  )
 }
 
 func <- <T: StorableProperty>(left: inout [T], right: Writer) {
@@ -100,7 +100,7 @@ public func <- <T: StorableProperty>(left: inout [T]?, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout [T]?, right: Reader) {
-    right.setCurrentValue( CollectionSerialization.stringFor(array: left), forType: [T].self  )
+    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self  )
 }
 
 func <- <T: StorableProperty>(left: inout [T]?, right: Writer) {
@@ -117,7 +117,7 @@ public func <- <T: StorableProperty>(left: inout [T]!, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Reader) {
-    right.setCurrentValue( CollectionSerialization.stringFor(array: left), forType: [T].self )
+    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self )
 }
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
@@ -136,7 +136,7 @@ public func <- <T: StorableProperty>(left: inout Set<T>, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>, right: Reader) {
-    right.setCurrentValue(CollectionSerialization.stringFor(collection: left)!, forType: Set<T>.self)
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left)!, forType: Set<T>.self)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
@@ -155,7 +155,7 @@ public func <- <T: StorableProperty>(left: inout Set<T>?, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Reader) {
-    right.setCurrentValue(CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
@@ -176,7 +176,7 @@ public func <- <T: StorableProperty>(left: inout Set<T>!, right: Map) {
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
-    right.setCurrentValue(CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
+    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
@@ -200,7 +200,7 @@ public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], ri
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
     
-    right.setCurrentValue( CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.StorableValueType: Hashable {
@@ -217,7 +217,7 @@ public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, r
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
-    right.setCurrentValue( CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.StorableValueType: Hashable {
@@ -234,7 +234,7 @@ public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, r
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
-    right.setCurrentValue( CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
+    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.StorableValueType: Hashable {

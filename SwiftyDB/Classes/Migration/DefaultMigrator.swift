@@ -46,7 +46,7 @@ class DefaultMigrator: Migrator {
             }
             
             
-            let currentProperties = MigrationUtils.propertyDefinitionsForType(type)
+            let currentProperties = MigrationUtils.propertyDefinitionsFor(type: type)
             let previousProperties = typeInformation.properties
             
             if currentProperties.count != previousProperties.count {
@@ -67,12 +67,12 @@ class DefaultMigrator: Migrator {
                     throw SwiftyError.migration("\(type) was migrated, but the schema version was not incremented")
                 }
                 
-                let newTypeInformation = MigrationUtils.typeInformationForType(type, version: Int(newSchemaVersion))
+                let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: Int(newSchemaVersion))
                 
                 _ = swifty.addSync([newTypeInformation])
             }
         } else {
-            let newTypeInformation = MigrationUtils.typeInformationForType(type)
+            let newTypeInformation = MigrationUtils.typeInformationFor(type: type)
             
             _ = swifty.addSync([newTypeInformation])
         }

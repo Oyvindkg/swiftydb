@@ -21,35 +21,35 @@ class SQLiteDatabaseTableCreator {
         self.queryFactory = queryFactory
     }
     
-    func createTableForTypeIfNecessary(_ type: Storable.Type) throws {
-        let reader = Mapper.readerFor(type: type)
-        
-        try createTableForReader( reader )
-    }
-    
-    func createTableForReadersIfNecessary(_ readers: [Reader]) throws {
+    func createTableIfNecessaryFor(readers: [Reader]) throws {
         
         for reader in readers {
-            let tableExists = try tableExistsForReader(reader)
-
+            let tableExists = try tableExistsFor(reader: reader)
+            
             guard !tableExists else {
                 continue
             }
             
-            try createTableForReader(reader)
+            try createTableFor(reader: reader)
         }
     }
-    
-    fileprivate func createTableForReader(_ reader: Reader) throws {
+
+    func createTableIfNecessaryFor(type: Storable.Type) throws {
+        let reader = Mapper.readerFor(type: type)
         
-        try createTablesForNestedReadersIfNecessary(reader)
+        try createTableFor(reader: reader )
+    }
+    
+    fileprivate func createTableFor(reader: Reader) throws {
+        
+        try createTablesIfNecessaryForNestedReadersIn(reader: reader)
         
         /* Table was created for a nested reader */
-        if try tableExistsForReader(reader) {
+        if try tableExistsFor(reader: reader) {
             return
         }
         
-        let query = queryFactory.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQueryFor(reader: reader)
         
         try databaseQueue.database { database in
             try database.prepare(query.query)
@@ -60,24 +60,24 @@ class SQLiteDatabaseTableCreator {
         existingTables.insert(String(describing: reader.type))
     }
     
-    fileprivate func createTablesForNestedReadersIfNecessary(_ reader: Reader) throws {
+    fileprivate func createTablesIfNecessaryForNestedReadersIn(reader: Reader) throws {
         
         /* Nested storable objects */
-        try createTableForReadersIfNecessary( reader.mappables.map { $0.1 as! Reader } )
+        try createTableIfNecessaryFor(readers: reader.mappables.map { $0.value as! Reader })
         
         /* Nested arrays and sets of storable objects */
         for (_, childMaps) in reader.mappableArrays {
             let childReaders: [Reader] = childMaps.matchType()
             
-            try createTableForReadersIfNecessary(childReaders)
+            try createTableIfNecessaryFor(readers: childReaders)
         }
     }
     
-    fileprivate func tableExistsForReader(_ reader: Reader) throws -> Bool {
-        return try tableExistsForType(reader.type as! Storable.Type)
+    fileprivate func tableExistsFor(reader: Reader) throws -> Bool {
+        return try tableExistsFor(type: reader.type as! Storable.Type)
     }
     
-    fileprivate func tableExistsForType(_ type: Storable.Type) throws -> Bool {
+    fileprivate func tableExistsFor(type: Storable.Type) throws -> Bool {
         let name = String(describing: type)
 
         guard !existingTables.contains( name ) else {

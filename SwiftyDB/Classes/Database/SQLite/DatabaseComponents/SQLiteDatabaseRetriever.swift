@@ -35,7 +35,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
     
 
     fileprivate func getWritersFor(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
-        let query = queryFactory.selectQueryForType(reader.storableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
+        let query = queryFactory.selectQueryFor(type: reader.storableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
         let statement = try database.prepare(query.query)
         
@@ -65,11 +65,11 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
         
         for (property, type) in reader.types {
             if let storableType = type as? Storable.Type {
-                writer.mappables[property] = try getStorableWriterForProperty(property, ofType: storableType, forWriter: writer, database: database)
+                writer.mappables[property] = try getStorableWriterFor(property: property, ofType: storableType, forWriter: writer, database: database)
                 
             } else if let storableArrayType = type as? StorableArray.Type {
                 if let storableType = storableArrayType.storableType {
-                    let maps: [Map]? = try getStorableWritersForProperty(property, ofType: storableType, forWriter: writer, database: database)?.matchType()
+                    let maps: [Map]? = try getStorableWritersFor(property: property, ofType: storableType, forWriter: writer, database: database)?.matchType()
                     
                     writer.mappableArrays[property] = maps
                 }
@@ -77,11 +77,11 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
         }
     }
     
-    fileprivate func getStorableWriterForProperty(_ property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
-        return try getStorableWritersForProperty(property, ofType: type, forWriter: writer, database: database)?.first
+    fileprivate func getStorableWriterFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
+        return try getStorableWritersFor(property: property, ofType: type, forWriter: writer, database: database)?.first
     }
     
-    fileprivate func getStorableWritersForProperty(_ property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
+    fileprivate func getStorableWritersFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
         let propertyReader = Mapper.readerFor(type: type)
         
         guard let storableValue = writer.storableValues[property] as? String else {

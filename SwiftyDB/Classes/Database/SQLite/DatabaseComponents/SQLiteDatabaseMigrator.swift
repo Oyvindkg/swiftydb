@@ -34,23 +34,23 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         
         try databaseQueue.transaction { database in
             
-            let existingData = try self.existingDataForType(type, fromDatabase: database)
+            let existingData = try self.existingDataFor(type: type, fromDatabase: database)
             
-            let migratedData = self.migratedData(existingData, withMigration: migration as! _Migration, forType: type)
+            let migratedData = self.migratedDataFrom(data: existingData, withMigration: migration as! _Migration, forType: type)
  
-            try self.validateMigratedData(migratedData, forType: type)
+            try self.validate(migratedData: migratedData, forType: type)
             
-            try self.dropTableForType(type, inDatabase: database)
+            try self.dropTableFor(type: type, inDatabase: database)
 
-            try self.createTableForType(type, inDatabase: database)
+            try self.createTableFor(type: type, inDatabase: database)
             
-            try self.insertData(migratedData, forType: type, inDatabase: database)
+            try self.insert(data: migratedData, forType: type, inDatabase: database)
         }
         
         return migration.schemaVersion
     }
     
-    func validateMigratedData(_ migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
+    func validate(migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
         guard !migratedData.isEmpty else {
             return
         }
@@ -75,15 +75,15 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     
     func migrate(type: Storable.Type) throws -> UInt {
         try databaseQueue.transaction { database in
-            try self.createTableForType(type, inDatabase: database)
+            try self.createTableFor(type: type, inDatabase: database)
         }
         
         return 0
     }
     
-    fileprivate func existingDataForType(_ type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
+    fileprivate func existingDataFor(type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
-        let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
+        let retrieveQuery = self.queryFactory.selectQueryFor(type: type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
         
         let statement = try database.prepare(retrieveQuery.query)
         
@@ -96,7 +96,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     // TODO: Make sure operations are executed in the correct order
-    fileprivate func migratedData(_ dataArray: [[String: SQLiteValue?]], withMigration migration: _Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
+    fileprivate func migratedDataFrom(data dataArray: [[String: SQLiteValue?]], withMigration migration: _Migration, forType type: Storable.Type) -> [[String: SQLiteValue?]] {
         var migratedDataArray = dataArray
         
         if dataArray.isEmpty {
@@ -128,26 +128,26 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         return migratedDataArray
     }
     
-    fileprivate func dropTableForType(_ type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func dropTableFor(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         try database.prepare("DROP TABLE \(type)")
             .executeUpdate()
             .finalize()
     }
     
-    fileprivate func createTableForType(_ type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func createTableFor(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerFor(type: type)
         
-        let createTableQuery = self.queryFactory.createTableQueryForReader(reader)
+        let createTableQuery = self.queryFactory.createTableQueryFor(reader: reader)
         
         try database.prepare(createTableQuery.query)
             .executeUpdate(createTableQuery.parameters)
             .finalize()
     }
     
-    fileprivate func insertData(_ dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
+    fileprivate func insert(data dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerFor(type: type)
         
-        let insertQuery = self.queryFactory.insertQueryForReader(reader)
+        let insertQuery = self.queryFactory.insertQueryFor(reader: reader)
 
         let insertStatement = try database.prepare(insertQuery.query)
         

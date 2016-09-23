@@ -43,7 +43,7 @@ public enum Result<T> {
      - parameters:
         - transformer: closure used to transform any wrapped value
      */
-    func transform<R>(_ transformer: (T) -> R) -> Result<R> {
+    func transform<R>(transformer: (T) -> R) -> Result<R> {
         switch self {
         case .success(let value):
             return .success(transformer(value))

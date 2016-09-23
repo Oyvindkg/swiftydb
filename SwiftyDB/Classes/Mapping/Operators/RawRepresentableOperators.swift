@@ -19,13 +19,13 @@ public func <- <T: RawRepresentable>(left: inout T, right: Map) where T.RawValue
 }
 
 func <- <T: RawRepresentable>(left: inout T, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrentValue(left.rawValue.storableValue)
+    right.setCurrent(value: left.rawValue.storableValue)
 }
 
 func <- <T: RawRepresentable>(left: inout T, right: Writer) where T.RawValue: StorableProperty {
     let storableValue: T.RawValue.StorableValueType = right.getCurrentValue()!
     
-    left = rawRepresentableFromStorableValue(storableValue)!
+    left = rawRepresentableFrom(storableValue: storableValue)!
 }
 
 
@@ -38,12 +38,12 @@ public func <- <T: RawRepresentable>(left: inout T?, right: Map) where T.RawValu
 }
 
 func <- <T: RawRepresentable>(left: inout T?, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrentValue(left?.rawValue.storableValue)
+    right.setCurrent(value: left?.rawValue.storableValue)
 }
 
 func <- <T: RawRepresentable>(left: inout T?, right: Writer) where T.RawValue: StorableProperty {
     if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromStorableValue(storableValue)
+        left = rawRepresentableFrom(storableValue: storableValue)
     } else {
         left = nil
     }
@@ -59,12 +59,12 @@ public func <- <T: RawRepresentable>(left: inout T!, right: Map) where T.RawValu
 }
 
 func <- <T: RawRepresentable>(left: inout T!, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrentValue(left?.rawValue.storableValue)
+    right.setCurrent(value: left?.rawValue.storableValue)
 }
 
 func <- <T: RawRepresentable>(left: inout T!, right: Writer) where T.RawValue: StorableProperty {
     if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromStorableValue(storableValue)
+        left = rawRepresentableFrom(storableValue: storableValue)
     } else {
         left = nil
     }
@@ -83,13 +83,13 @@ public func <- <T: RawRepresentable>(left: inout [T], right: Map) where T.RawVal
 func <- <T: RawRepresentable>(left: inout [T], right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storableValues)
+    right.setCurrent(value: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T], right: Writer) where T.RawValue: StorableProperty {
     let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
     
-    left = storableValues.map(rawRepresentableFromStorableValue)
+    left = storableValues.map(rawRepresentableFrom)
 }
 
 
@@ -104,12 +104,12 @@ public func <- <T: RawRepresentable>(left: inout [T]?, right: Map) where T.RawVa
 func <- <T: RawRepresentable>(left: inout [T]?, right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storableValues)
+    right.setCurrent(value: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]?, right: Writer) where T.RawValue: StorableProperty {
     if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFromStorableValue)
+        left = storableValues.map(rawRepresentableFrom)
     } else {
         left = nil
     }
@@ -127,12 +127,12 @@ public func <- <T: RawRepresentable>(left: inout [T]!, right: Map) where T.RawVa
 func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue: StorableProperty {
     let storableValues = left?.map { $0.rawValue.storableValue }
     
-    right.setCurrentValue(storableValues)
+    right.setCurrent(value: storableValues)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue: StorableProperty {
     if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFromStorableValue)
+        left = storableValues.map(rawRepresentableFrom)
     } else {
         left = nil
     }
@@ -176,13 +176,13 @@ func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue:
 
 // MARK: Helpers
 
-private func rawRepresentableFromStorableValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
+private func rawRepresentableFrom <T: RawRepresentable> (storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
     let rawValue = T.RawValue.from(storableValue: storableValue)
     
     return T.init(rawValue: rawValue)!
 }
 
-private func rawRepresentableFromStorableValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
+private func rawRepresentableFrom <T: RawRepresentable> (storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
     guard storableValue != nil else {
         return nil
     }
