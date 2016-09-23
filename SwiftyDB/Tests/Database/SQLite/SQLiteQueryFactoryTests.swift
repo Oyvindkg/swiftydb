@@ -15,12 +15,12 @@ import XCTest
 class SQLiteQueryFactoryTests: XCTestCase {
     
     var sut = SQLiteQueryFactory()
-    var reader = Mapper.readerForType(Stark.self)
+    var reader = Mapper.readerFor(type: Stark.self)
     
     override func setUp() {
         super.setUp()
         
-        reader = Mapper.readerForType(Stark.self)
+        reader = Mapper.readerFor(type: Stark.self)
         sut = SQLiteQueryFactory()
     }
     
@@ -88,7 +88,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         let lady  = Wolf(name: "Lady", age: 3)
         let sansa = Stark(name: "Sansa", weight: 50, age: 14, wolf: lady)
         
-        let reader = Mapper.readerForObject(sansa)
+        let reader = Mapper.readerFor(object: sansa)
         
         let query = sut.insertQueryForReader(reader)
         
@@ -102,7 +102,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         let lady  = Wolf(name: "Lady", age: 3)
         let sansa = Stark(name: "Sansa", weight: 50, age: 14, wolf: lady)
         
-        let reader = Mapper.readerForObject(sansa)
+        let reader = Mapper.readerFor(object: sansa)
         
         let query = sut.insertQueryForReader(reader)
         
