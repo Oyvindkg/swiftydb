@@ -8,6 +8,7 @@
 
 import XCTest
 
+
 @testable import SwiftyDB
 
 
@@ -69,7 +70,7 @@ class SwiftyTests: XCTestCase {
         }
     }
     
-    func testStringsAreStoredAndRetrievedSuccessfully() {
+    func testObjectsAreStoredAndRetrievedSuccessfully() {
         let object = TestClass()
         
         swifty.add(object) { result in
@@ -109,39 +110,38 @@ class SwiftyTests: XCTestCase {
                 XCTAssertEqual(retrievedObject.intArray, object.intArray)
                 XCTAssertEqual(retrievedObject.doubleArray, object.doubleArray)
                 
-                /*
-                expect(retrievedObject.optionalString).to(equal(object.optionalString))
-                expect(retrievedObject.optionalCharacter).to(equal(object.optionalCharacter))
-                expect(retrievedObject.optionalBool).to(equal(object.optionalBool))
+
+                XCTAssertEqual(retrievedObject.optionalString, object.optionalString)
+                XCTAssertEqual(retrievedObject.optionalCharacter, object.optionalCharacter)
+                XCTAssertEqual(retrievedObject.optionalBool, object.optionalBool)
                 
-                expect(retrievedObject.optionalInt).to(equal(object.optionalInt))
-                expect(retrievedObject.optionalInt8).to(equal(object.optionalInt8))
-                expect(retrievedObject.optionalInt16).to(equal(object.optionalInt16))
-                expect(retrievedObject.optionalInt32).to(equal(object.optionalInt32))
-                expect(retrievedObject.optionalInt64).to(equal(object.optionalInt64))
+                XCTAssertEqual(retrievedObject.optionalInt, object.optionalInt)
+                XCTAssertEqual(retrievedObject.optionalInt8, object.optionalInt8)
+                XCTAssertEqual(retrievedObject.optionalInt16, object.optionalInt16)
+                XCTAssertEqual(retrievedObject.optionalInt32, object.optionalInt32)
+                XCTAssertEqual(retrievedObject.optionalInt64, object.optionalInt64)
                 
-                expect(retrievedObject.optionalUint).to(equal(object.optionalUint))
-                expect(retrievedObject.optionalUint8).to(equal(object.optionalUint8))
-                expect(retrievedObject.optionalUint16).to(equal(object.optionalUint16))
-                expect(retrievedObject.optionalUint32).to(equal(object.optionalUint32))
-                expect(retrievedObject.optionalUint64).to(equal(object.optionalUint64))
+                XCTAssertEqual(retrievedObject.optionalUint, object.optionalUint)
+                XCTAssertEqual(retrievedObject.optionalUint8, object.optionalUint8)
+                XCTAssertEqual(retrievedObject.optionalUint16, object.optionalUint16)
+                XCTAssertEqual(retrievedObject.optionalUint32, object.optionalUint32)
+                XCTAssertEqual(retrievedObject.optionalUint64, object.optionalUint64)
                 
-                expect(retrievedObject.optionalDouble).to(equal(object.optionalDouble))
-                expect(retrievedObject.optionalFloat).to(equal(object.optionalFloat))
+                XCTAssertEqual(retrievedObject.optionalDouble, object.optionalDouble)
+                XCTAssertEqual(retrievedObject.optionalFloat, object.optionalFloat)
                 
-                expect(retrievedObject.optionalData).to(equal(object.optionalData))
-                expect(retrievedObject.optionalNumber).to(equal(object.optionalNumber))
+                XCTAssertEqual(retrievedObject.optionalData, object.optionalData)
+                XCTAssertEqual(retrievedObject.optionalNumber, object.optionalNumber)
                 
-                expect(retrievedObject.optionalDate!.timeIntervalSince1970).to(beCloseTo(object.optionalDate!.timeIntervalSince1970, within: 0.0005))
+                XCTAssertLessThan(abs(retrievedObject.optionalDate!.timeIntervalSinceNow - object.optionalDate!.timeIntervalSinceNow), 0.0005)
                 
-                expect(retrievedObject.optionalStorable).to(equal(object.optionalStorable))
-                expect(retrievedObject.optionalStorableSet).to(equal(object.optionalStorableSet))
-                expect(retrievedObject.optionalStorableArray).to(equal(object.optionalStorableArray))
+                XCTAssertEqual(retrievedObject.optionalStorable, object.optionalStorable)
+                XCTAssertEqual(retrievedObject.optionalStorableSet, object.optionalStorableSet)
+                XCTAssertEqual(retrievedObject.optionalStorableArray!, object.optionalStorableArray!)
                 
-                expect(retrievedObject.optionalStringArray).to(equal(object.optionalStringArray))
-                expect(retrievedObject.optionalIntArray).to(equal(object.optionalIntArray))
-                expect(retrievedObject.optionalDoubleArray).to(equal(object.optionalDoubleArray))
-                */
+                XCTAssertEqual(retrievedObject.optionalStringArray!, object.optionalStringArray!)
+                XCTAssertEqual(retrievedObject.optionalIntArray!, object.optionalIntArray!)
+                XCTAssertEqual(retrievedObject.optionalDoubleArray!, object.optionalDoubleArray!)
             }
         }
     }

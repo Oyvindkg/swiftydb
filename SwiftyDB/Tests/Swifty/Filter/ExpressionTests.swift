@@ -10,9 +10,6 @@ import XCTest
 
 @testable import SwiftyDB
 
-func fail() {
-    XCTAssert(false)
-}
 
 class ExpressionTests: XCTestCase {
     fileprivate let property             = "name"
@@ -36,7 +33,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testNotEqualNegationIsEqual() {
@@ -46,7 +43,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testLessNegationIsGreaterOrEqual() {
@@ -56,7 +53,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testGreaterNegationIsLessOrEqual() {
@@ -66,7 +63,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testLessOrEqualNegationIsGreater() {
@@ -76,7 +73,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testGreaterOrEqualNegationIsLess() {
@@ -86,7 +83,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testContainedInNegationIsNotContainedIn() {
@@ -96,7 +93,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testNotContainedInNegationIsContainedIn() {
@@ -106,7 +103,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testBetweenNegationIsNotBetween() {
@@ -116,7 +113,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testNotBetweenNegationIsBetween() {
@@ -126,7 +123,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testLikeNegationIsNotLike() {
@@ -136,7 +133,7 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
     
     func testNotLikeNegationIsLike() {
@@ -146,6 +143,6 @@ class ExpressionTests: XCTestCase {
             return
         }
         
-        fail()
+        XCTFail()
     }
 }

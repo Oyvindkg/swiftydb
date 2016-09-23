@@ -106,8 +106,8 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let query = sut.insertQueryForReader(reader)
         
-        XCTAssert(query.query.contains("':age'"), "All properties should be parameterized")
-        XCTAssert(query.query.contains("':name'"), "All properties should be parameterized")
-        XCTAssert(query.query.contains("':weight'"), "All properties should be parameterized")
+        XCTAssert(query.query.contains(":age"), "All properties should be parameterized")
+        XCTAssert(query.query.contains(":name"), "All properties should be parameterized")
+        XCTAssert(query.query.contains(":weight"), "All properties should be parameterized")
     }
 }

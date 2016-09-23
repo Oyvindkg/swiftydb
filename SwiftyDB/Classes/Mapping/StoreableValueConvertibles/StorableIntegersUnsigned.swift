@@ -9,10 +9,21 @@
 import Foundation
 
 
-//TODO: Can SQLite store undigned 64-bit integers?
+//TODO: Should this simply be a string?
 
+/* UInt is 64 bit on 64 bit systems. Detect and store as string if necessary */
 extension UInt: StorableProperty {
+#if arch(x86_64) || arch(arm64)
+    public typealias StorableValueType = String
+
+    public var storableValue: StorableValueType {
+        return String(self)
+    }
     
+    public static func from(storableValue: StorableValueType) -> UInt {
+        return UInt(storableValue)!
+    }
+#else
     public typealias StorableValueType = Int64
     
     public var storableValue: StorableValueType {
@@ -22,6 +33,7 @@ extension UInt: StorableProperty {
     public static func from(storableValue: StorableValueType) -> UInt {
         return UInt(storableValue)
     }
+#endif    
 }
 
 extension UInt8: StorableProperty {
