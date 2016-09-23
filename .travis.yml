@@ -8,8 +8,8 @@ cache:
 - carthage
 - xcpretty
 podfile: Example/Podfile
-rvm:
-- 2.2.2
+# rvm:
+# - 2.2.2
 before_install:
 - gem install carthage
 - gem install xcpretty
