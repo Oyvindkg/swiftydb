@@ -24,11 +24,11 @@ extension Array {
 
 extension Collection {
     
-    func asType<T>(_ type: T.Type) -> [T?] {
+    func to<T>(type: T.Type) -> [T?] {
         return self.map { $0 as? T }
     }
     
-    func asType<T>(_ type: T.Type) -> [T] {
+    func to<T>(type: T.Type) -> [T] {
         return self.map { $0 as! T }
     }
     
@@ -44,13 +44,13 @@ extension Collection {
         return Iterator.Element.self
     }
     
-    func groupBy<T: Hashable>(_ keyBlock: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
+    func group<T: Hashable>(by: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
         var grouped: [T: [Iterator.Element]] = [:]
         
-        let keys = Set(self.map(keyBlock))
+        let keys = Set(self.map(by))
         
         for key in keys {
-            grouped[key] = self.filter { keyBlock($0) == key }
+            grouped[key] = self.filter { by($0) == key }
         }
         
         return grouped

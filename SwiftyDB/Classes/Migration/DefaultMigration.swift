@@ -25,63 +25,63 @@ internal class DefaultMigration: Migration, _Migration {
         self.schemaVersion = schemaVersion
     }
     
-    func migrate(_ propertyName: String) -> PropertyMigration {
-        return DefaultPropertyMigration(propertyName: propertyName, migration: self)
+    func migrate(property: String) -> PropertyMigration {
+        return DefaultPropertyMigration(propertyName: property, migration: self)
     }
     
-    fileprivate func add(_ property: String, defaultValue: StorableValue?) {
+    fileprivate func add(property: String, defaultValue: StorableValue?) {
         operations.append(
             MigrationOperation.add(property, defaultValue)
         )
     }
     
-    func add<T : RawRepresentable>(_ property: String, defaultValue: T) where T.RawValue : StorableProperty {
-        add(property, defaultValue: defaultValue.rawValue)
+    func add<T : RawRepresentable>(property: String, defaultValue: T) where T.RawValue : StorableProperty {
+        add(property: property, defaultValue: defaultValue.rawValue)
     }
     
-    func add<T : RawRepresentable>(_ property: String, defaultValue: [T]) where T.RawValue : StorableProperty {
-        add(property, defaultValue: defaultValue.map { $0.rawValue })
+    func add<T : RawRepresentable>(property: String, defaultValue: [T]) where T.RawValue : StorableProperty {
+        add(property: property, defaultValue: defaultValue.map { $0.rawValue })
     }
     
-    func add<T : RawRepresentable>(_ property: String, defaultValue: Set<T>) where T.RawValue : StorableProperty {
-        add(property, defaultValue: Array(defaultValue))
+    func add<T : RawRepresentable>(property: String, defaultValue: Set<T>) where T.RawValue : StorableProperty {
+        add(property: property, defaultValue: Array(defaultValue))
     }
     
-    func add<T : StorableProperty, U : RawRepresentable>(_ property: String, defaultValue: [T : U]) where U.RawValue : StorableProperty, T.StorableValueType : Hashable {
+    func add<T : StorableProperty, U : RawRepresentable>(property: String, defaultValue: [T : U]) where U.RawValue : StorableProperty, T.StorableValueType : Hashable {
         var storableConvertibleDictionary: [T: U.RawValue] = [:]
         
         for (key, value) in defaultValue {
             storableConvertibleDictionary[key] = value.rawValue
         }
         
-        add(property, defaultValue: storableConvertibleDictionary)
+        add(property: property, defaultValue: storableConvertibleDictionary)
     }
     
-    func add<T : StorableProperty>(_ property: String, defaultValue: T) {
-        add(property, defaultValue: defaultValue.storableValue)
+    func add<T : StorableProperty>(property: String, defaultValue: T) {
+        add(property: property, defaultValue: defaultValue.storableValue)
     }
     
-    func add(_ property: String) {
-        add(property, defaultValue: nil)
+    func add(property: String) {
+        add(property: property, defaultValue: nil)
     }
     
-    func add<T : StorableProperty>(_ property: String, defaultValue: [T]) {
+    func add<T : StorableProperty>(property: String, defaultValue: [T]) {
         let storableValue = CollectionSerialization.stringFor(array: defaultValue)
         
-        add(property, defaultValue: storableValue)
+        add(property: property, defaultValue: storableValue)
     }
     
-    func add<T : StorableProperty, U : StorableProperty>(_ property: String, defaultValue: Dictionary<T, U>) where T.StorableValueType : Hashable {
+    func add<T : StorableProperty, U : StorableProperty>(property: String, defaultValue: Dictionary<T, U>) where T.StorableValueType : Hashable {
         let storableValue = CollectionSerialization.stringFor(dictionary: defaultValue)
         
-        add(property, defaultValue: storableValue)
+        add(property: property, defaultValue: storableValue)
     }
     
-    func add<T : StorableProperty>(_ property: String, defaultValue: Set<T>) {
-        add(property, defaultValue: Array(defaultValue))
+    func add<T : StorableProperty>(property: String, defaultValue: Set<T>) {
+        add(property: property, defaultValue: Array(defaultValue))
     }
     
-    func remove(_ property: String) {
+    func remove(property: String) {
         operations.append(
             .remove(property)
         )

@@ -145,6 +145,7 @@
 		3913BF2D1D9514D90000C303 /* TinySQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TinySQLite.framework; path = Carthage/Build/iOS/TinySQLite.framework; sourceTree = "<group>"; };
 		3921A9451D950E2C004D3AD5 /* SwiftyDB iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftyDB iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3921A9491D950E2C004D3AD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		399923221D95965E00C66AE4 /* sqlite3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlite3.framework; path = Carthage/Build/iOS/sqlite3.framework; sourceTree = "<group>"; };
 		39D55C351D94920700ED3486 /* SQLiteDatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatatypeTests.swift; sourceTree = "<group>"; };
 		39D55C361D94920700ED3486 /* SQLiteQueryFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQueryFactoryTests.swift; sourceTree = "<group>"; };
 		39D55C371D94920700ED3486 /* SQLiteQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQueryTests.swift; sourceTree = "<group>"; };
@@ -295,6 +296,7 @@
 		390689BF1D9421F300F94658 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				399923221D95965E00C66AE4 /* sqlite3.framework */,
 				3913BF2D1D9514D90000C303 /* TinySQLite.framework */,
 			);
 			name = Frameworks;
@@ -308,6 +310,14 @@
 				3921A9491D950E2C004D3AD5 /* Info.plist */,
 			);
 			path = "SwiftyDB iOS Tests";
+			sourceTree = "<group>";
+		};
+		39C7A0C11D95256A007DE414 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				39D55C611D94925E00ED3486 /* SQLite */,
+			);
+			name = Implementations;
 			sourceTree = "<group>";
 		};
 		39D55C331D94920700ED3486 /* Database */ = {
@@ -377,7 +387,7 @@
 				39D55C561D94925E00ED3486 /* DatabaseIndexer.swift */,
 				39D55C571D94925E00ED3486 /* DefaultObjectSerializer.swift */,
 				39D55C581D94925E00ED3486 /* Protocols */,
-				39D55C611D94925E00ED3486 /* SQLite */,
+				39C7A0C11D95256A007DE414 /* Implementations */,
 			);
 			name = Database;
 			path = Classes/Database;

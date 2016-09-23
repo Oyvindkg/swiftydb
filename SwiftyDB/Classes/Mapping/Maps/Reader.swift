@@ -44,7 +44,7 @@ class Reader: BaseMap {
             return
         }
         
-        mappableArrays[key] = value?.asType(Map.self)
+        mappableArrays[key] = value?.to(type: Map.self)
         types[key] = [T].self
     }
 }

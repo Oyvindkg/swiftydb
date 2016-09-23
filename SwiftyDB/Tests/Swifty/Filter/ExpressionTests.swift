@@ -29,120 +29,134 @@ class ExpressionTests: XCTestCase {
     func testEqualNegationIsNotEqual() {
         let equal = Expression.equal(property, intValue)
         
-        if case .notEqual(_,_) = equal.negated() {
-            return
+        if case .notEqual(let negatedProperty, let negatedValue) = equal.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testNotEqualNegationIsEqual() {
-        let equal = Expression.notEqual(property, intValue)
+        let notEqual = Expression.notEqual(property, intValue)
         
-        if case .equal(_,_) = equal.negated() {
-            return
+        if case .equal(let negatedProperty, let negatedValue) = notEqual.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testLessNegationIsGreaterOrEqual() {
-        let equal = Expression.less(property, intValue)
+        let less = Expression.less(property, intValue)
         
-        if case .greaterOrEqual(_,_) = equal.negated() {
-            return
+        if case .greaterOrEqual(let negatedProperty, let negatedValue) = less.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testGreaterNegationIsLessOrEqual() {
-        let equal = Expression.greater(property, intValue)
+        let greater = Expression.greater(property, intValue)
         
-        if case .lessOrEqual(_,_) = equal.negated() {
-            return
+        if case .lessOrEqual(let negatedProperty, let negatedValue) = greater.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testLessOrEqualNegationIsGreater() {
-        let equal = Expression.lessOrEqual(property, intValue)
+        let lessOrEqual = Expression.lessOrEqual(property, intValue)
         
-        if case .greater(_,_) = equal.negated() {
-            return
+        if case .greater(let negatedProperty, let negatedValue) = lessOrEqual.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testGreaterOrEqualNegationIsLess() {
-        let equal = Expression.greaterOrEqual(property, intValue)
+        let greaterOrEqual = Expression.greaterOrEqual(property, intValue)
         
-        if case .less(_,_) = equal.negated() {
-            return
+        if case .less(let negatedProperty, let negatedValue) = greaterOrEqual.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! Int64, intValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testContainedInNegationIsNotContainedIn() {
-        let equal = Expression.containedIn(property, [intValue])
+        let containedIn = Expression.containedIn(property, [intValue])
         
-        if case .notContainedIn(_,_) = equal.negated() {
-            return
+        if case .notContainedIn(let negatedProperty, let negatedValue) = containedIn.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! [Int64], [intValue])
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testNotContainedInNegationIsContainedIn() {
-        let equal = Expression.notContainedIn(property, [intValue])
+        let notContainedIn = Expression.notContainedIn(property, [intValue])
         
-        if case .containedIn(_,_) = equal.negated() {
-            return
+        if case .containedIn(let negatedProperty, let negatedValue) = notContainedIn.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedValue as! [Int64], [intValue])
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testBetweenNegationIsNotBetween() {
-        let equal = Expression.between(property, intValue, otherIntValue)
+        let between = Expression.between(property, intValue, otherIntValue)
         
-        if case .notBetween(_,_,_) = equal.negated() {
-            return
+        if case .notBetween(let negatedProperty, let minNegatedValue, let maxNegatedValue) = between.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(minNegatedValue as! Int64, intValue)
+            XCTAssertEqual(maxNegatedValue as! Int64, otherIntValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testNotBetweenNegationIsBetween() {
-        let equal = Expression.notBetween(property, intValue, otherIntValue)
+        let notBetween = Expression.notBetween(property, intValue, otherIntValue)
         
-        if case .between(_,_,_) = equal.negated() {
-            return
+        if case .between(let negatedProperty, let minNegatedValue, let maxNegatedValue) = notBetween.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(minNegatedValue as! Int64, intValue)
+            XCTAssertEqual(maxNegatedValue as! Int64, otherIntValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testLikeNegationIsNotLike() {
-        let equal = Expression.like(property, stringValue)
+        let like = Expression.like(property, stringValue)
         
-        if case .notLike(_,_) = equal.negated() {
-            return
+        if case .notLike(let negatedProperty, let negatedPattern) = like.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedPattern, stringValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
     
     func testNotLikeNegationIsLike() {
-        let equal = Expression.notLike(property, stringValue)
+        let notLike = Expression.notLike(property, stringValue)
         
-        if case .like(_,_) = equal.negated() {
-            return
+        if case .like(let negatedProperty, let negatedPattern) = notLike.negated() {
+            XCTAssertEqual(negatedProperty, property)
+            XCTAssertEqual(negatedPattern, stringValue)
+        } else {
+            XCTFail()
         }
-        
-        XCTFail()
     }
 }

@@ -24,24 +24,24 @@ internal class DefaultPropertyMigration: PropertyMigration {
         self.migration    = migration
     }
     
-    func rename(_ newPropertyName: String) -> PropertyMigration {
-        self.newPropertyName = newPropertyName
+    func renameTo(name: String) -> PropertyMigration {
+        self.newPropertyName = name
         
         migration.operations.append(
-            .rename(propertyName, newPropertyName)
+            .rename(propertyName, name)
         )
         
         return self
     }
     
-    func transform<U : StorableProperty, V : StorableProperty>(_ fromType: U.Type, _ transformer: @escaping (U?) -> V?) -> PropertyMigration {
+    func transformFrom<U : StorableProperty, V : StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration {
         let transformation: (StorableValue?) -> V.StorableValueType? = { storableValue in
-            let previousValue: U? = self.valueFromStorableValue(storableValue)
+            let previousValue: U? = self.valueFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.storableValue
         }
         
-        addTransformation(transformation)
+        add(transformation: transformation)
         
         return self
     }
@@ -49,39 +49,39 @@ internal class DefaultPropertyMigration: PropertyMigration {
     
     // MARK: - Raw representables
     
-    func transform<U : RawRepresentable, V : RawRepresentable>(_ fromType: U.Type, _ transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty {
+    func transformFrom<U : RawRepresentable, V : RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue: StorableProperty, V.RawValue: StorableProperty {
         
         let transformation: (StorableValue?) -> V.RawValue.StorableValueType? = { storableValue in
-            let previousValue: U? = self.rawRepresentableFromStorableValue(storableValue)
+            let previousValue: U? = self.rawRepresentableFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.rawValue.storableValue
         }
         
-        addTransformation(transformation)
+        add(transformation: transformation)
         
         return self
     }
     
-    func transform<U : RawRepresentable, V : StorableProperty>(_ fromType: U.Type, _ transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue : StorableProperty {
+    func transformFrom<U : RawRepresentable, V : StorableProperty>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where U.RawValue : StorableProperty {
         let transformation: (StorableValue?) -> V.StorableValueType? = { storableValue in
-            let previousValue: U? = self.rawRepresentableFromStorableValue(storableValue)
+            let previousValue: U? = self.rawRepresentableFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.storableValue
         }
         
-        addTransformation(transformation)
+        add(transformation: transformation)
         
         return self
     }
     
-    func transform<U : StorableProperty, V : RawRepresentable>(_ fromType: U.Type, _ transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue : StorableProperty {
+    func transformFrom<U : StorableProperty, V : RawRepresentable>(type: U.Type, transformer: @escaping (U?) -> V?) -> PropertyMigration where V.RawValue : StorableProperty {
         let transformation: (StorableValue?) -> V.RawValue.StorableValueType? = { storableValue in
-            let previousValue: U? = self.valueFromStorableValue(storableValue)
+            let previousValue: U? = self.valueFrom(storableValue: storableValue)
             
             return transformer(previousValue)?.rawValue.storableValue
         }
         
-        addTransformation(transformation)
+        add(transformation: transformation)
         
         return self
     }
@@ -89,14 +89,14 @@ internal class DefaultPropertyMigration: PropertyMigration {
     
     // MARK: - Helpers
     
-    fileprivate func addTransformation(_ transformation: @escaping (StorableValue?) -> StorableValue?) {
+    fileprivate func add(transformation: @escaping (StorableValue?) -> StorableValue?) {
         migration.operations.append(
             .transform(newPropertyName ?? propertyName, transformation)
         )
     }
     
 
-    fileprivate func valueFromStorableValue<T: StorableProperty>(_ storableValue: StorableValue?) -> T? {
+    fileprivate func valueFrom<T: StorableProperty>(storableValue: StorableValue?) -> T? {
         guard let storableValue = storableValue as? T.StorableValueType else {
             return nil
         }
@@ -104,7 +104,7 @@ internal class DefaultPropertyMigration: PropertyMigration {
         return T.from(storableValue: storableValue)
     }
     
-    fileprivate func rawRepresentableFromStorableValue<T: RawRepresentable>(_ storableValue: StorableValue?) -> T? where T.RawValue: StorableProperty {
+    fileprivate func rawRepresentableFrom<T: RawRepresentable>(storableValue: StorableValue?) -> T? where T.RawValue: StorableProperty {
         guard let storableValue = storableValue as? T.RawValue.StorableValueType else {
             return nil
         }

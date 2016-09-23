@@ -88,7 +88,7 @@ struct CollectionSerialization {
         let array: [String] = string.components(separatedBy: separator)
         
         if T.self is String.Type {
-            return array.asType(T.self)
+            return array.to(type: T.self)
         }
         
         if T.self is Double.Type {

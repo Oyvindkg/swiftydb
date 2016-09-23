@@ -13,7 +13,7 @@ import Foundation
 func ==(left: StorableValue?, right: StorableValue?) -> Bool {
     if let leftString = left as? String {
         if let rightString = right as? String {
-            return leftString == rightString
+            return leftString.characters.elementsEqual(rightString.characters, by: ==)
         }
         
         return false
@@ -21,7 +21,7 @@ func ==(left: StorableValue?, right: StorableValue?) -> Bool {
     
     if let leftInt = left as? Int64 {
         if let rightInt = right as? Int64 {
-            return leftInt == rightInt
+            return leftInt.hashValue == rightInt.hashValue
         }
         
         return false
@@ -29,7 +29,7 @@ func ==(left: StorableValue?, right: StorableValue?) -> Bool {
     
     if let leftDouble = left as? Double {
         if let rightDouble = right as? Double {
-            return leftDouble == rightDouble
+            return leftDouble.hashValue == rightDouble.hashValue
         }
         
         return false

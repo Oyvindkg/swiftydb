@@ -17,20 +17,20 @@ class TestClass: Storable {
     
     var bool                    = true
     
-    var int                     = 123
-    var int8: Int8              = 1
-    var int16: Int16            = 234
-    var int32: Int32            = 432
-    var int64: Int64            = 321
+    var int                     = Int.max
+    var int8: Int8              = Int8.max
+    var int16: Int16            = Int16.max
+    var int32: Int32            = Int32.max
+    var int64: Int64            = Int64.max
     
-    var uint: UInt              = 123
-    var uint8: UInt8            = 1
-    var uint16: UInt16          = 234
-    var uint32: UInt32          = 432
-    var uint64: UInt64          = 321
+    var uint: UInt              = UInt.max
+    var uint8: UInt8            = UInt8.max
+    var uint16: UInt16          = UInt16.max
+    var uint32: UInt32          = UInt32.max
+    var uint64: UInt64          = UInt64.max
     
-    var double                  = 1.0312312323123
-    var float: Float            = 123.12331
+    var double                  = DBL_MAX
+    var float: Float            = FLT_MAX
     
     var date                    = NSDate()
     
@@ -51,7 +51,7 @@ class TestClass: Storable {
     var optionalString: String?         = "string"
     var optionalCharacter: Character?   = Character("d")
     
-    var optionalBool: Bool?             = false
+    var optionalBool: Bool?             = true
     
     var optionalInt: Int?               = Int.max
     var optionalInt8: Int8?             = Int8.max
@@ -132,6 +132,7 @@ extension TestClass: Mappable {
         optionalInt16       <- map["optionalInt16"]
         optionalInt32       <- map["optionalInt32"]
         optionalInt64       <- map["optionalInt64"]
+        
         optionalUint        <- map["optionalUint"]
         optionalUint8       <- map["optionalUint8"]
         optionalUint16      <- map["optionalUint16"]

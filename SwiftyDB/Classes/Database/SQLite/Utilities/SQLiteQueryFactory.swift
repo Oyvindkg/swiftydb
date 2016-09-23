@@ -112,7 +112,7 @@ class SQLiteQueryFactory {
         
         if let filter = filter {
             query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.asType(SQLiteValue.self)
+            parameters += filter.parameters.to(type: SQLiteValue.self)
         }
         
         query += " \(orderByComponentForSorting(sorting))"
@@ -120,7 +120,7 @@ class SQLiteQueryFactory {
         let (limitComponenet, limitParameters) = limitComponentForLimit(limit, andOffset: offset)
         
         query      += limitComponenet
-        parameters += limitParameters.asType(SQLiteValue.self)
+        parameters += limitParameters.to(type: SQLiteValue.self)
         
         
         return SQLiteQuery(query: query, parameters: parameters)
@@ -160,14 +160,14 @@ class SQLiteQueryFactory {
     }
     
     func buildCreateIndexQueryFor(_ index: _IndexInstance) -> SQLiteQuery {
-        let name = IndexingUtils.nameForIndex(index)
+        let name = IndexingUtils.nameFor(index: index)
         
         var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joined(separator: ", ")))"
         var parameters: [SQLiteValue?] = []
         
         if let filter = index.filters as? SQLiteFilterStatement {
             query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.asType(SQLiteValue.self)
+            parameters += filter.parameters.to(type: SQLiteValue.self)
         }
         
         return SQLiteQuery(query: query, parameters: parameters)
@@ -189,10 +189,9 @@ class SQLiteQueryFactory {
         var query = "DELETE FROM \(type)"
         var parameters: [SQLiteValue?] = []
         
-        
         if let filter = filter {
-            query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.asType(SQLiteValue.self)
+            query      += " WHERE \(filter.statement)"
+            parameters += filter.parameters.to(type: SQLiteValue.self)
         }
         
         return SQLiteQuery(query: query, parameters: parameters)

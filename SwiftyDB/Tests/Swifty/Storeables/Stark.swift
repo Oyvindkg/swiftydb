@@ -28,7 +28,7 @@ class Stark: Storable {
     }
     
     static func identifier() -> String {
-        return "age"
+        return "name"
     }
     
     func mapping(map: Map) {

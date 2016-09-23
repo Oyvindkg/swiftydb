@@ -20,7 +20,7 @@ enum SQLiteDatatype: String {
     
     init?(type: Any.Type) {
         switch type {
-        case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is Bool.Type:
+        case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type, is UInt8.Type, is UInt16.Type, is UInt32.Type, is Bool.Type:
             self.init(rawValue: "INTEGER")
         case is Double.Type, is Float.Type:
             self.init(rawValue: "REAL")

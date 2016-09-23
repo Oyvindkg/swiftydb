@@ -22,7 +22,7 @@ class SQLiteDatabaseTableCreator {
     }
     
     func createTableForTypeIfNecessary(_ type: Storable.Type) throws {
-        let reader = Mapper.readerForType(type)
+        let reader = Mapper.readerFor(type: type)
         
         try createTableForReader( reader )
     }

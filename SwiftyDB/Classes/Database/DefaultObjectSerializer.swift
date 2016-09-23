@@ -15,32 +15,32 @@ struct DefaultObjectSerializer: ObjectSerializer {
             return []
         }
         
-        let reader = Mapper.readerForObject(storable!)
+        let reader = Mapper.readerFor(object: storable!)
         
-        return readersForReader(reader)
+        return readersFor(reader: reader)
     }
         
     /** Extracts nested readers, and prepares new readers to store collections */
-    fileprivate static func readersForReader(_ reader: Reader) -> [Reader] {
+    fileprivate static func readersFor(reader: Reader) -> [Reader] {
         var readers = [reader]
         
-        readers.append( contentsOf: extractNestedReadersFromReader(reader) )
+        readers.append( contentsOf: extractNestedReadersFrom(reader: reader) )
         
         return readers
     }
     
-    fileprivate static func extractNestedReadersFromReader(_ reader: Reader) -> [Reader] {
+    fileprivate static func extractNestedReadersFrom(reader: Reader) -> [Reader] {
         var readers: [Reader] = []
         
         for (_, childReader) in reader.mappables {
-            readers.append( contentsOf: readersForReader(childReader as! Reader) )
+            readers.append( contentsOf: readersFor(reader: childReader as! Reader) )
         }
         
         for (_, childMaps) in reader.mappableArrays {
             let childReaders: [Reader] = childMaps.matchType()
             
             for (_, childReader) in childReaders.enumerated() {
-                readers.append( contentsOf: readersForReader(childReader) )
+                readers.append( contentsOf: readersFor(reader: childReader) )
             }
         }
         

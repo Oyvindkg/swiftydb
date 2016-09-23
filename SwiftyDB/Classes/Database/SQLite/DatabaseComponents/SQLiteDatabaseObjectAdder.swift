@@ -24,7 +24,7 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
             return
         }
         
-        let mappedReaders = readers.groupBy { String(describing: $0.type) }
+        let mappedReaders = readers.group { String(describing: $0.type) }
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {

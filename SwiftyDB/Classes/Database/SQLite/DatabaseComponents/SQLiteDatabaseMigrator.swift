@@ -55,7 +55,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
             return
         }
         
-        let reader = Mapper.readerForType(type)
+        let reader = Mapper.readerFor(type: type)
         
         let migratedProperties = Set(migratedData.first!.keys)
         let typeProperties = Set(reader.types.keys)
@@ -135,7 +135,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     fileprivate func createTableForType(_ type: Storable.Type, inDatabase database: DatabaseConnection) throws {
-        let reader = Mapper.readerForType(type)
+        let reader = Mapper.readerFor(type: type)
         
         let createTableQuery = self.queryFactory.createTableQueryForReader(reader)
         
@@ -145,7 +145,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     fileprivate func insertData(_ dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
-        let reader = Mapper.readerForType(type)
+        let reader = Mapper.readerFor(type: type)
         
         let insertQuery = self.queryFactory.insertQueryForReader(reader)
 

@@ -24,7 +24,7 @@ class DefaultIndexer: Indexer {
             return
         }
         
-        for (_, childType) in Mapper.readerForType(type).types {
+        for (_, childType) in Mapper.readerFor(type: type).types {
             guard let storableChildType = childType as? Storable.Type else {
                 continue
             }
@@ -52,19 +52,19 @@ class DefaultIndexer: Indexer {
         if let existingTypeInformation = result.value?.first {
             typeInformation = existingTypeInformation
         } else {
-            typeInformation = IndexingUtils.typeInformationForType(type)
+            typeInformation = IndexingUtils.typeInformationFor(type: type)
         }
         
-        if typeInformation.indices == IndexingUtils.indexNamesForType(type) {
+        if typeInformation.indices == IndexingUtils.indexNamesFor(type: type) {
             return
         }
         
-        if let index = IndexingUtils.indexForType(type) {
+        if let index = IndexingUtils.indexFor(type: type) {
             try swifty.database.create(index: index)
         }
         
         
-        typeInformation.indices = IndexingUtils.indexNamesForType(type)
+        typeInformation.indices = IndexingUtils.indexNamesFor(type: type)
         
         _ = swifty.addSync([typeInformation])
     }

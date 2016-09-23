@@ -19,7 +19,7 @@ public func <- <T: Mappable>(left: inout T, right: Map) {
 }
 
 func <- <T: Mappable>(left: inout T, right: Reader) {
-    let reader = Mapper.readerForObject(left)
+    let reader = Mapper.readerFor(object: left)
     
     right.storableValues[right.currentKey!] = reader.identifierValue
     
@@ -29,7 +29,7 @@ func <- <T: Mappable>(left: inout T, right: Reader) {
 func <- <T: Mappable>(left: inout T, right: Writer) {
     let writer: Writer = right.getCurrentValue()!
     
-    left = Mapper.objectForWriter(writer)
+    left = Mapper.objectFor(writer: writer)
 }
 
 
@@ -45,7 +45,7 @@ func <- <T: Mappable>(left: inout T?, right: Reader) {
     var reader: Reader? = nil
     
     if let object = left {
-        reader = Mapper.readerForObject(object)
+        reader = Mapper.readerFor(object: object)
     }
     
     right.storableValues[right.currentKey!] = reader?.identifierValue
@@ -57,7 +57,7 @@ func <- <T: Mappable>(left: inout T?, right: Writer) {
     var object: T? = nil
     
     if let writer: Writer = right.getCurrentValue() {
-        object = Mapper.objectForWriter(writer) as T
+        object = Mapper.objectFor(writer: writer) as T
     }
     
     left = object
@@ -76,7 +76,7 @@ func <- <T: Mappable>(left: inout T!, right: Reader) {
     var reader: Reader? = nil
     
     if let object = left {
-        reader = Mapper.readerForObject(object)
+        reader = Mapper.readerFor(object: object)
     }
     
     right.storableValues[right.currentKey!] = reader?.identifierValue
@@ -88,7 +88,7 @@ func <- <T: Mappable>(left: inout T!, right: Writer) {
     var object: T? = nil
     
     if let writer: Writer = right.getCurrentValue() {
-        object = Mapper.objectForWriter(writer) as T
+        object = Mapper.objectFor(writer: writer) as T
     }
     
     left = object
@@ -107,7 +107,7 @@ public func <- <T: Mappable>(left: inout [T], right: Map) {
 
 func <- <T: Mappable>(left: inout [T], right: Reader) {
     let maps = left.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps.map {$0.identifierValue}
@@ -122,7 +122,7 @@ func <- <T: Mappable>(left: inout [T], right: Reader) {
 func <- <T: Mappable>(left: inout [T], right: Writer) {
     let maps: [Writer] = right.getCurrentValue()!
     
-    left = maps.map(Mapper.objectForWriter)
+    left = maps.map(Mapper.objectFor)
 }
 
 
@@ -136,7 +136,7 @@ public func <- <T: Mappable>(left: inout [T]?, right: Map) {
 
 func <- <T: Mappable>(left: inout [T]?, right: Reader) {
     let maps = left?.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps?.map {$0.identifierValue}
@@ -150,7 +150,7 @@ func <- <T: Mappable>(left: inout [T]?, right: Reader) {
 
 func <- <T: Mappable>(left: inout [T]?, right: Writer) {
     if let maps: [Writer] = right.getCurrentValue() {
-        left = Mapper.objectsForWriters(maps)
+        left = Mapper.objectsFor(writers: maps)
     } else {
         left = nil
     }
@@ -167,7 +167,7 @@ public func <- <T: Mappable>(left: inout [T]!, right: Map) {
 
 func <- <T: Mappable>(left: inout [T]!, right: Reader) {
     let maps = left.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps.map {$0.identifierValue}
@@ -182,7 +182,7 @@ func <- <T: Mappable>(left: inout [T]!, right: Reader) {
 func <- <T: Mappable>(left: inout [T]!, right: Writer) {
     let maps: [Writer]? = right.getCurrentValue()
     
-    left = maps?.map(Mapper.objectForWriter)
+    left = maps?.map(Mapper.objectFor)
 }
 
 // MARK: Array of mappable objects
@@ -197,7 +197,7 @@ public func <- <T: Mappable>(left: inout Set<T>, right: Map) {
 
 func <- <T: Mappable>(left: inout Set<T>, right: Reader) {
     let maps = left.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps.map {$0.identifierValue}
@@ -212,7 +212,7 @@ func <- <T: Mappable>(left: inout Set<T>, right: Reader) {
 func <- <T: Mappable>(left: inout Set<T>, right: Writer) {
     let maps: [Writer] = right.getCurrentValue()!
     
-    left = Set(maps.map(Mapper.objectForWriter))
+    left = Set(maps.map(Mapper.objectFor))
 }
 
 
@@ -226,7 +226,7 @@ public func <- <T: Mappable>(left: inout Set<T>?, right: Map) {
 
 func <- <T: Mappable>(left: inout Set<T>?, right: Reader) {
     let maps = left?.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps?.map {$0.identifierValue}
@@ -240,7 +240,7 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Reader) {
 
 func <- <T: Mappable>(left: inout Set<T>?, right: Writer) {
     if let maps: [Writer] = right.getCurrentValue() {
-        left = Set(Mapper.objectsForWriters(maps))
+        left = Set(Mapper.objectsFor(writers: maps))
     } else {
         left = nil
     }
@@ -257,7 +257,7 @@ public func <- <T: Mappable>(left: inout Set<T>!, right: Map) {
 
 func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
     let maps = left.map { mappable -> Reader in
-        return Mapper.readerForObject(mappable)
+        return Mapper.readerFor(object: mappable)
     }
     
     let identifiers = maps.map {$0.identifierValue}
@@ -271,7 +271,7 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
 
 func <- <T: Mappable>(left: inout Set<T>!, right: Writer) {
     if let maps: [Writer] = right.getCurrentValue() {
-        left = Set(maps.map(Mapper.objectForWriter))
+        left = Set(maps.map(Mapper.objectFor))
     } else {
         left = nil
     }
