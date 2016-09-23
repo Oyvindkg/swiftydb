@@ -24,6 +24,6 @@ xcode_project: SwiftyDB.xcodeproj
 before_install: 
   - brew update
   # - brew upgrade xctool
-  - brew update carthage
+  # - brew update carthage
   - carthage bootstrap --verbose
 xcode_scheme: SwiftyDB iOS
