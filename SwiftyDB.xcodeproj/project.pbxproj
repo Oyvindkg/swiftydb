@@ -537,8 +537,8 @@
 				39D55C981D94925E00ED3486 /* DefaultMigrator.swift */,
 				39D55C991D94925E00ED3486 /* DefaultPropertyMigration.swift */,
 				39D55C9A1D94925E00ED3486 /* MigrationUtils.swift */,
-				39D55C9B1D94925E00ED3486 /* Protocols */,
 				39D55CA01D94925E00ED3486 /* TypeInformation.swift */,
+				39D55C9B1D94925E00ED3486 /* Protocols */,
 			);
 			name = Migration;
 			path = Classes/Migration;

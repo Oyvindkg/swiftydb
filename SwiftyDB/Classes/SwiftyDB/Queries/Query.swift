@@ -75,7 +75,7 @@ open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
      
      - returns: self
      */
-    open func sortBy(_ property: String, ascending: Bool = true) -> Self {
+    open func sort(by property: String, ascending: Bool = true) -> Self {
         self.sorting = ascending ? .ascending(property) : .descending(property)
         
         return self

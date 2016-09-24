@@ -64,7 +64,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - ascending:        boolean indicating whether the objects should be sorted ascending or descending
         - resultHandler:    and optional result handler
     */
-    open func sortBy(_ property: String, ascending: Bool = true, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.sortBy(property, ascending: ascending), resultHandler: resultHandler)
+    open func sort(by property: String, ascending: Bool = true, resultHandler: ((Result<ResultType>) -> Void)?) {
+        self.database.get(self.sort(by: property, ascending: ascending), resultHandler: resultHandler)
     }
 }

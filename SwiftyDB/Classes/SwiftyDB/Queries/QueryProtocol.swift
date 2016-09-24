@@ -13,7 +13,7 @@ public protocol QueryProtocol {
     func max(_ max: Int) -> Self
     func start(_ start: Int) -> Self
     func filter(_ filter: FilterStatement) -> Self
-    func sortBy(_ property: String, ascending: Bool) -> Self
+    func sort(by property: String, ascending: Bool) -> Self
 }
 
 /** A query representation used internally */
