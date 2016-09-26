@@ -261,11 +261,19 @@ The performance will be improved in future updates. Until release, the focus wil
 
 ## <a name="installation">Installation</a>
 
+### CocoaPods
+
 SwiftyDB is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
 pod "SwiftyDB", "~>2.0"
+```
+
+### Carthage
+Add this line to your Cartfile
+```
+github 'Oyvindkg/swiftydb'
 ```
 
 ## Author
