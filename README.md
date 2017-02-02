@@ -8,6 +8,7 @@ and SQL queries. SwiftyDB automatically handles everything you don't want to spe
 [![Version](https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![License](https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
+[![Swift](https://img.shields.io/badge/swift-2-green.svg)](http://cocoapods.org/pods/SwiftyDB)
 
 You can find the [documentation here](http://oyvindkg.github.io/swiftydb/docs/)
 
