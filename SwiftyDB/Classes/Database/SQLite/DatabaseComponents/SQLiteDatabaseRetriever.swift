@@ -22,7 +22,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
 
     func get(query: _QueryProtocol) throws -> [Writer] {
         
-        let reader = Mapper.readerForType(query.type)
+        let reader = Mapper.reader(for: query.type)
         
         var writers: [Writer] = []
         
@@ -66,7 +66,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
     // MARK: - Storable properties
     
     fileprivate func getStorableWritersFor(writer: Writer, database: DatabaseConnection) throws {
-        let reader = Mapper.readerForType(writer.type)
+        let reader = Mapper.reader(for: writer.type)
         
         for (property, type) in reader.types {
             if let storableType = type as? Storable.Type {
@@ -87,7 +87,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
     }
     
     fileprivate func getStorableWritersFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
-        let propertyReader = Mapper.readerForType(type)
+        let propertyReader = Mapper.reader(for: type)
         
         guard let storableValue = writer.storableValues[property] as? String else {
             return nil

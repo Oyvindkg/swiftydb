@@ -17,7 +17,7 @@ class DefaultMigrator: Migrator {
             return
         }
         
-        for (_, childType) in Mapper.readerForType(type).types {
+        for (_, childType) in Mapper.reader(for: type).types {
             guard childType is Storable.Type else {
                 continue
             }

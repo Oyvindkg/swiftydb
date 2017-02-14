@@ -12,7 +12,7 @@ internal struct MigrationUtils {
     
     static func propertyDefinitionsFor(type: Mappable.Type) -> [String: String] {
         
-        let reader = Mapper.readerForType(type)
+        let reader = Mapper.reader(for: type)
         
         var definitions: [String: String] = [:]
         

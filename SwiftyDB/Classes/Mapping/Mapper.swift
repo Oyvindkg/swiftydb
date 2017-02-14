@@ -10,7 +10,7 @@ import Foundation
 
 struct Mapper {
     
-    static func objectForWriter<T: Mappable>(_ writer: Writer) -> T {
+    static func object<T: Mappable>(for writer: Writer) -> T {
         var object = T.mappableObject() as! T
 
         object.mapping(map: writer)
@@ -18,12 +18,14 @@ struct Mapper {
         return object
     }
     
-    static func objectsForWriters<T: Mappable>(_ writers: [Writer]) -> [T] {
-        return writers.map(objectForWriter)
+    static func objects<T: Mappable>(forWriters writers: [Writer]) -> [T] {
+        return writers.map { writer in
+            return object(for: writer)
+        }
     }
     
     
-    static func readerForObject<T: Mappable>(_ object: T) -> Reader {
+    static func reader<T: Mappable>(for object: T) -> Reader {
         var readableObject = object
         
         let reader = Reader(type: T.self)
@@ -33,11 +35,13 @@ struct Mapper {
         return reader
     }
     
-    static func readersForObjects<T: Mappable>(_ objects: [T]) -> [Reader] {
-        return objects.map(readerForObject)
+    static func readers<T: Mappable>(forObjects objects: [T]) -> [Reader] {
+        return objects.map { object in
+            return self.reader(for: object)
+        }
     }
     
-    static func readerForType(_ type: Mappable.Type) -> Reader {
+    static func reader(for type: Mappable.Type) -> Reader {
         var readableObject = type.mappableObject()
         
         let reader = Reader(type: type)
