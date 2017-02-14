@@ -22,6 +22,20 @@ extension Array {
     }
 }
 
+extension Dictionary {
+    func map<NewKey, NewValue>(mapping: (Key, Value) -> (NewKey, NewValue)) -> [NewKey: NewValue] {
+        var dictionary: [NewKey: NewValue] = [:]
+        
+        for (key, value) in self {
+            let (newKey, newValue) = mapping(key, value)
+            
+            dictionary[newKey] = newValue
+        }
+        
+        return dictionary
+    }
+}
+
 extension Collection {
     
     func to<T>(type: T.Type) -> [T?] {

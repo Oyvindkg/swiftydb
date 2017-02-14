@@ -21,3 +21,13 @@ protocol Database {
     func create(index: _Index) throws
 }
 
+extension Database {
+    
+    func add<T: Storable>(_ object: T) throws {
+        try add(objects: [object])
+    }
+    
+    func add<T: Storable>(objects: T...) throws {
+        try add(objects: objects)
+    }
+}

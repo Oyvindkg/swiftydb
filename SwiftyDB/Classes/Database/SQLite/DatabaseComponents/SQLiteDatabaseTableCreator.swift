@@ -49,11 +49,11 @@ class SQLiteDatabaseTableCreator {
             return
         }
         
-        let query = queryFactory.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         try databaseQueue.database { database in
-            try database.prepare(query.query)
-                .executeUpdate(query.parameters)
+            try database.statement(for: query.query)
+                .executeUpdate(withParameters: query.parameters)
                 .finalize()
         }
         
@@ -87,7 +87,7 @@ class SQLiteDatabaseTableCreator {
         var containsTable = false
         
         try databaseQueue.database { database in
-            containsTable = try database.containsTable(name)
+            containsTable = try database.contains(table: name)
         }
         
         if containsTable {

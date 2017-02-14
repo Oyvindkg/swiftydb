@@ -15,16 +15,14 @@ import XCTest
 /** Component testing the database */
 class SwiftyTests: XCTestCase {
 
-    var configuration: ConfigurationProtocol = {
-        return Configuration(name: "database_test")
-    }()
+    var configuration = Configuration(name: "database_test")
     
     var swifty = Swifty(name: "database_test")
     
     override func setUp() {
         super.setUp()
         
-        try? FileManager.default.removeItem(atPath: configuration.path)
+        try? FileManager.default.removeItem(atPath: configuration.location.path)
         
         self.swifty = Swifty(configuration: configuration)
     }

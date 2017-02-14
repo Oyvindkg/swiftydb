@@ -35,16 +35,21 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
     
 
     fileprivate func getWritersFor(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
-        let query = queryFactory.selectQueryForType(reader.storableType, andFilter: filter, sorting: sorting, limit: limit, offset: offset)
         
-        let statement = try database.prepare(query.query)
+        let query = queryFactory.selectQuery(for: reader.storableType,
+                                             filter: filter,
+                                             sorting: sorting,
+                                             limit: limit,
+                                             offset: offset)
+        
+        let statement = try database.statement(for: query.query)
         
         defer {
             try! statement.finalize()
         }
 
         /* Create writers and populate them with nested objects */
-        return try statement.execute(query.parameters).map { row -> Writer in
+        return try statement.execute(withParameters: query.parameters).map { row -> Writer in
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {

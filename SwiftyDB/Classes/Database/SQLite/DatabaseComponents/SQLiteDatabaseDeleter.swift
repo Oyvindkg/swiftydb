@@ -21,11 +21,11 @@ struct SQLiteDatabaseDeleter: DatabaseDeleter {
     
     func delete(query: _QueryProtocol) throws {
         
-        let query = queryFactory.deleteQueryForType(query.type, withFilter: query.filter as? SQLiteFilterStatement)
+        let query = queryFactory.deleteQuery(for: query.type, filter: query.filter as? SQLiteFilterStatement)
         
         try databaseQueue.database { database in
-            try database.prepare(query.query)
-                .executeUpdate(query.parameters)
+            try database.statement(for: query.query)
+                .executeUpdate(withParameters: query.parameters)
                 .finalize()
         }
     }

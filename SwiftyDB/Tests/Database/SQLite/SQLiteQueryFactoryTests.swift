@@ -14,14 +14,14 @@ import XCTest
 
 class SQLiteQueryFactoryTests: XCTestCase {
     
-    var sut = SQLiteQueryFactory()
+    var queryFactory = SQLiteQueryFactory()
     var reader = Mapper.readerForType(Stark.self)
     
     override func setUp() {
         super.setUp()
         
         reader = Mapper.readerForType(Stark.self)
-        sut = SQLiteQueryFactory()
+        queryFactory = SQLiteQueryFactory()
     }
     
     override func tearDown() {
@@ -31,31 +31,31 @@ class SQLiteQueryFactoryTests: XCTestCase {
     // MARK: - Create table
     
     func testCreateTableUsesTextTypeForStringValues() {
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("'name' TEXT"), "String properties should be defined as text")
     }
     
     func testCreateTableUsesRealTypeForDoubleValues() {
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("'weight' REAL"), "Double properties should be defined as real")
     }
     
     func testCreateTableUsesIntegerTypeForIntegerValues() {
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("'age' INTEGER"), "Int properties should be defined as integers")
     }
     
     func testCreateTableUsesTextTypeForStorableType() {
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("'wolf' TEXT"), "Storable properties should be defined as text")
     }
     
     func testCreateTableUsesReaderTypeAsTableName() {
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("TABLE '\(Stark.self)'"), "The table name should be the escaped name of the type")
     }
@@ -64,7 +64,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         let identifier          = (reader.type as! Identifiable.Type).identifier()
         let identifierDatatype  = SQLiteDatatype(type: reader.types[identifier]!)!
         
-        let query = sut.createTableQueryForReader(reader)
+        let query = queryFactory.createTableQuery(for: reader)
         
         XCTAssert(query.query.contains("'\(identifier)' \(identifierDatatype.rawValue) PRIMARY KEY"), "The identifier should be defined as the primary key")
     }
@@ -73,13 +73,13 @@ class SQLiteQueryFactoryTests: XCTestCase {
     // MARK: - Insert
     
     func testInsertQueryUpdatesExistingValueIfPresent() {
-        let query = sut.insertQueryForReader(reader)
+        let query = queryFactory.insertQuery(for: reader)
 
         XCTAssert(query.query.contains("INSERT OR REPLACE"), "Existing objects should be replaced")
     }
     
     func testInsertUsesReaderTypeAsTableName() {
-        let query = sut.insertQueryForReader(reader)
+        let query = queryFactory.insertQuery(for: reader)
         
         XCTAssert(query.query.contains("INTO '\(Stark.self)'"), "Should insert into the correct table")
     }
@@ -90,7 +90,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let reader = Mapper.readerForObject(sansa)
         
-        let query = sut.insertQueryForReader(reader)
+        let query = queryFactory.insertQuery(for: reader)
         
         XCTAssert(query.query.contains("'age'"), "All properties should be updated")
         XCTAssert(query.query.contains("'name'"), "All properties should be updated")
@@ -104,7 +104,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let reader = Mapper.readerForObject(sansa)
         
-        let query = sut.insertQueryForReader(reader)
+        let query = queryFactory.insertQuery(for: reader)
         
         XCTAssert(query.query.contains(":age"), "All properties should be parameterized")
         XCTAssert(query.query.contains(":name"), "All properties should be parameterized")

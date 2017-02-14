@@ -41,8 +41,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - start:            number of results to skip
         - resultHandler:    and optional result handler
      */
-    open func start(_ start: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.start(start), resultHandler: resultHandler)
+    open func skip(_ start: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
+        self.database.get(self.skip(start), resultHandler: resultHandler)
     }
     
     /**
@@ -52,8 +52,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - max:              the maximum number of results
         - resultHandler:    and optional result handler
     */
-    open func max(_ max: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.max(max), resultHandler: resultHandler)
+    open func limit(_ max: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
+        self.database.get(self.limit(max), resultHandler: resultHandler)
     }
     
     /**

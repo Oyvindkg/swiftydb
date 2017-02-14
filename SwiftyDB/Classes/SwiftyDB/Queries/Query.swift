@@ -46,7 +46,7 @@ open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
      
      - returns: self
      */
-    open func max(_ max: Int) -> Self {
+    open func limit(_ max: Int) -> Self {
         self.max = max
         
         return self
@@ -60,7 +60,7 @@ open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
      
      - returns: self
      */
-    open func start(_ start: Int) -> Self {
+    open func skip(_ start: Int) -> Self {
         self.start = start
         
         return self

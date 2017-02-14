@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SwiftyDB"
-  s.version          = "2.0.0"
+  s.version          = "2.0.0-SNAPSHOT"
   s.summary          = "Pure Swift database for effortless persistence of objects"
 
 # This description is used to generate tags and improve search results.
@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'SwiftyDB/Classes/**/*'
 
-  s.dependency 'TinySQLite', '~> 0.3.0'
+  s.dependency 'TinySQLite', '0.4.2'
   
 end

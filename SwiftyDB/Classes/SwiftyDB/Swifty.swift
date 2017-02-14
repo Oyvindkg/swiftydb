@@ -23,7 +23,7 @@ open class Swifty: ObjectDatabase {
     /**
      The database object's configuration
      */
-    open let configuration: ConfigurationProtocol
+    open let configuration: Configuration
     
     
     /**
@@ -32,7 +32,7 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - configuration: database configuration
      */
-    public init(configuration: ConfigurationProtocol) {
+    public init(configuration: Configuration) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
@@ -105,7 +105,7 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be retrieved
      */
-    func get<T : Storable>(_ type: T.Type) -> GetQuery<T> {
+    open func get<T : Storable>(_ type: T.Type) -> GetQuery<T> {
         return GetQuery<T>(database: self)
     }
     

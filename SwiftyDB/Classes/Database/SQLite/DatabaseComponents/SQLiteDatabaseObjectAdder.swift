@@ -28,9 +28,9 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
-                let query      = self.queryFactory.insertQueryForReader(readers.first!)
+                let query      = self.queryFactory.insertQuery(for: readers.first!)
                 
-                let statement = try database.prepare(query.query)
+                let statement = try database.statement(for: query.query)
                 
                 defer {
                     try! statement.finalize()
@@ -43,7 +43,7 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
                         parameters[key] = value as? SQLiteValue
                     }
                     
-                    _ = try statement.executeUpdate(parameters)
+                    _ = try statement.executeUpdate(withParameterMapping: parameters)
                 }
             }
         }

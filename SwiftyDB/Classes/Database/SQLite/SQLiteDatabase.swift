@@ -22,19 +22,18 @@ struct SQLiteDatabase: Database {
     let deleter: DatabaseDeleter
     let migrator: DatabaseMigrator
     
-    init(configuration: ConfigurationProtocol) {
+    init(configuration: Configuration) {
         
         /* Copy any exsiting database to create a sandbox database */
         if configuration.mode == .sandbox {
-            var normalConfiguration = configuration
+            try? FileManager.default.removeItem(atPath: configuration.location.path)
             
-            normalConfiguration.mode = .normal
-            
-            try? FileManager.default.removeItem(atPath: configuration.path)
-            try? FileManager.default.copyItem(atPath: normalConfiguration.path, toPath: configuration.path)
+            /** Create a copy of the database for sandbox mode */
+            try? FileManager.default.copyItem(atPath: configuration.location(for: .normal).path,
+                                              toPath: configuration.location.path)
         }
         
-        databaseQueue = DatabaseQueue(path: configuration.path)
+        databaseQueue = DatabaseQueue(location: configuration.location)
         
         queryFactory = SQLiteQueryFactory()
         

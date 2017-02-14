@@ -10,8 +10,8 @@ import Foundation
 
 /** Contains all valid filter methods */
 public protocol QueryProtocol {
-    func max(_ max: Int) -> Self
-    func start(_ start: Int) -> Self
+    func limit(_ max: Int) -> Self
+    func skip(_ start: Int) -> Self
     func filter(_ filter: FilterStatement) -> Self
     func sort(by property: String, ascending: Bool) -> Self
 }

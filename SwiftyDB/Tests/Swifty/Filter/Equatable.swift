@@ -38,7 +38,7 @@ func ==(left: StorableValue?, right: StorableValue?) -> Bool {
     return left == nil && right == nil
 }
 
-func ==(left: Expression, right: Expression) -> Bool {
+public func ==(left: Expression, right: Expression) -> Bool {
     switch (left, right) {
     case (.equal(let property, let value), .equal(let otherProperty, let otherValue)):
         return property == otherProperty && value == otherValue

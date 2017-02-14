@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		39032F201D9514FA006D5CF1 /* TinySQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3913BF2D1D9514D90000C303 /* TinySQLite.framework */; };
+		390427201E51FAFA00113218 /* StorableUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3904271F1E51FAFA00113218 /* StorableUUID.swift */; };
 		390689171D941FC400F94658 /* SwiftyDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 390689151D941FC400F94658 /* SwiftyDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3913BF1F1D9512D00000C303 /* SQLiteDatatypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C351D94920700ED3486 /* SQLiteDatatypeTests.swift */; };
 		3913BF201D9512D00000C303 /* SQLiteQueryFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C361D94920700ED3486 /* SQLiteQueryFactoryTests.swift */; };
@@ -88,7 +89,6 @@
 		39D55CF11D94925E00ED3486 /* PropertyMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C9F1D94925E00ED3486 /* PropertyMigration.swift */; };
 		39D55CF21D94925E00ED3486 /* TypeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA01D94925E00ED3486 /* TypeInformation.swift */; };
 		39D55CF31D94925E00ED3486 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA21D94925E00ED3486 /* Configuration.swift */; };
-		39D55CF41D94925E00ED3486 /* ConfigurationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA31D94925E00ED3486 /* ConfigurationProtocol.swift */; };
 		39D55CF51D94925E00ED3486 /* DatabaseMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA41D94925E00ED3486 /* DatabaseMode.swift */; };
 		39D55CF61D94925E00ED3486 /* ObjectDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA51D94925E00ED3486 /* ObjectDatabaseProtocol.swift */; };
 		39D55CF71D94925E00ED3486 /* DeleteQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55CA71D94925E00ED3486 /* DeleteQuery.swift */; };
@@ -139,6 +139,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3904271F1E51FAFA00113218 /* StorableUUID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableUUID.swift; sourceTree = "<group>"; };
 		390689121D941FC400F94658 /* SwiftyDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		390689151D941FC400F94658 /* SwiftyDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyDB.h; sourceTree = "<group>"; };
 		390689161D941FC400F94658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -222,7 +223,6 @@
 		39D55C9F1D94925E00ED3486 /* PropertyMigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyMigration.swift; sourceTree = "<group>"; };
 		39D55CA01D94925E00ED3486 /* TypeInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeInformation.swift; sourceTree = "<group>"; };
 		39D55CA21D94925E00ED3486 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		39D55CA31D94925E00ED3486 /* ConfigurationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationProtocol.swift; sourceTree = "<group>"; };
 		39D55CA41D94925E00ED3486 /* DatabaseMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseMode.swift; sourceTree = "<group>"; };
 		39D55CA51D94925E00ED3486 /* ObjectDatabaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectDatabaseProtocol.swift; sourceTree = "<group>"; };
 		39D55CA71D94925E00ED3486 /* DeleteQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteQuery.swift; sourceTree = "<group>"; };
@@ -526,6 +526,7 @@
 				39D55C931D94925E00ED3486 /* StorableNSNumber.swift */,
 				39D55C941D94925E00ED3486 /* StorableProperty.swift */,
 				39D55C951D94925E00ED3486 /* StorableString.swift */,
+				3904271F1E51FAFA00113218 /* StorableUUID.swift */,
 			);
 			path = StoreableValueConvertibles;
 			sourceTree = "<group>";
@@ -559,7 +560,6 @@
 			isa = PBXGroup;
 			children = (
 				39D55CA21D94925E00ED3486 /* Configuration.swift */,
-				39D55CA31D94925E00ED3486 /* ConfigurationProtocol.swift */,
 				39D55CA41D94925E00ED3486 /* DatabaseMode.swift */,
 				39D55CA51D94925E00ED3486 /* ObjectDatabaseProtocol.swift */,
 				39D55CA61D94925E00ED3486 /* Queries */,
@@ -741,6 +741,7 @@
 				39D55CE51D94925E00ED3486 /* StorableNSData.swift in Sources */,
 				39D55CF01D94925E00ED3486 /* Migrator.swift in Sources */,
 				39D55CE21D94925E00ED3486 /* StorableFloat.swift in Sources */,
+				390427201E51FAFA00113218 /* StorableUUID.swift in Sources */,
 				39D55D021D94925E00ED3486 /* Map+Storeable.swift in Sources */,
 				39D55CFC1D94925E00ED3486 /* QueryProtocol.swift in Sources */,
 				39D55CD71D94925E00ED3486 /* MappableOperators.swift in Sources */,
@@ -751,7 +752,6 @@
 				39D55CD91D94925E00ED3486 /* StorableValueOperators.swift in Sources */,
 				39D55CC31D94925E00ED3486 /* SQLiteDatabaseRetriever.swift in Sources */,
 				39D55CC91D94925E00ED3486 /* SQLiteFilterStatement.swift in Sources */,
-				39D55CF41D94925E00ED3486 /* ConfigurationProtocol.swift in Sources */,
 				39D55CEE1D94925E00ED3486 /* Migratable.swift in Sources */,
 				39D55CEF1D94925E00ED3486 /* Migration.swift in Sources */,
 				39D55CFF1D94925E00ED3486 /* Swifty.swift in Sources */,

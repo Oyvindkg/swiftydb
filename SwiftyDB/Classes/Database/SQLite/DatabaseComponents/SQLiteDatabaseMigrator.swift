@@ -83,9 +83,13 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     
     fileprivate func existingDataFor(type: Storable.Type, fromDatabase database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
-        let retrieveQuery = self.queryFactory.selectQueryForType(type, andFilter: nil, sorting: .none, limit: nil, offset: nil)
+        let retrieveQuery = self.queryFactory.selectQuery(for: type,
+                                                          filter: nil,
+                                                          sorting: .none,
+                                                          limit: nil,
+                                                          offset: nil)
         
-        let statement = try database.prepare(retrieveQuery.query)
+        let statement = try database.statement(for: retrieveQuery.query)
         
         defer {
             try! statement.finalize()
@@ -129,7 +133,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     }
     
     fileprivate func dropTableFor(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
-        try database.prepare("DROP TABLE \(type)")
+        try database.statement(for: "DROP TABLE \(type)")
             .executeUpdate()
             .finalize()
     }
@@ -137,22 +141,22 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     fileprivate func createTableFor(type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerForType(type)
         
-        let createTableQuery = self.queryFactory.createTableQueryForReader(reader)
+        let createTableQuery = self.queryFactory.createTableQuery(for: reader)
         
-        try database.prepare(createTableQuery.query)
-            .executeUpdate(createTableQuery.parameters)
+        try database.statement(for: createTableQuery.query)
+            .executeUpdate(withParameters: createTableQuery.parameters)
             .finalize()
     }
     
     fileprivate func insert(data dataArray: [[String: SQLiteValue?]], forType type: Storable.Type, inDatabase database: DatabaseConnection) throws {
         let reader = Mapper.readerForType(type)
         
-        let insertQuery = self.queryFactory.insertQueryForReader(reader)
+        let insertQuery = self.queryFactory.insertQuery(for: reader)
 
-        let insertStatement = try database.prepare(insertQuery.query)
+        let insertStatement = try database.statement(for: insertQuery.query)
         
         for data in dataArray {
-            _ = try insertStatement.executeUpdate(data)
+            _ = try insertStatement.executeUpdate(withParameterMapping: data)
         }
         
         try insertStatement.finalize()

@@ -16,49 +16,57 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
     
     init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
         self.databaseQueue = databaseQueue
-        self.queryFactory = queryFactory
+        self.queryFactory  = queryFactory
     }
     
     func create(index: _Index) throws {
-        try deleteIndicesFor(type: index.type)
+        try deleteIndices(for: index.type)
         
         for index in index.indices {
-            let query = queryFactory.createIndexQueryForIndex(index)
+            let query = queryFactory.createIndexQuery(for: index)
 
             try databaseQueue.database { database in
-                try database.prepare(query.query)
+                try database.statement(for: query.query)
                     .executeUpdate()
                     .finalize()
             }
         }
     }
     
-    fileprivate func deleteIndicesFor(type: Storable.Type) throws {
-        let indexNames = try indexNamesFor(type: type)
+    fileprivate func deleteIndices(for type: Storable.Type) throws {
+        let indexNames = try self.indexNames(for: type)
         
+        try deleteIndices(indexNames)
+    }
+    
+    fileprivate func deleteIndices(_ indexNames: [String]) throws {
         let query = "DROP INDEX ?"
         
         try databaseQueue.database { database in
             
-            let statement = try database.prepare(query)
+            let statement = try database.statement(for: query)
             
             for indexName in indexNames {
-                _ = try statement.executeUpdate([indexName])
+                _ = try statement.executeUpdate(withParameters: [indexName])
             }
             
             try statement.finalize()
         }
     }
     
-    fileprivate func indexNamesFor(type: Storable.Type) throws -> [String] {
+    fileprivate func indexNames(for type: Storable.Type) throws -> [String] {
         let query = "SELECT name FROM sqlite_master WHERE type == 'index' AND tbl_name == ?"
         
         var indexNames: [String] = []
         
         try databaseQueue.database { database in
-            let statement = try database.prepare(query)
+            let statement = try database.statement(for: query)
 
-            indexNames = try statement.execute([String(describing: type)]).map { $0.stringForColumn(0)! }
+            let parameters = [String(describing: type)]
+            
+            for row in try statement.execute(withParameters: parameters) {
+                indexNames.append(row.stringForColumn(at: 0)!)
+            }
             
             try statement.finalize()
         }
