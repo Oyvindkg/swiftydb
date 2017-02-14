@@ -47,7 +47,9 @@ struct SQLiteDatabase: Database {
     
     func add<T : Storable>(objects: [T]) throws {
         
-        let readers = objects.flatMap(DefaultObjectSerializer.readersFor)
+        let readers = objects.flatMap { object in
+            return DefaultObjectSerializer.readers(for: object)
+        }
         
         try tableCreator.createTableIfNecessaryFor(readers: readers)
         

@@ -184,7 +184,7 @@ func <- <T: Mappable>(left: inout [T]!, right: Writer) {
     }
 }
 
-// MARK: Array of mappable objects
+// MARK: Set of mappable objects
 
 public func <- <T: Mappable>(left: inout Set<T>, right: Map) {
     if let reader = right as? Reader {

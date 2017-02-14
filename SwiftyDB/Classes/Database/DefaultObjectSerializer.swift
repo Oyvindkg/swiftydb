@@ -10,37 +10,37 @@ import Foundation
 
 struct DefaultObjectSerializer: ObjectSerializer {
     
-    static func readersFor<T: Storable>(storable: T?) -> [Reader] {
+    static func readers<T: Storable>(for storable: T?) -> [Reader] {
         guard storable != nil else {
             return []
         }
         
         let reader = Mapper.reader(for: storable!)
         
-        return readersFor(reader: reader)
+        return readers(forReader: reader)
     }
         
     /** Extracts nested readers, and prepares new readers to store collections */
-    fileprivate static func readersFor(reader: Reader) -> [Reader] {
+    fileprivate static func readers(forReader reader: Reader) -> [Reader] {
         var readers = [reader]
         
-        readers.append( contentsOf: extractNestedReadersFrom(reader: reader) )
+        readers.append( contentsOf: extractNestedReaders(from: reader) )
         
         return readers
     }
     
-    fileprivate static func extractNestedReadersFrom(reader: Reader) -> [Reader] {
+    fileprivate static func extractNestedReaders(from reader: Reader) -> [Reader] {
         var readers: [Reader] = []
         
         for (_, childReader) in reader.mappables {
-            readers.append( contentsOf: readersFor(reader: childReader as! Reader) )
+            readers.append( contentsOf: self.readers(forReader: childReader as! Reader) )
         }
         
         for (_, childMaps) in reader.mappableArrays {
             let childReaders: [Reader] = childMaps.matchType()
             
             for (_, childReader) in childReaders.enumerated() {
-                readers.append( contentsOf: readersFor(reader: childReader) )
+                readers.append( contentsOf: self.readers(forReader: childReader) )
             }
         }
         

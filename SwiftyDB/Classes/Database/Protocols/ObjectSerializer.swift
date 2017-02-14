@@ -9,5 +9,7 @@
 import Foundation
 
 protocol ObjectSerializer {
-    static func readersFor<T: Storable>(storable: T?) -> [Reader]
+    
+    /** Get an array of `Reader`s representing the `Storable` object and any nested  `Storable`s */
+    static func readers<T: Storable>(for storable: T?) -> [Reader]
 }
