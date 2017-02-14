@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Writer: BaseMap {
+final class Writer: BaseMap {
     
     func getCurrentValue<T: StorableValue>() -> T? {
         guard let key = currentKey else {

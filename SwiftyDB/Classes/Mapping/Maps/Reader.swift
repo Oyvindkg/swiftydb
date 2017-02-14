@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Reader: BaseMap {
+final class Reader: BaseMap {
     
     var types: [String: Any.Type] = [:]
     
