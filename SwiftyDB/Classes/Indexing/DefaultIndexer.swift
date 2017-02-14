@@ -23,7 +23,7 @@ class DefaultIndexer: Indexer {
             return
         }
         
-        for (_, childType) in Mapper.reader(for: type).types {
+        for (_, childType) in Mapper.reader(for: type).propertyTypes {
             guard let storableChildType = childType as? Storable.Type else {
                 continue
             }

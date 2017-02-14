@@ -56,7 +56,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         
         let reader = Mapper.reader(for: type)
         
-        let propertiesBeforeMigration = Set(reader.types.keys)
+        let propertiesBeforeMigration = Set(reader.propertyTypes.keys)
         let propertiesAfterMigration  = Set(migratedData.first!.keys)
         
         

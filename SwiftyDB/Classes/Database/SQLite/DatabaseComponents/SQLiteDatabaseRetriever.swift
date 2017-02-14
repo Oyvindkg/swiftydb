@@ -68,7 +68,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
     fileprivate func getStorableWritersFor(writer: Writer, database: DatabaseConnection) throws {
         let reader = Mapper.reader(for: writer.type)
         
-        for (property, type) in reader.types {
+        for (property, type) in reader.propertyTypes {
             if let storableType = type as? Storable.Type {
                 writer.mappables[property] = try getStorableWriterFor(property: property, ofType: storableType, forWriter: writer, database: database)
                 

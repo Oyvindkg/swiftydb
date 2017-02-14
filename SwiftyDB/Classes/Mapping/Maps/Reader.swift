@@ -10,7 +10,8 @@ import Foundation
 
 final class Reader: BaseMap {
     
-    var types: [String: Any.Type] = [:]
+    /** The original property type for all values stored in the reader */
+    var propertyTypes: [String: Any.Type] = [:]
     
     func setCurrent<T: StorableValue>(value: T?, forType type: Any.Type = T.self) {
         guard let key = currentKey else {
@@ -18,7 +19,7 @@ final class Reader: BaseMap {
         }
 
         storableValues[key] = value
-        types[key] = type
+        propertyTypes[key]  = type
     }
     
     func setCurrent<T: StorableValue>(values: [T]?, forType type: Any.Type = T.self) {
@@ -27,7 +28,7 @@ final class Reader: BaseMap {
         }
         
         storableValueArrays[key] = values?.map { $0 }
-        types[key] = [T].self
+        propertyTypes[key]       = [T].self
     }
     
     func setCurrent<T: Mappable>(reader: Reader?, forType type: T.Type) {
@@ -35,8 +36,8 @@ final class Reader: BaseMap {
             return
         }
         
-        mappables[key] = reader
-        types[key] = T.self
+        mappables[key]     = reader
+        propertyTypes[key] = T.self
     }
     
     func setCurrent<T: Mappable>(readers: [Reader]?, forType type: T.Type) {
@@ -45,7 +46,7 @@ final class Reader: BaseMap {
         }
         
         mappableArrays[key] = readers?.to(type: Map.self)
-        types[key] = [T].self
+        propertyTypes[key]  = [T].self
     }
 }
 

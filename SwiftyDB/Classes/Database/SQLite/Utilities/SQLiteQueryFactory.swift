@@ -43,7 +43,7 @@ class SQLiteQueryFactory {
         
         var columnDefinitions: [String] = []
         
-        for (property, type) in reader.types {
+        for (property, type) in reader.propertyTypes {
             guard type is StorableValue.Type else {
                 columnDefinitions.append( "'\(property)' TEXT" )
                 continue
@@ -83,7 +83,7 @@ class SQLiteQueryFactory {
     
     fileprivate func buildInsertQuery(for reader: Reader, update: Bool = true) -> SQLiteQuery {
         let onCollision  = update ? "REPLACE" : "ABORT"
-        let properties   = reader.types.keys
+        let properties   = reader.propertyTypes.keys
         let placeholders = properties.map { ":\($0)"}
         
         let escapedProperties = properties.map({"'\($0)'"})

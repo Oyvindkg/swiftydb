@@ -16,7 +16,7 @@ internal struct MigrationUtils {
         
         var definitions: [String: String] = [:]
         
-        for (property, type) in reader.types {
+        for (property, type) in reader.propertyTypes {
             definitions[property] = String(describing: type)
         }
         
