@@ -9,18 +9,17 @@
 import Foundation
 
 
+//TODO: Maybe this could be limited to accepting only Indexable types?
 
 class DefaultIndexer: Indexer {
     
     var validTypes: Set<String> = []
     
-    // TODO: Rename and clean these
     
     /** Creates indices for the provided type, and its nested types */
-    func indexIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
-        let typeName = String(describing: type)
+    func indexTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
         
-        guard !validTypes.contains(typeName) else {
+        guard !validTypes.contains("\(type)") else {
             return
         }
         
@@ -29,44 +28,49 @@ class DefaultIndexer: Indexer {
                 continue
             }
             
-            try indexIfNecessary(type: storableChildType, inSwifty: swifty)
+            try indexTypeIfNecessary(storableChildType, in: swifty)
         }
         
-        try indexThisIfNecessary(type: type, inSwifty: swifty)
+        try indexTypeNonrecursiveIfNecessary(type, in: swifty)
         
-        validTypes.insert(typeName)
+        /* The type is successfully indexed. Cache the type to avoid unnecessary processing */
+        validTypes.insert("\(type)")
     }
     
     /** Creates indices for the provided type */
-    fileprivate func indexThisIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func indexTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
+        
         guard type is Indexable.Type else {
             return
         }
         
-        let query = Query<TypeInformation>().filter("name" == String(describing: type))
+        let storedTypeInformation  = retrieveTypeInformation(for: type, from: swifty)
+        let currentTypeInformation = IndexingUtils.information(for: type)
         
-        let result = swifty.getSync(query)
-        
-        var typeInformation: TypeInformation
-        
-        if let existingTypeInformation = result.value?.first {
-            typeInformation = existingTypeInformation
-        } else {
-            typeInformation = IndexingUtils.informationForType(type)
-        }
-        
-        if typeInformation.indices == IndexingUtils.informationForType(type).indices {
+        /* Dont update indices if the current database indices matches the types defined indices */
+        guard storedTypeInformation?.indices != currentTypeInformation.indices else {
             return
         }
         
-        if let index = IndexingUtils.indexForType(type) {
+        /* Create indices for type if any */
+        if let index = IndexingUtils.index(for: type) {
             try swifty.database.create(index: index)
         }
         
-        
-        typeInformation.indices = IndexingUtils.indexNamesForType(type)
-        
-        _ = swifty.addSync([typeInformation])
+        /* Store the current type information */
+        _ = swifty.addSync([currentTypeInformation])
     }
     
+    fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Swifty) -> TypeInformation? {
+        let query = Query<TypeInformation>().filter("name" == "\(type)")
+        
+        let result = swifty.getSync(query)
+        
+        switch result {
+        case .success(let typeInformation):
+            return typeInformation.first
+        default:
+            return nil
+        }
+    }
 }

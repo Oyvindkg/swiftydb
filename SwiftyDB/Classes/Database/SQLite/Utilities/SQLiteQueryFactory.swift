@@ -160,7 +160,7 @@ class SQLiteQueryFactory {
     }
     
     func buildCreateIndexQuery(for index: _IndexInstance) -> SQLiteQuery {
-        let name = IndexingUtils.nameForIndex(index)
+        let name = IndexingUtils.name(of: index)
         
         var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joined(separator: ", ")))"
         var parameters: [SQLiteValue?] = []
