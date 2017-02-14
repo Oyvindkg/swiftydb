@@ -12,7 +12,7 @@ class DefaultMigrator: Migrator {
     
     var validTypes: Set<String> = [ String(describing: TypeInformation.self) ]
     
-    func migrateIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    func migrateTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
         if validTypes.contains("\(type)") {
             return
         }
@@ -22,17 +22,17 @@ class DefaultMigrator: Migrator {
                 continue
             }
             
-            try migrateIfNecessary(type: childType as! Storable.Type, inSwifty: swifty)
+            try migrateTypeIfNecessary(childType as! Storable.Type, in: swifty)
         }
         
-        try migrateThisIfNecessary(type: type, inSwifty: swifty)
+        try migrateTypeNonrecursiveIfNecessary(type, in: swifty)
         
         validTypes.insert("\(type)")
     }
     
     // TODO: Make this pretty
     // TODO: Wont detect changes with the same storable value type
-    fileprivate func migrateThisIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws {
+    fileprivate func migrateTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
         
         let query = Query<TypeInformation>().filter("name" == String(describing: type))
         
@@ -67,7 +67,7 @@ class DefaultMigrator: Migrator {
                     throw SwiftyError.migration("\(type) was migrated, but the schema version was not incremented")
                 }
                 
-                let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: Int(newSchemaVersion))
+                let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
                 
                 _ = swifty.addSync([newTypeInformation])
             }

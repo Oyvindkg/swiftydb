@@ -23,7 +23,7 @@ internal struct MigrationUtils {
         return definitions
     }
     
-    static func typeInformationFor(type: Storable.Type, version: Int = 0) -> TypeInformation {
+    static func typeInformationFor(type: Storable.Type, version: UInt = 0) -> TypeInformation {
         let name       = String(describing: type)
         let properties = propertyDefinitionsFor(type: type)
         let identifier = type.identifier()

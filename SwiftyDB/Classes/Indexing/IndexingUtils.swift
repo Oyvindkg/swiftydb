@@ -37,7 +37,7 @@ struct IndexingUtils {
         return []
     }
     
-    static func informationForType(_ type: Storable.Type, version: Int = 0) -> TypeInformation {
+    static func informationForType(_ type: Storable.Type, version: UInt = 0) -> TypeInformation {
         let name        = String(describing: type)
         let identifier  = type.identifier()
         let indices     = indexNamesForType(type)

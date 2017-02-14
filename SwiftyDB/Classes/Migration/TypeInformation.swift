@@ -13,7 +13,7 @@ struct TypeInformation: Storable {
     
     var name = ""
     var properties: [String: String] = [:]
-    var version = 0
+    var version: UInt = 0
     var identifierName = ""
     var indices: Set<String> = []
     

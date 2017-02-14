@@ -10,5 +10,5 @@ import Foundation
 
 
 protocol Migrator {
-    func migrateIfNecessary(type: Storable.Type, inSwifty swifty: Swifty) throws
+    func migrateTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws
 }
