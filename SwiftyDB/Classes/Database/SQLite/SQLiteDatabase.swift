@@ -18,7 +18,7 @@ struct SQLiteDatabase: Database {
     let tableCreator: SQLiteDatabaseTableCreator
     let inserter: DatabaseInserter
     let retriever: DatabaseRetriever
-    let indexer: DatabaseIndexer
+    let databaseIndexer: DatabaseIndexer
     let deleter: DatabaseDeleter
     let migrator: DatabaseMigrator
     
@@ -40,7 +40,7 @@ struct SQLiteDatabase: Database {
         tableCreator = SQLiteDatabaseTableCreator(databaseQueue: databaseQueue, queryFactory: queryFactory)
         inserter     = SQLiteDatabaseInserter(databaseQueue: databaseQueue, queryFactory: queryFactory)
         retriever    = SQLiteDatabaseRetriever(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        indexer      = SQLiteDatabaseIndexer(databaseQueue: databaseQueue, queryFactory: queryFactory)
+        databaseIndexer      = SQLiteDatabaseIndexer(databaseQueue: databaseQueue, queryFactory: queryFactory)
         deleter      = SQLiteDatabaseDeleter(databaseQueue: databaseQueue, queryFactory: queryFactory)
         migrator     = SQLiteDatabaseMigrator(databaseQueue: databaseQueue, queryFactory: queryFactory)
     }
@@ -86,7 +86,7 @@ struct SQLiteDatabase: Database {
         return try migrator.migrate(type: type, fromTypeInformation: typeInformation)
     }
     
-    func create(index: _Index) throws {
-        try indexer.create(index: index)
+    func createIndex(from indexer: Indexer) throws {
+        try databaseIndexer.createIndex(from: indexer)
     }
 }

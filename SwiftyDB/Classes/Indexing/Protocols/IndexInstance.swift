@@ -9,7 +9,16 @@
 import Foundation
 
 /** Represents a single index with optional filters */
-public protocol IndexInstance {
+public protocol Index {
+    
+    /** The type the index indexes */
+    var type: Storable.Type { get }
+    
+    /** The the indexed properties */
+    var properties: [String] { get }
+    
+    /** Filters used to limit the data indexed by this index */
+    var filter: FilterStatement? { get }
     
     /**
      Filter the objects to use in the index
@@ -17,12 +26,5 @@ public protocol IndexInstance {
      - parameters:
         - filter: a filter statement
      */
-    func filter(_ filter: FilterStatement) -> IndexInstance
-}
-
-/** An internal index instance representation */
-protocol _IndexInstance {
-    var type: Storable.Type { get }
-    var properties: [String] { get }
-    var filters: FilterStatement? { get }
+    @discardableResult func `where`(_ filter: FilterStatement) -> Index
 }

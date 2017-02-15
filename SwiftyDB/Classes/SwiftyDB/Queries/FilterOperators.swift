@@ -8,13 +8,14 @@
 
 import Foundation
 
-infix operator <<
+//infix operator <<: ComparisonPrecedence
 
 infix operator !<: ComparisonPrecedence
-infix operator !~: ComparisonPrecedence
-
+//infix operator !~: ComparisonPrecedence
 
 // MARK: - Comparators
+
+// MARK: Ranges
 
 /**
  A property's value is in a provided range
@@ -42,7 +43,33 @@ public func !< <T: StorableProperty>(property: String, range: Range<T>) -> Filte
     return Expression.notBetween(property, range.lowerBound.storableValue, range.upperBound.storableValue)
 }
 
+/**
+ A property's value is in a provided range
+ 
+ - parameters:
+ - property: the name of a property
+ - range:    the range the property should be in
+ 
+ - returns: a `FilterStatement`
+ */
+public func << <T: StorableProperty>(property: String, range: ClosedRange<T>) -> FilterStatement where T: Comparable {
+    return Expression.between(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+}
 
+/**
+ A property's value is not in a provided range
+ 
+ - parameters:
+ - property: the name of a property
+ - range:    the range the property should not be in
+ 
+ - returns: a `FilterStatement`
+ */
+public func !< <T: StorableProperty>(property: String, range: ClosedRange<T>) -> FilterStatement where T: Comparable {
+    return Expression.notBetween(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+}
+
+// MARK: Arrays
 
 /**
  A property's value is in a provided array
@@ -125,9 +152,11 @@ public func ~= (property: String, pattern: String) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func !~ (property: String, pattern: String) -> FilterStatement {
-    return Expression.notLike(property, pattern.storableValue)
-}
+//public func !~ (property: String, pattern: String) -> FilterStatement {
+//    return Expression.notLike(property, pattern.storableValue)
+//}
+
+
 
 /**
  A property's value is equal to the provided storable object

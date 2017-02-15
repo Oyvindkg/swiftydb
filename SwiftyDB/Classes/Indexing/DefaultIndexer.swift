@@ -1,76 +1,38 @@
 //
-//  Indexer.swift
+//  Index.swift
 //  SwiftyDB
 //
-//  Created by Øyvind Grimnes on 05/09/16.
+//  Created by Øyvind Grimnes on 04/09/16.
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
 import Foundation
 
-
-//TODO: Maybe this could be limited to accepting only Indexable types?
-
+/** Class used to create indices on a set of properties, with optional filters */
 class DefaultIndexer: Indexer {
+
+    let type: Storable.Type
     
-    var validTypes: Set<String> = []
+    var indices: [Index]
     
-    
-    /** Creates indices for the provided type, and its nested types */
-    func indexTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
-        
-        guard !validTypes.contains("\(type)") else {
-            return
-        }
-        
-        for (_, childType) in Mapper.reader(for: type).propertyTypes {
-            guard let storableChildType = childType as? Storable.Type else {
-                continue
-            }
-            
-            try indexTypeIfNecessary(storableChildType, in: swifty)
-        }
-        
-        try indexTypeNonrecursiveIfNecessary(type, in: swifty)
-        
-        /* The type is successfully indexed. Cache the type to avoid unnecessary processing */
-        validTypes.insert("\(type)")
+    init(type: Storable.Type) {
+        self.type = type
+        self.indices = []
     }
     
-    /** Creates indices for the provided type */
-    fileprivate func indexTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
+    /**
+     Define an index on a collection of properties
+     
+     - parameters:
+     - properties: the properties to be used in the index
+     */
+    public func index(on properties: [String]) -> Index {
+        let index = DefaultIndex(type: type)
         
-        guard type is Indexable.Type else {
-            return
-        }
+        index.properties = properties
         
-        let storedTypeInformation  = retrieveTypeInformation(for: type, from: swifty)
-        let currentTypeInformation = IndexingUtils.information(for: type)
+        indices.append(index)
         
-        /* Dont update indices if the current database indices matches the types defined indices */
-        guard storedTypeInformation?.indices != currentTypeInformation.indices else {
-            return
-        }
-        
-        /* Create indices for type if any */
-        if let index = IndexingUtils.index(for: type) {
-            try swifty.database.create(index: index)
-        }
-        
-        /* Store the current type information */
-        _ = swifty.addSync([currentTypeInformation])
-    }
-    
-    fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Swifty) -> TypeInformation? {
-        let query = Query<TypeInformation>().filter("name" == "\(type)")
-        
-        let result = swifty.getSync(query)
-        
-        switch result {
-        case .success(let typeInformation):
-            return typeInformation.first
-        default:
-            return nil
-        }
+        return index
     }
 }

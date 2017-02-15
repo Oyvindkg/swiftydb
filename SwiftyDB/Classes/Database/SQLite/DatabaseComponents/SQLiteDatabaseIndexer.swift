@@ -19,7 +19,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
         self.queryFactory  = queryFactory
     }
     
-    func create(index: _Index) throws {
+    func createIndex(from index: Indexer) throws {
         try deleteIndices(for: index.type)
         
         for index in index.indices {
@@ -40,17 +40,18 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
     }
     
     fileprivate func deleteIndices(_ indexNames: [String]) throws {
-        let query = "DROP INDEX ?"
         
         try databaseQueue.database { database in
             
-            let statement = try database.statement(for: query)
-            
             for indexName in indexNames {
-                _ = try statement.executeUpdate(withParameters: [indexName])
-            }
-            
-            try statement.finalize()
+                let query = "DROP INDEX IF EXISTS '\(indexName)'"
+                
+                let statement = try database.statement(for: query)
+                
+                _ = try statement.executeUpdate()
+                
+                try statement.finalize()
+            }            
         }
     }
     
@@ -71,6 +72,6 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
             try statement.finalize()
         }
         
-        return indexNames
+        return indexNames.filter { !$0.contains("sqlite") }
     }
 }

@@ -9,15 +9,11 @@
 import Foundation
 
 /** Protocol used to create indices on a set of properties */
-public protocol Index {
+public protocol Indexer {
     
-    /** 
-     Define an index on a collection of properties
-     
-     - parameters:
-        - properties: the properties to be used in the index
-     */
-    func on(properties: String...) -> IndexInstance
+    var type: Storable.Type { get }
+    
+    var indices: [Index] { get }
     
     /**
      Define an index on a collection of properties
@@ -25,12 +21,17 @@ public protocol Index {
      - parameters:
         - properties: the properties to be used in the index
      */
-    func on(properties: [String]) -> IndexInstance
+    @discardableResult func index(on properties: [String]) -> Index
 }
 
-/* An internal index type representation */
-protocol _Index {
-    var type: Storable.Type { get }
-    
-    var indices: [_IndexInstance] { get }
+extension Indexer {
+    /**
+     Define an index on a collection of properties
+     
+     - parameters:
+     - properties: the properties to be used in the index
+     */
+    @discardableResult public func index(on properties: String...) -> Index {
+        return index(on: properties)
+    }
 }

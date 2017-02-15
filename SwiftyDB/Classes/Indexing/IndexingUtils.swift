@@ -10,31 +10,33 @@ import Foundation
 
 struct IndexingUtils {
     
-    static func name(of index: _IndexInstance) -> String {
+    static func name(of index: Index) -> String {
         let type       = String(describing: index.type)
-        let filters    = String(describing: index.filters)
+        let filters    = String(describing: index.filter)
         let properties = index.properties.joined(separator: "")
         
-        return "\(type):\(properties):\(filters)"
+        let invalidName = "\(type):\(properties):\(filters)"
+        
+        return invalidName.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
     }
     
-    static func index(for type: Storable.Type) -> _Index? {
+    static func indexer(for type: Storable.Type) -> Indexer? {
         if let indexableType = type as? Indexable.Type {
-            let index = DefaultIndex(type: type)
+            let indexer = DefaultIndexer(type: type)
             
-            indexableType.index(index: index)
+            indexableType.index(using: indexer)
             
-            return index
+            return indexer
         }
         
         return nil
     }
     
     static func indexNames(for type: Storable.Type) -> Set<String> {
-        if let index = self.index(for: type) {
+        if let indexer = self.indexer(for: type) {
             var indexNames: Set<String> = []
             
-            for indexInstance in index.indices {
+            for indexInstance in indexer.indices {
                 let indexName = name(of: indexInstance)
                 
                 indexNames.insert(indexName)

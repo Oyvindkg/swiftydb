@@ -1,35 +1,29 @@
 //
-//  Index.swift
+//  IndexInstance.swift
 //  SwiftyDB
 //
-//  Created by Øyvind Grimnes on 04/09/16.
+//  Created by Øyvind Grimnes on 10/09/16.
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
 import Foundation
 
-/** Class used to create indices on a set of properties, with optional filters */
-class DefaultIndex: Index, _Index {
+class DefaultIndex: Index {
+    
     let type: Storable.Type
     
-    var indices: [_IndexInstance]
+    /** Filters used to limit the data indexed by this index */
+    var filter: FilterStatement?
+
+    var properties: [String] = []
     
     init(type: Storable.Type) {
         self.type = type
-        self.indices = []
     }
     
-    func on(properties: String...) -> IndexInstance {
-        return on(properties: properties)
-    }
-    
-    func on(properties: [String]) -> IndexInstance {
-        let index = DefaultIndexInstance(type: type)
+    func `where`(_ filter: FilterStatement) -> Index {
+        self.filter = filter
         
-        index.properties = properties
-        
-        indices.append(index)
-        
-        return index
+        return self
     }
 }

@@ -10,14 +10,15 @@ import Foundation
 
 /** Defines mappable objects */
 public protocol Mappable {
+    
     /** Used to map objects with data from the database */
     static func mappableObject() -> Mappable
     
     /** 
-     Used to map properties when reading from and writing to the object 
+    Used to map properties when reading from and writing to the object
      
-     - parameters:
+    - parameters:
         - map: a map to be read or written
-     */
+    */
     mutating func mapping(map: Map)
 }

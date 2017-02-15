@@ -34,7 +34,7 @@ class SwiftyTests: XCTestCase {
     func testAddedObjectsAreRetrievedCorrectly() {
         let lady = Wolf(name: "Lady", age: 5)
         
-        let arya = Stark(name: "Arya", weight: 45, age: 10)
+        let arya  = Stark(name: "Arya", weight: 45, age: 10)
         let brand = Stark(name: "Brandon", weight: 40, age: 9)
         let sansa = Stark(name: "Sansa", weight: 50, age: 14, wolf: lady)
 
@@ -46,7 +46,7 @@ class SwiftyTests: XCTestCase {
         XCTAssertNil(addResult.errorMessage)
         
         /* Get sansa */
-        let getQuery = swifty.get(Stark.self).filter("name" == "Sansa")
+        let getQuery  = swifty.get(Stark.self).filter("name" == "Sansa")
         let getResult = swifty.getSync(getQuery)
         
         XCTAssertNil(getResult.errorMessage)

@@ -155,22 +155,65 @@ class SQLiteQueryFactory {
     
     // MARK: - Create index
     
-    func createIndexQuery(for index: _IndexInstance) -> SQLiteQuery {
+    func createIndexQuery(for index: Index) -> SQLiteQuery {
         return buildCreateIndexQuery(for: index)
     }
     
-    func buildCreateIndexQuery(for index: _IndexInstance) -> SQLiteQuery {
+    func buildCreateIndexQuery(for index: Index) -> SQLiteQuery {
         let name = IndexingUtils.name(of: index)
         
-        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON '\(index.type)' (\(index.properties.joined(separator: ", ")))"
-        var parameters: [SQLiteValue?] = []
         
-        if let filter = index.filters as? SQLiteFilterStatement {
-            query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.to(type: SQLiteValue.self)
+        var escapedColumnNames: [String] = []
+        
+        for property in index.properties {
+            escapedColumnNames.append("'\(property)'")
         }
         
-        return SQLiteQuery(query: query, parameters: parameters)
+        let columnsString = escapedColumnNames.joined(separator: ", ")
+        
+        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(index.type) (\(columnsString))"
+        
+        
+        if let filter = index.filter as? SQLiteFilterStatement {
+            
+            /* Parameters are not supported when creating indices */
+            let unparameterizedFilterStatement = self.unaprameterizedWhereStatement(for: filter)
+            
+            query += " WHERE \(unparameterizedFilterStatement)"
+        }
+        
+        print(query)
+        return SQLiteQuery(query: query, parameters: [])
+    }
+    
+    func unaprameterizedWhereStatement(for filter: SQLiteFilterStatement) -> String {
+        let statement  = filter.statement
+        let parameters = filter.parameters
+        
+        var statementComponents = statement.components(separatedBy: "?")
+        
+        for i in statementComponents.indices {
+            guard i < parameters.count else {
+                break
+            }
+            
+            let literalValue: String
+            
+            switch parameters[i] {
+            case let string as String:
+                literalValue = "'\(string)'"
+            case let double as Double:
+                literalValue = "\(double)"
+            case let int as Int64:
+                literalValue = "\(int)"
+            default:
+                literalValue = "NULL"
+            }
+            
+            statementComponents.insert(literalValue, at: i*2 + 1)
+        }
+        
+        return statementComponents.joined()
     }
     
     // MARK: - Delete 

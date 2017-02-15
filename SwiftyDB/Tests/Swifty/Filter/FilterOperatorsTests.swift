@@ -55,13 +55,13 @@ class FilterOperatorsTests: XCTestCase {
         XCTAssert(filter as! SwiftyDB.Expression == expression)
     }
     
-    func testNotLikeOperatorCreatesNotLikeExpressionWithTheProvidedValues() {
-        let filter: FilterStatement = property !~ stringValue
-        
-        let expression = Expression.notLike(property, stringValue)
-        
-        XCTAssert(filter as! SwiftyDB.Expression == expression)
-    }
+//    func testNotLikeOperatorCreatesNotLikeExpressionWithTheProvidedValues() {
+//        let filter: FilterStatement = property !~ stringValue
+//        
+//        let expression = Expression.notLike(property, stringValue)
+//        
+//        XCTAssert(filter as! SwiftyDB.Expression == expression)
+//    }
     
     func testLessThanOperatorCreatesLessThanExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property < stringValue

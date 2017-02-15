@@ -37,7 +37,7 @@
 		39D55CBD1D94925E00ED3486 /* StorableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C5F1D94925E00ED3486 /* StorableArray.swift */; };
 		39D55CBE1D94925E00ED3486 /* Storeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C601D94925E00ED3486 /* Storeable.swift */; };
 		39D55CBF1D94925E00ED3486 /* SQLiteDatabaseDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C631D94925E00ED3486 /* SQLiteDatabaseDeleter.swift */; };
-		39D55CC01D94925E00ED3486 /* SQLiteDatabaseIndexCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexCreator.swift */; };
+		39D55CC01D94925E00ED3486 /* SQLiteDatabaseIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexer.swift */; };
 		39D55CC11D94925E00ED3486 /* SQLiteDatabaseMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C651D94925E00ED3486 /* SQLiteDatabaseMigrator.swift */; };
 		39D55CC21D94925E00ED3486 /* SQLiteDatabaseObjectAdder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C661D94925E00ED3486 /* SQLiteDatabaseObjectAdder.swift */; };
 		39D55CC31D94925E00ED3486 /* SQLiteDatabaseRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C671D94925E00ED3486 /* SQLiteDatabaseRetriever.swift */; };
@@ -48,9 +48,9 @@
 		39D55CC81D94925E00ED3486 /* SQLiteDatatype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C6D1D94925E00ED3486 /* SQLiteDatatype.swift */; };
 		39D55CC91D94925E00ED3486 /* SQLiteFilterStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C6E1D94925E00ED3486 /* SQLiteFilterStatement.swift */; };
 		39D55CCA1D94925E00ED3486 /* SQLiteQueryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C6F1D94925E00ED3486 /* SQLiteQueryFactory.swift */; };
-		39D55CCB1D94925E00ED3486 /* DefaultIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C711D94925E00ED3486 /* DefaultIndex.swift */; };
-		39D55CCC1D94925E00ED3486 /* DefaultIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C721D94925E00ED3486 /* DefaultIndexer.swift */; };
-		39D55CCD1D94925E00ED3486 /* DefaultIndexInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C731D94925E00ED3486 /* DefaultIndexInstance.swift */; };
+		39D55CCB1D94925E00ED3486 /* DefaultIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C711D94925E00ED3486 /* DefaultIndexer.swift */; };
+		39D55CCC1D94925E00ED3486 /* DefaultTypeIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C721D94925E00ED3486 /* DefaultTypeIndexer.swift */; };
+		39D55CCD1D94925E00ED3486 /* DefaultIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C731D94925E00ED3486 /* DefaultIndex.swift */; };
 		39D55CCE1D94925E00ED3486 /* IndexingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C741D94925E00ED3486 /* IndexingUtils.swift */; };
 		39D55CCF1D94925E00ED3486 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C761D94925E00ED3486 /* Index.swift */; };
 		39D55CD01D94925E00ED3486 /* Indexable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D55C771D94925E00ED3486 /* Indexable.swift */; };
@@ -171,7 +171,7 @@
 		39D55C5F1D94925E00ED3486 /* StorableArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorableArray.swift; sourceTree = "<group>"; };
 		39D55C601D94925E00ED3486 /* Storeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storeable.swift; sourceTree = "<group>"; };
 		39D55C631D94925E00ED3486 /* SQLiteDatabaseDeleter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseDeleter.swift; sourceTree = "<group>"; };
-		39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseIndexCreator.swift; sourceTree = "<group>"; };
+		39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseIndexer.swift; sourceTree = "<group>"; };
 		39D55C651D94925E00ED3486 /* SQLiteDatabaseMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseMigrator.swift; sourceTree = "<group>"; };
 		39D55C661D94925E00ED3486 /* SQLiteDatabaseObjectAdder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseObjectAdder.swift; sourceTree = "<group>"; };
 		39D55C671D94925E00ED3486 /* SQLiteDatabaseRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseRetriever.swift; sourceTree = "<group>"; };
@@ -182,9 +182,9 @@
 		39D55C6D1D94925E00ED3486 /* SQLiteDatatype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatatype.swift; sourceTree = "<group>"; };
 		39D55C6E1D94925E00ED3486 /* SQLiteFilterStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteFilterStatement.swift; sourceTree = "<group>"; };
 		39D55C6F1D94925E00ED3486 /* SQLiteQueryFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteQueryFactory.swift; sourceTree = "<group>"; };
-		39D55C711D94925E00ED3486 /* DefaultIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndex.swift; sourceTree = "<group>"; };
-		39D55C721D94925E00ED3486 /* DefaultIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndexer.swift; sourceTree = "<group>"; };
-		39D55C731D94925E00ED3486 /* DefaultIndexInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndexInstance.swift; sourceTree = "<group>"; };
+		39D55C711D94925E00ED3486 /* DefaultIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndexer.swift; sourceTree = "<group>"; };
+		39D55C721D94925E00ED3486 /* DefaultTypeIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultTypeIndexer.swift; sourceTree = "<group>"; };
+		39D55C731D94925E00ED3486 /* DefaultIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultIndex.swift; sourceTree = "<group>"; };
 		39D55C741D94925E00ED3486 /* IndexingUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexingUtils.swift; sourceTree = "<group>"; };
 		39D55C761D94925E00ED3486 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		39D55C771D94925E00ED3486 /* Indexable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indexable.swift; sourceTree = "<group>"; };
@@ -343,7 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				39D55C3B1D94920700ED3486 /* Filter */,
-				39D55C421D94920700ED3486 /* Storeables */,
+				39D55C421D94920700ED3486 /* Storables */,
 				39D55C461D94920700ED3486 /* SwiftyTests.swift */,
 			);
 			name = Swifty;
@@ -370,13 +370,14 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
-		39D55C421D94920700ED3486 /* Storeables */ = {
+		39D55C421D94920700ED3486 /* Storables */ = {
 			isa = PBXGroup;
 			children = (
 				39D55C431D94920700ED3486 /* Stark.swift */,
 				39D55C441D94920700ED3486 /* TestClass.swift */,
 				39D55C451D94920700ED3486 /* Wolf.swift */,
 			);
+			name = Storables;
 			path = Storeables;
 			sourceTree = "<group>";
 		};
@@ -423,7 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				39D55C631D94925E00ED3486 /* SQLiteDatabaseDeleter.swift */,
-				39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexCreator.swift */,
+				39D55C641D94925E00ED3486 /* SQLiteDatabaseIndexer.swift */,
 				39D55C651D94925E00ED3486 /* SQLiteDatabaseMigrator.swift */,
 				39D55C661D94925E00ED3486 /* SQLiteDatabaseObjectAdder.swift */,
 				39D55C671D94925E00ED3486 /* SQLiteDatabaseRetriever.swift */,
@@ -446,9 +447,9 @@
 		39D55C701D94925E00ED3486 /* Indexing */ = {
 			isa = PBXGroup;
 			children = (
-				39D55C711D94925E00ED3486 /* DefaultIndex.swift */,
-				39D55C721D94925E00ED3486 /* DefaultIndexer.swift */,
-				39D55C731D94925E00ED3486 /* DefaultIndexInstance.swift */,
+				39D55C711D94925E00ED3486 /* DefaultIndexer.swift */,
+				39D55C721D94925E00ED3486 /* DefaultTypeIndexer.swift */,
+				39D55C731D94925E00ED3486 /* DefaultIndex.swift */,
 				39D55C741D94925E00ED3486 /* IndexingUtils.swift */,
 				39D55C751D94925E00ED3486 /* Protocols */,
 			);
@@ -720,7 +721,7 @@
 				39D55CDB1D94925E00ED3486 /* Mappable.swift in Sources */,
 				39D55CD31D94925E00ED3486 /* Mapper.swift in Sources */,
 				39D55CBF1D94925E00ED3486 /* SQLiteDatabaseDeleter.swift in Sources */,
-				39D55CCC1D94925E00ED3486 /* DefaultIndexer.swift in Sources */,
+				39D55CCC1D94925E00ED3486 /* DefaultTypeIndexer.swift in Sources */,
 				39D55CED1D94925E00ED3486 /* MigrationUtils.swift in Sources */,
 				39D55CC81D94925E00ED3486 /* SQLiteDatatype.swift in Sources */,
 				39D55CBA1D94925E00ED3486 /* DatabaseRetriever.swift in Sources */,
@@ -756,9 +757,9 @@
 				39D55CEF1D94925E00ED3486 /* Migration.swift in Sources */,
 				39D55CFF1D94925E00ED3486 /* Swifty.swift in Sources */,
 				39D55CB71D94925E00ED3486 /* DatabaseDeleter.swift in Sources */,
-				39D55CC01D94925E00ED3486 /* SQLiteDatabaseIndexCreator.swift in Sources */,
+				39D55CC01D94925E00ED3486 /* SQLiteDatabaseIndexer.swift in Sources */,
 				39D55CBE1D94925E00ED3486 /* Storeable.swift in Sources */,
-				39D55CCD1D94925E00ED3486 /* DefaultIndexInstance.swift in Sources */,
+				39D55CCD1D94925E00ED3486 /* DefaultIndex.swift in Sources */,
 				39D55CD01D94925E00ED3486 /* Indexable.swift in Sources */,
 				39D55CF91D94925E00ED3486 /* FilterStatement.swift in Sources */,
 				39D55CEC1D94925E00ED3486 /* DefaultPropertyMigration.swift in Sources */,
@@ -770,7 +771,7 @@
 				39D55CF61D94925E00ED3486 /* ObjectDatabaseProtocol.swift in Sources */,
 				39D55CB61D94925E00ED3486 /* DefaultObjectSerializer.swift in Sources */,
 				39D55CD11D94925E00ED3486 /* Indexer.swift in Sources */,
-				39D55CCB1D94925E00ED3486 /* DefaultIndex.swift in Sources */,
+				39D55CCB1D94925E00ED3486 /* DefaultIndexer.swift in Sources */,
 				39D55CFB1D94925E00ED3486 /* Query.swift in Sources */,
 				39D55CBB1D94925E00ED3486 /* Identifiable.swift in Sources */,
 				39D55CD41D94925E00ED3486 /* BaseMap.swift in Sources */,

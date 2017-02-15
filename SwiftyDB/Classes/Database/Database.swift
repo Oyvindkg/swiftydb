@@ -18,7 +18,7 @@ protocol Database {
     
     func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
     
-    func create(index: _Index) throws
+    func createIndex(from indexer: Indexer) throws
 }
 
 extension Database {

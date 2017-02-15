@@ -9,12 +9,12 @@
 import Foundation
 
 /** Defined an indexable type */
-protocol Indexable {
+public protocol Indexable {
     /**
      Defines how to index a type
      
      - parameters:
         - index: an index type used to define indices
      */
-    static func index(index: Index)
+    static func index(using indexer: Indexer)
 }

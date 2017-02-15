@@ -22,20 +22,34 @@ class Stark: Storable {
         self.weight = weight
         self.wolf = wolf
     }
-    
+}
+
+extension Stark: Mappable {
     static func mappableObject() -> Mappable {
         return Stark(name: "Sansa", weight: 56.2, age: 14)
     }
     
+    func mapping(map: Map) {
+        name     <- map["name"]
+        age      <- map["age"]
+        weight   <- map["weight"]
+        wolf     <- map["wolf"]
+        siblings <- map["siblings"]
+    }
+}
+
+extension Stark: Identifiable {
     static func identifier() -> String {
         return "name"
     }
-    
-    func mapping(map: Map) {
-        name   <- map["name"]
-        age    <- map["age"]
-        weight <- map["weight"]
-        wolf   <- map["wolf"]
-        siblings <- map["siblings"]
+}
+
+extension Stark: SwiftyDB.Indexable {
+    static func index(using indexer: Indexer) {
+        let nilString: String? = nil
+        
+        let filter: FilterStatement = "age" << (0..<20)
+        
+        indexer.index(on: "name").where("name" == nilString && "age" > 10 || ("wolf" == "Ghost" && filter))
     }
 }
