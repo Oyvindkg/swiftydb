@@ -9,18 +9,13 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseMigrator: DatabaseMigrator {
-    
-    let databaseQueue: DatabaseQueue
-    let queryFactory: SQLiteQueryFactory
-    
-    var validTypes: Set<String> = ["TypeInformation"]
-    
-    init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
-        self.databaseQueue = databaseQueue
-        self.queryFactory = queryFactory
-    }
-    
+protocol SQLiteDatabaseMigrator: DatabaseMigrator {
+    var databaseQueue: DatabaseQueue { get }
+    var validTypes: Set<String> { get set }     // Must contain `TypeInformation` on startup
+}
+
+extension SQLiteDatabaseMigrator {
+
     func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
         guard let migratableType = type as? Migratable.Type else {
             throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
@@ -49,7 +44,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         return migration.schemaVersion
     }
     
-    func validateMigratedData(_ migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
+    fileprivate func validateMigratedData(_ migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
         guard !migratedData.isEmpty else {
             return
         }
@@ -72,7 +67,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
         }
     }
     
-    func migrate(type: Storable.Type) throws -> UInt {
+    fileprivate func migrate(type: Storable.Type) throws -> UInt {
         try databaseQueue.transaction { database in
             try self.createTable(for: type, in: database)
         }
@@ -82,7 +77,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     
     fileprivate func existingData(for type: Storable.Type, in database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
         
-        let retrieveQuery = self.queryFactory.selectQuery(for: type,
+        let retrieveQuery = SQLiteQueryFactory.selectQuery(for: type,
                                                           filter: nil,
                                                           sorting: .none,
                                                           limit: nil,
@@ -152,7 +147,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     fileprivate func createTable(for type: Storable.Type, in database: DatabaseConnection) throws {
         let reader = Mapper.reader(for: type)
         
-        let createTableQuery = self.queryFactory.createTableQuery(for: reader)
+        let createTableQuery = SQLiteQueryFactory.createTableQuery(for: reader)
         
         try database.statement(for: createTableQuery.query)
             .executeUpdate(withParameters: createTableQuery.parameters)
@@ -162,7 +157,7 @@ class SQLiteDatabaseMigrator: DatabaseMigrator {
     fileprivate func insert(_ dataArray: [[String: SQLiteValue?]], for type: Storable.Type, in database: DatabaseConnection) throws {
         let reader = Mapper.reader(for: type)
         
-        let insertQuery = self.queryFactory.insertQuery(for: reader)
+        let insertQuery = SQLiteQueryFactory.insertQuery(for: reader)
 
         let insertStatement = try database.statement(for: insertQuery.query)
         

@@ -9,16 +9,12 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabaseInserter: DatabaseInserter {
-    
-    let databaseQueue: DatabaseQueue
-    let queryFactory: SQLiteQueryFactory
-    
-    init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
-        self.databaseQueue = databaseQueue
-        self.queryFactory = queryFactory
-    }
-    
+protocol SQLiteDatabaseInserter: DatabaseInserter {
+    var databaseQueue: DatabaseQueue { get }
+}
+
+extension SQLiteDatabaseInserter {
+ 
     func add(readers: [Reader]) throws {
         guard readers.count > 0 else {
             return
@@ -28,7 +24,7 @@ struct SQLiteDatabaseInserter: DatabaseInserter {
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
-                let query      = self.queryFactory.insertQuery(for: readers.first!)
+                let query      = SQLiteQueryFactory.insertQuery(for: readers.first!)
                 
                 let statement = try database.statement(for: query.query)
                 

@@ -10,5 +10,5 @@ import Foundation
 
 protocol DatabaseMigrator {
     func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
-    func migrate(type: Storable.Type) throws -> UInt
+//    func migrate(type: Storable.Type) throws -> UInt
 }

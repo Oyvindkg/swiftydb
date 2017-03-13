@@ -10,24 +10,24 @@ import Foundation
 
 protocol Database {
     
-    func add<T: Storable>(objects: [T]) throws
+    mutating func add<T: Storable>(objects: [T]) throws
     
-    func get<T: Storable>(query: Query<T>) throws -> [T]
+    mutating func get<T: Storable>(with: Query<T>) throws -> [T]
     
-    func delete<T: Storable>(query: Query<T>) throws
+    mutating func delete<T: Storable>(with: Query<T>) throws
     
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
+    mutating func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
     
-    func createIndex(from indexer: Indexer) throws
+    mutating func createIndex(with indexer: Indexer) throws
 }
 
 extension Database {
     
-    func add<T: Storable>(_ object: T) throws {
+    mutating func add<T: Storable>(_ object: T) throws {
         try add(objects: [object])
     }
     
-    func add<T: Storable>(objects: T...) throws {
+    mutating func add<T: Storable>(objects: T...) throws {
         try add(objects: objects)
     }
 }

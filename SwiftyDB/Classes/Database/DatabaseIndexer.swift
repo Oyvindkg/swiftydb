@@ -9,5 +9,5 @@
 import Foundation
 
 protocol DatabaseIndexer {
-    func createIndex(from index: Indexer) throws
+    func createIndex(with index: Indexer) throws
 }

@@ -17,25 +17,86 @@ private enum Operation: String {
     case delete = "DELETE"
 }
 
-class SQLiteQueryFactory {
+protocol SQLiteFilterDeparameterizer {
+    static func deaprameterizedStatement(for filter: SQLiteFilterStatement) -> String
+}
+
+extension SQLiteFilterDeparameterizer {
     
-    var queryCache: [String: SQLiteQuery] = [:]
-    
-    // MARK: Create table
-    
-    func createTableQuery(for reader: Reader) -> SQLiteQuery {
-        if let query = cachedQuery(for: reader.storableType, operation: .createTable) {
-            return query
+    static func deaprameterizedStatement(for filter: SQLiteFilterStatement) -> String {
+        let statement  = filter.statement
+        let parameters = filter.parameters
+        
+        var statementComponents = statement.components(separatedBy: "?")
+        
+        for i in statementComponents.indices {
+            guard i < parameters.count else {
+                break
+            }
+            
+            let literalValue = self.literalValue(of: parameters[i])
+            
+            statementComponents.insert(literalValue, at: i*2 + 1)
         }
         
-        let query = buildCreateTableQuery(for: reader)
-        
-        cacheQuery(query, for: reader.storableType, operation: .createTable)
-        
-        return query
+        return statementComponents.joined()
     }
     
-    fileprivate func buildCreateTableQuery(for reader: Reader) -> SQLiteQuery {
+    private static func literalValue(of storableValue: StorableValue?) -> String {
+        switch storableValue {
+        case let string as String:
+            return "'\(string)'"
+        case let double as Double:
+            return "\(double)"
+        case let int as Int64:
+            return "\(int)"
+        default:
+            return "NULL"
+        }
+    }
+}
+
+protocol SQLiteIndexQueryFactory: SQLiteFilterDeparameterizer {
+    static func createIndexQuery(for index: Index) -> SQLiteQuery
+}
+
+extension SQLiteIndexQueryFactory {
+    
+    static func createIndexQuery(for index: Index) -> SQLiteQuery {
+        let name = IndexingUtils.name(of: index)
+        
+        
+        var escapedColumnNames: [String] = []
+        
+        for property in index.properties {
+            escapedColumnNames.append("'\(property)'")
+        }
+        
+        let columnsString = escapedColumnNames.joined(separator: ", ")
+        
+        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(index.type) (\(columnsString))"
+        
+        
+        if let filter = index.filter as? SQLiteFilterStatement {
+            
+            /* Parameters are not supported when creating indices */
+            let unparameterizedFilterStatement = self.deaprameterizedStatement(for: filter)
+            
+            query += " WHERE \(unparameterizedFilterStatement)"
+        }
+        
+        return SQLiteQuery(query: query, parameters: [])
+    }
+}
+
+protocol SQLiteTableQueryFactory {
+    static func createTableQuery(for reader: Reader) -> SQLiteQuery
+}
+
+extension SQLiteTableQueryFactory {
+    
+    static func createTableQuery(for reader: Reader) -> SQLiteQuery {
+
         let name       = String(describing: reader.type)
         let identifier = reader.storableType.identifier()
         
@@ -65,23 +126,96 @@ class SQLiteQueryFactory {
         
         return SQLiteQuery(query: query, parameters: [])
     }
+}
+
+
+protocol SQLiteSelectQueryFactory {
+    static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery
+}
+
+extension SQLiteSelectQueryFactory {
     
-    // MARK: Insert
-    
-    func insertQuery(for reader: Reader, update: Bool = true) -> SQLiteQuery {
-        /* Does not work for optional values in the current implementation */
-//        if let query = cachedQueryForType(reader.storableType, andOperation: .Insert) {
-//            return query
-//        }
+    static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
         
-        let query = buildInsertQuery(for: reader)
+        var query = "SELECT * FROM '\(type)'"
+        var parameters: [SQLiteValue?] = []
         
-        cacheQuery(query, for: reader.storableType, operation: .insert)
+        if let filter = filter {
+            query += " WHERE \(filter.statement)"
+            parameters += filter.parameters.to(type: SQLiteValue.self)
+        }
         
-        return query
+        query += " \(orderByComponent(for: sorting))"
+        
+        let (limitComponenet, limitParameters) = limitComponent(forLimit: limit, withOffset: offset)
+        
+        query      += limitComponenet
+        parameters += limitParameters.to(type: SQLiteValue.self)
+        
+        
+        return SQLiteQuery(query: query, parameters: parameters)
     }
     
-    fileprivate func buildInsertQuery(for reader: Reader, update: Bool = true) -> SQLiteQuery {
+    private static  func orderByComponent(for sorting: Sorting) -> String {
+        switch sorting {
+        case .ascending(let property):
+            return " ORDER BY \(property) ASC"
+        case .descending(let property):
+            return " ORDER BY \(property) DESC"
+        case .none:
+            return ""
+        }
+    }
+    
+    private static  func limitComponent(forLimit limit: Int?, withOffset offset: Int?) -> (String, [SQLiteValue?]) {
+        if limit != nil && offset != nil {
+            return (" LIMIT ? OFFSET ?", [limit, offset])
+        }
+        
+        if offset != nil {
+            return (" LIMIT -1 OFFSET ?", [offset])
+        }
+        
+        if limit != nil {
+            return (" LIMIT ?", [limit])
+        }
+        
+        return ("", [])
+    }
+}
+
+
+protocol SQLiteDeleteQueryFactory {
+    static func deleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery
+}
+
+extension SQLiteDeleteQueryFactory {
+    static func deleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery {
+
+        var query = "DELETE FROM \(type)"
+        var parameters: [SQLiteValue?] = []
+        
+        if let filter = filter {
+            query += " WHERE \(filter.statement)"
+            parameters += filter.parameters.to(type: SQLiteValue.self)
+        }
+        
+        return SQLiteQuery(query: query, parameters: parameters)
+    }
+}
+
+protocol SQLiteInsertQueryFactory {
+    static func insertQuery(for reader: Reader, update: Bool) -> SQLiteQuery
+}
+
+extension SQLiteInsertQueryFactory {
+    
+    static func insertQuery(for reader: Reader) -> SQLiteQuery {
+        return insertQuery(for: reader, update: true)
+    }
+    
+    static func insertQuery(for reader: Reader, update: Bool) -> SQLiteQuery {
+        
         let onCollision  = update ? "REPLACE" : "ABORT"
         let properties   = reader.propertyTypes.keys
         let placeholders = properties.map { ":\($0)"}
@@ -98,155 +232,8 @@ class SQLiteQueryFactory {
         
         return SQLiteQuery(query: query, parameters: parameters)
     }
-    
-    // MARK: Select
-    
-    func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
-        return buildSelectQuery(for: type, filter: filter, sorting: sorting, limit: limit, offset: offset)
-    }
-    
-    func buildSelectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
-        
-        var query = "SELECT * FROM '\(type)'"
-        var parameters: [SQLiteValue?] = []
-        
-        if let filter = filter {
-            query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.to(type: SQLiteValue.self)
-        }
-        
-        query += " \(orderByComponent(for: sorting))"
-    
-        let (limitComponenet, limitParameters) = limitComponent(forLimit: limit, withOffset: offset)
-        
-        query      += limitComponenet
-        parameters += limitParameters.to(type: SQLiteValue.self)
-        
-        
-        return SQLiteQuery(query: query, parameters: parameters)
-    }
-    
-    fileprivate func orderByComponent(for sorting: Sorting) -> String {
-        switch sorting {
-        case .ascending(let property):
-            return " ORDER BY \(property) ASC"
-        case .descending(let property):
-            return " ORDER BY \(property) DESC"
-        case .none:
-            return ""
-        }
-    }
-    
-    fileprivate func limitComponent(forLimit limit: Int?, withOffset offset: Int?) -> (String, [SQLiteValue?]) {
-        if limit != nil && offset != nil {
-            return (" LIMIT ? OFFSET ?", [limit, offset])
-        }
-        
-        if offset != nil {
-            return (" LIMIT -1 OFFSET ?", [offset])
-        }
-        
-        if limit != nil {
-            return (" LIMIT ?", [limit])
-        }
-        
-        return ("", [])
-    }
-    
-    // MARK: - Create index
-    
-    func createIndexQuery(for index: Index) -> SQLiteQuery {
-        return buildCreateIndexQuery(for: index)
-    }
-    
-    func buildCreateIndexQuery(for index: Index) -> SQLiteQuery {
-        let name = IndexingUtils.name(of: index)
-        
-        
-        var escapedColumnNames: [String] = []
-        
-        for property in index.properties {
-            escapedColumnNames.append("'\(property)'")
-        }
-        
-        let columnsString = escapedColumnNames.joined(separator: ", ")
-        
-        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(index.type) (\(columnsString))"
-        
-        
-        if let filter = index.filter as? SQLiteFilterStatement {
-            
-            /* Parameters are not supported when creating indices */
-            let unparameterizedFilterStatement = self.unaprameterizedWhereStatement(for: filter)
-            
-            query += " WHERE \(unparameterizedFilterStatement)"
-        }
-        
-        print(query)
-        return SQLiteQuery(query: query, parameters: [])
-    }
-    
-    func unaprameterizedWhereStatement(for filter: SQLiteFilterStatement) -> String {
-        let statement  = filter.statement
-        let parameters = filter.parameters
-        
-        var statementComponents = statement.components(separatedBy: "?")
-        
-        for i in statementComponents.indices {
-            guard i < parameters.count else {
-                break
-            }
-            
-            let literalValue: String
-            
-            switch parameters[i] {
-            case let string as String:
-                literalValue = "'\(string)'"
-            case let double as Double:
-                literalValue = "\(double)"
-            case let int as Int64:
-                literalValue = "\(int)"
-            default:
-                literalValue = "NULL"
-            }
-            
-            statementComponents.insert(literalValue, at: i*2 + 1)
-        }
-        
-        return statementComponents.joined()
-    }
-    
-    // MARK: - Delete 
-    
-    func deleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery {
-        if let query = cachedQuery(for: type, operation: .delete) {
-            return query
-        }
-        
-        let query = buildDeleteQuery(for: type, filter: filter)
-        
-        return query
-    }
-    
-    func buildDeleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery {
-        var query = "DELETE FROM \(type)"
-        var parameters: [SQLiteValue?] = []
-        
-        if let filter = filter {
-            query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.to(type: SQLiteValue.self)
-        }
-        
-        return SQLiteQuery(query: query, parameters: parameters)
-    }
-    
-    // MARK: - Cache
-    
-    fileprivate func cachedQuery(for type: Storable.Type, operation: Operation) -> SQLiteQuery? {
-        return queryCache["\(operation.rawValue):\(type)"]
-    }
-    
-    fileprivate func cacheQuery(_ query: SQLiteQuery, for type: Storable.Type, operation: Operation) {
-        queryCache["\(operation.rawValue):\(type)"] = query
-    }
+}
+
+
+struct SQLiteQueryFactory: SQLiteTableQueryFactory, SQLiteInsertQueryFactory, SQLiteDeleteQueryFactory, SQLiteSelectQueryFactory, SQLiteIndexQueryFactory {
 }

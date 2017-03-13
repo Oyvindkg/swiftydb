@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Result
 
 /**
  A database query used to retrieve objects
@@ -30,8 +31,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
         - resultHandler:    and optional result handler
      */
-    open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.filter(filter), resultHandler: resultHandler)
+    open func `where`(_ filter: FilterStatement, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
+        self.database.get(with: self.where(filter), resultHandler: resultHandler)
     }
     
     /**
@@ -41,8 +42,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - start:            number of results to skip
         - resultHandler:    and optional result handler
      */
-    open func skip(_ start: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.skip(start), resultHandler: resultHandler)
+    open func skip(_ start: Int, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
+        self.database.get(with: self.skip(start), resultHandler: resultHandler)
     }
     
     /**
@@ -52,8 +53,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - max:              the maximum number of results
         - resultHandler:    and optional result handler
     */
-    open func limit(_ max: Int, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.limit(max), resultHandler: resultHandler)
+    open func limit(_ max: Int, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
+        self.database.get(with: self.limit(max), resultHandler: resultHandler)
     }
     
     /**
@@ -64,7 +65,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - ascending:        boolean indicating whether the objects should be sorted ascending or descending
         - resultHandler:    and optional result handler
     */
-    open func sort(by property: String, ascending: Bool = true, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.get(self.sort(by: property, ascending: ascending), resultHandler: resultHandler)
+    open func order(by property: String, ascending: Bool = true, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
+        self.database.get(with: self.order(by: property, ascending: ascending), resultHandler: resultHandler)
     }
 }

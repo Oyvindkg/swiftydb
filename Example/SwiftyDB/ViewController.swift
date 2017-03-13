@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        try? FileManager.default.removeItem(atPath: configuration.path)
+        try? FileManager.default.removeItem(atPath: configuration.location.path)
         
         let swifty = Swifty(configuration: configuration)
     
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             
             let start = Date()
             
-            swifty.get(Dog.self).filter("age" < 50).sortBy("name") { result in
+            swifty.get(Dog.self).where("age" < 50).order(by: "name") { result in
                 print(result.value?.count)
                 print("Get:", -start.timeIntervalSinceNow)
             }

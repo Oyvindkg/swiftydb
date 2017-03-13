@@ -32,7 +32,7 @@ open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
      
      - returns: self
      */
-    open func filter(_ filter: FilterStatement) -> Self {
+    open func `where`(_ filter: FilterStatement) -> Self {
         self.filter = filter
         
         return self
@@ -75,7 +75,7 @@ open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
      
      - returns: self
      */
-    open func sort(by property: String, ascending: Bool = true) -> Self {
+    open func order(by property: String, ascending: Bool = true) -> Self {
         self.sorting = ascending ? .ascending(property) : .descending(property)
         
         return self

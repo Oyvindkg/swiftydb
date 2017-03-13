@@ -54,17 +54,17 @@ class DefaultTypeIndexer: TypeIndexer {
         
         /* Create indices for type if any */
         if let indexer = IndexingUtils.indexer(for: type) {
-            try swifty.database.createIndex(from: indexer)
+            try swifty.database.createIndex(with: indexer)
         }
         
         /* Store the current type information */
-        _ = swifty.addSync([currentTypeInformation])
+        _ = swifty.executeAdd([currentTypeInformation])
     }
     
     fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Swifty) -> TypeInformation? {
-        let query = Query<TypeInformation>().filter("name" == "\(type)")
+        let query = Query<TypeInformation>().where("name" == "\(type)")
         
-        let result = swifty.getSync(query)
+        let result = swifty.executeGet(query: query)
         
         switch result {
         case .success(let typeInformation):

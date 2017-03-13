@@ -12,8 +12,8 @@ import Foundation
 public protocol QueryProtocol {
     func limit(_ max: Int) -> Self
     func skip(_ start: Int) -> Self
-    func filter(_ filter: FilterStatement) -> Self
-    func sort(by property: String, ascending: Bool) -> Self
+    func `where`(_ filter: FilterStatement) -> Self
+    func order(by property: String, ascending: Bool) -> Self
 }
 
 /** A query representation used internally */

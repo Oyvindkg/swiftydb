@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Result
 
 /** An object database interface used to add, retrieve and delete objects from some persistent store */
 internal protocol ObjectDatabase {
@@ -18,7 +19,7 @@ internal protocol ObjectDatabase {
         - object:           the object to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storable>(_ object: T, resultHandler: ((Result<Void>) -> Void)?)
+    func add<T: Storable>(_ object: T, resultHandler: ((Result<Void, SwiftyError>) -> Void)?)
     
     /**
      Add objects to the database
@@ -27,7 +28,7 @@ internal protocol ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storable>(_ objects: [T], resultHandler: ((Result<Void>) -> Void)?)
+    func add<T: Storable>(_ objects: [T], resultHandler: ((Result<Void, SwiftyError>) -> Void)?)
     
     
     /**
@@ -47,7 +48,7 @@ internal protocol ObjectDatabase {
         - type:             type of the objects to be retrieved
         - resultHandler:    an optional result handler
      */
-    func get<T: Storable>(_ type: T.Type, resultHandler: ((Result<[T]>) -> Void)?)
+    func get<T: Storable>(_ type: T.Type, resultHandler: ((Result<[T], SwiftyError>) -> Void)?)
     
     /**
      Get objects for the provided type
@@ -56,7 +57,7 @@ internal protocol ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T: Storable>(_ query: Query<T>, resultHandler: ((Result<[T]>) -> Void)?)
+    func get<T: Storable>(with query: Query<T>, resultHandler: ((Result<[T], SwiftyError>) -> Void)?)
     
     
     /**
@@ -67,7 +68,7 @@ internal protocol ObjectDatabase {
      
      - returns: A `DeleteQuery` object that can be used to filter objects to delete
      */
-    func delete<T: Storable>(_ type: T.Type, resultHandler: ((Result<Void>) -> Void)?)
+    func delete<T: Storable>(_ type: T.Type, resultHandler: ((Result<Void, SwiftyError>) -> Void)?)
     
     /**
      Delete objects for the provided type
@@ -76,5 +77,5 @@ internal protocol ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T: Storable>(_ query: Query<T>, resultHandler: ((Result<Void>) -> Void)?)
+    func delete<T: Storable>(with query: Query<T>, resultHandler: ((Result<Void, SwiftyError>) -> Void)?)
 }

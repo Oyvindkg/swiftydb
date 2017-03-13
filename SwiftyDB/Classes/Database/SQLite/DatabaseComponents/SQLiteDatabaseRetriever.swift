@@ -9,16 +9,11 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseRetriever: DatabaseRetriever {
-    
-    let databaseQueue: DatabaseQueue
-    let queryFactory: SQLiteQueryFactory
-    
-    
-    init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
-        self.databaseQueue = databaseQueue
-        self.queryFactory = queryFactory
-    }
+protocol SQLiteDatabaseRetriever: DatabaseRetriever {
+    var databaseQueue: DatabaseQueue { get }
+}
+
+extension SQLiteDatabaseRetriever {
 
     func get(query: _QueryProtocol) throws -> [Writer] {
         
@@ -36,7 +31,7 @@ class SQLiteDatabaseRetriever: DatabaseRetriever {
 
     fileprivate func getWritersFor(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
         
-        let query = queryFactory.selectQuery(for: reader.storableType,
+        let query = SQLiteQueryFactory.selectQuery(for: reader.storableType,
                                              filter: filter,
                                              sorting: sorting,
                                              limit: limit,

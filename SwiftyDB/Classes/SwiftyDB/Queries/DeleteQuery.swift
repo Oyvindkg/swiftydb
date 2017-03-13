@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Result
 
 /**
  A database query used to delete objects
@@ -30,7 +31,7 @@ open class DeleteQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
         - resultHandler:    and optional result handler
      */
-    open func filter(_ filter: FilterStatement, resultHandler: ((Result<ResultType>) -> Void)?) {
-        self.database.delete(self.filter(filter), resultHandler: resultHandler)
+    open func `where`(_ filter: FilterStatement, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
+        self.database.delete(with: self.where(filter), resultHandler: resultHandler)
     }
 }

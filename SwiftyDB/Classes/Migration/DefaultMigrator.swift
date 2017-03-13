@@ -34,9 +34,9 @@ class DefaultMigrator: Migrator {
     // TODO: Wont detect changes with the same storable value type
     fileprivate func migrateTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
         
-        let query = Query<TypeInformation>().filter("name" == String(describing: type))
+        let query = Query<TypeInformation>().where("name" == String(describing: type))
         
-        let result = swifty.getSync(query)
+        let result = swifty.executeGet(query: query)
         
         if let typeInformation = result.value?.first {
             var needsMigration = false
@@ -69,12 +69,12 @@ class DefaultMigrator: Migrator {
                 
                 let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
                 
-                _ = swifty.addSync([newTypeInformation])
+                _ = swifty.executeAdd([newTypeInformation])
             }
         } else {
             let newTypeInformation = MigrationUtils.typeInformationFor(type: type)
             
-            _ = swifty.addSync([newTypeInformation])
+            _ = swifty.executeAdd([newTypeInformation])
         }
     }
 }

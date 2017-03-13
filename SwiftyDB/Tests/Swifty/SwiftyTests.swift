@@ -41,15 +41,15 @@ class SwiftyTests: XCTestCase {
         sansa.siblings = [arya, brand]
         
         /* Add sansa */
-        let addResult = swifty.addSync([sansa])
+        let addResult = swifty.executeAdd([sansa])
             
-        XCTAssertNil(addResult.errorMessage)
+        XCTAssertNil(addResult.error)
         
         /* Get sansa */
-        let getQuery  = swifty.get(Stark.self).filter("name" == "Sansa")
-        let getResult = swifty.getSync(getQuery)
+        let getQuery  = swifty.get(Stark.self).where("name" == "Sansa")
+        let getResult = swifty.executeGet(query: getQuery)
         
-        XCTAssertNil(getResult.errorMessage)
+        XCTAssertNil(getResult.error)
         
         let retrievedSansa = getResult.value!.first!
         
@@ -70,16 +70,16 @@ class SwiftyTests: XCTestCase {
         let object = TestClass()
         
         /* Add object */
-        let addResult = swifty.addSync([object])
+        let addResult = swifty.executeAdd([object])
         
-        XCTAssertNil(addResult.errorMessage)
+        XCTAssertNil(addResult.error)
         
         
         /* Get object */
-        let getQuery = swifty.get(TestClass.self).filter("number" == object.number)
-        let getResult = swifty.getSync(getQuery)
+        let getQuery = swifty.get(TestClass.self).where("number" == object.number)
+        let getResult = swifty.executeGet(query: getQuery)
         
-        XCTAssertNil(getResult.errorMessage)
+        XCTAssertNil(getResult.error)
         
         let retrievedObject = getResult.value!.first!
         

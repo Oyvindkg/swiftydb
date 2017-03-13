@@ -9,22 +9,18 @@
 import Foundation
 import TinySQLite
 
-class SQLiteDatabaseIndexer: DatabaseIndexer {
+protocol SQLiteDatabaseIndexer: DatabaseIndexer {
+    var databaseQueue: DatabaseQueue { get }
+}
+
+extension SQLiteDatabaseIndexer {
     
-    let databaseQueue: DatabaseQueue
-    let queryFactory: SQLiteQueryFactory
-    
-    init(databaseQueue: DatabaseQueue, queryFactory: SQLiteQueryFactory) {
-        self.databaseQueue = databaseQueue
-        self.queryFactory  = queryFactory
-    }
-    
-    func createIndex(from index: Indexer) throws {
+    func createIndex(with index: Indexer) throws {
         try deleteIndices(for: index.type)
         
         for index in index.indices {
-            let query = queryFactory.createIndexQuery(for: index)
-
+            let query = SQLiteQueryFactory.createIndexQuery(for: index)
+            
             try databaseQueue.database { database in
                 try database.statement(for: query.query)
                     .executeUpdate()
@@ -51,7 +47,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
                 _ = try statement.executeUpdate()
                 
                 try statement.finalize()
-            }            
+            }
         }
     }
     
@@ -62,7 +58,7 @@ class SQLiteDatabaseIndexer: DatabaseIndexer {
         
         try databaseQueue.database { database in
             let statement = try database.statement(for: query)
-
+            
             let parameters = [String(describing: type)]
             
             for row in try statement.execute(withParameters: parameters) {

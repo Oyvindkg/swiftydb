@@ -1,7 +1,6 @@
 use_frameworks!
 
 target 'SwiftyDB_Example' do
-  pod 'TinySQLite', :git => "https://github.com/Oyvindkg/tinysqlite", :branch => "swift3.0"
   pod 'SwiftyDB', :path => '../'
 
   target 'SwiftyDB_Tests' do

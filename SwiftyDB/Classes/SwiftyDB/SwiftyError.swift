@@ -8,20 +8,20 @@
 
 import Foundation
 
-enum SwiftyError: Error, CustomStringConvertible {
+public enum SwiftyError: Error {
     
     case query(String)
     case migration(String)
-    case unknown(String)
+    case unknown(Error)
     
-    var description: String {
-        switch self {
-        case .query(let message):
-            return message
-        case .migration(let message):
-            return message
-        case .unknown(let message):
-            return message
-        }
-    }
+//    public var description: String {
+//        switch self {
+//        case .query(let message):
+//            return message
+//        case .migration(let message):
+//            return message
+//        case .unknown(let error):
+//            return error.description
+//        }
+//    }
 }

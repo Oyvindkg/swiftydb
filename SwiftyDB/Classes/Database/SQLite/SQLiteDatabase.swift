@@ -9,18 +9,12 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: Database {
+struct SQLiteDatabase: Database, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter, SQLiteDatabaseMigrator {
+    
+    var validTypes: Set<String> = ["TypeInformation"]
+    var existingTables: Set<String> = []
     
     let databaseQueue: DatabaseQueue
-    
-    let queryFactory: SQLiteQueryFactory
-    
-    let tableCreator: SQLiteDatabaseTableCreator
-    let inserter: DatabaseInserter
-    let retriever: DatabaseRetriever
-    let databaseIndexer: DatabaseIndexer
-    let deleter: DatabaseDeleter
-    let migrator: DatabaseMigrator
     
     init(configuration: Configuration) {
         
@@ -34,59 +28,41 @@ struct SQLiteDatabase: Database {
         }
         
         databaseQueue = DatabaseQueue(location: configuration.location)
-        
-        queryFactory = SQLiteQueryFactory()
-        
-        tableCreator = SQLiteDatabaseTableCreator(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        inserter     = SQLiteDatabaseInserter(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        retriever    = SQLiteDatabaseRetriever(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        databaseIndexer      = SQLiteDatabaseIndexer(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        deleter      = SQLiteDatabaseDeleter(databaseQueue: databaseQueue, queryFactory: queryFactory)
-        migrator     = SQLiteDatabaseMigrator(databaseQueue: databaseQueue, queryFactory: queryFactory)
     }
     
-    func add<T : Storable>(objects: [T]) throws {
+    mutating func add<T : Storable>(objects: [T]) throws {
         
         let readers = objects.flatMap { object in
             return DefaultObjectSerializer.readers(for: object)
         }
         
-        try tableCreator.createTableIfNecessaryFor(readers: readers)
+        try createTableIfNecessaryFor(readers: readers)
         
-        try inserter.add(readers: readers)
+        try add(readers: readers)
     }
     
-    func get<T : Storable>(query: Query<T>) throws -> [T] {
+    func get<T : Storable>(with query: Query<T>) throws -> [T] {
         do {
-            //try tableCreator.createTableForTypeIfNecessary(T.self)
-            
-            let writers = try retriever.get(query: query)
+            let writers: [Writer] = try get(query: query)
             
             return Mapper.objects(forWriters: writers)
         } catch is TinyError {
             throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
-            throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
+            throw SwiftyError.unknown(error)
         }
     }
 
-    func delete<T : Storable>(query: Query<T>) throws {
+    mutating func delete<T : Storable>(with query: Query<T>) throws {
         do {
-            try tableCreator.createTableIfNecessaryFor(type: T.self)
+            try createTableIfNecessaryFor(type: T.self)
             
-            try deleter.delete(query: query)
+            try delete(query: query)
         } catch is TinyError {
             throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
         } catch let error {
-            throw SwiftyError.unknown("An unexpected error was encountered: \(error)")
+            throw SwiftyError.unknown(error)
         }
     }
     
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
-        return try migrator.migrate(type: type, fromTypeInformation: typeInformation)
-    }
-    
-    func createIndex(from indexer: Indexer) throws {
-        try databaseIndexer.createIndex(from: indexer)
-    }
 }
