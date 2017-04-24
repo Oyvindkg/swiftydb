@@ -48,7 +48,7 @@ public protocol ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
     */
-    func get<T: Storable>(using query: Query<T>) -> Promise<[T]>
+    func get<Query>(using query: Query) -> Promise<[Query.Subject]> where Query : StorableQuery
     
     /**
     Delete objects for the provided type
@@ -57,7 +57,7 @@ public protocol ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
     */
-    func delete<T: Storable>(using query: Query<T>) -> Promise<Void>
+    func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery
 }
 
 extension ObjectDatabase {

@@ -43,8 +43,12 @@ class ViewController: UIViewController {
             print("Added:", -addStart.timeIntervalSinceNow)
             
             start = Date()
-        }.then {
-            swifty.get(Dog.self).order(by: "name")
+        }.then { _ -> Promise<[Dog]> in
+            var query = Query<Dog>()
+            
+            query.sorting = .ascending(on: "name")
+            
+            return swifty.get(using: query)
         }.then { dogs -> Void in
             print(dogs.count)
             print("Get:", -start!.timeIntervalSinceNow)

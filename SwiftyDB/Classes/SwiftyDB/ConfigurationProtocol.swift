@@ -28,5 +28,5 @@ public protocol ConfigurationProtocol {
     var path: String { get }
     
     /** The database mode */
-    var mode: DatabaseMode { get set }
+    var mode: Database.Mode { get set }
 }

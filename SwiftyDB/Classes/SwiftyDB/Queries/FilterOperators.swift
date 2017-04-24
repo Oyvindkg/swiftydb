@@ -11,7 +11,8 @@ import Foundation
 //infix operator <<: ComparisonPrecedence
 
 infix operator !<: ComparisonPrecedence
-//infix operator !~: ComparisonPrecedence
+infix operator !≈: ComparisonPrecedence
+infix operator ≈≈: ComparisonPrecedence
 
 // MARK: - Comparators
 
@@ -136,7 +137,7 @@ public func !< (property: String, array: [StorableValue?]) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-public func ~= (property: String, pattern: String) -> FilterStatement {
+public func ≈≈ (property: String, pattern: String) -> FilterStatement {
     return Expression.like(property, pattern.storableValue)
 }
 
@@ -152,9 +153,9 @@ public func ~= (property: String, pattern: String) -> FilterStatement {
  
  - returns: a `FilterStatement`
  */
-//public func !~ (property: String, pattern: String) -> FilterStatement {
-//    return Expression.notLike(property, pattern.storableValue)
-//}
+public func !≈ (property: String, pattern: String) -> FilterStatement {
+    return Expression.notLike(property, pattern.storableValue)
+}
 
 
 

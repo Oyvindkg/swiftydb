@@ -8,8 +8,8 @@
 
 import Foundation
 
-internal enum Sorting {
+public enum Sorting {
     case none
-    case ascending(String)
-    case descending(String)
+    case ascending(on: String)
+    case descending(on: String)
 }

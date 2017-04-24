@@ -9,5 +9,5 @@
 import Foundation
 
 protocol DatabaseRetriever {
-    func get(query: _QueryProtocol) throws -> [Writer]
+    func get(query: AnyQuery) throws -> [Writer]
 }

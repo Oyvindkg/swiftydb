@@ -9,5 +9,5 @@
 import Foundation
 
 protocol DatabaseDeleter {
-    func delete(query: _QueryProtocol) throws
+    func delete(query: AnyQuery) throws
 }

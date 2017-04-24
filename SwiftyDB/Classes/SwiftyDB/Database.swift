@@ -15,6 +15,17 @@ import PromiseKit
 
 open class Database: ObjectDatabase {
     
+    /**
+    The available modes for the database
+     
+    - normal:  all objects are stored persistently.
+    - sandbox: copies the current database and creates a new dummy database. Any changes made in sandbox mode will not affect the original database, and will be lost when the Swifty instance is destroyed.
+    */
+    public enum Mode {
+        case normal
+        case sandbox
+    }
+    
     var database: BackingDatabase
     
     let migrator: Migrator
@@ -95,26 +106,13 @@ open class Database: ObjectDatabase {
     // MARK: - Get
     
     /**
-     Create a GetQuery for the provided type
-     
-     - returns:
-     A `GetQuery` object that can be used to filter, sort and limit the results
-     
-     - parameters:
-        - type: type of the objects to be retrieved
-     */
-    open func get<T : Storable>(_ type: T.Type) -> GetQuery<T> {
-        return GetQuery<T>(database: self)
-    }
-    
-    /**
      Get objects for the provided type
      
      - parameters:
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    public func get<T>(using query: Query<T>) -> Promise<[T]> where T : Storable {
+    public func get<Query>(using query: Query) -> Promise<[Query.Subject]> where Query : StorableQuery {
         
         return Promise { resolve, reject in
             DispatchQueue.global().async {
@@ -125,31 +123,17 @@ open class Database: ObjectDatabase {
                 }
             }
         }
-        
     }
     
-    internal func executeGet<T : Storable>(query: Query<T>) throws -> [T] {
-        try self.migrator.migrateTypeIfNecessary(T.self, in: self)
-        try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
+    internal func executeGet<Query>(query: Query) throws -> [Query.Subject] where Query : StorableQuery {
+        try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
+        try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
         
         
-        return try self.database.get(with: query)
+        return try self.database.get(using: query)
     }
     
-    // MARK: - Delete
-    
-    /**
-    Create a DeleteQuery for the provided type
-     
-    - returns: A `DeleteQuery` object that can be used to filter, sort and limit the objects deleted
-     
-    - parameters:
-        - type: type of the objects to be retrieved
-    */
-    open func delete<T : Storable>(_ type: T.Type) -> DeleteQuery<T> {
-        return DeleteQuery<T>(database: self)
-    }
-    
+    // MARK: - Delete    
     
     /**
      Delete objects for the provided type
@@ -158,7 +142,7 @@ open class Database: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    public func delete<T>(using query: Query<T>) -> Promise<Void> where T : Storable {
+    public func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
@@ -171,10 +155,10 @@ open class Database: ObjectDatabase {
         }
     }
     
-    internal func executeDelete<T : Storable>(query: Query<T>) throws {
-        try self.migrator.migrateTypeIfNecessary(T.self, in: self)
-        try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
+    internal func executeDelete<Query>(query: Query) throws where Query : StorableQuery {
+        try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
+        try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
         
-        try self.database.delete(with: query)
+        try self.database.delete(using: query)
     }
 }

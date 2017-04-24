@@ -12,9 +12,9 @@ protocol BackingDatabase {
     
     mutating func add<T: Storable>(objects: [T]) throws
     
-    mutating func get<T: Storable>(with: Query<T>) throws -> [T]
+    mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery
     
-    mutating func delete<T: Storable>(with: Query<T>) throws
+    mutating func delete<Query>(using query: Query) throws where Query : StorableQuery
     
     mutating func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
     

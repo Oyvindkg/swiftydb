@@ -21,7 +21,7 @@ public struct Configuration {
     public var directory: URL
     
     /** The database mode */
-    public var mode: DatabaseMode
+    public var mode: Database.Mode
     
     /** The location of the database file using the current configuration's database mode.
     
@@ -54,7 +54,7 @@ public struct Configuration {
     
     - returns: a `URL` to the database file location for the provided mode
     */
-    func location(for mode: DatabaseMode) -> URL {
+    func location(for mode: Database.Mode) -> URL {
         switch mode {
         case .normal:
             return directory.appendingPathComponent(name).appendingPathExtension("swifty")

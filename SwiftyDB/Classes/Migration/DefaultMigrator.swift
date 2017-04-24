@@ -34,7 +34,9 @@ class DefaultMigrator: Migrator {
     // TODO: Make this pretty
     fileprivate func migrateTypeNonrecursiveIfNecessary(_ type: Storable.Type, in database: Database) throws {
         
-        let query = Query<TypeInformation>().where("name" == String(describing: type))
+        var query = Query<TypeInformation>()
+            
+        query.filter = "name" == String(describing: type)
         
         let result = try database.executeGet(query: query)
         

@@ -10,6 +10,7 @@ import Foundation
 import TinySQLite
 
 struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter, SQLiteDatabaseMigrator {
+
     
     var validTypes: Set<String> = ["TypeInformation"]
     var existingTables: Set<String> = []
@@ -41,7 +42,8 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
         try add(readers: readers)
     }
     
-    func get<T : Storable>(with query: Query<T>) throws -> [T] {
+    mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
+        
         do {
             let writers: [Writer] = try get(query: query)
             
@@ -52,10 +54,10 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
             throw SwiftyError.unknown(error)
         }
     }
-
-    mutating func delete<T : Storable>(with query: Query<T>) throws {
+    
+    mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {
         do {
-            try createTableIfNecessaryFor(type: T.self)
+            try createTableIfNecessaryFor(type: Query.Subject.self)
             
             try delete(query: query)
         } catch is TinyError {
@@ -63,6 +65,6 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
         } catch let error {
             throw SwiftyError.unknown(error)
         }
+
     }
-    
 }

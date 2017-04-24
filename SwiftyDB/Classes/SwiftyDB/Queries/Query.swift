@@ -13,73 +13,19 @@ import Foundation
  
  This query object can be stored and reused times
  */
-open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
-    
+public struct Query<T: Storable>: StorableQuery {
     public typealias Subject = T
-    
-    internal let type: Storable.Type = T.self
-    
-    internal var filter: FilterStatement?
-    internal var max: Int?
-    internal var start: Int?
-    internal var sorting: Sorting = .none
-    
-    /**
-     Filter objects matching the provided statement
-     
-     - parameters:
-        - filter:  a filter statement
-     
-     - returns: self
-     */
-    open func `where`(_ filter: FilterStatement) -> Self {
-        self.filter = filter
-        
-        return self
+
+    public var type: Storable.Type {
+        return Subject.self
     }
     
-    /**
-     Set maximum number of results
-     
-     - parameters:
-        - max:  the maximum number of results
-     
-     - returns: self
-     */
-    open func limit(_ max: Int) -> Self {
-        self.max = max
-        
-        return self
-    }
+    public var filter: FilterStatement?
+    public var max: Int?
+    public var start: Int?
+    public var sorting: Sorting
     
-    /**
-     Skip the first n results
-     
-     - parameters:
-        - skip: the number of results to skip
-     
-     - returns: self
-     */
-    open func skip(_ start: Int) -> Self {
-        self.start = start
-        
-        return self
-    }
-    
-    /**
-     Sort the results on a provided property
-     
-     - parameters:
-        - property:     name of the property to be sorted on
-        - ascending:    boolean indicating whether the objects should be sorted ascending or descending
-     
-     - returns: self
-     */
-    open func order(by property: String, ascending: Bool = true) -> Self {
-        self.sorting = ascending ? .ascending(property) : .descending(property)
-        
-        return self
+    public init() {
+        sorting = .none
     }
 }
-
-

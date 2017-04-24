@@ -12,21 +12,37 @@ import PromiseKit
 @testable import SwiftyDB
 
 struct ObjectDatabaseMock: ObjectDatabase {
-    
+    /**
+     Add objects to the database
+     
+     - parameters:
+     - objects:          the objects to be added
+     - resultHandler:    an optional result handler
+     */
     func add<T>(objects: [T]) -> Promise<Void> where T : Storable {
         return Promise(value: Void())
     }
 
-    func get<T>(using query: Query<T>) -> Promise<[T]> where T : Storable {
+    /**
+     Delete objects for the provided type
+     
+     - parameters:
+     - type:             type of the objects to be deleted
+     - resultHandler:    an optional result handler
+     */
+    func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery {
+        return Promise(value: Void())
+    }
+
+    /**
+     Get objects for the provided type
+     
+     - parameters:
+     - query:            query to be executed
+     - resultHandler:    an optional result handler
+     */
+    func get<Query>(using query: Query) -> Promise<[Query.Subject]> where Query : StorableQuery {
         return Promise(value: [])
     }
     
-//    func get<T : Storable>(_ type: T.Type) -> GetQuery<T> {
-//        return GetQuery(database: self)
-//    }
-//    
-    
-    func delete<T>(using query: Query<T>) -> Promise<Void> where T : Storable {
-        return Promise(value: Void())
-    }
 }

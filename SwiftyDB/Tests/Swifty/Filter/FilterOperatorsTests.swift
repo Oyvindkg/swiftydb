@@ -48,20 +48,20 @@ class FilterOperatorsTests: XCTestCase {
     }
     
     func testLikeOperatorCreatesLikeExpressionWithTheProvidedValues() {
-        let filter: FilterStatement = property ~= stringValue
+        let filter: FilterStatement = property ≈≈ stringValue
         
         let expression = Expression.like(property, stringValue)
         
         XCTAssert(filter as! SwiftyDB.Expression == expression)
     }
     
-//    func testNotLikeOperatorCreatesNotLikeExpressionWithTheProvidedValues() {
-//        let filter: FilterStatement = property !~ stringValue
-//        
-//        let expression = Expression.notLike(property, stringValue)
-//        
-//        XCTAssert(filter as! SwiftyDB.Expression == expression)
-//    }
+    func testNotLikeOperatorCreatesNotLikeExpressionWithTheProvidedValues() {
+        let filter: FilterStatement = property !≈ stringValue
+        
+        let expression = Expression.notLike(property, stringValue)
+        
+        XCTAssert(filter as! SwiftyDB.Expression == expression)
+    }
     
     func testLessThanOperatorCreatesLessThanExpressionWithTheProvidedValues() {
         let filter: FilterStatement = property < stringValue

@@ -16,7 +16,7 @@ protocol SQLiteDatabaseDeleter: DatabaseDeleter {
 
 extension SQLiteDatabaseDeleter {
 
-    func delete(query: _QueryProtocol) throws {
+    func delete(query: AnyQuery) throws {
         
         let query = SQLiteQueryFactory.deleteQuery(for: query.type, filter: query.filter as? SQLiteFilterStatement)
         

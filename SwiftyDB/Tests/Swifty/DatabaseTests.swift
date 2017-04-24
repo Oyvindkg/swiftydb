@@ -929,8 +929,12 @@ extension DatabaseTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(self.sansa)
-            }.then {
-                self.database.get(Stark.self).where("name" == "Sansa")
+            }.then { _ -> Promise<[Stark]> in
+                var query = Query<Stark>()
+                
+                query.filter = "name" == "Sansa"
+                
+                return self.database.get(using: query)
             }.then { starks in
                 return starks.first!
             }.then { retrievedSansa -> Void in

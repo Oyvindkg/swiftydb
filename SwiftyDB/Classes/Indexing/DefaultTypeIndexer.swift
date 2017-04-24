@@ -62,7 +62,9 @@ class DefaultTypeIndexer: TypeIndexer {
     }
     
     fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Database) -> TypeInformation? {
-        let query = Query<TypeInformation>().where("name" == "\(type)")
+        var query = Query<TypeInformation>()
+        
+        query.filter = "name" == "\(type)"
         
         guard let objects = try? swifty.executeGet(query: query) else {
             return nil

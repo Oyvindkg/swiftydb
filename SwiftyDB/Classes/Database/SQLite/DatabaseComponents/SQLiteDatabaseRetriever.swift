@@ -15,7 +15,7 @@ protocol SQLiteDatabaseRetriever: DatabaseRetriever {
 
 extension SQLiteDatabaseRetriever {
 
-    func get(query: _QueryProtocol) throws -> [Writer] {
+    func get(query: AnyQuery) throws -> [Writer] {
         
         let reader = Mapper.reader(for: query.type)
         
