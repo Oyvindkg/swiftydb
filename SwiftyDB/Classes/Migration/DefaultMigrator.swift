@@ -37,9 +37,9 @@ class DefaultMigrator: Migrator {
         
         let query = Query<TypeInformation>().where("name" == String(describing: type))
         
-        let result = swifty.executeGet(query: query)
+        let result = try swifty.executeGet(query: query)
         
-        if let typeInformation = result.value?.first {
+        if let typeInformation = result.first {
             var needsMigration = false
 
             if typeInformation.identifierName !=  type.identifier() {
@@ -70,12 +70,12 @@ class DefaultMigrator: Migrator {
                 
                 let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
                 
-                _ = swifty.executeAdd([newTypeInformation])
+                try swifty.executeAdd([newTypeInformation])
             }
         } else {
             let newTypeInformation = MigrationUtils.typeInformationFor(type: type)
             
-            _ = swifty.executeAdd([newTypeInformation])
+            try swifty.executeAdd([newTypeInformation])
         }
     }
 }

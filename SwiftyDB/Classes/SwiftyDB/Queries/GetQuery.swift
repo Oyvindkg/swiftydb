@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Result
+import PromiseKit
 
 /**
  A database query used to retrieve objects
@@ -16,7 +16,7 @@ import Result
  */
 open class GetQuery<T: Storable>: Query<T> {
     
-    public typealias ResultType = [SubjectType]
+    public typealias Result = [Subject]
     
     fileprivate let database: ObjectDatabase
     
@@ -31,8 +31,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
         - resultHandler:    and optional result handler
      */
-    open func `where`(_ filter: FilterStatement, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
-        self.database.get(with: self.where(filter), resultHandler: resultHandler)
+    open func `where`(_ filter: FilterStatement) -> Promise<Result> {
+        return database.get(with: self.where(filter))
     }
     
     /**
@@ -42,8 +42,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - start:            number of results to skip
         - resultHandler:    and optional result handler
      */
-    open func skip(_ start: Int, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
-        self.database.get(with: self.skip(start), resultHandler: resultHandler)
+    open func skip(_ start: Int) -> Promise<Result> {
+        return database.get(with: skip(start))
     }
     
     /**
@@ -53,8 +53,8 @@ open class GetQuery<T: Storable>: Query<T> {
         - max:              the maximum number of results
         - resultHandler:    and optional result handler
     */
-    open func limit(_ max: Int, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
-        self.database.get(with: self.limit(max), resultHandler: resultHandler)
+    open func limit(_ max: Int) -> Promise<Result> {
+        return database.get(with: limit(max))
     }
     
     /**
@@ -65,7 +65,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - ascending:        boolean indicating whether the objects should be sorted ascending or descending
         - resultHandler:    and optional result handler
     */
-    open func order(by property: String, ascending: Bool = true, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
-        self.database.get(with: self.order(by: property, ascending: ascending), resultHandler: resultHandler)
+    open func order(by property: String, ascending: Bool = true) -> Promise<Result> {
+        return database.get(with: order(by: property, ascending: ascending))
     }
 }

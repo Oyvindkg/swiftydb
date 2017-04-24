@@ -58,19 +58,16 @@ class DefaultTypeIndexer: TypeIndexer {
         }
         
         /* Store the current type information */
-        _ = swifty.executeAdd([currentTypeInformation])
+        try swifty.executeAdd([currentTypeInformation])
     }
     
     fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Swifty) -> TypeInformation? {
         let query = Query<TypeInformation>().where("name" == "\(type)")
         
-        let result = swifty.executeGet(query: query)
-        
-        switch result {
-        case .success(let typeInformation):
-            return typeInformation.first
-        default:
+        guard let objects = try? swifty.executeGet(query: query) else {
             return nil
         }
+        
+        return objects.first
     }
 }

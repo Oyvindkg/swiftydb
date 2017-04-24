@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Result
+import PromiseKit
 
 /**
  A database query used to delete objects
@@ -16,7 +16,7 @@ import Result
  */
 open class DeleteQuery<T: Storable>: Query<T> {
     
-    public typealias ResultType = Void
+    public typealias Result = Void
     
     fileprivate let database: ObjectDatabase
     
@@ -29,9 +29,8 @@ open class DeleteQuery<T: Storable>: Query<T> {
      
      - parameters:
         - filter:           a filter statement
-        - resultHandler:    and optional result handler
      */
-    open func `where`(_ filter: FilterStatement, resultHandler: ((Result<ResultType, SwiftyError>) -> Void)?) {
-        self.database.delete(with: self.where(filter), resultHandler: resultHandler)
+    open func `where`(_ filter: FilterStatement) -> Promise<Result> {
+        return self.database.delete(with: self.where(filter))
     }
 }

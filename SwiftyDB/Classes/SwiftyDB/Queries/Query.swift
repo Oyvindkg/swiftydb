@@ -15,7 +15,7 @@ import Foundation
  */
 open class Query<T: Storable>: QueryProtocol, _QueryProtocol {
     
-    public typealias SubjectType = T
+    public typealias Subject = T
     
     internal let type: Storable.Type = T.self
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Result
+import PromiseKit
 
 /**
  A database object used to add, retrieve and delete objects
@@ -61,10 +61,9 @@ open class Swifty: ObjectDatabase {
      
      - parameters:
         - object:           the object to be added
-        - resultHandler:    an optional result handler
     */
-    open func add<T: Storable>(_ object: T, resultHandler: ((Result<Void, SwiftyError>) -> Void)?) {
-        return add([object], resultHandler: resultHandler)
+    public func add<T>(_ object: T) -> Promise<Void> where T : Storable {
+        return add([object])
     }
     
     /**
@@ -72,25 +71,27 @@ open class Swifty: ObjectDatabase {
      
      - parameters:
         - objects:          the objects to be added
-        - resultHandler:    an optional result handler
      */
-    open func add<T: Storable>(_ objects: [T], resultHandler: ((Result<Void, SwiftyError>) -> Void)?) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
-            let result = self.executeAdd(objects)
-            
-            resultHandler?(result)
+    func add<T>(_ objects: [T]) -> Promise<Void> where T : Storable {
+        return Promise { resolve, reject in
+            DispatchQueue.global().async {
+                do {
+                    try self.executeAdd(objects)
+                    
+                    resolve()
+                } catch {
+                    reject(error)
+                }
+            }
         }
-        
     }
     
-    internal func executeAdd<T: Storable>(_ objects: [T]) -> Result<Void, SwiftyError> {
-        return resultForValue {
-            for object in objects {
-                try self.migrator.migrateTypeIfNecessary(type(of: object), in: self)
-            }
-            
-            try self.database.add(objects: objects)
+    internal func executeAdd<T: Storable>(_ objects: [T]) throws {
+        for object in objects {
+            try self.migrator.migrateTypeIfNecessary(type(of: object), in: self)
         }
+        
+        try self.database.add(objects: objects)
     }
     
     
@@ -114,12 +115,11 @@ open class Swifty: ObjectDatabase {
      
      - parameters:
         - type:             type of the objects to be retrieved
-        - resultHandler:    an optional result handler
      */
-    open func get<T: Storable>(_ type: T.Type, resultHandler: ((Result<[T], SwiftyError>) -> Void)?) {
+    func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
         let query = Query<T>()
         
-        get(with: query, resultHandler: resultHandler)
+        return get(with: query)
     }
     
     /**
@@ -129,31 +129,26 @@ open class Swifty: ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    open func get<T: Storable>(with query: Query<T>, resultHandler: ((Result<[T], SwiftyError>) -> Void)?) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
-            let result = self.executeGet(query: query)
-            
-            resultHandler?(result)
+    func get<T>(with query: Query<T>) -> Promise<[T]> where T : Storable {
+        
+        return Promise { resolve, reject in
+            DispatchQueue.global().async {
+                do {
+                    resolve(try self.executeGet(query: query))
+                } catch {
+                    reject(error)
+                }
+            }
         }
+        
     }
     
-    internal func executeGet<T : Storable>(query: Query<T>) -> Result<[T], SwiftyError> {
-        return resultForValue {
-            try self.migrator.migrateTypeIfNecessary(T.self, in: self)
-            try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
-            
-            do {
-                let valu = try self.database.get(with: query)
-                
-                return valu
-            } catch {
-                print(T.self)
-                print(query)
-                print(error)
-                fatalError()
-            }
-            
-        }
+    internal func executeGet<T : Storable>(query: Query<T>) throws -> [T] {
+        try self.migrator.migrateTypeIfNecessary(T.self, in: self)
+        try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
+        
+        
+        return try self.database.get(with: query)
     }
     
     // MARK: - Delete
@@ -167,12 +162,12 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be deleted
      */
-    open func delete<T: Storable>(_ type: T.Type, resultHandler: ((Result<Void, SwiftyError>) -> Void)?) {
+    func delete<T>(_ type: T.Type) -> Promise<Void> where T : Storable {
         let query = Query<T>()
         
-        delete(with: query, resultHandler: resultHandler)
+        return delete(with: query)
     }
-
+    
     /**
     Create a DeleteQuery for the provided type
      
@@ -193,35 +188,23 @@ open class Swifty: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    open func delete<T: Storable>(with query: Query<T>, resultHandler: ((Result<Void, SwiftyError>) -> Void)?) {
-        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
-            let result = self.executeDelete(query: query)
-            
-            resultHandler?(result)
+    func delete<T>(with query: Query<T>) -> Promise<Void> where T : Storable {
+        return Promise { resolve, reject in
+            DispatchQueue.global().async {
+                do {
+                    try self.executeDelete(query: query)
+                    resolve()
+                } catch {
+                    reject(error)
+                }
+            }
         }
     }
     
-    internal func executeDelete<T : Storable>(query: Query<T>) -> Result<Void, SwiftyError> {
-        return resultForValue {
-            try self.migrator.migrateTypeIfNecessary(T.self, in: self)
-            try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
-            
-            return try self.database.delete(with: query)
-        }
-    }
-    
-    
-    // MARK: - Helpers
-    
-    fileprivate func resultForValue<T>(_ block: (Void) throws -> T) -> Result<T, SwiftyError>{
-        do {
-            let value = try block()
-            
-            return .success(value)
-        } catch let error as SwiftyError {
-            return .failure(error)
-        } catch let error {
-            return .failure(.unknown(error))
-        }
+    internal func executeDelete<T : Storable>(query: Query<T>) throws {
+        try self.migrator.migrateTypeIfNecessary(T.self, in: self)
+        try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
+        
+        try self.database.delete(with: query)
     }
 }
