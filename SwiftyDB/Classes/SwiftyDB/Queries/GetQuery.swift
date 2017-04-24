@@ -32,7 +32,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
      */
     open func `where`(_ filter: FilterStatement) -> Promise<Result> {
-        return database.get(with: self.where(filter))
+        return database.get(using: self.where(filter))
     }
     
     /**
@@ -43,7 +43,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
      */
     open func skip(_ start: Int) -> Promise<Result> {
-        return database.get(with: skip(start))
+        return database.get(using: skip(start))
     }
     
     /**
@@ -54,7 +54,7 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
     */
     open func limit(_ max: Int) -> Promise<Result> {
-        return database.get(with: limit(max))
+        return database.get(using: limit(max))
     }
     
     /**
@@ -66,6 +66,6 @@ open class GetQuery<T: Storable>: Query<T> {
         - resultHandler:    and optional result handler
     */
     open func order(by property: String, ascending: Bool = true) -> Promise<Result> {
-        return database.get(with: order(by: property, ascending: ascending))
+        return database.get(using: order(by: property, ascending: ascending))
     }
 }

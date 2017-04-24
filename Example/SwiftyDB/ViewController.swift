@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyDB
+import PromiseKit
 
 class ViewController: UIViewController {
 
@@ -34,15 +35,19 @@ class ViewController: UIViewController {
         
         let addStart = Date()
         
-        swifty.add(dogs) { result in
-            print("Added:", -addStart.timeIntervalSinceNow, result)
+        var start: Date?
+        
+        _ = firstly {
+            swifty.add(objects: dogs)
+        }.then { _ -> Void in
+            print("Added:", -addStart.timeIntervalSinceNow)
             
-            let start = Date()
-            
-            swifty.get(Dog.self).where("age" < 50).order(by: "name") { result in
-                print(result.value?.count ?? "nil")
-                print("Get:", -start.timeIntervalSinceNow)
-            }
+            start = Date()
+        }.then {
+            swifty.get(Dog.self).order(by: "name")
+        }.then { dogs -> Void in
+            print(dogs.count)
+            print("Get:", -start!.timeIntervalSinceNow)
         }
     }
 

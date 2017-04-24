@@ -19,7 +19,7 @@ class Bone: Storable {
         self.dnr = dnr
     }
     
-    static func mappableObject() -> Mappable {
+    static func mappableObject() -> Any {
         return Bone()
     }
     

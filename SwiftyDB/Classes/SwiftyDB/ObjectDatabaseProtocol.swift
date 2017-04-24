@@ -10,16 +10,7 @@ import Foundation
 import PromiseKit
 
 /** An object database interface used to add, retrieve and delete objects from some persistent store */
-internal protocol ObjectDatabase {
-    
-    /**
-     Add an object to the database
-     
-     - parameters:
-        - object:           the object to be added
-        - resultHandler:    an optional result handler
-     */
-    func add<T: Storable>(_ object: T) -> Promise<Void>
+public protocol ObjectDatabase {
     
     /**
      Add objects to the database
@@ -28,7 +19,7 @@ internal protocol ObjectDatabase {
         - objects:          the objects to be added
         - resultHandler:    an optional result handler
      */
-    func add<T: Storable>(_ objects: [T]) -> Promise<Void>
+    func add<T: Storable>(objects: [T]) -> Promise<Void>
     
     
     /**
@@ -57,7 +48,7 @@ internal protocol ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T: Storable>(with query: Query<T>) -> Promise<[T]>
+    func get<T: Storable>(using query: Query<T>) -> Promise<[T]>
     
     
     /**
@@ -77,5 +68,19 @@ internal protocol ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T: Storable>(with query: Query<T>) -> Promise<Void>
+    func delete<T: Storable>(using query: Query<T>) -> Promise<Void>
+}
+
+extension ObjectDatabase {
+    
+    /**
+     Add an object to the database
+     
+     - parameters:
+     - object:           the object to be added
+     - resultHandler:    an optional result handler
+     */
+    func add<T: Storable>(_ object: T) -> Promise<Void> {
+        return add(objects: [object])
+    }
 }

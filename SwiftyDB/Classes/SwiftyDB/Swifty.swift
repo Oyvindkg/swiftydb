@@ -62,17 +62,14 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - object:           the object to be added
     */
-    public func add<T>(_ object: T) -> Promise<Void> where T : Storable {
-        return add([object])
-    }
-    
+
     /**
      Add objects to the database
      
      - parameters:
         - objects:          the objects to be added
      */
-    func add<T>(_ objects: [T]) -> Promise<Void> where T : Storable {
+    public func add<T>(objects: [T]) -> Promise<Void> where T : Storable {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
@@ -116,10 +113,10 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - type:             type of the objects to be retrieved
      */
-    func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
+    public func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
         let query = Query<T>()
         
-        return get(with: query)
+        return get(using: query)
     }
     
     /**
@@ -129,7 +126,7 @@ open class Swifty: ObjectDatabase {
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
-    func get<T>(with query: Query<T>) -> Promise<[T]> where T : Storable {
+    public func get<T>(using query: Query<T>) -> Promise<[T]> where T : Storable {
         
         return Promise { resolve, reject in
             DispatchQueue.global().async {
@@ -162,10 +159,10 @@ open class Swifty: ObjectDatabase {
      - parameters:
         - type: type of the objects to be deleted
      */
-    func delete<T>(_ type: T.Type) -> Promise<Void> where T : Storable {
+    public func delete<T>(_ type: T.Type) -> Promise<Void> where T : Storable {
         let query = Query<T>()
         
-        return delete(with: query)
+        return delete(using: query)
     }
     
     /**
@@ -188,7 +185,7 @@ open class Swifty: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    func delete<T>(with query: Query<T>) -> Promise<Void> where T : Storable {
+    public func delete<T>(using query: Query<T>) -> Promise<Void> where T : Storable {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {

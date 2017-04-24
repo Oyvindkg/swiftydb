@@ -32,7 +32,6 @@ class DefaultMigrator: Migrator {
     }
     
     // TODO: Make this pretty
-    // TODO: Wont detect changes with the same storable value type
     fileprivate func migrateTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
         
         let query = Query<TypeInformation>().where("name" == String(describing: type))
@@ -40,42 +39,48 @@ class DefaultMigrator: Migrator {
         let result = try swifty.executeGet(query: query)
         
         if let typeInformation = result.first {
-            var needsMigration = false
+            
+            guard self.type(type, needsMigrationFrom: typeInformation) else {
+                return
+            }
+            
+            let newSchemaVersion = try swifty.database.migrate(type: type, fromTypeInformation: typeInformation)
+            
+            guard newSchemaVersion > UInt(typeInformation.version) else {
+                throw SwiftyError.migration("\(type) was migrated, but the schema version was not incremented")
+            }
+            
+            let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
+            
+            try swifty.executeAdd([newTypeInformation])
 
-            if typeInformation.identifierName !=  type.identifier() {
-                needsMigration = true
-            }
-            
-            
-            let currentProperties = MigrationUtils.propertyDefinitionsFor(type: type)
-            let previousProperties = typeInformation.properties
-            
-            if currentProperties.count != previousProperties.count {
-                needsMigration = true
-            }
-            
-            for key in currentProperties.keys {
-                if currentProperties[key] != previousProperties[key] {
-                    needsMigration = true
-                    break
-                }
-            }
-            
-            if needsMigration {
-                let newSchemaVersion = try swifty.database.migrate(type: type, fromTypeInformation: typeInformation)
-                
-                guard newSchemaVersion > UInt(typeInformation.version) else {
-                    throw SwiftyError.migration("\(type) was migrated, but the schema version was not incremented")
-                }
-                
-                let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
-                
-                try swifty.executeAdd([newTypeInformation])
-            }
         } else {
             let newTypeInformation = MigrationUtils.typeInformationFor(type: type)
             
             try swifty.executeAdd([newTypeInformation])
         }
+    }
+    
+    // TODO: Wont detect changes with the same storable value type
+    func type(_ type: Storable.Type, needsMigrationFrom typeInformation: TypeInformation) -> Bool {
+        
+        if typeInformation.identifierName !=  type.identifier() {
+            return true
+        }
+        
+        let currentProperties = MigrationUtils.propertyDefinitionsFor(type: type)
+        let previousProperties = typeInformation.properties
+        
+        if currentProperties.count != previousProperties.count {
+            return true
+        }
+        
+        for key in currentProperties.keys {
+            if currentProperties[key] != previousProperties[key] {
+                return true
+            }
+        }
+        
+        return false
     }
 }

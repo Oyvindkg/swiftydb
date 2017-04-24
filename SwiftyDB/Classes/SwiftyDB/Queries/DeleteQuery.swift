@@ -31,6 +31,6 @@ open class DeleteQuery<T: Storable>: Query<T> {
         - filter:           a filter statement
      */
     open func `where`(_ filter: FilterStatement) -> Promise<Result> {
-        return self.database.delete(with: self.where(filter))
+        return self.database.delete(using: self.where(filter))
     }
 }
