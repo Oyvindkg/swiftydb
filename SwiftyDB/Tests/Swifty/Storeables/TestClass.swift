@@ -29,12 +29,12 @@ class TestClass: Storable {
     var uint32: UInt32          = UInt32.max
     var uint64: UInt64          = UInt64.max
     
-    var double                  = DBL_MAX
-    var float: Float            = FLT_MAX
+    var double: Double          = .greatestFiniteMagnitude
+    var float: Float            = .greatestFiniteMagnitude
     
-    var date                    = NSDate()
+    var date                    = Date()
     
-    var data                    = NSData(base64Encoded: "data", options: [])!
+    var data                    = Data(base64Encoded: "data", options: [])!
     
     var number                  = NSNumber(value: 123.213231)
     
@@ -42,9 +42,9 @@ class TestClass: Storable {
     var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storable               = Wolf(name: "Ghost", age: 9)
     
-    var stringArray             = ["string", "otherString"]
-    var intArray                = [1,23,32]
-    var doubleArray             = [42,123,41]
+    var stringArray: [String]   = ["string", "otherString"]
+    var intArray: [Int]         = [1,23,32]
+    var doubleArray: [Double]   = [42.0,123.0,41.0]
     
     // MARK: - Optionals
     
@@ -68,9 +68,9 @@ class TestClass: Storable {
     var optionalDouble: Double?         = .greatestFiniteMagnitude
     var optionalFloat: Float?           = .greatestFiniteMagnitude
     
-    var optionalDate: NSDate?           = NSDate()
+    var optionalDate: Date?           = Date()
     
-    var optionalData: NSData?           = NSData(base64Encoded: "optionalData", options: [])
+    var optionalData: Data?           = Data(base64Encoded: "optionalData", options: [])
     
     var optionalNumber: NSNumber?       = 1.312
     
