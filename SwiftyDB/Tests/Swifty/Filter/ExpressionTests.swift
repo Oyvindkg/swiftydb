@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Nimble
 
 @testable import SwiftyDB
 
@@ -30,10 +31,10 @@ class ExpressionTests: XCTestCase {
         let equal = Expression.equal(property, intValue)
         
         if case .notEqual(let negatedProperty, let negatedValue) = equal.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -41,10 +42,10 @@ class ExpressionTests: XCTestCase {
         let notEqual = Expression.notEqual(property, intValue)
         
         if case .equal(let negatedProperty, let negatedValue) = notEqual.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -52,10 +53,10 @@ class ExpressionTests: XCTestCase {
         let less = Expression.less(property, intValue)
         
         if case .greaterOrEqual(let negatedProperty, let negatedValue) = less.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -63,10 +64,10 @@ class ExpressionTests: XCTestCase {
         let greater = Expression.greater(property, intValue)
         
         if case .lessOrEqual(let negatedProperty, let negatedValue) = greater.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -74,10 +75,10 @@ class ExpressionTests: XCTestCase {
         let lessOrEqual = Expression.lessOrEqual(property, intValue)
         
         if case .greater(let negatedProperty, let negatedValue) = lessOrEqual.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -85,10 +86,10 @@ class ExpressionTests: XCTestCase {
         let greaterOrEqual = Expression.greaterOrEqual(property, intValue)
         
         if case .less(let negatedProperty, let negatedValue) = greaterOrEqual.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! Int64, intValue)
+            expect(negatedProperty) == property
+            expect(negatedValue as? Int64) == intValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -96,10 +97,10 @@ class ExpressionTests: XCTestCase {
         let containedIn = Expression.containedIn(property, [intValue])
         
         if case .notContainedIn(let negatedProperty, let negatedValue) = containedIn.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! [Int64], [intValue])
+            expect(negatedProperty) == property
+            expect(negatedValue as? [Int64]) == [intValue]
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -107,10 +108,10 @@ class ExpressionTests: XCTestCase {
         let notContainedIn = Expression.notContainedIn(property, [intValue])
         
         if case .containedIn(let negatedProperty, let negatedValue) = notContainedIn.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedValue as! [Int64], [intValue])
+            expect(negatedProperty) == property
+            expect(negatedValue as? [Int64]) == [intValue]
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -118,11 +119,11 @@ class ExpressionTests: XCTestCase {
         let between = Expression.between(property, intValue, otherIntValue)
         
         if case .notBetween(let negatedProperty, let minNegatedValue, let maxNegatedValue) = between.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(minNegatedValue as! Int64, intValue)
-            XCTAssertEqual(maxNegatedValue as! Int64, otherIntValue)
+            expect(negatedProperty) == property
+            expect(minNegatedValue as? Int64) == intValue
+            expect(maxNegatedValue as? Int64) == otherIntValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -130,11 +131,11 @@ class ExpressionTests: XCTestCase {
         let notBetween = Expression.notBetween(property, intValue, otherIntValue)
         
         if case .between(let negatedProperty, let minNegatedValue, let maxNegatedValue) = notBetween.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(minNegatedValue as! Int64, intValue)
-            XCTAssertEqual(maxNegatedValue as! Int64, otherIntValue)
+            expect(negatedProperty) == property
+            expect(minNegatedValue as? Int64) == intValue
+            expect(maxNegatedValue as? Int64) == otherIntValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -142,10 +143,10 @@ class ExpressionTests: XCTestCase {
         let like = Expression.like(property, stringValue)
         
         if case .notLike(let negatedProperty, let negatedPattern) = like.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedPattern, stringValue)
+            expect(negatedProperty) == property
+            expect(negatedPattern) == stringValue
         } else {
-            XCTFail()
+            fail()
         }
     }
     
@@ -153,10 +154,10 @@ class ExpressionTests: XCTestCase {
         let notLike = Expression.notLike(property, stringValue)
         
         if case .like(let negatedProperty, let negatedPattern) = notLike.negated() {
-            XCTAssertEqual(negatedProperty, property)
-            XCTAssertEqual(negatedPattern, stringValue)
+            expect(negatedProperty) == property
+            expect(negatedPattern) == stringValue
         } else {
-            XCTFail()
+            fail()
         }
     }
 }
