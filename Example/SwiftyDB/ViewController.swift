@@ -26,9 +26,7 @@ class ViewController: UIViewController {
         
         try? FileManager.default.removeItem(atPath: configuration.location.path)
         
-        let swifty = Database(configuration: configuration)
-    
-
+        let database = Database(configuration: configuration)
         
         let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         
@@ -38,27 +36,19 @@ class ViewController: UIViewController {
         var start: Date?
         
         _ = firstly {
-            swifty.add(objects: dogs)
+            database.add(objects: dogs)
         }.then { _ -> Void in
             print("Added:", -addStart.timeIntervalSinceNow)
             
             start = Date()
         }.then { _ -> Promise<[Dog]> in
-            var query = Query<Dog>()
-            
-            query.sorting = .ascending(on: "name")
-            
-            return swifty.get(using: query)
+            let query = Query<Dog>().order(by: "name")
+
+            return database.get(using: query)
         }.then { dogs -> Void in
             print(dogs.count)
             print("Get:", -start!.timeIntervalSinceNow)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 

@@ -82,14 +82,7 @@ extension ObjectDatabase {
         return add(objects: objects)
     }
     
-    /**
-     Create a DeleteQuery for the provided type
-     
-     - parameters:
-     - type: type of the objects to be deleted
-     
-     - returns: A `DeleteQuery` object that can be used to filter objects to delete
-     */
+
     /**
      Get objects for the provided type
      

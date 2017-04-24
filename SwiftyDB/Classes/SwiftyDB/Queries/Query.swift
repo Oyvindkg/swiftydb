@@ -13,7 +13,7 @@ import Foundation
  
  This query object can be stored and reused times
  */
-public struct Query<T: Storable>: StorableQuery {
+public class Query<T: Storable>: AnyQuery {
     public typealias Subject = T
 
     public var type: Storable.Type {
@@ -27,5 +27,36 @@ public struct Query<T: Storable>: StorableQuery {
     
     public init() {
         sorting = .none
+    }
+}
+
+extension Query: StorableQuery {
+    
+    public func limit(_ max: Int) -> Self {
+        self.max = max
+        
+        return self
+    }
+
+    public func skip(_ skipped: Int) -> Self {
+        start = skipped
+        
+        return self
+    }
+
+    public func order(by property: String, ascending: Bool) -> Self {
+        if ascending {
+            sorting = .ascending(on: property)
+        } else {
+            sorting = .descending(on: property)
+        }
+        
+        return self
+    }
+
+    public func `where`(_ filter: FilterStatement) -> Self {
+        self.filter = filter
+        
+        return self
     }
 }

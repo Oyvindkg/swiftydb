@@ -23,6 +23,17 @@ public protocol AnyQuery {
     var sorting: Sorting {get}
 }
 
-public protocol StorableQuery: AnyQuery {
+public protocol StorableQuery: class, AnyQuery {
     associatedtype Subject: Storable
+    
+    func `where`(_ filter: FilterStatement) -> Self
+    func order(by property: String, ascending: Bool) -> Self
+    func skip(_ skipped: Int) -> Self
+    func limit(_ max: Int) -> Self
+}
+
+extension StorableQuery {
+    public func order(by property: String) -> Self {
+        return order(by: property, ascending: true)
+    }
 }
