@@ -17,10 +17,10 @@ protocol SQLiteDatabaseMigrator: DatabaseMigrator {
 extension SQLiteDatabaseMigrator {
 
     func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
+        
         guard let migratableType = type as? Migratable.Type else {
             throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
         }
-
         
         var migration: Migration = DefaultMigration(schemaVersion: typeInformation.version)
                 
@@ -28,7 +28,9 @@ extension SQLiteDatabaseMigrator {
         
         try databaseQueue.transaction { database in
             
-            let dataBeforeMigration = try self.existingData(for: type, in: database)
+            guard let dataBeforeMigration = try? self.existingData(for: type, in: database) else {
+                return
+            }
             
             let dataAfterMigration  = self.migratedData(from: dataBeforeMigration, applying: migration as! _Migration, for: type)
  

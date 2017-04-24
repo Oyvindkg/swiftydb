@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyDB
 
 class Bone: Storable {
     var weight: Double = 12.3

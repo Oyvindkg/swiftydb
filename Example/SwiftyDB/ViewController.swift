@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import TinySQLite
+import SwiftyDB
 
 class ViewController: UIViewController {
 
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
             let start = Date()
             
             swifty.get(Dog.self).where("age" < 50).order(by: "name") { result in
-                print(result.value?.count)
+                print(result.value?.count ?? "nil")
                 print("Get:", -start.timeIntervalSinceNow)
             }
         }

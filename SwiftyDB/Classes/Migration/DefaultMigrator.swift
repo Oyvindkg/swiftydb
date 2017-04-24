@@ -13,6 +13,7 @@ class DefaultMigrator: Migrator {
     var validTypes: Set<String> = [ String(describing: TypeInformation.self) ]
     
     func migrateTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
+        
         guard !validTypes.contains("\(type)") else {
             return
         }

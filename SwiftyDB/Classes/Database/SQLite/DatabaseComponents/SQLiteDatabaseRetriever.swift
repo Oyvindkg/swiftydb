@@ -22,6 +22,10 @@ extension SQLiteDatabaseRetriever {
         var writers: [Writer] = []
         
         try databaseQueue.transaction { database in
+            guard try database.contains(table: String(describing: query.type)) else {
+                return
+            }
+            
             writers = try self.getWritersFor(reader: reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.max, offset: query.start, database: database)
         }
                 

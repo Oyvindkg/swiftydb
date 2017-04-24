@@ -22,6 +22,10 @@ extension SQLiteDatabaseIndexer {
             let query = SQLiteQueryFactory.createIndexQuery(for: index)
             
             try databaseQueue.database { database in
+                guard try database.contains(table: String(describing: index.type)) else {
+                    return
+                }
+                
                 try database.statement(for: query.query)
                     .executeUpdate()
                     .finalize()

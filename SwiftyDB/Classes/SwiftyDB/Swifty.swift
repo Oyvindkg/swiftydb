@@ -142,7 +142,17 @@ open class Swifty: ObjectDatabase {
             try self.migrator.migrateTypeIfNecessary(T.self, in: self)
             try self.typeIndexer.indexTypeIfNecessary(T.self, in: self)
             
-            return try self.database.get(with: query)
+            do {
+                let valu = try self.database.get(with: query)
+                
+                return valu
+            } catch {
+                print(T.self)
+                print(query)
+                print(error)
+                fatalError()
+            }
+            
         }
     }
     

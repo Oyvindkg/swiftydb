@@ -11,8 +11,10 @@ import Foundation
 /** Defines mappable objects */
 public protocol Mappable {
     
+    // FIXME: Returns `Mappable`, but there is a bug in the compiler
+    
     /** Used to map objects with data from the database */
-    static func mappableObject() -> Mappable
+    static func mappableObject() -> Any //Mappable
     
     /** 
     Used to map properties when reading from and writing to the object

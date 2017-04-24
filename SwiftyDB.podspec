@@ -31,6 +31,6 @@ Pod::Spec.new do |s|
   s.source_files = 'SwiftyDB/Classes/**/*'
 
   s.dependency 'TinySQLite', '0.4.2'
-  s.dependency 'Result', '~> 3.0.0'
+  s.dependency 'Result', '~> 3.2 '
   
 end

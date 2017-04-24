@@ -13,7 +13,7 @@ import Foundation
 
 class DefaultTypeIndexer: TypeIndexer {
     
-    var validTypes: Set<String> = []
+    var validTypes: Set<String> = ["TypeInformataion"]
     
     
     /** Creates indices for the provided type, and its nested types */

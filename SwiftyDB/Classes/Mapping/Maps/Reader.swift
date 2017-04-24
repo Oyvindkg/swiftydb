@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Reader: BaseMap {
+final class Reader: BaseMap, Map {
     
     /** The original property type for all values stored in the reader */
     var propertyTypes: [String: Any.Type] = [:]
@@ -48,9 +48,7 @@ final class Reader: BaseMap {
         mappableArrays[key] = readers?.to(type: Map.self)
         propertyTypes[key]  = [T].self
     }
-}
 
-extension Reader: Map {
     subscript(key: String) -> Map {
         currentKey = key
         

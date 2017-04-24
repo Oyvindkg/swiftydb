@@ -17,7 +17,7 @@ struct TypeInformation: Storable {
     var identifierName = ""
     var indices: Set<String> = []
     
-    static func mappableObject() -> Mappable {
+    static func mappableObject() -> Any {
         return TypeInformation()
     }
     
