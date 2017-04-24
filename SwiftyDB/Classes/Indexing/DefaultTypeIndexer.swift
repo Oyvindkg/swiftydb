@@ -17,7 +17,7 @@ class DefaultTypeIndexer: TypeIndexer {
     
     
     /** Creates indices for the provided type, and its nested types */
-    func indexTypeIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
+    func indexTypeIfNecessary(_ type: Storable.Type, in swifty: Database) throws {
         
         guard !validTypes.contains("\(type)") else {
             return
@@ -38,7 +38,7 @@ class DefaultTypeIndexer: TypeIndexer {
     }
     
     /** Creates indices for the provided type */
-    fileprivate func indexTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Swifty) throws {
+    fileprivate func indexTypeNonrecursiveIfNecessary(_ type: Storable.Type, in swifty: Database) throws {
         
         guard type is Indexable.Type else {
             return
@@ -61,7 +61,7 @@ class DefaultTypeIndexer: TypeIndexer {
         try swifty.executeAdd([currentTypeInformation])
     }
     
-    fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Swifty) -> TypeInformation? {
+    fileprivate func retrieveTypeInformation(for type: Storable.Type, from swifty: Database) -> TypeInformation? {
         let query = Query<TypeInformation>().where("name" == "\(type)")
         
         guard let objects = try? swifty.executeGet(query: query) else {

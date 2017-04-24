@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Database {
+protocol BackingDatabase {
     
     mutating func add<T: Storable>(objects: [T]) throws
     
@@ -21,7 +21,7 @@ protocol Database {
     mutating func createIndex(with indexer: Indexer) throws
 }
 
-extension Database {
+extension BackingDatabase {
     
     mutating func add<T: Storable>(_ object: T) throws {
         try add(objects: [object])

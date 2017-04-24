@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: Database, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter, SQLiteDatabaseMigrator {
+struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter, SQLiteDatabaseMigrator {
     
     var validTypes: Set<String> = ["TypeInformation"]
     var existingTables: Set<String> = []

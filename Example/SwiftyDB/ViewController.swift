@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         
         try? FileManager.default.removeItem(atPath: configuration.location.path)
         
-        let swifty = Swifty(configuration: configuration)
+        let swifty = Database(configuration: configuration)
     
 
         

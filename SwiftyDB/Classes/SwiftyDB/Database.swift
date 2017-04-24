@@ -1,5 +1,5 @@
 //
-//  SwiftyDB.swift
+//  Database.swift
 //  ORM
 //
 //  Created by Øyvind Grimnes on 17/08/16.
@@ -13,9 +13,9 @@ import PromiseKit
  A database object used to add, retrieve and delete objects
 */
 
-open class Swifty: ObjectDatabase {
+open class Database: ObjectDatabase {
     
-    var database: Database
+    var database: BackingDatabase
     
     let migrator: Migrator
     let typeIndexer: TypeIndexer
@@ -111,18 +111,6 @@ open class Swifty: ObjectDatabase {
      Get objects for the provided type
      
      - parameters:
-        - type:             type of the objects to be retrieved
-     */
-    public func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
-        let query = Query<T>()
-        
-        return get(using: query)
-    }
-    
-    /**
-     Get objects for the provided type
-     
-     - parameters:
         - query:            query to be executed
         - resultHandler:    an optional result handler
      */
@@ -149,21 +137,6 @@ open class Swifty: ObjectDatabase {
     }
     
     // MARK: - Delete
-    
-    /**
-     Create a DeleteQuery for the provided type
-     
-     - returns:
-     A `DeleteQuery` object that can be used to filter objects to delete
-     
-     - parameters:
-        - type: type of the objects to be deleted
-     */
-    public func delete<T>(_ type: T.Type) -> Promise<Void> where T : Storable {
-        let query = Query<T>()
-        
-        return delete(using: query)
-    }
     
     /**
     Create a DeleteQuery for the provided type

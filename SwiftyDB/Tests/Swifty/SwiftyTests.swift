@@ -1,5 +1,5 @@
 //
-//  SwiftyTests.swift
+//  DatabaseTests.swift
 //  SwiftyDB
 //
 //  Created by Øyvind Grimnes on 30/08/16.
@@ -8,23 +8,22 @@
 
 import XCTest
 
-
 @testable import SwiftyDB
 
 
 /** Component testing the database */
-class SwiftyTests: XCTestCase {
+class DatabaseTests: XCTestCase {
 
     var configuration = Configuration(name: "database_test")
     
-    var swifty = Swifty(name: "database_test")
+    var database = Database(name: "database_test")
     
     override func setUp() {
         super.setUp()
         
         try? FileManager.default.removeItem(atPath: configuration.location.path)
         
-        self.swifty = Swifty(configuration: configuration)
+        self.database = Database(configuration: configuration)
     }
     
     override func tearDown() {
@@ -41,17 +40,17 @@ class SwiftyTests: XCTestCase {
         sansa.siblings = [arya, brand]
         
         /* Add sansa */
-        let addResult = swifty.executeAdd([sansa])
+        let addResult = try? database.executeAdd([sansa])
             
-        XCTAssertNil(addResult.error)
+        XCTAssertNotNil(addResult)
         
         /* Get sansa */
-        let getQuery  = swifty.get(Stark.self).where("name" == "Sansa")
-        let getResult = swifty.executeGet(query: getQuery)
+        let getQuery: Query<Stark>  = database.get(Stark.self).where("name" == "Sansa")
+        let getResult = try? database.executeGet(query: getQuery)
         
-        XCTAssertNil(getResult.error)
+        XCTAssertNotNil(getResult)
         
-        let retrievedSansa = getResult.value!.first!
+        let retrievedSansa = getResult!.first!
         
         XCTAssertEqual(retrievedSansa.age, sansa.age)
         XCTAssertEqual(retrievedSansa.name, sansa.name)
@@ -70,18 +69,19 @@ class SwiftyTests: XCTestCase {
         let object = TestClass()
         
         /* Add object */
-        let addResult = swifty.executeAdd([object])
+        let addResult = try? database.executeAdd([object])
         
-        XCTAssertNil(addResult.error)
+        XCTAssertNotNil(addResult)
         
         
         /* Get object */
-        let getQuery = swifty.get(TestClass.self).where("number" == object.number)
-        let getResult = swifty.executeGet(query: getQuery)
+        let getQuery: Query<TestClass> = database.get(TestClass.self).where("number" == object.number)
         
-        XCTAssertNil(getResult.error)
+        let getResult = try? database.executeGet(query: getQuery)
         
-        let retrievedObject = getResult.value!.first!
+        XCTAssertNotNil(getResult)
+        
+        let retrievedObject = getResult!.first!
         
         XCTAssertEqual(retrievedObject.string, object.string)
         XCTAssertEqual(retrievedObject.character, object.character)

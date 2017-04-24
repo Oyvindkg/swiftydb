@@ -65,8 +65,8 @@ class TestClass: Storable {
     var optionalUint32: UInt32?         = UInt32.max
     var optionalUint64: UInt64?         = UInt64.max
     
-    var optionalDouble: Double?         = DBL_MAX
-    var optionalFloat: Float?           = FLT_MAX
+    var optionalDouble: Double?         = .greatestFiniteMagnitude
+    var optionalFloat: Float?           = .greatestFiniteMagnitude
     
     var optionalDate: NSDate?           = NSDate()
     
@@ -85,7 +85,7 @@ class TestClass: Storable {
 }
 
 extension TestClass: Mappable {
-    static func mappableObject() -> Mappable {
+    static func mappableObject() -> Any {
         return TestClass()
     }
     

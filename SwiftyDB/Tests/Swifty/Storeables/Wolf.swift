@@ -17,7 +17,7 @@ struct Wolf: Storable {
         self.age = age
     }
     
-    static func mappableObject() -> Mappable {
+    static func mappableObject() -> Any {
         return Wolf(name: "", age: 0)
     }
     
