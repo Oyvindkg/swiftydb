@@ -34,11 +34,9 @@ class DefaultMigrator: Migrator {
     // TODO: Make this pretty
     fileprivate func migrateTypeNonrecursiveIfNecessary(_ type: Storable.Type, in database: Database) throws {
         
-        var query = Query<TypeInformation>()
-            
-        query.filter = "name" == String(describing: type)
+        let query = Query.get(TypeInformation.self).where("name" == "\(type)")
         
-        let result = try database.executeGet(query: query)
+        let result: [TypeInformation] = try database.get(using: query)
         
         if let typeInformation = result.first {
             
@@ -54,12 +52,12 @@ class DefaultMigrator: Migrator {
             
             let newTypeInformation = MigrationUtils.typeInformationFor(type: type, version: newSchemaVersion)
             
-            try database.executeAdd([newTypeInformation])
+            try database.add([newTypeInformation])
 
         } else {
             let newTypeInformation = MigrationUtils.typeInformationFor(type: type)
             
-            try database.executeAdd([newTypeInformation])
+            try database.add([newTypeInformation])
         }
     }
     

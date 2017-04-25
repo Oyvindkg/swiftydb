@@ -28,27 +28,25 @@ open class Database: ObjectDatabase {
     
     var database: BackingDatabase
     
-    let migrator: Migrator
+    let migrator:    Migrator
     let typeIndexer: TypeIndexer
     
-    /**
-     The database object's configuration
-     */
+    /** The database object's configuration */
     open let configuration: Configuration
     
     
     /**
-     Initiate a new database object using the provided configuration
+    Initiate a new database object using the provided configuration
      
-     - parameters:
+    - parameters:
         - configuration: database configuration
-     */
+    */
     public init(configuration: Configuration) {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
         
-        migrator = DefaultMigrator()
+        migrator    = DefaultMigrator()
         typeIndexer = DefaultTypeIndexer()
     }
     
@@ -68,25 +66,16 @@ open class Database: ObjectDatabase {
     // MARK: - Add
     
     /**
-     Add an object to the database
+    Add objects to the database
      
-     - parameters:
-        - object:           the object to be added
-    */
-
-    /**
-     Add objects to the database
-     
-     - parameters:
+    - parameters:
         - objects:          the objects to be added
-     */
+    */
     public func add<T>(objects: [T]) -> Promise<Void> where T : Storable {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
-                    try self.executeAdd(objects)
-                    
-                    resolve()
+                    resolve(try self.add(objects))
                 } catch {
                     reject(error)
                 }
@@ -94,7 +83,7 @@ open class Database: ObjectDatabase {
         }
     }
     
-    internal func executeAdd<T: Storable>(_ objects: [T]) throws {
+    internal func add<T: Storable>(_ objects: [T]) throws {
         for object in objects {
             try self.migrator.migrateTypeIfNecessary(type(of: object), in: self)
         }
@@ -117,7 +106,7 @@ open class Database: ObjectDatabase {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
-                    resolve(try self.executeGet(query: query))
+                    resolve(try self.get(using: query))
                 } catch {
                     reject(error)
                 }
@@ -125,7 +114,7 @@ open class Database: ObjectDatabase {
         }
     }
     
-    internal func executeGet<Query>(query: Query) throws -> [Query.Subject] where Query : StorableQuery {
+    internal func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
         try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
         
@@ -146,8 +135,7 @@ open class Database: ObjectDatabase {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
-                    try self.executeDelete(query: query)
-                    resolve()
+                    resolve(try self.delete(using: query))
                 } catch {
                     reject(error)
                 }
@@ -155,7 +143,7 @@ open class Database: ObjectDatabase {
         }
     }
     
-    internal func executeDelete<Query>(query: Query) throws where Query : StorableQuery {
+    internal func delete<Query>(using query: Query) throws where Query : StorableQuery {
         try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
         try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
         
