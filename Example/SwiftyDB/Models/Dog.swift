@@ -12,7 +12,7 @@ enum Breed: String {
     case dachs = "dachs"
 }
 
-class Dog: Storable {
+struct Dog: Storable {
     
     var bones           = [Bone(dnr: "12321"), Bone(dnr: "asdasdasdsda"), Bone(), Bone(dnr: "0123"), Bone(dnr: "0123"), Bone(dnr: "0123")]
     var ids: [Double]   = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -26,28 +26,28 @@ class Dog: Storable {
     
     init() {
         superBone = Bone(dnr: "\(arc4random_uniform(100))")
-        age = Double(arc4random_uniform(100))
-        name = "\(arc4random())"
-        weight = 13.3
+        age       = Double(arc4random_uniform(100))
+        name      = "\(arc4random())"
+        weight    = 13.3
     }
     
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         name            <- map["name"]
         age             <- map["age"]
-        type            <- map["type"]
-        weight          <- map["weight"]
+//        type            <- map["type"]
+//        weight          <- map["weight"]
 //        bones           <- map["bones"]
-        superBone       <- map["superBone"]
+//        superBone       <- map["superBone"]
 //        dates           <- map["dates"]
 //        ids             <- map["numbers"]
     }
     
-    class func mappableObject() -> Any {
+    static func mappableObject() -> Any {
         return Dog()
     }
     
     // TODO: Make sure the identifier is a valid property
-    class func identifier() -> String {
+    static func identifier() -> String {
         return "name"
     }
 }

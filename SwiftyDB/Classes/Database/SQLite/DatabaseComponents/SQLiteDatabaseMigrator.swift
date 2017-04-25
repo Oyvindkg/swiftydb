@@ -9,131 +9,104 @@
 import Foundation
 import TinySQLite
 
-protocol SQLiteDatabaseMigrator: DatabaseMigrator {
-    var databaseQueue: DatabaseQueue { get }
-    var validTypes: Set<String> { get set }     // Must contain `TypeInformation` on startup
+struct SQLiteDatabaseMigrator {
+    
+    static var `default` = SQLiteDatabaseMigrator()
+    
+    var validTypes: Set<String> = []
 }
 
 extension SQLiteDatabaseMigrator {
 
-    func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt {
-        
-        guard let migratableType = type as? Migratable.Type else {
-            throw SwiftyError.migration("\(type) needs migration, but does not conform to the Migratable protocol")
-        }
-        
-        var migration: Migration = DefaultMigration(schemaVersion: typeInformation.version)
-                
-        migratableType.migrate(migration: &migration)
-        
-        try databaseQueue.transaction { database in
-            
-            guard let dataBeforeMigration = try? self.existingData(for: type, in: database) else {
-                return
-            }
-            
-            let dataAfterMigration  = self.migratedData(from: dataBeforeMigration, applying: migration as! _Migration, for: type)
- 
-            try self.validateMigratedData(dataAfterMigration, forType: type)
-            
-            try self.dropTable(for: type, in: database)
-
-            try self.createTable(for: type, in: database)
-            
-            try self.insert(dataAfterMigration, for: type, in: database)
-        }
-        
-        return migration.schemaVersion
-    }
-    
-    fileprivate func validateMigratedData(_ migratedData: [[String: SQLiteValue?]], forType type: Storable.Type) throws {
-        guard !migratedData.isEmpty else {
+    //FIXME: This will break on cicle type references
+    mutating func migrateType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
+        guard !validTypes.contains(type.name) else {
             return
         }
         
         let reader = Mapper.reader(for: type)
         
-        let propertiesBeforeMigration = Set(reader.propertyTypes.keys)
-        let propertiesAfterMigration  = Set(migratedData.first!.keys)
-        
-        
-        let missingProperties = propertiesBeforeMigration.subtracting(propertiesAfterMigration)
-        let extraProperties   = propertiesAfterMigration.subtracting(propertiesBeforeMigration)
-
-        guard missingProperties.isEmpty else {
-            throw SwiftyError.migration("The following properties were missing after migrating '\(type)': \(missingProperties)")
+        for (_, map) in reader.mappables {
+            try migrateType((map as! Reader).type as! Storable.Type, ifNecessaryOn: queue)
         }
         
-        guard extraProperties.isEmpty else {
-            throw SwiftyError.migration("The following properties were present after migrating '\(type)', but are not present in the object map: \(extraProperties)")
-        }
-    }
-    
-    fileprivate func migrate(type: Storable.Type) throws -> UInt {
-        try databaseQueue.transaction { database in
-            try self.createTable(for: type, in: database)
-        }
-        
-        return 0
-    }
-    
-    fileprivate func existingData(for type: Storable.Type, in database: DatabaseConnection) throws -> [[String: SQLiteValue?]] {
-        
-        let retrieveQuery = SQLiteQueryFactory.selectQuery(for: type,
-                                                          filter: nil,
-                                                          sorting: .none,
-                                                          limit: nil,
-                                                          offset: nil)
-        
-        let statement = try database.statement(for: retrieveQuery.query)
-        
-        defer {
-            try! statement.finalize()
-        }
-        
-        
-        return try statement.execute().map { $0.dictionary }
-    }
-    
-    // TODO: Make sure operations are executed in the correct order
-    fileprivate func migratedData(from dataArray: [[String: SQLiteValue?]], applying migration: _Migration, for type: Storable.Type) -> [[String: SQLiteValue?]] {
-        var migratedDataArray = dataArray
-        
-        if dataArray.isEmpty {
-            return migratedDataArray
-        }
-        
-        for i in 0 ..< dataArray.count {
-            var migratedData = dataArray[i]
-            
-            /* Migrate data as specified in the types `migration(..)` function */
-            for operation in migration.operations {
-                switch operation {
-                
-                /** A new property was added. Use the default value, or nil */
-                case .add(let property, let defaultValue):
-                    migratedData[property] = defaultValue as? SQLiteValue
-                    
-                /** A property has changes. Apply the provided transformation */
-                case .transform(let property, let transformation):
-                    migratedData[property] = transformation(migratedData[property] as? StorableValue) as? SQLiteValue
-                   
-                /** A property was renamed */
-                case .rename(let property, let newProperty):
-                    migratedData[newProperty] = migratedData[property]
-                    migratedData[property]    = nil
-                    
-                /** A property was removed. Remove it from the data */
-                case .remove(let property):
-                    migratedData[property] = nil
-                }
+        for (_, maps) in reader.mappableArrays {
+            for reader in maps as! [Reader] {
+                try migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
             }
-
-            migratedDataArray[i] = migratedData
         }
         
+        try migrateType(type, on: queue)
         
-        return migratedDataArray
+        validTypes.insert(type.name)
+    }
+    
+    func migrateType(_ type: Storable.Type, on queue: DatabaseQueue) throws {
+        let currentType = MigrationUtilities.typeInformationFor(type: type)
+        
+        try queue.transaction { database in
+            
+            guard try database.contains(table: type.name) else {
+                return try createTable(for: type, in: database)
+            }
+            
+            let databaseType = try MigrationUtilities.typeInformationFor(type: type, in: database)
+            
+            let currentProperties  = Set(currentType.properties)
+            let databaseProperties = Set(databaseType.properties)
+            
+            let addedProperties   = currentProperties.subtracting(databaseProperties)
+            let removedProperties = databaseProperties.subtracting(currentProperties)
+            
+            try addProperties(addedProperties, to: type, in: database)
+            try removeProperties(removedProperties, from: type, in: database)
+        }
+    }
+    
+    func addProperties(_ properties: Set<String>, to type: Storable.Type, in database: DatabaseConnection) throws {
+        let reader = Mapper.reader(for: type)
+        
+        for property in properties {
+            let propertyType  = reader.propertyTypes[property]!
+            
+            let column = SQLiteQueryFactory.columnForProperty(property, withType: propertyType)
+            
+            var query = "ALTER TABLE \(type) ADD COLUMN \(column.definition)"
+            
+            if let storableValue = reader.storableValues[property] {
+                query += " DEFAULT '\(storableValue)'"
+            }
+            
+            try database.statement(for: query)
+                        .executeUpdate()
+                        .finalize()
+        }
+    }
+    
+    func removeProperties(_ properties: Set<String>, from type: Storable.Type, in database: DatabaseConnection) throws {
+        guard !properties.isEmpty else {
+            return
+        }
+        
+        if properties.contains(type.identifier()) {
+            throw SwiftyError.migration("Tried to remove the \(type)'s identifying property '\(type.identifier())'")
+        }
+        
+        try renameTable("\(type)", to: "old_\(type)", in: database)
+        try createTable(for: type, in: database)
+        try moveDataFromOldTable(for: MigrationUtilities.typeInformationFor(type: type), in: database)
+        try dropTable("old_\(type)", in: database)
+    }
+    
+    fileprivate func moveDataFromOldTable(for information: TypeInformation, in database: DatabaseConnection) throws {
+        
+        let columns = information.properties.joined(separator: ", ")
+        
+        let query = "INSERT INTO \(information.name) (\(columns)) SELECT \(columns) FROM old_\(information.name)"
+        
+        try database.statement(for: query)
+                    .executeUpdate()
+                    .finalize()
     }
     
     fileprivate func dropTable(for type: Storable.Type, in database: DatabaseConnection) throws {
@@ -146,27 +119,19 @@ extension SQLiteDatabaseMigrator {
             .finalize()
     }
     
+    fileprivate func renameTable(_ name: String, to newName: String, in database: DatabaseConnection) throws {
+        try database.statement(for: "ALTER TABLE \(name) RENAME TO \(newName)")
+                    .executeUpdate()
+                    .finalize()
+    }
+    
     fileprivate func createTable(for type: Storable.Type, in database: DatabaseConnection) throws {
         let reader = Mapper.reader(for: type)
         
         let createTableQuery = SQLiteQueryFactory.createTableQuery(for: reader)
         
         try database.statement(for: createTableQuery.query)
-            .executeUpdate(withParameters: createTableQuery.parameters)
-            .finalize()
-    }
-    
-    fileprivate func insert(_ dataArray: [[String: SQLiteValue?]], for type: Storable.Type, in database: DatabaseConnection) throws {
-        let reader = Mapper.reader(for: type)
-        
-        let insertQuery = SQLiteQueryFactory.insertQuery(for: reader)
-
-        let insertStatement = try database.statement(for: insertQuery.query)
-        
-        for data in dataArray {
-            _ = try insertStatement.executeUpdate(withParameterMapping: data)
-        }
-        
-        try insertStatement.finalize()
+                    .executeUpdate(withParameters: createTableQuery.parameters)
+                    .finalize()
     }
 }

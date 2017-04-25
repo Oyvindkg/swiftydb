@@ -95,6 +95,7 @@ protocol SQLiteTableQueryFactory {
 
 extension SQLiteTableQueryFactory {
     
+    
     static func createTableQuery(for reader: Reader) -> SQLiteQuery {
 
         let name       = String(describing: reader.type)
@@ -105,20 +106,16 @@ extension SQLiteTableQueryFactory {
         var columnDefinitions: [String] = []
         
         for (property, type) in reader.propertyTypes {
-            guard type is StorableValue.Type else {
-                columnDefinitions.append( "'\(property)' TEXT" )
-                continue
-            }
             
-            let datatype = SQLiteDatatype(type: type)
+            let column = columnForProperty(property, withType: type)
             
-            var columnDefinition = "'\(property)' \(datatype!.rawValue)"
+            var definition = column.definition
             
             if property == identifier {
-                columnDefinition += " PRIMARY KEY"
+                definition += " PRIMARY KEY"
             }
             
-            columnDefinitions.append( columnDefinition )
+            columnDefinitions.append( definition )
         }
         
         query += columnDefinitions.joined(separator: ", ")
@@ -126,8 +123,28 @@ extension SQLiteTableQueryFactory {
         
         return SQLiteQuery(query: query, parameters: [])
     }
+    
+    static func columnForProperty(_ property: String, withType type: Any.Type) -> Column {
+        guard type is StorableValue.Type else {
+            return Column(name: property, type: SQLiteDatatype.text)
+        }
+        
+        let datatype = SQLiteDatatype(type: type)!
+        
+        return Column(name: property, type: datatype)
+    }
 }
 
+
+struct Column {
+    let name: String
+    let type: SQLiteDatatype
+    
+    /** String used to define this column in a CREATE TABLE statement */
+    var definition: String {
+        return "'\(name)' \(type.rawValue)"
+    }
+}
 
 protocol SQLiteSelectQueryFactory {
     static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery

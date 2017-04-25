@@ -9,10 +9,9 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter, SQLiteDatabaseMigrator {
+struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseRetriever, SQLiteDatabaseDeleter {
 
     
-    var validTypes: Set<String> = ["TypeInformation"]
     var existingTables: Set<String> = []
     
     let databaseQueue: DatabaseQueue
@@ -33,11 +32,15 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
     
     mutating func add<T : Storable>(objects: [T]) throws {
         
+        for object in objects {
+            let objectType = type(of: object)
+            
+            try SQLiteDatabaseMigrator.default.migrateType(objectType, ifNecessaryOn: databaseQueue)
+        }
+
         let readers = objects.flatMap { object in
             return DefaultObjectSerializer.readers(for: object)
         }
-        
-        try createTableIfNecessaryFor(readers: readers)
         
         try add(readers: readers)
     }

@@ -6,30 +6,36 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-import Foundation
+import TinySQLite
 
-internal struct MigrationUtils {
+internal struct MigrationUtilities {
     
-    static func propertyDefinitionsFor(type: Mappable.Type) -> [String: String] {
+    static func properties(for type: Mappable.Type) -> [String] {
         
         let reader = Mapper.reader(for: type)
         
-        var definitions: [String: String] = [:]
-        
-        for (property, type) in reader.propertyTypes {
-            definitions[property] = String(describing: type)
-        }
-        
-        return definitions
+        return reader.propertyTypes.filter { !($0.value is Storable) }
+                                   .map { $0.key }
     }
     
-    static func typeInformationFor(type: Storable.Type, version: UInt = 0) -> TypeInformation {
-        let name       = String(describing: type)
-        let properties = propertyDefinitionsFor(type: type)
-        let identifier = type.identifier()
-        let indices    = Set<String>()
+    static func typeInformationFor(type: Storable.Type) -> TypeInformation {
+        return TypeInformation(name:            String(describing: type),
+                               properties:      properties(for: type),
+                               identifierName:  type.identifier())
+    }
+    
+    static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation {
         
-        return TypeInformation(name: name, properties: properties, version: version, identifierName: identifier, indices: indices)
+        let statement = try database.statement(for: "SELECT * FROM \(type) LIMIT 0")
+                                    .execute()
+        
+        let properties = Array(statement.dictionary.keys)
+        
+        try statement.finalize()
+        
+        return TypeInformation(name:            String(describing: type),
+                               properties:      properties,
+                               identifierName:  type.identifier())
     }
     
 }

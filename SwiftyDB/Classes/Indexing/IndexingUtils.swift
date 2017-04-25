@@ -48,15 +48,15 @@ struct IndexingUtils {
         return []
     }
     
-    static func information(for type: Storable.Type, version: UInt = 0) -> TypeInformation {
-        let name        = String(describing: type)
-        let identifier  = type.identifier()
-        let indexNames  = self.indexNames(for: type)
-    
-        return TypeInformation(name: name,
-                               properties: [:],
-                               version: version,
-                               identifierName: identifier,
-                               indices: indexNames)
-    }
+//    static func information(for type: Storable.Type, version: UInt = 0) -> TypeInformation {
+//        let name        = String(describing: type)
+//        let identifier  = type.identifier()
+//        let indexNames  = self.indexNames(for: type)
+//    
+//        return TypeInformation(name: name,
+//                               properties: [:],
+//                               version: version,
+//                               identifierName: identifier,
+//                               indices: indexNames)
+//    }
 }

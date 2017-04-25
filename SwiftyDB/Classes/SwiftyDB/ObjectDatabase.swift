@@ -68,7 +68,7 @@ extension ObjectDatabase {
     - parameters:
         - object:           the object to be added
     */
-    func add<T: Storable>(_ object: T) -> Promise<Void> {
+    public func add<T: Storable>(_ object: T) -> Promise<Void> {
         return add(objects: [object])
     }
     
@@ -78,7 +78,7 @@ extension ObjectDatabase {
     - parameters:
         - object:           the object to be added
     */
-    func add<T: Storable>(_ objects: T...) -> Promise<Void> {
+    public func add<T: Storable>(_ objects: T...) -> Promise<Void> {
         return add(objects: objects)
     }
     

@@ -15,10 +15,6 @@ protocol BackingDatabase {
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery
     
     mutating func delete<Query>(using query: Query) throws where Query : StorableQuery
-    
-    mutating func migrate(type: Storable.Type, fromTypeInformation typeInformation: TypeInformation) throws -> UInt
-    
-    mutating func createIndex(with indexer: Indexer) throws
 }
 
 extension BackingDatabase {

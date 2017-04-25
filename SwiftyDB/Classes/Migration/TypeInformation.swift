@@ -11,11 +11,9 @@ import Foundation
 
 struct TypeInformation: Storable {
     
-    var name = ""
-    var properties: [String: String] = [:]
-    var version: UInt = 0
-    var identifierName = ""
-    var indices: Set<String> = []
+    var name                    = ""
+    var properties: [String]    = []
+    var identifierName          = ""
     
     static func mappableObject() -> Any {
         return TypeInformation()
@@ -24,7 +22,6 @@ struct TypeInformation: Storable {
     mutating func mapping(map: Map) {
         name            <- map["name"]
         properties      <- map["properties"]
-        version         <- map["version"]
         identifierName  <- map["identifierName"]
     }
     

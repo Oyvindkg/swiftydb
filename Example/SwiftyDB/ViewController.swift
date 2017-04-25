@@ -23,9 +23,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        try? FileManager.default.removeItem(atPath: configuration.location.path)
         
         let database = Database(configuration: configuration)
+        
+
+        firstly {
+//            database.add(Dog())
+//        }.then {
+//            print("Added!")
+//        }.then {
+            database.get(Dog.self)
+        }.then { dogs -> Void in
+            for dog in dogs {
+                print(dog)
+            }
+        }.catch { error in
+            print(error)
+        }
+        
+//
+        return
         
         let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         
@@ -44,12 +61,13 @@ class ViewController: UIViewController {
             
             let query = Query.get(Dog.self)
                              .order(by: "name", ascending: true)
-                             .where("age" < 2)
 
             return database.get(using: query)
         }.then { dogs -> Void in
             print(dogs.count)
             print("Get:", -start!.timeIntervalSinceNow)
+        }.catch { error in
+            print(error)
         }
     }
 }

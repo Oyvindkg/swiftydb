@@ -15,4 +15,10 @@ import Foundation
  
  The object must be identifiable to let Swifty manage references and unique objects
  */
-public protocol Storable: Identifiable, Mappable { }
+public protocol Storable: Identifiable, Mappable {}
+
+extension Storable {
+    internal static var name: String {
+        return "\(self)"
+    }
+}

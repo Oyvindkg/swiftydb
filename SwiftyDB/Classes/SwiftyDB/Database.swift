@@ -28,9 +28,7 @@ open class Database: ObjectDatabase {
     
     var database: BackingDatabase
     
-    let migrator:    Migrator
-    let typeIndexer: TypeIndexer
-    
+
     /** The database object's configuration */
     open let configuration: Configuration
     
@@ -45,9 +43,6 @@ open class Database: ObjectDatabase {
         self.configuration = configuration
         
         database = SQLiteDatabase(configuration: configuration)
-        
-        migrator    = DefaultMigrator()
-        typeIndexer = DefaultTypeIndexer()
     }
     
     /**
@@ -84,10 +79,6 @@ open class Database: ObjectDatabase {
     }
     
     internal func add<T: Storable>(_ objects: [T]) throws {
-        for object in objects {
-            try self.migrator.migrateTypeIfNecessary(type(of: object), in: self)
-        }
-        
         try self.database.add(objects: objects)
     }
     
@@ -115,10 +106,6 @@ open class Database: ObjectDatabase {
     }
     
     internal func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
-        try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
-        try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
-        
-        
         return try self.database.get(using: query)
     }
     
@@ -144,9 +131,6 @@ open class Database: ObjectDatabase {
     }
     
     internal func delete<Query>(using query: Query) throws where Query : StorableQuery {
-        try self.migrator.migrateTypeIfNecessary(Query.Subject.self, in: self)
-        try self.typeIndexer.indexTypeIfNecessary(Query.Subject.self, in: self)
-        
         try self.database.delete(using: query)
     }
 }
