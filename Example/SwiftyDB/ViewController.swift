@@ -27,22 +27,22 @@ class ViewController: UIViewController {
         let database = Database(configuration: configuration)
         
 
-        firstly {
-//            database.add(Dog())
-//        }.then {
-//            print("Added!")
-//        }.then {
-            database.get(Dog.self)
-        }.then { dogs -> Void in
-            for dog in dogs {
-                print(dog)
-            }
-        }.catch { error in
-            print(error)
-        }
-        
+//        firstly {
+////            database.add(Dog())
+////        }.then {
+////            print("Added!")
+////        }.then {
+//            database.get(Dog.self)
+//        }.then { dogs -> Void in
+//            for dog in dogs {
+//                print(dog)
+//            }
+//        }.catch { error in
+//            print(error)
+//        }
+//        
 //
-        return
+//        return
         
         let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         

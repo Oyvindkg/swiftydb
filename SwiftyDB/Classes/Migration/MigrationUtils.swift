@@ -26,7 +26,7 @@ internal struct MigrationUtilities {
     
     static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation {
         
-        let statement = try database.statement(for: "SELECT * FROM \(type) LIMIT 0")
+        let statement = try database.statement(for: "SELECT * FROM \(type.name) LIMIT 0")
                                     .execute()
         
         let properties = Array(statement.dictionary.keys)

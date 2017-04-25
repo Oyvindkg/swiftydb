@@ -48,6 +48,8 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
         do {
+            try SQLiteDatabaseMigrator.default.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
+            
             let writers: [Writer] = try get(query: query)
             
             return Mapper.objects(forWriters: writers)

@@ -24,10 +24,21 @@ extension SQLiteDatabaseMigrator {
             return
         }
         
+        try migrateStorablePropertiesOfType(type, ifNecessaryOn: queue)
+        
+        try migrateType(type, on: queue)
+        
+        validTypes.insert(type.name)
+    }
+    
+    private mutating func migrateStorablePropertiesOfType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
+        
         let reader = Mapper.reader(for: type)
         
         for (_, map) in reader.mappables {
-            try migrateType((map as! Reader).type as! Storable.Type, ifNecessaryOn: queue)
+            let reader = map as! Reader
+            
+            try migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
         }
         
         for (_, maps) in reader.mappableArrays {
@@ -35,10 +46,6 @@ extension SQLiteDatabaseMigrator {
                 try migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
             }
         }
-        
-        try migrateType(type, on: queue)
-        
-        validTypes.insert(type.name)
     }
     
     func migrateType(_ type: Storable.Type, on queue: DatabaseQueue) throws {
@@ -71,7 +78,7 @@ extension SQLiteDatabaseMigrator {
             
             let column = SQLiteQueryFactory.columnForProperty(property, withType: propertyType)
             
-            var query = "ALTER TABLE \(type) ADD COLUMN \(column.definition)"
+            var query = "ALTER TABLE \(type.name) ADD COLUMN \(column.definition)"
             
             if let storableValue = reader.storableValues[property] {
                 query += " DEFAULT '\(storableValue)'"
@@ -89,13 +96,13 @@ extension SQLiteDatabaseMigrator {
         }
         
         if properties.contains(type.identifier()) {
-            throw SwiftyError.migration("Tried to remove the \(type)'s identifying property '\(type.identifier())'")
+            throw SwiftyError.migration("Tried to remove the \(type.name)'s identifying property '\(type.identifier())'")
         }
         
-        try renameTable("\(type)", to: "old_\(type)", in: database)
+        try renameTable(type.name, to: "old_\(type.name)", in: database)
         try createTable(for: type, in: database)
         try moveDataFromOldTable(for: MigrationUtilities.typeInformationFor(type: type), in: database)
-        try dropTable("old_\(type)", in: database)
+        try dropTable("old_\(type.name)", in: database)
     }
     
     fileprivate func moveDataFromOldTable(for information: TypeInformation, in database: DatabaseConnection) throws {
@@ -110,7 +117,7 @@ extension SQLiteDatabaseMigrator {
     }
     
     fileprivate func dropTable(for type: Storable.Type, in database: DatabaseConnection) throws {
-        try dropTable("\(type)", in: database)
+        try dropTable(type.name, in: database)
     }
     
     fileprivate func dropTable(_ tableName: String, in database: DatabaseConnection) throws {

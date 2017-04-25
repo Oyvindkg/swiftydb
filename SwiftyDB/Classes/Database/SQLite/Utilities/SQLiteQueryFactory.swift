@@ -154,7 +154,7 @@ extension SQLiteSelectQueryFactory {
     
     static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
         
-        var query = "SELECT * FROM '\(type)'"
+        var query = "SELECT * FROM '\(type.name)'"
         var parameters: [SQLiteValue?] = []
         
         if let filter = filter {
@@ -209,7 +209,7 @@ protocol SQLiteDeleteQueryFactory {
 extension SQLiteDeleteQueryFactory {
     static func deleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery {
 
-        var query = "DELETE FROM \(type)"
+        var query = "DELETE FROM \(type.name)"
         var parameters: [SQLiteValue?] = []
         
         if let filter = filter {

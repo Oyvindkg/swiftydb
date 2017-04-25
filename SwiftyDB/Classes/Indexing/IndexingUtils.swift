@@ -11,11 +11,10 @@ import Foundation
 struct IndexingUtils {
     
     static func name(of index: Index) -> String {
-        let type       = String(describing: index.type)
         let filters    = String(describing: index.filter)
         let properties = index.properties.joined(separator: "")
         
-        let invalidName = "\(type):\(properties):\(filters)"
+        let invalidName = "\(index.type.name):\(properties):\(filters)"
         
         return invalidName.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
     }
