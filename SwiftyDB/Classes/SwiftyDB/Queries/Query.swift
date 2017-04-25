@@ -14,7 +14,6 @@ import Foundation
  This query object can be stored and reused times
  */
 public class Query<T: Storable>: AnyQuery {
-    public typealias Subject = T
 
     public var type: Storable.Type {
         return Subject.self
@@ -25,12 +24,22 @@ public class Query<T: Storable>: AnyQuery {
     public var start: Int?
     public var sorting: Sorting
     
-    public init() {
+    init() {
         sorting = .none
+    }
+    
+    public static func get(_ type: T.Type) -> Query<T> {
+        return Query<T>()
+    }
+    
+    public static func delete(_ type: T.Type) -> Query<T> {
+        return Query<T>()
     }
 }
 
 extension Query: StorableQuery {
+    
+    public typealias Subject = T
     
     public func limit(_ max: Int) -> Self {
         self.max = max

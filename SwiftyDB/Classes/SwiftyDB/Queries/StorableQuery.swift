@@ -33,6 +33,7 @@ public protocol StorableQuery: class, AnyQuery {
 }
 
 extension StorableQuery {
+    
     public func order(by property: String) -> Self {
         return order(by: property, ascending: true)
     }

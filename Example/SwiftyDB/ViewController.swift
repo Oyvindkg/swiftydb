@@ -20,7 +20,6 @@ class ViewController: UIViewController {
         return configuration
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +41,10 @@ class ViewController: UIViewController {
             
             start = Date()
         }.then { _ -> Promise<[Dog]> in
-            let query = Query<Dog>().order(by: "name")
+            
+            let query = Query.get(Dog.self)
+                             .order(by: "name", ascending: true)
+                             .where("age" < 2)
 
             return database.get(using: query)
         }.then { dogs -> Void in
