@@ -35,14 +35,14 @@ final class Reader: Mapper {
         propertyTypes[key]  = type
     }
     
-    func setCurrent<T: StorableValue>(values: [T]?, forType type: Any.Type = T.self) {
-        guard let key = currentKey else {
-            return
-        }
-        
-        storableValueArrays[key] = values?.map { $0 }
-        propertyTypes[key]       = [T].self
-    }
+//    func setCurrent<T: StorableValue>(values: [T]?, forType type: Any.Type = T.self) {
+//        guard let key = currentKey else {
+//            return
+//        }
+//        
+//        storableValueArrays[key] = values?.map { $0 }
+//        propertyTypes[key]       = [T].self
+//    }
     
     func setCurrent<T: Mappable>(reader: Reader?, forType type: T.Type) {
         guard let key = currentKey else {
@@ -89,28 +89,15 @@ func <- <T: StorableProperty>(left: inout T!, right: Reader) {
 
 
 func <- <T: StorableProperty>(left: inout [T], right: Reader) {
-    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
-}
-
-private func jsonFromArray<T: StorableProperty>(_ array: [T]?) -> String? {
-    if array == nil {
-        return nil
-    }
-    
-    let storableValues = array!.map {$0.storableValue}
-    
-    let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
-    
-    return String(data: jsonData, encoding: .utf8)!
-    
+    right.setCurrent(value: jsonForCollection(left), forType: [T].self)
 }
 
 func <- <T: StorableProperty>(left: inout [T]?, right: Reader) {
-    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
+    right.setCurrent(value: jsonForCollection(left), forType: [T].self)
 }
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Reader) {
-    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
+    right.setCurrent(value: jsonForCollection(left), forType: [T].self)
 }
 
 
@@ -118,15 +105,15 @@ func <- <T: StorableProperty>(left: inout [T]!, right: Reader) {
 
 
 func <- <T: StorableProperty>(left: inout Set<T>, right: Reader) {
-    right.setCurrent(value: CollectionSerialization.stringFor(collection: left)!, forType: Set<T>.self)
+    right.setCurrent(value: jsonForCollection(left)!, forType: Set<T>.self)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Reader) {
-    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
+    right.setCurrent(value: jsonForCollection(left), forType: Set<T>.self)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
-    right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
+    right.setCurrent(value: jsonForCollection(left), forType: Set<T>.self)
 }
 
 
@@ -134,7 +121,6 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
 
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
-    
     right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
 }
 
@@ -286,21 +272,21 @@ func <- <T: RawRepresentable>(left: inout T!, right: Reader) where T.RawValue: S
 
 
 func <- <T: RawRepresentable>(left: inout [T], right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left.map { $0.rawValue.storableValue }
+    let storableProperties = left.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]?, right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left?.map { $0.rawValue.storableValue }
+    let storableProperties = left?.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
 }
 
 func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left?.map { $0.rawValue.storableValue }
+    let storableProperties = left.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
 }
 
 
@@ -308,39 +294,35 @@ func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue:
 
 
 func <- <T: RawRepresentable>(left: inout Set<T>, right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left.map { $0.rawValue.storableValue }
+    let storableProperties = left.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
 }
 
 func <- <T: RawRepresentable>(left: inout Set<T>?, right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left?.map { $0.rawValue.storableValue }
+    let storableProperties = left?.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
 }
 
 func <- <T: RawRepresentable>(left: inout Set<T>!, right: Reader) where T.RawValue: StorableProperty {
-    let storableValues = left?.map { $0.rawValue.storableValue }
+    let storableProperties = left?.map { $0.rawValue }
     
-    right.setCurrent(values: storableValues)
+    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
 }
 
 // MARK: Helpers
 
-private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
-    let rawValue = T.RawValue.from(storableValue: storableValue)
-    
-    return T.init(rawValue: rawValue)!
-}
-
-private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
-    guard storableValue != nil else {
+private func jsonForCollection<C: Collection>(_ collection: C?) -> String? where C.Iterator.Element : StorableProperty {
+    guard let collection = collection else {
         return nil
     }
     
-    let rawValue = T.RawValue.from(storableValue: storableValue!)
+    let storableValues = collection.map { $0.storableValue }
     
-    return T.init(rawValue: rawValue)
+    let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
+    
+    return String(data: jsonData, encoding: .utf8)!
 }
 
 

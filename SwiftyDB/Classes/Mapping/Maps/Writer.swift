@@ -100,36 +100,12 @@ func <- <T: StorableProperty>(left: inout [T], right: Writer) {
     left = arrayFromJson(right.getCurrentValue()!)!
 }
 
-func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
-    if json == nil {
-        return nil
-    }
-    
-    let jsonData = json!.data(using: .utf8)!
-    
-    let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.StorableValueType]
-    
-    return storableValues.map { T.from(storableValue: $0) }
-}
-
-private func jsonFromArray<T: StorableProperty>(_ array: [T]?) -> String? {
-    if array == nil {
-        return nil
-    }
-    
-    let storableValues = array!.map {$0.storableValue}
-    
-    let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
-    
-    return String(data: jsonData, encoding: .utf8)!
-}
-
 func <- <T: StorableProperty>(left: inout [T]?, right: Writer) {
-    left = arrayFromJson(right.getCurrentValue()!)
+    left = arrayFromJson(right.getCurrentValue())
 }
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
-    left = arrayFromJson(right.getCurrentValue()!)
+    left = arrayFromJson(right.getCurrentValue())
 }
 
 
@@ -343,6 +319,18 @@ private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T
     let rawValue = T.RawValue.from(storableValue: storableValue!)
     
     return T.init(rawValue: rawValue)
+}
+
+private func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
+    if json == nil {
+        return nil
+    }
+    
+    let jsonData = json!.data(using: .utf8)!
+    
+    let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.StorableValueType]
+    
+    return storableValues.map { T.from(storableValue: $0) }
 }
 
 

@@ -8,6 +8,12 @@
 
 import SwiftyDB
 
+enum TestEnum: Int {
+    case first  = 0
+    case second
+    case third
+}
+
 class TestClass: Storable {
     
     // MARK: Non-optionals
@@ -16,6 +22,10 @@ class TestClass: Storable {
     var character               = Character("c")
     
     var bool                    = true
+    
+    var rawRepresentable: TestEnum         = TestEnum.first
+    var rawRepresentableArray: [TestEnum]  = [TestEnum.first, TestEnum.second]
+    var rawRepresentableSet: Set<TestEnum> = [TestEnum.first]
     
     var int                     = Int.max
     var int8: Int8              = Int8.max
@@ -34,7 +44,7 @@ class TestClass: Storable {
     
     var date                    = Date()
     
-    var data                    = Data(base64Encoded: "data", options: [])!
+    var data                    = "data".data(using: .utf8)!
     
     var number                  = NSNumber(value: 123.213231)
     
@@ -53,6 +63,10 @@ class TestClass: Storable {
     
     var optionalBool: Bool?             = true
     
+    var optionalRawRepresentable: TestEnum?         = TestEnum.first
+    var optionalRawRepresentableArray: [TestEnum]?  = [TestEnum.first, TestEnum.second]
+    var optionalRawRepresentableSet: Set<TestEnum>? = [TestEnum.first, TestEnum.second]
+    
     var optionalInt: Int?               = Int.max
     var optionalInt8: Int8?             = Int8.max
     var optionalInt16: Int16?           = Int16.max
@@ -70,7 +84,7 @@ class TestClass: Storable {
     
     var optionalDate: Date?           = Date()
     
-    var optionalData: Data?           = Data(base64Encoded: "optionalData", options: [])
+    var optionalData: Data?           = "data".data(using: .utf8)
     
     var optionalNumber: NSNumber?       = 1.312
     
