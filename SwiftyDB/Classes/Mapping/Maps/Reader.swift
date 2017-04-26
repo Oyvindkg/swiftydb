@@ -117,22 +117,6 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
 }
 
 
-// MARK: Storable value dicitonaries
-
-
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
-//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
-//}
-//
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
-//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
-//}
-//
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
-//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
-//}
-
-
 // MARK: - Mappable objects
 
 

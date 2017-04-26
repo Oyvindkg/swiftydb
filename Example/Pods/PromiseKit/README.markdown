@@ -2,7 +2,7 @@
 
 ![badge-pod] ![badge-languages] ![badge-pms] ![badge-platforms] ![badge-mit]
 
-[简体中文](README.zh_CN.md)
+[繁體中文](README.zh_Hant.md) [简体中文](README.zh_CN.md)
 
 ---
 
@@ -15,7 +15,7 @@ UIApplication.shared.isNetworkActivityIndicatorVisible = true
 firstly {
     when(URLSession.dataTask(with: url).asImage(), CLLocationManager.promise())
 }.then { image, location -> Void in
-    self.imageView.image = image;
+    self.imageView.image = image
     self.label.text = "\(location)"
 }.always {
     UIApplication.shared.isNetworkActivityIndicatorVisible = false

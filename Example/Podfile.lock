@@ -1,15 +1,15 @@
 PODS:
   - Nimble (6.1.0)
-  - PromiseKit (4.1.7):
-    - PromiseKit/Foundation (= 4.1.7)
-    - PromiseKit/QuartzCore (= 4.1.7)
-    - PromiseKit/UIKit (= 4.1.7)
-  - PromiseKit/CorePromise (4.1.7)
-  - PromiseKit/Foundation (4.1.7):
+  - PromiseKit (4.2.0):
+    - PromiseKit/Foundation (= 4.2.0)
+    - PromiseKit/QuartzCore (= 4.2.0)
+    - PromiseKit/UIKit (= 4.2.0)
+  - PromiseKit/CorePromise (4.2.0)
+  - PromiseKit/Foundation (4.2.0):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.1.7):
+  - PromiseKit/QuartzCore (4.2.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.1.7):
+  - PromiseKit/UIKit (4.2.0):
     - PromiseKit/CorePromise
   - sqlite3 (3.18.0):
     - sqlite3/common (= 3.18.0)
@@ -30,7 +30,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Nimble: c53e6903fee94041b90ded74f135820437d8bf59
-  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
+  PromiseKit: 08dfb783c161ddcd95b7912421f14c5113fd8318
   sqlite3: a749f27b6109ca9f03f757fdb4584f89f664692d
   SwiftyDB: c2e7d76366ec9f928af56ffea2cd234d7ed9b7b4
   TinySQLite: 843627e4db26056a5c173445a6bd20753b2050f4
