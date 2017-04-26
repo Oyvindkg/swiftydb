@@ -112,25 +112,29 @@ func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
 // MARK: Set of storable properties
 
 func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
-    let storableValues: [T.StorableValueType] = right.getCurrentValue()!
+    let storableProperties: [T] = arrayFromJson(right.getCurrentValue())!
     
-    left = Set( storableValues.map(T.from) )
+    left = Set(storableProperties)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
-    if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.from) )
-    } else {
+    guard let storableProperties: [T] = arrayFromJson(right.getCurrentValue()) else {
         left = nil
+        
+        return
     }
+    
+    left = Set(storableProperties)
 }
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
-    if let storableValues: [T.StorableValueType] = right.getCurrentValue() {
-        left = Set( storableValues.map(T.from) )
-    } else {
+    guard let storableProperties: [T] = arrayFromJson(right.getCurrentValue()) else {
         left = nil
+        
+        return
     }
+    
+    left = Set(storableProperties)
 }
 
 
@@ -258,49 +262,67 @@ func <- <T: RawRepresentable>(left: inout T!, right: Writer) where T.RawValue: S
 // MARK: Array of raw representables
 
 func <- <T: RawRepresentable>(left: inout [T], right: Writer) where T.RawValue: StorableProperty {
-    let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
+    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()!)!
     
-    left = storableValues.map(rawRepresentableFromValue)
+    left = storableProperties.map { property in
+        return T(rawValue: property)!
+    }
 }
 
 func <- <T: RawRepresentable>(left: inout [T]?, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFromValue)
-    } else {
-        left = nil
+    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
+    
+    left = storableProperties?.map { property in
+        return T(rawValue: property)!
     }
 }
 
 func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = storableValues.map(rawRepresentableFromValue)
-    } else {
-        left = nil
+    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
+    
+    left = storableProperties?.map { property in
+        return T(rawValue: property)!
     }
 }
 
 // MARK: Set of raw representables
 
 func <- <T: RawRepresentable>(left: inout Set<T>, right: Writer) where T.RawValue: StorableProperty {
-    let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue()!
+    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue())!
     
-    left = Set(storableValues.map(rawRepresentableFromValue))
+    let array = storableProperties.map { property in
+        return T(rawValue: property)!
+    }
+    
+    left = Set(array)
 }
 
 func <- <T: RawRepresentable>(left: inout Set<T>?, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = Set(storableValues.map(rawRepresentableFromValue))
-    } else {
+    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
         left = nil
+        
+        return
     }
+    
+    let array = storableProperties.map { property in
+        return T(rawValue: property)!
+    }
+    
+    left = Set(array)
 }
 
 func <- <T: RawRepresentable>(left: inout Set<T>!, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValues: [T.RawValue.StorableValueType] = right.getCurrentValue() {
-        left = Set(storableValues.map(rawRepresentableFromValue))
-    } else {
+    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
         left = nil
+        
+        return
     }
+    
+    let array = storableProperties.map { property in
+        return T(rawValue: property)!
+    }
+    
+    left = Set(array)
 }
 
 // MARK: Helpers

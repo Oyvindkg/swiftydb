@@ -552,11 +552,11 @@ extension DatabaseTests {
         }
     }
     
-    func testStringArrayIsRetreivedCorrectly() {
+    func testStorablePropertyArrayIsRetreivedCorrectly() {
         
         let object = TestClass()
         
-        object.stringArray = ["A different string"]
+        object.storablePropertyArray = ["A different string"]
         
         waitUntil { done in
             _ = firstly {
@@ -564,18 +564,18 @@ extension DatabaseTests {
             }.then {
                 self.database.get(TestClass.self) as Promise<[TestClass]>
             }.then { objects -> Void in
-                expect(objects.first?.stringArray) == object.stringArray
+                expect(objects.first?.storablePropertyArray) == object.storablePropertyArray
                 
                 done()
             }
         }
     }
     
-    func testIntArrayIsRetreivedCorrectly() {
+    func testStorablePropertySetIsRetreivedCorrectly() {
         
         let object = TestClass()
         
-        object.intArray = [13922,9482,123]
+        object.storablePropertySet = ["A different string"]
         
         waitUntil { done in
             _ = firstly {
@@ -583,33 +583,12 @@ extension DatabaseTests {
             }.then {
                 self.database.get(TestClass.self) as Promise<[TestClass]>
             }.then { objects -> Void in
-                expect(objects.first?.intArray) == object.intArray
+                expect(objects.first?.storablePropertySet) == object.storablePropertySet
                 
                 done()
             }
         }
     }
-    
-    func testDoubleArrayIsRetreivedCorrectly() {
-        
-        let object = TestClass()
-        
-        object.doubleArray = [4124,12331,123]
-        
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-            }.then {
-                self.database.get(TestClass.self) as Promise<[TestClass]>
-            }.then { objects -> Void in
-                expect(objects.first?.doubleArray) == object.doubleArray
-                
-                done()
-            }
-        }
-    }
-    
-    
 }
 
 
@@ -673,6 +652,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalRawRepresentable = .third
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -689,6 +670,8 @@ extension DatabaseTests {
     func testOptionalRawRepresentableArrayIsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalRawRepresentableArray = [.third, .second]
         
         waitUntil { done in
             _ = firstly {
@@ -707,6 +690,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalRawRepresentableSet = [.first, .third]
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -723,6 +708,8 @@ extension DatabaseTests {
     func testOptionalIntIsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalInt = 2133
         
         waitUntil { done in
             _ = firstly {
@@ -741,6 +728,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalInt8 = 59
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -757,6 +746,8 @@ extension DatabaseTests {
     func testOptionalInt16IsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalInt16 = 21323
         
         waitUntil { done in
             _ = firstly {
@@ -775,6 +766,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalInt32 = 21323
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -791,6 +784,8 @@ extension DatabaseTests {
     func testOptionalInt64IsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalInt64 = 21323
         
         waitUntil { done in
             _ = firstly {
@@ -809,6 +804,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalUint = 21323
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -825,6 +822,8 @@ extension DatabaseTests {
     func testOptionalUInt8IsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalUint8 = 213
         
         waitUntil { done in
             _ = firstly {
@@ -843,6 +842,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalUint16 = 21323
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -859,6 +860,8 @@ extension DatabaseTests {
     func testOptionalUInt32IsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalUint32 = 21323
         
         waitUntil { done in
             _ = firstly {
@@ -877,6 +880,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalUint64 = 21323
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -893,6 +898,8 @@ extension DatabaseTests {
     func testOptionalFloatIsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalFloat = 0.12312
         
         waitUntil { done in
             _ = firstly {
@@ -911,6 +918,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalDouble = 0.12312121
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -927,6 +936,8 @@ extension DatabaseTests {
     func testOptionalDateIsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalDate = Date(timeIntervalSince1970: Double(arc4random()))
         
         waitUntil { done in
             _ = firstly {
@@ -945,6 +956,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalData = "A different string".data(using: .utf8)!
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -961,6 +974,8 @@ extension DatabaseTests {
     func testOptionalNumberIsRetreivedCorrectly() {
         
         let object = TestClass()
+        
+        object.optionalNumber = 123123.2
         
         waitUntil { done in
             _ = firstly {
@@ -979,6 +994,8 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalStorableArray = [lady, lady, lady]
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
@@ -996,15 +1013,17 @@ extension DatabaseTests {
         
         let object = TestClass()
         
+        object.optionalStorable = lady
+        
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStorable) == object.optionalStorable
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.optionalStorable) == object.optionalStorable
+                
+                done()
             }
         }
     }
@@ -1013,56 +1032,7 @@ extension DatabaseTests {
         
         let object = TestClass()
         
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStorableSet) == object.optionalStorableSet
-                    
-                    done()
-            }
-        }
-    }
-    
-    func testOptionalStringArrayIsRetreivedCorrectly() {
-        
-        let object = TestClass()
-        
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStringArray) == object.optionalStringArray
-                    
-                    done()
-            }
-        }
-    }
-    
-    func testOptionalIntArrayIsRetreivedCorrectly() {
-        
-        let object = TestClass()
-        
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalIntArray) == object.optionalIntArray
-                    
-                    done()
-            }
-        }
-    }
-    
-    func testOptionalDoubleArrayIsRetreivedCorrectly() {
-        
-        let object = TestClass()
+        object.optionalStorableSet = [lady]
         
         waitUntil { done in
             _ = firstly {
@@ -1070,9 +1040,47 @@ extension DatabaseTests {
             }.then {
                 self.database.get(TestClass.self) as Promise<[TestClass]>
             }.then { objects -> Void in
-                expect(objects.first?.optionalDoubleArray) == object.optionalDoubleArray
+                expect(objects.first?.optionalStorableSet) == object.optionalStorableSet
                 
                 done()
+            }
+        }
+    }
+    
+    func testOptionalStorablePropertyArrayIsRetreivedCorrectly() {
+        
+        let object = TestClass()
+        
+        object.optionalStorablePropertyArray = ["A different string"]
+        
+        waitUntil { done in
+            _ = firstly {
+                self.database.add(object)
+                }.then {
+                    self.database.get(TestClass.self) as Promise<[TestClass]>
+                }.then { objects -> Void in
+                    expect(objects.first?.optionalStorablePropertyArray) == object.optionalStorablePropertyArray
+                    
+                    done()
+            }
+        }
+    }
+    
+    func testOptionalStorablePropertySetIsRetreivedCorrectly() {
+        
+        let object = TestClass()
+        
+        object.optionalStorablePropertySet = ["A different string"]
+        
+        waitUntil { done in
+            _ = firstly {
+                self.database.add(object)
+                }.then {
+                    self.database.get(TestClass.self) as Promise<[TestClass]>
+                }.then { objects -> Void in
+                    expect(objects.first?.optionalStorablePropertySet) == object.optionalStorablePropertySet
+                    
+                    done()
             }
         }
     }

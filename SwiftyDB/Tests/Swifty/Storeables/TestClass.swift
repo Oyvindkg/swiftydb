@@ -52,9 +52,8 @@ class TestClass: Storable {
     var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storable               = Wolf(name: "Ghost", age: 9)
     
-    var stringArray: [String]   = ["string", "otherString"]
-    var intArray: [Int]         = [1,23,32]
-    var doubleArray: [Double]   = [42.0,123.0,41.0]
+    var storablePropertyArray: [String]   = ["string", "otherString"]
+    var storablePropertySet: Set<String>   = ["string", "otherString"]
     
     // MARK: - Optionals
     
@@ -92,9 +91,8 @@ class TestClass: Storable {
     var optionalStorableSet: Set<Wolf>?        = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var optionalStorable: Wolf?                = Wolf(name: "Ghost", age: 9)
     
-    var optionalStringArray: [String]?          = ["string", "otherString"]
-    var optionalIntArray: [Int]?                = [1,23,32]
-    var optionalDoubleArray: [Double]?          = [42,123,41]
+    var optionalStorablePropertyArray: [String]?  = ["string", "otherString"]
+    var optionalStorablePropertySet: Set<String>? = ["string", "otherString"]
     
 }
 
@@ -108,6 +106,10 @@ extension TestClass: Mappable {
         character       <- mapper["character"]
         
         bool            <- mapper["bool"]
+        
+        rawRepresentable      <- mapper["rawRepresentable"]
+        rawRepresentableArray <- mapper["rawRepresentableArray"]
+        rawRepresentableSet   <- mapper["rawRepresentableSet"]
         
         int             <- mapper["int"]
         int8            <- mapper["int8"]
@@ -131,13 +133,15 @@ extension TestClass: Mappable {
         storableSet    <- mapper["storableSet"]
         storable       <- mapper["storable"]
         
-        stringArray     <- mapper["stringArray"]
-        intArray        <- mapper["intArray"]
-        doubleArray     <- mapper["doubleArray"]
-        
+        storablePropertySet     <- mapper["storablePropertySet"]
+        storablePropertyArray   <- mapper["storablePropertyArray"]
         
         optionalString      <- mapper["optionalString"]
         optionalCharacter   <- mapper["optionalCharacter"]
+        
+        optionalRawRepresentable      <- mapper["optionalRawRepresentable"]
+        optionalRawRepresentableArray <- mapper["optionalRawRepresentableArray"]
+        optionalRawRepresentableSet   <- mapper["optionalRawRepresentableSet"]
         
         optionalBool        <- mapper["optionalBool"]
         
@@ -164,9 +168,8 @@ extension TestClass: Mappable {
         optionalStorableSet    <- mapper["optionalStorableSet"]
         optionalStorable       <- mapper["optionalStorable"]
         
-        optionalStringArray     <- mapper["optionalStringArray"]
-        optionalIntArray        <- mapper["optionalIntArray"]
-        optionalDoubleArray     <- mapper["optionalDoubleArray"]
+        optionalStorablePropertyArray <- mapper["optionalStorablePropertyArray"]
+        optionalStorablePropertySet   <- mapper["optionalStorablePropertySet"]
     }
 }
 
