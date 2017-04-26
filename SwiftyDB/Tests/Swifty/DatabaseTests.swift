@@ -219,12 +219,12 @@ extension DatabaseTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.int64) == object.int64
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.int64) == object.int64
+                
+                done()
             }
         }
     }
@@ -236,12 +236,12 @@ extension DatabaseTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.uint) == object.uint
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.uint) == object.uint
+                
+                done()
             }
         }
     }
@@ -253,12 +253,12 @@ extension DatabaseTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.uint8) == object.uint8
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.uint8) == object.uint8
+                
+                done()
             }
         }
     }
@@ -270,12 +270,12 @@ extension DatabaseTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.uint16) == object.uint16
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.uint16) == object.uint16
+                
+                done()
             }
         }
     }

@@ -37,6 +37,7 @@ final class Reader: BaseMap, Map {
         }
         
         mappables[key]     = reader
+        print(T.self, key, propertyTypes)
         propertyTypes[key] = T.self
     }
     

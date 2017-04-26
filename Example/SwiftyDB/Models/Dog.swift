@@ -51,13 +51,3 @@ struct Dog: Storable {
         return "name"
     }
 }
-
-extension Dog: Migratable {
-    static func migrate(migration: inout Migration) {
-        if migration.schemaVersion < 1 {
-            migration.remove(property: "weight")
-            
-            migration.schemaVersion = 1
-        }
-    }
-}

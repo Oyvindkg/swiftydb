@@ -47,6 +47,7 @@ extension SQLiteDatabaseRetriever {
             try! statement.finalize()
         }
 
+        //FIXME: Rewrite
         /* Create writers and populate them with nested objects */
         return try statement.execute(withParameters: query.parameters).map { row -> Writer in
             let writer = Writer(type: reader.type)

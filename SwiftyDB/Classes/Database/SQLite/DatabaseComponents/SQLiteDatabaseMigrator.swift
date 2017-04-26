@@ -10,40 +10,42 @@ import Foundation
 import TinySQLite
 
 struct SQLiteDatabaseMigrator {
-    
-    static var `default` = SQLiteDatabaseMigrator()
-    
+        
+    /** The types that have been verified to be valid */
     var validTypes: Set<String> = []
+    
+    /** The types about to be migrated. Used to prevent recurrence */
+    var migratingTypes: Set<String> = []
 }
 
 extension SQLiteDatabaseMigrator {
 
-    //FIXME: This will break on cicle type references
     mutating func migrateType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
-        guard !validTypes.contains(type.name) else {
+        guard !validTypes.contains(type.name) && !migratingTypes.contains(type.name) else {
             return
         }
+        
+        migratingTypes.insert(type.name)
         
         try migrateStorablePropertiesOfType(type, ifNecessaryOn: queue)
         
         try migrateType(type, on: queue)
         
         validTypes.insert(type.name)
+        migratingTypes.remove(type.name)
     }
     
     private mutating func migrateStorablePropertiesOfType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
         
         let reader = Mapper.reader(for: type)
         
-        for (_, map) in reader.mappables {
-            let reader = map as! Reader
-            
-            try migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
-        }
-        
-        for (_, maps) in reader.mappableArrays {
-            for reader in maps as! [Reader] {
-                try migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
+        for (_, type) in reader.propertyTypes {
+            if let storableType = type as? Storable.Type {
+                try migrateType(storableType, ifNecessaryOn: queue)
+            } else if let storableArrayType = type as? StorableArray.Type {
+                if let storableType = storableArrayType.storableType {
+                    try migrateType(storableType, ifNecessaryOn: queue)
+                }
             }
         }
     }
@@ -70,7 +72,7 @@ extension SQLiteDatabaseMigrator {
         }
     }
     
-    func addProperties(_ properties: Set<String>, to type: Storable.Type, in database: DatabaseConnection) throws {
+    private func addProperties(_ properties: Set<String>, to type: Storable.Type, in database: DatabaseConnection) throws {
         let reader = Mapper.reader(for: type)
         
         for property in properties {
@@ -90,7 +92,7 @@ extension SQLiteDatabaseMigrator {
         }
     }
     
-    func removeProperties(_ properties: Set<String>, from type: Storable.Type, in database: DatabaseConnection) throws {
+    private func removeProperties(_ properties: Set<String>, from type: Storable.Type, in database: DatabaseConnection) throws {
         guard !properties.isEmpty else {
             return
         }
@@ -99,12 +101,18 @@ extension SQLiteDatabaseMigrator {
             throw SwiftyError.migration("Tried to remove the \(type.name)'s identifying property '\(type.identifier())'")
         }
         
+        let information = MigrationUtilities.typeInformationFor(type: type)
+        
         try renameTable(type.name, to: "old_\(type.name)", in: database)
         try createTable(for: type, in: database)
-        try moveDataFromOldTable(for: MigrationUtilities.typeInformationFor(type: type), in: database)
+        try moveDataFromOldTable(for: information, in: database)
         try dropTable("old_\(type.name)", in: database)
     }
-    
+}
+
+
+extension SQLiteDatabaseMigrator {
+
     fileprivate func moveDataFromOldTable(for information: TypeInformation, in database: DatabaseConnection) throws {
         
         let columns = information.properties.joined(separator: ", ")
@@ -136,7 +144,7 @@ extension SQLiteDatabaseMigrator {
         let reader = Mapper.reader(for: type)
         
         let createTableQuery = SQLiteQueryFactory.createTableQuery(for: reader)
-        
+
         try database.statement(for: createTableQuery.query)
                     .executeUpdate(withParameters: createTableQuery.parameters)
                     .finalize()

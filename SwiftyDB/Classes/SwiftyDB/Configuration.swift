@@ -14,7 +14,8 @@ public struct Configuration {
     /** Name of the database */
     public var name: String
     
-    /** The directory of the database. This directory must be writable
+    /** 
+    The directory of the database. This directory must be writable
      
     The default value is the user documents directory
     */
@@ -22,14 +23,6 @@ public struct Configuration {
     
     /** The database mode */
     public var mode: Database.Mode
-    
-    /** The location of the database file using the current configuration's database mode.
-    
-    Created using the specified directory and database name.
-    */
-    public var location: URL {
-        return location(for: mode)
-    }
     
     /**
     Create a new database configuration with the provided name
@@ -44,16 +37,27 @@ public struct Configuration {
         self.directory  = URL(fileURLWithPath: userDocumentsDirectoryPath)
         self.mode       = .normal
     }
+}
+
+extension Configuration {
+    
+    /** The location of the database file using the current configuration's database mode.
+     
+     Created using the specified directory and database name.
+     */
+    public var location: URL {
+        return location(for: mode)
+    }
     
     /** Location of the database file for a provided mode
- 
-    - note: This is the location a database file will be created if this configuration is used to create a database in the provided mode.
- 
-    - parameters:
-        - mode: the database mode for which to build a `URL`
-    
-    - returns: a `URL` to the database file location for the provided mode
-    */
+     
+     - note: This is the location a database file will be created if this configuration is used to create a database in the provided mode.
+     
+     - parameters:
+     - mode: the database mode for which to build a `URL`
+     
+     - returns: a `URL` to the database file location for the provided mode
+     */
     func location(for mode: Database.Mode) -> URL {
         switch mode {
         case .normal:

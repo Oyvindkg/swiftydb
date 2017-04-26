@@ -16,6 +16,8 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
     
     let databaseQueue: DatabaseQueue
     
+    var migrator = SQLiteDatabaseMigrator()
+    
     init(configuration: Configuration) {
         
         /* Copy any exsiting database to create a sandbox database */
@@ -32,14 +34,12 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
     
     mutating func add<T : Storable>(objects: [T]) throws {
         
-        for object in objects {
-            let objectType = type(of: object)
-            
-            try SQLiteDatabaseMigrator.default.migrateType(objectType, ifNecessaryOn: databaseQueue)
-        }
-
         let readers = objects.flatMap { object in
             return DefaultObjectSerializer.readers(for: object)
+        }
+
+        for reader in readers {
+            try migrator.migrateType(reader.type as! Storable.Type, ifNecessaryOn: databaseQueue)
         }
         
         try add(readers: readers)
@@ -47,29 +47,16 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
-        do {
-            try SQLiteDatabaseMigrator.default.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
-            
-            let writers: [Writer] = try get(query: query)
-            
-            return Mapper.objects(forWriters: writers)
-        } catch is TinyError {
-            throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
-        } catch let error {
-            throw SwiftyError.unknown(error)
-        }
+        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
+        
+        let writers: [Writer] = try get(query: query)
+        
+        return Mapper.objects(forWriters: writers)
     }
     
     mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {
-        do {
-            try createTableIfNecessaryFor(type: Query.Subject.self)
+        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
             
-            try delete(query: query)
-        } catch is TinyError {
-            throw SwiftyError.query("Encountered an error during execution of the query. Are you sure all property names are valid?")
-        } catch let error {
-            throw SwiftyError.unknown(error)
-        }
-
+        try delete(query: query)
     }
 }

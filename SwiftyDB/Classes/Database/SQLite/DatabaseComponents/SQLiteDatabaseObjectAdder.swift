@@ -24,13 +24,9 @@ extension SQLiteDatabaseInserter {
         
         try databaseQueue.transaction { database in
             for (_, readers) in mappedReaders {
-                let query      = SQLiteQueryFactory.insertQuery(for: readers.first!)
-                
+                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)
+
                 let statement = try database.statement(for: query.query)
-                
-                defer {
-                    try! statement.finalize()
-                }
                 
                 for reader in readers {
                     var parameters: [String: SQLiteValue?] = [:]
@@ -41,6 +37,8 @@ extension SQLiteDatabaseInserter {
                     
                     _ = try statement.executeUpdate(withParameterMapping: parameters)
                 }
+                
+                try statement.finalize()
             }
         }
     }

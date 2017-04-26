@@ -11,13 +11,13 @@ import Foundation
 
 extension Data: StorableProperty {
     
-    public typealias StorableValueType = String
+    public typealias StorableValueType = Data
     
     public var storableValue: StorableValueType {
-        return self.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
+        return self
     }
     
     public static func from(storableValue: StorableValueType) -> Data {
-        return Data(base64Encoded: storableValue)!
+        return storableValue
     }
 }
