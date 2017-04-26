@@ -89,70 +89,70 @@ extension TestClass: Mappable {
         return TestClass()
     }
     
-    func mapping(map: Map) {
-        string          <- map["string"]
-        character       <- map["character"]
+    func map<M>(using mapper: inout M) where M : Mapper {
+        string          <- mapper["string"]
+        character       <- mapper["character"]
         
-        bool            <- map["bool"]
+        bool            <- mapper["bool"]
         
-        int             <- map["int"]
-        int8            <- map["int8"]
-        int16           <- map["int16"]
-        int32           <- map["int32"]
-        int64           <- map["int64"]
-        uint            <- map["uint"]
-        uint8           <- map["uint8"]
-        uint16          <- map["uint16"]
-        uint32          <- map["uint32"]
-        uint64          <- map["uint64"]
+        int             <- mapper["int"]
+        int8            <- mapper["int8"]
+        int16           <- mapper["int16"]
+        int32           <- mapper["int32"]
+        int64           <- mapper["int64"]
+        uint            <- mapper["uint"]
+        uint8           <- mapper["uint8"]
+        uint16          <- mapper["uint16"]
+        uint32          <- mapper["uint32"]
+        uint64          <- mapper["uint64"]
         
-        double          <- map["double"]
-        float           <- map["float"]
+        double          <- mapper["double"]
+        float           <- mapper["float"]
         
-        date            <- map["date"]
-        data            <- map["data"]
-        number          <- map["number"]
+        date            <- mapper["date"]
+        data            <- mapper["data"]
+        number          <- mapper["number"]
         
-        storableArray  <- map["storableArray"]
-        storableSet    <- map["storableSet"]
-        storable       <- map["storable"]
+        storableArray  <- mapper["storableArray"]
+        storableSet    <- mapper["storableSet"]
+        storable       <- mapper["storable"]
         
-        stringArray     <- map["stringArray"]
-        intArray        <- map["intArray"]
-        doubleArray     <- map["doubleArray"]
+        stringArray     <- mapper["stringArray"]
+        intArray        <- mapper["intArray"]
+        doubleArray     <- mapper["doubleArray"]
         
         
-        optionalString      <- map["optionalString"]
-        optionalCharacter   <- map["optionalCharacter"]
+        optionalString      <- mapper["optionalString"]
+        optionalCharacter   <- mapper["optionalCharacter"]
         
-        optionalBool        <- map["optionalBool"]
+        optionalBool        <- mapper["optionalBool"]
         
-        optionalInt         <- map["optionalInt"]
-        optionalInt8        <- map["optionalInt8"]
-        optionalInt16       <- map["optionalInt16"]
-        optionalInt32       <- map["optionalInt32"]
-        optionalInt64       <- map["optionalInt64"]
+        optionalInt         <- mapper["optionalInt"]
+        optionalInt8        <- mapper["optionalInt8"]
+        optionalInt16       <- mapper["optionalInt16"]
+        optionalInt32       <- mapper["optionalInt32"]
+        optionalInt64       <- mapper["optionalInt64"]
         
-        optionalUint        <- map["optionalUint"]
-        optionalUint8       <- map["optionalUint8"]
-        optionalUint16      <- map["optionalUint16"]
-        optionalUint32      <- map["optionalUint32"]
-        optionalUint64      <- map["optionalUint64"]
+        optionalUint        <- mapper["optionalUint"]
+        optionalUint8       <- mapper["optionalUint8"]
+        optionalUint16      <- mapper["optionalUint16"]
+        optionalUint32      <- mapper["optionalUint32"]
+        optionalUint64      <- mapper["optionalUint64"]
         
-        optionalDouble      <- map["optionalDouble"]
-        optionalFloat       <- map["optionalFloat"]
+        optionalDouble      <- mapper["optionalDouble"]
+        optionalFloat       <- mapper["optionalFloat"]
         
-        optionalDate        <- map["optionalDate"]
-        optionalData        <- map["optionalData"]
-        optionalNumber      <- map["optionalNumber"]
+        optionalDate        <- mapper["optionalDate"]
+        optionalData        <- mapper["optionalData"]
+        optionalNumber      <- mapper["optionalNumber"]
         
-        optionalStorableArray  <- map["optionalStorableArray"]
-        optionalStorableSet    <- map["optionalStorableSet"]
-        optionalStorable       <- map["optionalStorable"]
+        optionalStorableArray  <- mapper["optionalStorableArray"]
+        optionalStorableSet    <- mapper["optionalStorableSet"]
+        optionalStorable       <- mapper["optionalStorable"]
         
-        optionalStringArray     <- map["optionalStringArray"]
-        optionalIntArray        <- map["optionalIntArray"]
-        optionalDoubleArray     <- map["optionalDoubleArray"]
+        optionalStringArray     <- mapper["optionalStringArray"]
+        optionalIntArray        <- mapper["optionalIntArray"]
+        optionalDoubleArray     <- mapper["optionalDoubleArray"]
     }
 }
 

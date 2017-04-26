@@ -37,7 +37,7 @@ extension SQLiteDatabaseMigrator {
     
     private mutating func migrateStorablePropertiesOfType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
         
-        let reader = Mapper.reader(for: type)
+        let reader = ObjectMapper.read(type: type)
         
         for (_, type) in reader.propertyTypes {
             if let storableType = type as? Storable.Type {
@@ -73,7 +73,7 @@ extension SQLiteDatabaseMigrator {
     }
     
     private func addProperties(_ properties: Set<String>, to type: Storable.Type, in database: DatabaseConnection) throws {
-        let reader = Mapper.reader(for: type)
+        let reader = ObjectMapper.read(type: type)
         
         for property in properties {
             let propertyType  = reader.propertyTypes[property]!
@@ -141,7 +141,7 @@ extension SQLiteDatabaseMigrator {
     }
     
     fileprivate func createTable(for type: Storable.Type, in database: DatabaseConnection) throws {
-        let reader = Mapper.reader(for: type)
+        let reader = ObjectMapper.read(type: type)
         
         let createTableQuery = SQLiteQueryFactory.createTableQuery(for: reader)
 

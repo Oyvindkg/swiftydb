@@ -12,13 +12,6 @@ infix operator <-
 
 // MARK: - Storable properties
 
-public func <- <T: StorableProperty>(left: inout T, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout T, right: Reader) {
     right.setCurrent(value: left.storableValue)
@@ -27,15 +20,6 @@ func <- <T: StorableProperty>(left: inout T, right: Reader) {
 func <- <T: StorableProperty>(left: inout T, right: Writer) {
     if let storableValue: T.StorableValueType = right.getCurrentValue() {
         left = T.from(storableValue: storableValue)
-    }
-}
-
-
-public func <- <T: StorableProperty>(left: inout T?, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
     }
 }
 
@@ -52,13 +36,6 @@ func <- <T: StorableProperty>(left: inout T?, right: Writer) {
 }
 
 
-public func <- <T: StorableProperty>(left: inout T!, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout T!, right: Reader) {
     right.setCurrent(value: left?.storableValue)
@@ -74,66 +51,62 @@ func <- <T: StorableProperty>(left: inout T!, right: Writer) {
 
 // MARK: Array of storable properties
 
-public func <- <T: StorableProperty>(left: inout [T], right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout [T], right: Reader) {
-    right.setCurrent(value:  CollectionSerialization.stringFor(array: left)!, forType: [T].self  )
+    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
 }
 
 func <- <T: StorableProperty>(left: inout [T], right: Writer) {
-    left = CollectionSerialization.arrayFor(string: right.getCurrentValue()!)
+    left = arrayFromJson(right.getCurrentValue()!)!
 }
 
-
-public func <- <T: StorableProperty>(left: inout [T]?, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
+func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
+    if json == nil {
+        return nil
     }
+    
+    let jsonData = json!.data(using: .utf8)!
+    
+    let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.StorableValueType]
+    
+    return storableValues.map { T.from(storableValue: $0) }
 }
+
+func jsonFromArray<T: StorableProperty>(_ array: [T]?) -> String? {
+    if array == nil {
+        return nil
+    }
+    
+    let storableValues = array!.map {$0.storableValue}
+    
+    let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
+    
+    return String(data: jsonData, encoding: .utf8)!
+    
+}
+
+
 
 func <- <T: StorableProperty>(left: inout [T]?, right: Reader) {
-    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self  )
+    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
 }
 
 func <- <T: StorableProperty>(left: inout [T]?, right: Writer) {
-    left = CollectionSerialization.arrayFor(string: right.getCurrentValue())
+    left = arrayFromJson(right.getCurrentValue()!)
 }
 
-
-public func <- <T: StorableProperty>(left: inout [T]!, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Reader) {
-    right.setCurrent(value: CollectionSerialization.stringFor(array: left), forType: [T].self )
+    right.setCurrent(value: jsonFromArray(left), forType: [T].self)
 }
 
 func <- <T: StorableProperty>(left: inout [T]!, right: Writer) {
-    left = CollectionSerialization.arrayFor(string: right.getCurrentValue() )
+    left = arrayFromJson(right.getCurrentValue()!)
 }
 
 
 // MARK: Set of storable properties
 
-public func <- <T: StorableProperty>(left: inout Set<T>, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout Set<T>, right: Reader) {
     right.setCurrent(value: CollectionSerialization.stringFor(collection: left)!, forType: Set<T>.self)
@@ -145,14 +118,6 @@ func <- <T: StorableProperty>(left: inout Set<T>, right: Writer) {
     left = Set( storableValues.map(T.from) )
 }
 
-
-public func <- <T: StorableProperty>(left: inout Set<T>?, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout Set<T>?, right: Reader) {
     right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
@@ -166,14 +131,6 @@ func <- <T: StorableProperty>(left: inout Set<T>?, right: Writer) {
     }
 }
 
-
-public func <- <T: StorableProperty>(left: inout Set<T>!, right: Map) {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
     right.setCurrent(value: CollectionSerialization.stringFor(collection: left), forType: Set<T>.self)
@@ -190,13 +147,6 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
 
 // MARK: Storable value dicitonaries
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Map) where T.StorableValueType: Hashable {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
     
@@ -208,14 +158,6 @@ func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Wr
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Map) where T.StorableValueType: Hashable {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
-
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
     right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
 }
@@ -225,13 +167,6 @@ func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: W
 }
 
 
-public func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Map) where T.StorableValueType: Hashable {
-    if let reader = right as? Reader {
-        left <- reader
-    } else if let writer = right as? Writer {
-        left <- writer
-    }
-}
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
     right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )

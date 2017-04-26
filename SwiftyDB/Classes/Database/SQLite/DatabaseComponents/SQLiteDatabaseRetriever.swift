@@ -17,7 +17,7 @@ extension SQLiteDatabaseRetriever {
 
     func get(query: AnyQuery) throws -> [Writer] {
         
-        let reader = Mapper.reader(for: query.type)
+        let reader = ObjectMapper.read(type: query.type)
         
         var writers: [Writer] = []
         
@@ -66,7 +66,7 @@ extension SQLiteDatabaseRetriever {
     // MARK: - Storable properties
     
     fileprivate func getStorableWritersFor(writer: Writer, database: DatabaseConnection) throws {
-        let reader = Mapper.reader(for: writer.type)
+        let reader = ObjectMapper.read(type: writer.type)
         
         for (property, type) in reader.propertyTypes {
             if let storableType = type as? Storable.Type {
@@ -74,7 +74,10 @@ extension SQLiteDatabaseRetriever {
                 
             } else if let storableArrayType = type as? StorableArray.Type {
                 if let storableType = storableArrayType.storableType {
-                    let maps: [Map]? = try getStorableWritersFor(property: property, ofType: storableType, forWriter: writer, database: database)?.matchType()
+                    let maps = try getStorableWritersFor(property: property,
+                                                         ofType: storableType,
+                                                         forWriter: writer,
+                                                         database: database)
                     
                     writer.mappableArrays[property] = maps
                 }
@@ -87,7 +90,7 @@ extension SQLiteDatabaseRetriever {
     }
     
     fileprivate func getStorableWritersFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
-        let propertyReader = Mapper.reader(for: type)
+        let propertyReader = ObjectMapper.read(type: type)
         
         guard let storableValue = writer.storableValues[property] as? String else {
             return nil

@@ -21,9 +21,9 @@ struct Wolf: Storable {
         return Wolf(name: "", age: 0)
     }
     
-    mutating func mapping(map: Map) {
-        name <- map["name"]
-        age  <- map["age"]
+    mutating func map<M>(using mapper: inout M) where M : Mapper {
+        name <- mapper["name"]
+        age  <- mapper["age"]
     }
     
     static func identifier() -> String {

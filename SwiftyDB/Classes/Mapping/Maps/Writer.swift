@@ -9,7 +9,20 @@
 import Foundation
 
 
-final class Writer: BaseMap {
+final class Writer: Mapper {
+    
+    let type: Mappable.Type
+    var currentKey: String?
+    
+    var storableValues: [String: StorableValue]         = [:]
+    var storableValueArrays: [String: [StorableValue?]] = [:]
+    
+    var mappables: [String: Writer]        = [:]
+    var mappableArrays: [String: [Writer]] = [:]
+    
+    init(type: Mappable.Type) {
+        self.type = type
+    }
     
     func getCurrentValue<T: StorableValue>() -> T? {
         guard let key = currentKey else {
@@ -27,7 +40,7 @@ final class Writer: BaseMap {
         return storableValueArrays[key]?.map { $0 as! T }
     }
     
-    func getCurrentValue<T: Map>() -> T? {
+    func getCurrentValue<T: Writer>() -> T? {
         guard let key = currentKey else {
             return nil
         }
@@ -36,7 +49,7 @@ final class Writer: BaseMap {
     }
     
     
-    func getCurrentValue<T: Map>() -> [T]? {
+    func getCurrentValue<T: Writer>() -> [T]? {
         guard let key = currentKey else {
             return nil
         }
@@ -47,10 +60,8 @@ final class Writer: BaseMap {
         
         return nil
     }
-}
 
-extension Writer: Map {
-    subscript(key: String) -> Map {
+    subscript(key: String) -> Writer {
         currentKey = key
         
         return self

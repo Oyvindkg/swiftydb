@@ -12,7 +12,7 @@ internal struct MigrationUtilities {
     
     static func properties(for type: Mappable.Type) -> [String] {
         
-        let reader = Mapper.reader(for: type)
+        let reader = ObjectMapper.read(type: type)
         
         return reader.propertyTypes.filter { !($0.value is Storable) }
                                    .map { $0.key }

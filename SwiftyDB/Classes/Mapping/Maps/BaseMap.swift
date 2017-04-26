@@ -9,18 +9,4 @@
 import Foundation
 
 
-class BaseMap {
-    
-    let type: Mappable.Type
-    var currentKey: String?
-    
-    var storableValues: [String: StorableValue]         = [:]
-    var storableValueArrays: [String: [StorableValue?]] = [:]
-    
-    var mappables: [String: Map]        = [:]
-    var mappableArrays: [String: [Map]] = [:]
-    
-    init(type: Mappable.Type) {
-        self.type = type
-    }
-}
+

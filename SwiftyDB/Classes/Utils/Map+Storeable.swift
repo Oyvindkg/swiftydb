@@ -8,7 +8,19 @@
 
 import Foundation
 
-extension BaseMap {
+extension Reader {
+    var storableType: Storable.Type {
+        return type as! Storable.Type
+    }
+    
+    var identifierValue: StorableValue {
+        let identifier = storableType.identifier()
+        
+        return storableValues[identifier]!
+    }
+}
+
+extension Writer {
     var storableType: Storable.Type {
         return type as! Storable.Type
     }

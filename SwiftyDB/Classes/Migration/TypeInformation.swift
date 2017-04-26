@@ -10,6 +10,8 @@ import Foundation
 
 
 struct TypeInformation: Storable {
+
+
     
     var name                    = ""
     var properties: [String]    = []
@@ -19,10 +21,10 @@ struct TypeInformation: Storable {
         return TypeInformation()
     }
     
-    mutating func mapping(map: Map) {
-        name            <- map["name"]
-        properties      <- map["properties"]
-        identifierName  <- map["identifierName"]
+    mutating func map<M>(using mapper: inout M) where M : Mapper {
+        name            <- mapper["name"]
+        properties      <- mapper["properties"]
+        identifierName  <- mapper["identifierName"]
     }
     
     static func identifier() -> String {

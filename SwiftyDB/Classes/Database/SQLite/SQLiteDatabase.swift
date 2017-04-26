@@ -51,7 +51,7 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
         
         let writers: [Writer] = try get(query: query)
         
-        return Mapper.objects(forWriters: writers)
+        return ObjectMapper.objects(forWriters: writers)
     }
     
     mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {

@@ -10,15 +10,15 @@ import Foundation
 
 /** A struct responsible for populating `Reader`s with `Storable` object data, and populating `Storable`s with `Writer` data.
  */
-struct Mapper {
+struct ObjectMapper {
     
     /** 
     Get an object populated with data from the provided `Writer`
     */
-    static func object<T: Mappable>(for writer: Writer) -> T {
+    static func object<T: Mappable>(for writer: inout Writer) -> T {
         var object = T.mappableObject() as! T
 
-        object.mapping(map: writer)
+        object.map(using: &writer)
 
         return object
     }
@@ -28,19 +28,21 @@ struct Mapper {
     */
     static func objects<T: Mappable>(forWriters writers: [Writer]) -> [T] {
         return writers.map { writer in
-            return object(for: writer)
+            var mutableWriter = writer
+            
+            return object(for: &mutableWriter)
         }
     }
     
     /**
     Get a `Reader` populated with data from the provided object
     */
-    static func reader<T: Mappable>(for object: T) -> Reader {
-        let reader = Reader(type: T.self)
+    static func read<T: Mappable>(_ object: T) -> Reader {
+        var reader = Reader(type: T.self)
         
         var readableObject = object
         
-        readableObject.mapping(map: reader)
+        readableObject.map(using: &reader)
         
         return reader
     }
@@ -48,21 +50,21 @@ struct Mapper {
     /**
     Get `Reader`s populated with data from the provided objects
     */
-    static func readers<T: Mappable>(forObjects objects: [T]) -> [Reader] {
+    static func read<T: Mappable>(objects: [T]) -> [Reader] {
         return objects.map { object in
-            return self.reader(for: object)
+            return self.read(object)
         }
     }
     
     /**
     Get a `Reader` populated with the default values of the provided type
     */
-    static func reader(for type: Mappable.Type) -> Reader {
-        let reader = Reader(type: type)
+    static func read(type: Mappable.Type) -> Reader {
+        var reader = Reader(type: type)
         
         var readableObject = type.mappableObject() as! Mappable
 
-        readableObject.mapping(map: reader)
+        readableObject.map(using: &reader)
         
         return reader
     }

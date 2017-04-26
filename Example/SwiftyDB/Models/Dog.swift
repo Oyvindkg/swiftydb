@@ -31,15 +31,15 @@ struct Dog: Storable {
         weight    = 13.3
     }
     
-    mutating func mapping(map: Map) {
-        name            <- map["name"]
-        age             <- map["age"]
-        type            <- map["type"]
-        weight          <- map["weight"]
-//        bones           <- map["bones"]
-//        superBone       <- map["superBone"]
-        dates           <- map["dates"]
-        ids             <- map["numbers"]
+    mutating func map<M>(using mapper: inout M) where M : Mapper {
+        name            <- mapper["name"]
+        age             <- mapper["age"]
+        type            <- mapper["type"]
+        weight          <- mapper["weight"]
+//        bones           <- mapper["bones"]
+//        superBone       <- mapper["superBone"]
+        dates           <- mapper["dates"]
+        ids             <- mapper["numbers"]
     }
     
     static func mappableObject() -> Any {

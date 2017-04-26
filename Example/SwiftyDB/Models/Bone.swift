@@ -23,9 +23,9 @@ class Bone: Storable {
         return Bone()
     }
     
-    func mapping(map: Map) {
-        dnr     <- map["dnr"]
-        weight  <- map["weight"]
+    func map<M>(using mapper: inout M) where M : Mapper {
+        dnr     <- mapper["dnr"]
+        weight  <- mapper["weight"]
     }
     
     static func identifier() -> String {

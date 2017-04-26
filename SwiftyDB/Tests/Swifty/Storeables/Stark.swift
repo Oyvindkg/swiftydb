@@ -25,16 +25,17 @@ class Stark: Storable {
 }
 
 extension Stark: Mappable {
+    
     static func mappableObject() -> Any {
         return Stark(name: "Sansa", weight: 56.2, age: 14)
     }
     
-    func mapping(map: Map) {
-        name     <- map["name"]
-        age      <- map["age"]
-        weight   <- map["weight"]
-        wolf     <- map["wolf"]
-        siblings <- map["siblings"]
+    func map<M>(using mapper: inout M) where M : Mapper {
+        name     <- mapper["name"]
+        age      <- mapper["age"]
+        weight   <- mapper["weight"]
+        wolf     <- mapper["wolf"]
+        siblings <- mapper["siblings"]
     }
 }
 

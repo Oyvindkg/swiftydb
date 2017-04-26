@@ -22,5 +22,5 @@ public protocol Mappable {
     - parameters:
         - map: a map to be read or written
     */
-    mutating func mapping(map: Map)
+    mutating func map<M: Mapper>(using mapper: inout M)
 }

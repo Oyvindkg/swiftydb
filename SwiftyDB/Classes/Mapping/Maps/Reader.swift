@@ -8,7 +8,20 @@
 
 import Foundation
 
-final class Reader: BaseMap, Map {
+final class Reader: Mapper {
+    
+    let type: Mappable.Type
+    var currentKey: String?
+    
+    var storableValues: [String: StorableValue]         = [:]
+    var storableValueArrays: [String: [StorableValue?]] = [:]
+    
+    var mappables: [String: Reader]        = [:]
+    var mappableArrays: [String: [Reader]] = [:]
+    
+    init(type: Mappable.Type) {
+        self.type = type
+    }
     
     /** The original property type for all values stored in the reader */
     var propertyTypes: [String: Any.Type] = [:]
@@ -37,7 +50,6 @@ final class Reader: BaseMap, Map {
         }
         
         mappables[key]     = reader
-        print(T.self, key, propertyTypes)
         propertyTypes[key] = T.self
     }
     
@@ -46,11 +58,11 @@ final class Reader: BaseMap, Map {
             return
         }
         
-        mappableArrays[key] = readers?.to(type: Map.self)
+        mappableArrays[key] = readers
         propertyTypes[key]  = [T].self
     }
 
-    subscript(key: String) -> Map {
+    subscript(key: String) -> Reader {
         currentKey = key
         
         return self

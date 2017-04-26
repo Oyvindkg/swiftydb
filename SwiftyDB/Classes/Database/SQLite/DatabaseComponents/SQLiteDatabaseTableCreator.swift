@@ -31,7 +31,7 @@ extension SQLiteDatabaseTableCreator {
     }
 
     mutating func createTableIfNecessaryFor(type: Storable.Type) throws {
-        let reader = Mapper.reader(for: type)
+        let reader = ObjectMapper.read(type: type)
         
         try createTableFor(reader: reader )
     }
