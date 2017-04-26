@@ -8,67 +8,68 @@
 
 import Foundation
 
+
 extension Int: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType{
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Int {
-        return Int(storableValue)
+    public init?(rawValue: RawValue) {
+        self = Int(rawValue)
     }
 }
 
 extension Int8: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType{
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Int8 {
-        return Int8(storableValue)
+    public init?(rawValue: RawValue) {
+        self = Int8(rawValue)
     }
 }
 
 extension Int16: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType{
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Int16 {
-        return Int16(storableValue)
+    public init?(rawValue: RawValue) {
+        self = Int16(rawValue)
     }
 }
 
 extension Int32: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Int32 {
-        return Int32(storableValue)
+    public init?(rawValue: RawValue) {
+        self = Int32(rawValue)
     }
 }
 
 extension Int64: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType{
+    public var rawValue: Int64 {
         return self
     }
     
-    public static func from(storableValue: StorableValueType) -> Int64 {
-        return storableValue
+    public init?(rawValue: RawValue) {
+        self = rawValue
     }
 }

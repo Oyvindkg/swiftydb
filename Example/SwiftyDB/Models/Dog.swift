@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-enum Breed: String {
+enum Breed: String, StorableProperty {
     case dachs = "dachs"
 }
 

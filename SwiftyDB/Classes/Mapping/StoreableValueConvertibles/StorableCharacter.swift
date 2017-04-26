@@ -9,13 +9,17 @@
 import Foundation
 
 extension Character: StorableProperty {
-    public typealias StorableValueType = String
+    public typealias RawValue = String
     
-    public var storableValue: StorableValueType {
+    public var rawValue: RawValue {
         return String(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Character {
-        return storableValue.characters.first!
+    public init?(rawValue: RawValue) {
+        guard !rawValue.characters.isEmpty else {
+            return nil
+        }
+        
+        self = rawValue.characters.first!
     }
 }

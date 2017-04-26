@@ -10,13 +10,13 @@ import Foundation
 
 extension Float: StorableProperty {
 
-    public typealias StorableValueType = Double
+    public typealias RawValue = Double
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Double {
         return Double(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Float {
-        return Float(storableValue)
+    public init?(rawValue: RawValue) {
+        self = Float(rawValue)
     }
 }

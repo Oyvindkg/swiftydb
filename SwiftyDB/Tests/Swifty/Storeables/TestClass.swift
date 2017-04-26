@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-enum TestEnum: Int {
+enum TestEnum: Int64, StorableProperty {
     case first  = 0
     case second
     case third
@@ -45,9 +45,7 @@ class TestClass: Storable {
     var date                    = Date()
     
     var data                    = "data".data(using: .utf8)!
-    
-    var number                  = NSNumber(value: 123.213231)
-    
+        
     var storableArray          = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storable               = Wolf(name: "Ghost", age: 9)
@@ -84,8 +82,6 @@ class TestClass: Storable {
     var optionalDate: Date?           = Date()
     
     var optionalData: Data?           = "data".data(using: .utf8)
-    
-    var optionalNumber: NSNumber?       = 1.312
     
     var optionalStorableArray: [Wolf]?         = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var optionalStorableSet: Set<Wolf>?        = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
@@ -127,7 +123,6 @@ extension TestClass: Mappable {
         
         date            <- mapper["date"]
         data            <- mapper["data"]
-        number          <- mapper["number"]
         
         storableArray  <- mapper["storableArray"]
         storableSet    <- mapper["storableSet"]
@@ -162,7 +157,6 @@ extension TestClass: Mappable {
         
         optionalDate        <- mapper["optionalDate"]
         optionalData        <- mapper["optionalData"]
-        optionalNumber      <- mapper["optionalNumber"]
         
         optionalStorableArray  <- mapper["optionalStorableArray"]
         optionalStorableSet    <- mapper["optionalStorableSet"]

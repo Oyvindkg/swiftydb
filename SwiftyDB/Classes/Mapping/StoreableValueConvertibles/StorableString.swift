@@ -10,13 +10,13 @@ import Foundation
 
 extension String: StorableProperty {
     
-    public typealias StorableValueType = String
+    public typealias RawValue = String
     
-    public var storableValue: StorableValueType {
+    public var rawValue: String {
         return self
     }
     
-    public static func from(storableValue: StorableValueType) -> String {
-        return storableValue
+    public init?(rawValue: RawValue) {
+        self = rawValue
     }
 }

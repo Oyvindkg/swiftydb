@@ -42,7 +42,7 @@ class ViewController: UIViewController {
 //        }
 //        
 //
-//        return
+        return
         
         let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
         

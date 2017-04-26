@@ -10,14 +10,18 @@ import Foundation
 
 
 extension UUID: StorableProperty {
-    public typealias StorableValueType = String
     
-    
-    public var storableValue: StorableValueType {
+    public typealias RawValue = String
+
+    public var rawValue: String {
         return uuidString
     }
     
-    public static func from(storableValue: StorableValueType) -> UUID {
-        return UUID(uuidString: storableValue)!
+    public init?(rawValue: RawValue) {
+        guard let uuid = UUID(uuidString: rawValue) else {
+            return nil
+        }
+        
+        self = uuid
     }
 }

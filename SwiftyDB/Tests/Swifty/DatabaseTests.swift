@@ -83,6 +83,8 @@ class DatabaseTests: XCTestCase {
                 self.database.get(Stark.self)
             }.then { _ in
                 done()
+            }.catch {error in
+                print(error)
             }
         }
     }
@@ -127,6 +129,8 @@ extension DatabaseTests {
                     expect(objects.first?.character) == object.character
                     
                     done()
+            }.catch { error in
+                print(error)
             }
         }
     }
@@ -470,25 +474,6 @@ extension DatabaseTests {
                     self.database.get(TestClass.self) as Promise<[TestClass]>
                 }.then { objects -> Void in
                     expect(objects.first?.data) == object.data
-                    
-                    done()
-            }
-        }
-    }
-    
-    func testNumberIsRetreivedCorrectly() {
-        
-        let object = TestClass()
-        
-        object.number = -12394
-        
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.number) == object.number
                     
                     done()
             }
@@ -970,26 +955,7 @@ extension DatabaseTests {
             }
         }
     }
-    
-    func testOptionalNumberIsRetreivedCorrectly() {
-        
-        let object = TestClass()
-        
-        object.optionalNumber = 123123.2
-        
-        waitUntil { done in
-            _ = firstly {
-                self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalNumber) == object.optionalNumber
-                    
-                    done()
-            }
-        }
-    }
-    
+
     func testOptionalStorableArrayIsRetreivedCorrectly() {
         
         let object = TestClass()

@@ -9,13 +9,13 @@
 import Foundation
 
 extension Bool: StorableProperty {
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Int64 {
         return Int64(self ? 1 : 0)
     }
     
-    public static func from(storableValue: StorableValueType) -> Bool {
-        return storableValue > 0
+    public init?(rawValue: RawValue) {
+        self = rawValue == 1
     }
 }

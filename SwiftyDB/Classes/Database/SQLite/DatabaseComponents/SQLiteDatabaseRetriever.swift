@@ -9,37 +9,36 @@
 import Foundation
 import TinySQLite
 
-protocol SQLiteDatabaseRetriever: DatabaseRetriever {
-    var databaseQueue: DatabaseQueue { get }
+struct SQLiteDatabaseRetriever {
 }
 
 extension SQLiteDatabaseRetriever {
 
-    func get(query: AnyQuery) throws -> [Writer] {
-        
+    static func get(using query: AnyQuery, on queue: DatabaseQueue) throws -> [Writer] {
+        print("#### Get using:", query)
         let reader = ObjectMapper.read(type: query.type)
         
         var writers: [Writer] = []
         
-        try databaseQueue.transaction { database in
+        try queue.transaction { database in
             guard try database.contains(table: String(describing: query.type)) else {
                 return
             }
             
-            writers = try self.getWritersFor(reader: reader, filter: query.filter as? SQLiteFilterStatement, sorting: query.sorting, limit: query.max, offset: query.start, database: database)
+            writers = try self.getWritersFor(reader: reader, using: query, in: database)
         }
                 
         return writers
     }
     
 
-    fileprivate func getWritersFor(reader: Reader, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?, database: DatabaseConnection) throws -> [Writer] {
+    fileprivate static  func getWritersFor(reader: Reader, using query: AnyQuery, in database: DatabaseConnection) throws -> [Writer] {
         
-        let query = SQLiteQueryFactory.selectQuery(for: reader.storableType,
-                                             filter: filter,
-                                             sorting: sorting,
-                                             limit: limit,
-                                             offset: offset)
+        let query = SQLiteQueryFactory.selectQuery(for:     reader.storableType,
+                                                   filter:  query.filter as? SQLiteFilterStatement,
+                                                   sorting: query.sorting,
+                                                   limit:   query.max,
+                                                   offset:  query.start)
         
         let statement = try database.statement(for: query.query)
         
@@ -65,7 +64,7 @@ extension SQLiteDatabaseRetriever {
     
     // MARK: - Storable properties
     
-    fileprivate func getStorableWritersFor(writer: Writer, database: DatabaseConnection) throws {
+    fileprivate static func getStorableWritersFor(writer: Writer, database: DatabaseConnection) throws {
         let reader = ObjectMapper.read(type: writer.type)
         
         for (property, type) in reader.propertyTypes {
@@ -74,10 +73,10 @@ extension SQLiteDatabaseRetriever {
                 
             } else if let storableArrayType = type as? StorableArray.Type {
                 if let storableType = storableArrayType.storableType {
-                    let maps = try getStorableWritersFor(property: property,
-                                                         ofType: storableType,
+                    let maps = try getStorableWritersFor(property:  property,
+                                                         ofType:    storableType,
                                                          forWriter: writer,
-                                                         database: database)
+                                                         database:  database)
                     
                     writer.mappableArrays[property] = maps
                 }
@@ -85,26 +84,30 @@ extension SQLiteDatabaseRetriever {
         }
     }
     
-    fileprivate func getStorableWriterFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
+    fileprivate static func getStorableWriterFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> Writer? {
         return try getStorableWritersFor(property: property, ofType: type, forWriter: writer, database: database)?.first
     }
     
-    fileprivate func getStorableWritersFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
+    fileprivate static func getStorableWritersFor(property: String, ofType type: Storable.Type, forWriter writer: Writer, database: DatabaseConnection) throws -> [Writer]? {
         let propertyReader = ObjectMapper.read(type: type)
         
         guard let storableValue = writer.storableValues[property] as? String else {
             return nil
         }
         
-        let ids: [String?] = CollectionSerialization.arrayFor(string: storableValue)!
+        var ids = [storableValue]
         
+        if storableValue.characters.first == "[" {
+            ids = try! JSONSerialization.jsonObject(with: storableValue.data(using: .utf8)!, options: []) as! [String]
+        }
+
         return try ids.flatMap { id -> [Writer] in
-            let filter = type.identifier() == id
             
-            return try self.getWritersFor(reader: propertyReader, filter: filter as? SQLiteFilterStatement,  sorting: .none, limit: nil, offset: nil, database: database)
+            let query = SimpleQuery(type: type, filter: type.identifier() == id)
+            
+            return try self.getWritersFor(reader: propertyReader, using: query, in: database)
         }
     }
 }
-
 
 

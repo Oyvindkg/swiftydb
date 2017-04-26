@@ -38,3 +38,23 @@ extension StorableQuery {
         return order(by: property, ascending: true)
     }
 }
+
+
+
+/** A simple data structure used as a non-generic, internal replacement for Query */
+internal struct SimpleQuery: AnyQuery {
+    
+    var type: Storable.Type
+    var filter: FilterStatement?
+    var start: Int?
+    var max: Int?
+    var sorting: Sorting
+    
+    init(type: Storable.Type, filter: FilterStatement? = nil, start: Int? = nil, max: Int? = nil, sorting: Sorting = .none) {
+        self.type    = type
+        self.filter  = filter
+        self.start   = start
+        self.max     = max
+        self.sorting = sorting
+    }
+}

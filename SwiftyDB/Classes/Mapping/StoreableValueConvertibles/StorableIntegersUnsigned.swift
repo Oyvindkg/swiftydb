@@ -13,78 +13,90 @@ import Foundation
 
 /* UInt is 64 bit on 64 bit systems. Detect and store as string if necessary */
 extension UInt: StorableProperty {
+    
 #if arch(x86_64) || arch(arm64)
-    public typealias StorableValueType = String
-
-    public var storableValue: StorableValueType {
+    
+    public typealias RawValue = String
+    
+    public var rawValue: String {
         return String(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt {
-        return UInt(storableValue)!
+    public init?(rawValue: RawValue) {
+        guard let value = UInt(rawValue) else {
+            return nil
+        }
+        
+        self = value
     }
-#else
-    public typealias StorableValueType = Int64
     
-    public var storableValue: StorableValueType {
+#else
+    
+    public typealias RawValue = Int64
+    
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt {
-        return UInt(storableValue)
+    public init?(rawValue: RawValue) {
+        self = UInt(rawValue)
     }
+    
 #endif    
 }
 
 extension UInt8: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt8 {
-        return UInt8(storableValue)
+    public init?(rawValue: RawValue) {
+        self = UInt8(rawValue)
     }
 }
 
 extension UInt16: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt16 {
-        return UInt16(storableValue)
+    public init?(rawValue: RawValue) {
+        self = UInt16(rawValue)
     }
 }
 
 extension UInt32: StorableProperty {
     
-    public typealias StorableValueType = Int64
+    public typealias RawValue = Int64
     
-    public var storableValue: StorableValueType {
+    public var rawValue: Int64 {
         return Int64(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt32 {
-        return UInt32(storableValue)
-
+    public init?(rawValue: RawValue) {
+        self = UInt32(rawValue)
     }
 }
 
 extension UInt64: StorableProperty {
     
-    public typealias StorableValueType = String
+    public typealias RawValue = String
     
-    public var storableValue: StorableValueType {
+    public var rawValue: String {
         return String(self)
     }
     
-    public static func from(storableValue: StorableValueType) -> UInt64 {
-        return UInt64(storableValue)!
+    public init?(rawValue: RawValue) {
+        guard let value = UInt64(rawValue) else {
+            return nil
+        }
+        
+        self = value
     }
 }

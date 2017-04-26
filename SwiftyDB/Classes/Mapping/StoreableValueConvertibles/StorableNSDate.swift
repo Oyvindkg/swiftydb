@@ -17,19 +17,31 @@ private let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
-extension NSDate: StorableProperty {
-    
-    public typealias StorableValueType = String
-    
-    public var storableValue: StorableValueType {
-        return dateFormatter.string(from: self as Date)
-    }
-    
-    public static func from(storableValue: StorableValueType) -> Self {
-        return fromHelper(storableValue: storableValue)
-    }
-    
-    private static func fromHelper<T>(storableValue: StorableValueType) -> T {
-        return dateFormatter.date(from: storableValue) as! T
-    }
-}
+//extension Date: StorableProperty {
+//    
+//    public typealias RawValue = String
+//    
+//    public var rawValue: String {
+//        return dateFormatter.string(from: self as Date)
+//    }
+//    
+//    public init?(rawValue: RawValue) {
+//        guard let date = dateFormatter.date(from: rawValue) else {
+//            return nil
+//        }
+//        
+//        self = date
+//    }
+//    public typealias StorableValueType = String
+//    
+//    public var storableValue: StorableValueType {
+//    }
+//    
+//    public static func from(storableValue: StorableValueType) -> Self {
+//        return fromHelper(storableValue: storableValue)
+//    }
+//    
+//    private static func fromHelper<T>(storableValue: StorableValueType) -> T {
+//        return dateFormatter.date(from: storableValue) as! T
+//    }
+//}

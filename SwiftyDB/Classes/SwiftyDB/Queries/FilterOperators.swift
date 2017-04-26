@@ -28,7 +28,7 @@ infix operator ≈≈: ComparisonPrecedence
  - returns: a `FilterStatement`
  */
 public func << <T: StorableProperty>(property: String, range: Range<T>) -> FilterStatement where T: Comparable {
-    return Expression.between(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+    return Expression.between(property, range.lowerBound.rawValue, range.upperBound.rawValue)
 }
 
 /**
@@ -41,7 +41,7 @@ public func << <T: StorableProperty>(property: String, range: Range<T>) -> Filte
  - returns: a `FilterStatement`
  */
 public func !< <T: StorableProperty>(property: String, range: Range<T>) -> FilterStatement where T: Comparable {
-    return Expression.notBetween(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+    return Expression.notBetween(property, range.lowerBound.rawValue, range.upperBound.rawValue)
 }
 
 /**
@@ -54,7 +54,7 @@ public func !< <T: StorableProperty>(property: String, range: Range<T>) -> Filte
  - returns: a `FilterStatement`
  */
 public func << <T: StorableProperty>(property: String, range: ClosedRange<T>) -> FilterStatement where T: Comparable {
-    return Expression.between(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+    return Expression.between(property, range.lowerBound.rawValue, range.upperBound.rawValue)
 }
 
 /**
@@ -67,7 +67,7 @@ public func << <T: StorableProperty>(property: String, range: ClosedRange<T>) ->
  - returns: a `FilterStatement`
  */
 public func !< <T: StorableProperty>(property: String, range: ClosedRange<T>) -> FilterStatement where T: Comparable {
-    return Expression.notBetween(property, range.lowerBound.storableValue, range.upperBound.storableValue)
+    return Expression.notBetween(property, range.lowerBound.rawValue, range.upperBound.rawValue)
 }
 
 // MARK: Arrays
@@ -82,7 +82,7 @@ public func !< <T: StorableProperty>(property: String, range: ClosedRange<T>) ->
  - returns: a `FilterStatement`
  */
 public func << <T: StorableProperty>(property: String, array: [T?]) -> FilterStatement {
-    return property << array.map { $0?.storableValue }
+    return property << array.map { $0?.rawValue }
 }
 
 /**
@@ -108,7 +108,7 @@ public func << (property: String, array: [StorableValue?]) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func !< <T: StorableProperty>(property: String, array: [T?]) -> FilterStatement {
-    return property !< array.map { $0?.storableValue }
+    return property !< array.map { $0?.rawValue }
 }
 
 /**
@@ -138,7 +138,7 @@ public func !< (property: String, array: [StorableValue?]) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func ≈≈ (property: String, pattern: String) -> FilterStatement {
-    return Expression.like(property, pattern.storableValue)
+    return Expression.like(property, pattern)
 }
 
 /**
@@ -154,7 +154,7 @@ public func ≈≈ (property: String, pattern: String) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func !≈ (property: String, pattern: String) -> FilterStatement {
-    return Expression.notLike(property, pattern.storableValue)
+    return Expression.notLike(property, pattern)
 }
 
 
@@ -204,7 +204,7 @@ public func == <T: Storable>(property: String, object: T?) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func == <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.equal(property, value.storableValue)
+    return Expression.equal(property, value.rawValue)
 }
 
 /**
@@ -217,7 +217,7 @@ public func == <T: StorableProperty>(property: String, value: T) -> FilterStatem
  - returns: a `FilterStatement`
  */
 public func == <T: StorableProperty>(property: String, value: T?) -> FilterStatement {
-    return Expression.equal(property, value?.storableValue)
+    return Expression.equal(property, value?.rawValue)
 }
 
 
@@ -265,7 +265,7 @@ public func != <T: Storable>(property: String, object: T?) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func != <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.notEqual(property, value.storableValue)
+    return Expression.notEqual(property, value.rawValue)
 }
 
 /**
@@ -278,7 +278,7 @@ public func != <T: StorableProperty>(property: String, value: T) -> FilterStatem
  - returns: a `FilterStatement`
  */
 public func != <T: StorableProperty>(property: String, value: T?) -> FilterStatement {
-    return Expression.notEqual(property, value?.storableValue)
+    return Expression.notEqual(property, value?.rawValue)
 }
 
 
@@ -292,7 +292,7 @@ public func != <T: StorableProperty>(property: String, value: T?) -> FilterState
  - returns: a `FilterStatement`
  */
 public func < <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.less(property, value.storableValue)
+    return Expression.less(property, value.rawValue)
 }
 
 /**
@@ -305,7 +305,7 @@ public func < <T: StorableProperty>(property: String, value: T) -> FilterStateme
  - returns: a `FilterStatement`
  */
 public func > <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.greater(property, value.storableValue)
+    return Expression.greater(property, value.rawValue)
 }
 
 /**
@@ -318,7 +318,7 @@ public func > <T: StorableProperty>(property: String, value: T) -> FilterStateme
  - returns: a `FilterStatement`
  */
 public func <= <T: StorableProperty>(left: String, right: T) -> FilterStatement {
-    return Expression.lessOrEqual(left, right.storableValue)
+    return Expression.lessOrEqual(left, right.rawValue)
 }
 
 /**
@@ -331,63 +331,63 @@ public func <= <T: StorableProperty>(left: String, right: T) -> FilterStatement 
  - returns: a `FilterStatement`
  */
 public func >= <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.greaterOrEqual(property, value.storableValue)
+    return Expression.greaterOrEqual(property, value.rawValue)
 }
 
 
 // MARK: RawRepresentable
-
-/**
- A property's value is equal to the provided RawRepresentable
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func == <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
-    return Expression.equal(property, value.rawValue.storableValue)
-}
-
-/**
- A property's value is equal to the provided RawRepresentable
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func == <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
-    return Expression.equal(property, value?.rawValue.storableValue)
-}
-
-/**
- A property's value is not equal to the provided RawRepresentable
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func != <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
-    return Expression.notEqual(property, value.rawValue.storableValue)
-}
-
-/**
- A property's value is not equal to the provided RawRepresentable
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func != <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
-    return Expression.notEqual(property, value?.rawValue.storableValue)
-}
+//
+///**
+// A property's value is equal to the provided RawRepresentable
+// 
+// - parameters:
+//    - property: the name of a property
+//    - value:    the value to be compared
+// 
+// - returns: a `FilterStatement`
+// */
+//public func == <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
+//    return Expression.equal(property, value.rawValue.rawValue)
+//}
+//
+///**
+// A property's value is equal to the provided RawRepresentable
+// 
+// - parameters:
+//    - property: the name of a property
+//    - value:    the value to be compared
+// 
+// - returns: a `FilterStatement`
+// */
+//public func == <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
+//    return Expression.equal(property, value?.rawValue.rawValue)
+//}
+//
+///**
+// A property's value is not equal to the provided RawRepresentable
+// 
+// - parameters:
+//    - property: the name of a property
+//    - value:    the value to be compared
+// 
+// - returns: a `FilterStatement`
+// */
+//public func != <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
+//    return Expression.notEqual(property, value.rawValue.rawValue)
+//}
+//
+///**
+// A property's value is not equal to the provided RawRepresentable
+// 
+// - parameters:
+//    - property: the name of a property
+//    - value:    the value to be compared
+// 
+// - returns: a `FilterStatement`
+// */
+//public func != <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
+//    return Expression.notEqual(property, value?.rawValue.rawValue)
+//}
 
 
 // MARK: - Connectives

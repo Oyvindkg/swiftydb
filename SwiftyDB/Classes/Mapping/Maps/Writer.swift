@@ -73,22 +73,22 @@ final class Writer: Mapper {
 // MARK: - Storable properties
 
 func <- <T: StorableProperty>(left: inout T, right: Writer) {
-    if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.from(storableValue: storableValue)
+    if let storableValue: T.RawValue = right.getCurrentValue() {
+        left = T(rawValue: storableValue)!
     }
 }
 
 func <- <T: StorableProperty>(left: inout T?, right: Writer) {
-    if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.from(storableValue: storableValue)
+    if let storableValue: T.RawValue = right.getCurrentValue() {
+        left = T(rawValue: storableValue)
     } else {
         left = nil
     }
 }
 
 func <- <T: StorableProperty>(left: inout T!, right: Writer) {
-    if let storableValue: T.StorableValueType = right.getCurrentValue() {
-        left = T.from(storableValue: storableValue)
+    if let storableValue: T.RawValue = right.getCurrentValue() {
+        left = T(rawValue: storableValue)
     } else {
         left = nil
     }
@@ -141,17 +141,17 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
 // MARK: Storable value dicitonaries
 
 
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.StorableValueType: Hashable {
-    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue()! )
-}
-
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.StorableValueType: Hashable {
-    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
-}
-
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.StorableValueType: Hashable {
-    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
-}
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.StorableValueType: Hashable {
+//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue()! )
+//}
+//
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.StorableValueType: Hashable {
+//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
+//}
+//
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.StorableValueType: Hashable {
+//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
+//}
 
 
 
@@ -237,111 +237,111 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Writer) {
 
 // MARK: - Raw representables
 
-func <- <T: RawRepresentable>(left: inout T, right: Writer) where T.RawValue: StorableProperty {
-    let storableValue: T.RawValue.StorableValueType = right.getCurrentValue()!
-    
-    left = rawRepresentableFromValue(storableValue)!
-}
-
-func <- <T: RawRepresentable>(left: inout T?, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromValue(storableValue)
-    } else {
-        left = nil
-    }
-}
-
-func <- <T: RawRepresentable>(left: inout T!, right: Writer) where T.RawValue: StorableProperty {
-    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
-        left = rawRepresentableFromValue(storableValue)
-    } else {
-        left = nil
-    }
-}
-
-// MARK: Array of raw representables
-
-func <- <T: RawRepresentable>(left: inout [T], right: Writer) where T.RawValue: StorableProperty {
-    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()!)!
-    
-    left = storableProperties.map { property in
-        return T(rawValue: property)!
-    }
-}
-
-func <- <T: RawRepresentable>(left: inout [T]?, right: Writer) where T.RawValue: StorableProperty {
-    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
-    
-    left = storableProperties?.map { property in
-        return T(rawValue: property)!
-    }
-}
-
-func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue: StorableProperty {
-    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
-    
-    left = storableProperties?.map { property in
-        return T(rawValue: property)!
-    }
-}
-
-// MARK: Set of raw representables
-
-func <- <T: RawRepresentable>(left: inout Set<T>, right: Writer) where T.RawValue: StorableProperty {
-    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue())!
-    
-    let array = storableProperties.map { property in
-        return T(rawValue: property)!
-    }
-    
-    left = Set(array)
-}
-
-func <- <T: RawRepresentable>(left: inout Set<T>?, right: Writer) where T.RawValue: StorableProperty {
-    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
-        left = nil
-        
-        return
-    }
-    
-    let array = storableProperties.map { property in
-        return T(rawValue: property)!
-    }
-    
-    left = Set(array)
-}
-
-func <- <T: RawRepresentable>(left: inout Set<T>!, right: Writer) where T.RawValue: StorableProperty {
-    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
-        left = nil
-        
-        return
-    }
-    
-    let array = storableProperties.map { property in
-        return T(rawValue: property)!
-    }
-    
-    left = Set(array)
-}
+//func <- <T: RawRepresentable>(left: inout T, right: Writer) where T.RawValue: StorableProperty {
+//    let storableValue: T.RawValue.StorableValueType = right.getCurrentValue()!
+//    
+//    left = rawRepresentableFromValue(storableValue)!
+//}
+//
+//func <- <T: RawRepresentable>(left: inout T?, right: Writer) where T.RawValue: StorableProperty {
+//    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
+//        left = rawRepresentableFromValue(storableValue)
+//    } else {
+//        left = nil
+//    }
+//}
+//
+//func <- <T: RawRepresentable>(left: inout T!, right: Writer) where T.RawValue: StorableProperty {
+//    if let storableValue: T.RawValue.StorableValueType = right.getCurrentValue() {
+//        left = rawRepresentableFromValue(storableValue)
+//    } else {
+//        left = nil
+//    }
+//}
+//
+//// MARK: Array of raw representables
+//
+//func <- <T: RawRepresentable>(left: inout [T], right: Writer) where T.RawValue: StorableProperty {
+//    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()!)!
+//    
+//    left = storableProperties.map { property in
+//        return T(rawValue: property)!
+//    }
+//}
+//
+//func <- <T: RawRepresentable>(left: inout [T]?, right: Writer) where T.RawValue: StorableProperty {
+//    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
+//    
+//    left = storableProperties?.map { property in
+//        return T(rawValue: property)!
+//    }
+//}
+//
+//func <- <T: RawRepresentable>(left: inout [T]!, right: Writer) where T.RawValue: StorableProperty {
+//    let storableProperties: Array<T.RawValue>? = arrayFromJson(right.getCurrentValue())
+//    
+//    left = storableProperties?.map { property in
+//        return T(rawValue: property)!
+//    }
+//}
+//
+//// MARK: Set of raw representables
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>, right: Writer) where T.RawValue: StorableProperty {
+//    let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue())!
+//    
+//    let array = storableProperties.map { property in
+//        return T(rawValue: property)!
+//    }
+//    
+//    left = Set(array)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>?, right: Writer) where T.RawValue: StorableProperty {
+//    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
+//        left = nil
+//        
+//        return
+//    }
+//    
+//    let array = storableProperties.map { property in
+//        return T(rawValue: property)!
+//    }
+//    
+//    left = Set(array)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>!, right: Writer) where T.RawValue: StorableProperty {
+//    guard let storableProperties: Array<T.RawValue> = arrayFromJson(right.getCurrentValue()) else {
+//        left = nil
+//        
+//        return
+//    }
+//    
+//    let array = storableProperties.map { property in
+//        return T(rawValue: property)!
+//    }
+//    
+//    left = Set(array)
+//}
 
 // MARK: Helpers
 
-private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
-    let rawValue = T.RawValue.from(storableValue: storableValue)
-    
-    return T.init(rawValue: rawValue)!
-}
-
-private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
-    guard storableValue != nil else {
-        return nil
-    }
-    
-    let rawValue = T.RawValue.from(storableValue: storableValue!)
-    
-    return T.init(rawValue: rawValue)
-}
+//private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType) -> T where T.RawValue: StorableProperty {
+//    let rawValue = T.RawValue.from(storableValue: storableValue)
+//    
+//    return T.init(rawValue: rawValue)!
+//}
+//
+//private func rawRepresentableFromValue <T: RawRepresentable> (_ storableValue: T.RawValue.StorableValueType?) -> T? where T.RawValue: StorableProperty {
+//    guard storableValue != nil else {
+//        return nil
+//    }
+//    
+//    let rawValue = T.RawValue.from(storableValue: storableValue!)
+//    
+//    return T.init(rawValue: rawValue)
+//}
 
 private func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
     if json == nil {
@@ -350,9 +350,9 @@ private func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
     
     let jsonData = json!.data(using: .utf8)!
     
-    let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.StorableValueType]
+    let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.RawValue]
     
-    return storableValues.map { T.from(storableValue: $0) }
+    return storableValues.map { T(rawValue: $0)! }
 }
 
 

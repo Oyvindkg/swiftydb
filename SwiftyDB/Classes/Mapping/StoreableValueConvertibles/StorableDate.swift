@@ -19,13 +19,17 @@ private let dateFormatter: DateFormatter = {
 
 extension Date: StorableProperty {
     
-    public typealias StorableValueType = String
+    public typealias RawValue = String
     
-    public var storableValue: StorableValueType {
+    public var rawValue: String {
         return dateFormatter.string(from: self)
     }
     
-    public static func from(storableValue: StorableValueType) -> Date {
-        return dateFormatter.date(from: storableValue)!
+    public init?(rawValue: RawValue) {
+        guard let date = dateFormatter.date(from: rawValue) else {
+            return nil
+        }
+        
+        self = date
     }
 }

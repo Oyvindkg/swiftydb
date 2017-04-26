@@ -74,15 +74,15 @@ final class Reader: Mapper {
 
 
 func <- <T: StorableProperty>(left: inout T, right: Reader) {
-    right.setCurrent(value: left.storableValue)
+    right.setCurrent(value: left.rawValue)
 }
 
 func <- <T: StorableProperty>(left: inout T?, right: Reader) {
-    right.setCurrent(value: left?.storableValue)
+    right.setCurrent(value: left?.rawValue)
 }
 
 func <- <T: StorableProperty>(left: inout T!, right: Reader) {
-    right.setCurrent(value: left?.storableValue)
+    right.setCurrent(value: left?.rawValue)
 }
 
 // MARK: Array of storable properties
@@ -120,17 +120,17 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
 // MARK: Storable value dicitonaries
 
 
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
-    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
-}
-
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
-    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
-}
-
-func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
-    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
-}
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.StorableValueType: Hashable {
+//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: Optional(left)), forType: [T: U].self  )
+//}
+//
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.StorableValueType: Hashable {
+//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self  )
+//}
+//
+//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Reader) where T.StorableValueType: Hashable {
+//    right.setCurrent(value: CollectionSerialization.stringFor(dictionary: left), forType: [T: U].self )
+//}
 
 
 // MARK: - Mappable objects
@@ -140,7 +140,7 @@ func <- <T: Mappable>(left: inout T, right: Reader) {
     let reader = ObjectMapper.read(left)
     
     right.storableValues[right.currentKey!] = reader.identifierValue
-    
+
     right.setCurrent(reader: reader, forType: T.self)
 }
 
@@ -176,9 +176,9 @@ func <- <T: Mappable>(left: inout [T], right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers.map {$0.identifierValue}
+    let identifiers = readers.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON: String = jsonForCollection(identifiers)!
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -189,9 +189,9 @@ func <- <T: Mappable>(left: inout [T]?, right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers?.map {$0.identifierValue}
+    let identifiers = readers?.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON: String? = jsonForCollection(identifiers)
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -202,9 +202,9 @@ func <- <T: Mappable>(left: inout [T]!, right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers.map {$0.identifierValue}
+    let identifiers = readers.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON: String = jsonForCollection(identifiers)!
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -218,9 +218,9 @@ func <- <T: Mappable>(left: inout Set<T>, right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers.map {$0.identifierValue}
+    let identifiers = readers.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON: String = jsonForCollection(identifiers)!
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -231,9 +231,9 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers?.map {$0.identifierValue}
+    let identifiers = readers?.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String? = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON = jsonForCollection(identifiers)
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -244,9 +244,9 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
         return ObjectMapper.read(mappable)
     }
     
-    let identifiers = readers.map {$0.identifierValue}
+    let identifiers = readers.map { $0.identifierValue as! String }  //FIXME: Forced casting
     
-    let JSON: String = CollectionSerialization.stringFor(collection: identifiers)
+    let JSON = jsonForCollection(identifiers)
     
     right.setCurrent(value: JSON)
     right.setCurrent(readers: readers, forType: T.self)
@@ -255,61 +255,61 @@ func <- <T: Mappable>(left: inout Set<T>!, right: Reader) {
 
 // MARK: - Raw representables
 
-
-func <- <T: RawRepresentable>(left: inout T, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrent(value: left.rawValue.storableValue)
-}
-
-func <- <T: RawRepresentable>(left: inout T?, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrent(value: left?.rawValue.storableValue)
-}
-
-func <- <T: RawRepresentable>(left: inout T!, right: Reader) where T.RawValue: StorableProperty {
-    right.setCurrent(value: left?.rawValue.storableValue)
-}
-
-// MARK: Array of raw representables
-
-
-func <- <T: RawRepresentable>(left: inout [T], right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
-}
-
-func <- <T: RawRepresentable>(left: inout [T]?, right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left?.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
-}
-
-func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
-}
-
-
-// MARK: Set of raw representables
-
-
-func <- <T: RawRepresentable>(left: inout Set<T>, right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
-}
-
-func <- <T: RawRepresentable>(left: inout Set<T>?, right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left?.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
-}
-
-func <- <T: RawRepresentable>(left: inout Set<T>!, right: Reader) where T.RawValue: StorableProperty {
-    let storableProperties = left?.map { $0.rawValue }
-    
-    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
-}
+//
+//func <- <T: RawRepresentable>(left: inout T, right: Reader) where T.RawValue: StorableProperty {
+//    right.setCurrent(value: left.rawValue.storableValue)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout T?, right: Reader) where T.RawValue: StorableProperty {
+//    right.setCurrent(value: left?.rawValue.storableValue)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout T!, right: Reader) where T.RawValue: StorableProperty {
+//    right.setCurrent(value: left?.rawValue.storableValue)
+//}
+//
+//// MARK: Array of raw representables
+//
+//
+//func <- <T: RawRepresentable>(left: inout [T], right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout [T]?, right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left?.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout [T]!, right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Array<T>.self)
+//}
+//
+//
+//// MARK: Set of raw representables
+//
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>, right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>?, right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left?.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
+//}
+//
+//func <- <T: RawRepresentable>(left: inout Set<T>!, right: Reader) where T.RawValue: StorableProperty {
+//    let storableProperties = left?.map { $0.rawValue }
+//    
+//    right.setCurrent(value: jsonForCollection(storableProperties), forType: Set<T>.self)
+//}
 
 // MARK: Helpers
 
@@ -318,7 +318,7 @@ private func jsonForCollection<C: Collection>(_ collection: C?) -> String? where
         return nil
     }
     
-    let storableValues = collection.map { $0.storableValue }
+    let storableValues = collection.map { $0.rawValue }
     
     let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
     
