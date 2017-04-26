@@ -32,7 +32,4 @@ Carthage
 #
 # Pods/
 
-
-Example/Podfile.lock
-Example/Pods
-Example/SwiftyDB.xcworkspace
+**/xcuserdata/

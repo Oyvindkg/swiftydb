@@ -1,0 +1,6 @@
+framework module Pods_SwiftyDB_Example {
+  umbrella header "Pods-SwiftyDB_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

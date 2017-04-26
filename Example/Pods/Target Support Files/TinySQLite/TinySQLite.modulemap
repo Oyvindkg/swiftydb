@@ -1,0 +1,6 @@
+framework module TinySQLite {
+  umbrella header "TinySQLite-umbrella.h"
+
+  export *
+  module * { export * }
+}

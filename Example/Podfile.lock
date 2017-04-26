@@ -1,0 +1,40 @@
+PODS:
+  - Nimble (6.1.0)
+  - PromiseKit (4.1.7):
+    - PromiseKit/Foundation (= 4.1.7)
+    - PromiseKit/QuartzCore (= 4.1.7)
+    - PromiseKit/UIKit (= 4.1.7)
+  - PromiseKit/CorePromise (4.1.7)
+  - PromiseKit/Foundation (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.1.7):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.1.7):
+    - PromiseKit/CorePromise
+  - sqlite3 (3.18.0):
+    - sqlite3/common (= 3.18.0)
+  - sqlite3/common (3.18.0)
+  - SwiftyDB (2.0.0):
+    - PromiseKit (~> 4.0)
+    - TinySQLite (= 0.4.2)
+  - TinySQLite (0.4.2):
+    - sqlite3
+
+DEPENDENCIES:
+  - Nimble
+  - SwiftyDB (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftyDB:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Nimble: c53e6903fee94041b90ded74f135820437d8bf59
+  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
+  sqlite3: a749f27b6109ca9f03f757fdb4584f89f664692d
+  SwiftyDB: c2e7d76366ec9f928af56ffea2cd234d7ed9b7b4
+  TinySQLite: 843627e4db26056a5c173445a6bd20753b2050f4
+
+PODFILE CHECKSUM: 499dc9c71d7a435ce0d60f5357218e923aa44e74
+
+COCOAPODS: 1.2.1

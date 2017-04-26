@@ -1,0 +1,31 @@
+{
+  "name": "SwiftyDB",
+  "version": "2.0.0",
+  "summary": "Pure Swift database for effortless persistence of objects",
+  "homepage": "http://oyvindkg.github.io/swiftydb/",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Øyvind Grimnes": "oyvindkg@yahoo.com"
+  },
+  "source": {
+    "git": "https://github.com/oyvindkg/SwiftyDB.git",
+    "tag": "2.0.0"
+  },
+  "social_media_url": "https://twitter.com/oyvindkg",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "SwiftyDB/Classes/**/*",
+  "dependencies": {
+    "TinySQLite": [
+      "0.4.2"
+    ],
+    "PromiseKit": [
+      "~> 4.0"
+    ]
+  }
+}

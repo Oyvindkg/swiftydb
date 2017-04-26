@@ -1,0 +1,6 @@
+framework module SwiftyDB {
+  umbrella header "SwiftyDB-umbrella.h"
+
+  export *
+  module * { export * }
+}
