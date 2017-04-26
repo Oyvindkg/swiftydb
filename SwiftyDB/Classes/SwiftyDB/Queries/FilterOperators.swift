@@ -334,62 +334,6 @@ public func >= <T: StorableProperty>(property: String, value: T) -> FilterStatem
     return Expression.greaterOrEqual(property, value.rawValue)
 }
 
-
-// MARK: RawRepresentable
-//
-///**
-// A property's value is equal to the provided RawRepresentable
-// 
-// - parameters:
-//    - property: the name of a property
-//    - value:    the value to be compared
-// 
-// - returns: a `FilterStatement`
-// */
-//public func == <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
-//    return Expression.equal(property, value.rawValue.rawValue)
-//}
-//
-///**
-// A property's value is equal to the provided RawRepresentable
-// 
-// - parameters:
-//    - property: the name of a property
-//    - value:    the value to be compared
-// 
-// - returns: a `FilterStatement`
-// */
-//public func == <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
-//    return Expression.equal(property, value?.rawValue.rawValue)
-//}
-//
-///**
-// A property's value is not equal to the provided RawRepresentable
-// 
-// - parameters:
-//    - property: the name of a property
-//    - value:    the value to be compared
-// 
-// - returns: a `FilterStatement`
-// */
-//public func != <T: RawRepresentable>(property: String, value: T) -> FilterStatement where T.RawValue: StorableProperty {
-//    return Expression.notEqual(property, value.rawValue.rawValue)
-//}
-//
-///**
-// A property's value is not equal to the provided RawRepresentable
-// 
-// - parameters:
-//    - property: the name of a property
-//    - value:    the value to be compared
-// 
-// - returns: a `FilterStatement`
-// */
-//public func != <T: RawRepresentable>(property: String, value: T?) -> FilterStatement where T.RawValue: StorableProperty {
-//    return Expression.notEqual(property, value?.rawValue.rawValue)
-//}
-
-
 // MARK: - Connectives
 
 /**

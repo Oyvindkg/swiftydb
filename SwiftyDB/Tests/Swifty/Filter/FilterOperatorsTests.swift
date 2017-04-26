@@ -16,10 +16,10 @@ infix operator <<
 
 class FilterOperatorsTests: XCTestCase {
     
-    fileprivate let property             = "name"
-    fileprivate let stringValue          = "John"
-    fileprivate let intValue: Int64      = 0
-    fileprivate let otherIntValue: Int64 = 10
+    fileprivate let property      = "name"
+    fileprivate let stringValue   = "John"
+    fileprivate let intValue      = 0
+    fileprivate let otherIntValue = 10
     
     
     override func setUp() {

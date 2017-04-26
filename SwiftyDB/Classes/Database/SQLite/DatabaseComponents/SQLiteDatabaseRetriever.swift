@@ -41,24 +41,31 @@ extension SQLiteDatabaseRetriever {
                                                    offset:  query.start)
         
         let statement = try database.statement(for: query.query)
+                                    .execute(withParameters: query.parameters)
         
-        defer {
-            try! statement.finalize()
-        }
-
-        //FIXME: Rewrite
-        /* Create writers and populate them with nested objects */
-        return try statement.execute(withParameters: query.parameters).map { row -> Writer in
+        var writers: [Writer] = []
+        
+        for row in statement {
             let writer = Writer(type: reader.type)
             
             for (property, value) in row.dictionary {
-                writer.storableValues[property] = value as? StorableValue
+                
+                /* Tiny SQLite retrieves 64-bit integers by default */
+                if let int64 = value as? Int64 {
+                    writer.storableValues[property] = Int(int64)
+                } else {
+                    writer.storableValues[property] = value as? StorableValue
+                }
             }
             
             try getStorableWritersFor(writer: writer, database: database)
             
-            return writer
+            writers.append(writer)
         }
+        
+        try statement.finalize()
+        
+        return writers
     }
     
     

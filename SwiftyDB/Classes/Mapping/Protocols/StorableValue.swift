@@ -13,5 +13,5 @@ public protocol StorableValue {}
 
 extension String: StorableValue {}
 extension Double: StorableValue {}
-extension Int64: StorableValue {}
+extension Int: StorableValue {}
 extension Data: StorableValue {}

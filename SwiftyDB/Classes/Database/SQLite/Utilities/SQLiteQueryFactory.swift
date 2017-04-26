@@ -48,7 +48,7 @@ extension SQLiteFilterDeparameterizer {
             return "'\(string)'"
         case let double as Double:
             return "\(double)"
-        case let int as Int64:
+        case let int as Int:
             return "\(int)"
         default:
             return "NULL"

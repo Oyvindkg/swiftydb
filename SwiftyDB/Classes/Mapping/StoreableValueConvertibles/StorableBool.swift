@@ -9,10 +9,10 @@
 import Foundation
 
 extension Bool: StorableProperty {
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self ? 1 : 0)
+    public var rawValue: Int {
+        return Int(self ? 1 : 0)
     }
     
     public init?(rawValue: RawValue) {

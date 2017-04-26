@@ -17,10 +17,12 @@ public protocol StorableProperty: RawRepresentable {
     
     /** The underlying type used to store this type in the database */
     associatedtype RawValue: StorableValue
-//    
-//    /** Get a storable representation of the value */
-//    var storableValue: StorableValue { get }
-//    
-//    /** Convert a storable value to its original type */
-//    static func from(storableValue: StorableValue) -> Self
 }
+
+/** A basic value that can be added to the database in its current form */
+public protocol StorableValue {}
+
+extension String: StorableValue {}
+extension Double: StorableValue {}
+extension Int: StorableValue {}
+extension Data: StorableValue {}

@@ -8,7 +8,7 @@
 
 import SwiftyDB
 
-enum TestEnum: Int64, StorableProperty {
+enum TestEnum: Int, StorableProperty {
     case first  = 0
     case second
     case third
@@ -27,7 +27,7 @@ class TestClass: Storable {
     var rawRepresentableArray: [TestEnum]  = [TestEnum.first, TestEnum.second]
     var rawRepresentableSet: Set<TestEnum> = [TestEnum.first]
     
-    var int                     = Int.max
+    var int                     = 3//Int.max
     var int8: Int8              = Int8.max
     var int16: Int16            = Int16.max
     var int32: Int32            = Int32.max

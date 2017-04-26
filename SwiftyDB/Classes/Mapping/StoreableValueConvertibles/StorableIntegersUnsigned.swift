@@ -9,15 +9,10 @@
 import Foundation
 
 
-//TODO: Should this simply be a string?
-
-/* UInt is 64 bit on 64 bit systems. Detect and store as string if necessary */
 extension UInt: StorableProperty {
-    
-#if arch(x86_64) || arch(arm64)
-    
     public typealias RawValue = String
     
+    /* This could be changed to an Int for storing the bit pattern, but that will break value comparisons in the database */
     public var rawValue: String {
         return String(self)
     }
@@ -29,28 +24,14 @@ extension UInt: StorableProperty {
         
         self = value
     }
-    
-#else
-    
-    public typealias RawValue = Int64
-    
-    public var rawValue: Int64 {
-        return Int64(self)
-    }
-    
-    public init?(rawValue: RawValue) {
-        self = UInt(rawValue)
-    }
-    
-#endif    
 }
 
 extension UInt8: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -60,10 +41,10 @@ extension UInt8: StorableProperty {
 
 extension UInt16: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -73,10 +54,10 @@ extension UInt16: StorableProperty {
 
 extension UInt32: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -86,6 +67,7 @@ extension UInt32: StorableProperty {
 
 extension UInt64: StorableProperty {
     
+    /* This could be changed to an Int for storing the bit pattern, but that will break value comparisons in the database */
     public typealias RawValue = String
     
     public var rawValue: String {

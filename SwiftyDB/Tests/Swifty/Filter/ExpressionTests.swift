@@ -13,10 +13,10 @@ import Nimble
 
 
 class ExpressionTests: XCTestCase {
-    fileprivate let property             = "name"
-    fileprivate let stringValue          = "John"
-    fileprivate let intValue: Int64      = 0
-    fileprivate let otherIntValue: Int64 = 10
+    fileprivate let property      = "name"
+    fileprivate let stringValue   = "John"
+    fileprivate let intValue      = 0
+    fileprivate let otherIntValue = 10
     
     
     override func setUp() {
@@ -32,7 +32,7 @@ class ExpressionTests: XCTestCase {
         
         if case .notEqual(let negatedProperty, let negatedValue) = equal.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -43,7 +43,7 @@ class ExpressionTests: XCTestCase {
         
         if case .equal(let negatedProperty, let negatedValue) = notEqual.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -54,7 +54,7 @@ class ExpressionTests: XCTestCase {
         
         if case .greaterOrEqual(let negatedProperty, let negatedValue) = less.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -65,7 +65,7 @@ class ExpressionTests: XCTestCase {
         
         if case .lessOrEqual(let negatedProperty, let negatedValue) = greater.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -76,7 +76,7 @@ class ExpressionTests: XCTestCase {
         
         if case .greater(let negatedProperty, let negatedValue) = lessOrEqual.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -87,7 +87,7 @@ class ExpressionTests: XCTestCase {
         
         if case .less(let negatedProperty, let negatedValue) = greaterOrEqual.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? Int64) == intValue
+            expect(negatedValue as? Int) == intValue
         } else {
             fail()
         }
@@ -98,7 +98,7 @@ class ExpressionTests: XCTestCase {
         
         if case .notContainedIn(let negatedProperty, let negatedValue) = containedIn.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? [Int64]) == [intValue]
+            expect(negatedValue as? [Int]) == [intValue]
         } else {
             fail()
         }
@@ -109,7 +109,7 @@ class ExpressionTests: XCTestCase {
         
         if case .containedIn(let negatedProperty, let negatedValue) = notContainedIn.negated() {
             expect(negatedProperty) == property
-            expect(negatedValue as? [Int64]) == [intValue]
+            expect(negatedValue as? [Int]) == [intValue]
         } else {
             fail()
         }
@@ -120,8 +120,8 @@ class ExpressionTests: XCTestCase {
         
         if case .notBetween(let negatedProperty, let minNegatedValue, let maxNegatedValue) = between.negated() {
             expect(negatedProperty) == property
-            expect(minNegatedValue as? Int64) == intValue
-            expect(maxNegatedValue as? Int64) == otherIntValue
+            expect(minNegatedValue as? Int) == intValue
+            expect(maxNegatedValue as? Int) == otherIntValue
         } else {
             fail()
         }
@@ -132,8 +132,8 @@ class ExpressionTests: XCTestCase {
         
         if case .between(let negatedProperty, let minNegatedValue, let maxNegatedValue) = notBetween.negated() {
             expect(negatedProperty) == property
-            expect(minNegatedValue as? Int64) == intValue
-            expect(maxNegatedValue as? Int64) == otherIntValue
+            expect(minNegatedValue as? Int) == intValue
+            expect(maxNegatedValue as? Int) == otherIntValue
         } else {
             fail()
         }

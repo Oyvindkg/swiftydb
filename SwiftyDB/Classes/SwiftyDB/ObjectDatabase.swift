@@ -21,23 +21,11 @@ public protocol ObjectDatabase {
      */
     func add<T: Storable>(objects: [T]) -> Promise<Void>
     
-    
-//    /**
-//     Create a GetQuery for the provided type
-//     
-//     - parameters:
-//        - type: type of the objects to be retrieved
-//
-//     - returns: A `GetQuery` object that can be used to filter, sort and limit the results
-//     */
-//    func get<T : Storable>(_ type: T.Type) -> GetQuery<T>
-//    
     /**
     Get objects for the provided type
      
     - parameters:
         - type:             type of the objects to be retrieved
-        - resultHandler:    an optional result handler
     */
     func get<T: Storable>(_ type: T.Type) -> Promise<[T]>
     
@@ -46,7 +34,6 @@ public protocol ObjectDatabase {
      
     - parameters:
         - query:            query to be executed
-        - resultHandler:    an optional result handler
     */
     func get<Query>(using query: Query) -> Promise<[Query.Subject]> where Query : StorableQuery
     
@@ -55,7 +42,6 @@ public protocol ObjectDatabase {
      
     - parameters:
         - type:             type of the objects to be deleted
-        - resultHandler:    an optional result handler
     */
     func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery
 }
@@ -84,11 +70,11 @@ extension ObjectDatabase {
     
 
     /**
-     Get objects for the provided type
+    Get objects for the provided type
      
-     - parameters:
-     - type:             type of the objects to be retrieved
-     */
+    - parameters:
+        - type:             type of the objects to be retrieved
+    */
     public func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
         let query = Query<T>()
         

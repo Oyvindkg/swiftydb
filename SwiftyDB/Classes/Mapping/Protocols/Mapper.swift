@@ -10,11 +10,8 @@ import Foundation
 
 infix operator <-
 
-public protocol AnyMapper {
-//    static func <- <T: Storable>(left: inout T!, right: AnyMapper)
-}
 
-public protocol Mapper: AnyMapper {
+public protocol Mapper {
     subscript(key: String) -> Self { get }
     
     /* Read or write basic datatypes */
@@ -30,21 +27,7 @@ public protocol Mapper: AnyMapper {
     static func <- <T: StorableProperty>(left: inout T, right: Self)
     static func <- <T: StorableProperty>(left: inout T?, right: Self)
     static func <- <T: StorableProperty>(left: inout T!, right: Self)
-    
-    /* Read or write enums */
-    
-//    static func <- <T: RawRepresentable>(left: inout T, right: Self) where T.RawValue : StorableProperty
-//    static func <- <T: RawRepresentable>(left: inout T?, right: Self) where T.RawValue : StorableProperty
-//    static func <- <T: RawRepresentable>(left: inout T!, right: Self) where T.RawValue : StorableProperty
-//    
-//    static func <- <T: RawRepresentable>(left: inout Array<T>, right: Self) where T.RawValue : StorableProperty
-//    static func <- <T: RawRepresentable>(left: inout Array<T>?, right: Self) where T.RawValue : StorableProperty
-//    static func <- <T: RawRepresentable>(left: inout Array<T>!, right: Self) where T.RawValue : StorableProperty
-//    
-//    static func <- <T: RawRepresentable>(left: inout Set<T>, right: Self) where T.RawValue : StorableProperty, T.RawValue : Hashable
-//    static func <- <T: RawRepresentable>(left: inout Set<T>?, right: Self) where T.RawValue : StorableProperty, T.RawValue : Hashable
-//    static func <- <T: RawRepresentable>(left: inout Set<T>!, right: Self) where T.RawValue : StorableProperty, T.RawValue : Hashable
-    
+
     /* Read or write nested objects */
     
     static func <- <T: Storable>(left: inout Array<T>, right: Self)

@@ -19,8 +19,8 @@ func ==(left: StorableValue?, right: StorableValue?) -> Bool {
         return false
     }
     
-    if let leftInt = left as? Int64 {
-        if let rightInt = right as? Int64 {
+    if let leftInt = left as? Int {
+        if let rightInt = right as? Int {
             return leftInt.hashValue == rightInt.hashValue
         }
         

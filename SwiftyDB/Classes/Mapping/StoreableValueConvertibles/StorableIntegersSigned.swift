@@ -11,23 +11,23 @@ import Foundation
 
 extension Int: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return self
     }
     
     public init?(rawValue: RawValue) {
-        self = Int(rawValue)
+        self = rawValue
     }
 }
 
 extension Int8: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -37,10 +37,10 @@ extension Int8: StorableProperty {
 
 extension Int16: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -50,10 +50,10 @@ extension Int16: StorableProperty {
 
 extension Int32: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return Int64(self)
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
@@ -63,13 +63,13 @@ extension Int32: StorableProperty {
 
 extension Int64: StorableProperty {
     
-    public typealias RawValue = Int64
+    public typealias RawValue = Int
     
-    public var rawValue: Int64 {
-        return self
+    public var rawValue: Int {
+        return Int(self)
     }
     
     public init?(rawValue: RawValue) {
-        self = rawValue
+        self = Int64(rawValue)
     }
 }

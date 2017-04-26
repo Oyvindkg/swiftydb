@@ -10,6 +10,7 @@ import Foundation
 
 /** Represents some logical expression */
 public protocol FilterStatement {
+    
     /** Negate the statement (similar to the `!` operator) */
     func negated() -> Self
 }
