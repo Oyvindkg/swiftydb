@@ -85,7 +85,7 @@ class TestClass: Storable {
 }
 
 extension TestClass: Mappable {
-    static func mappableObject() -> Any {
+    static func mappableObject() -> Mappable {
         return TestClass()
     }
     

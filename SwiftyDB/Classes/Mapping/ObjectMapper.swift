@@ -62,7 +62,7 @@ struct ObjectMapper {
     static func read(type: Mappable.Type) -> Reader {
         var reader = Reader(type: type)
         
-        var readableObject = type.mappableObject() as! Mappable
+        var readableObject = type.mappableObject()
 
         readableObject.map(using: &reader)
         

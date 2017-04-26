@@ -42,7 +42,7 @@ struct Dog: Storable {
         ids             <- mapper["numbers"]
     }
     
-    static func mappableObject() -> Any {
+    static func mappableObject() -> Mappable {
         return Dog()
     }
     

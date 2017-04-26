@@ -17,7 +17,7 @@ struct TypeInformation: Storable {
     var properties: [String]    = []
     var identifierName          = ""
     
-    static func mappableObject() -> Any {
+    static func mappableObject() -> Mappable {
         return TypeInformation()
     }
     

@@ -59,7 +59,7 @@ extension SQLiteDatabaseTableCreator {
     fileprivate mutating func createTablesIfNecessaryForNestedReadersIn(reader: Reader) throws {
         
         /* Nested storable objects */
-        try createTableIfNecessaryFor(readers: reader.mappables.map { $0.value as! Reader })
+        try createTableIfNecessaryFor(readers: reader.mappables.map { $0.value })
         
         /* Nested arrays and sets of storable objects */
         for (_, childMaps) in reader.mappableArrays {

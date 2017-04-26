@@ -14,7 +14,7 @@ public protocol Mappable {
     // FIXME: Returns `Mappable`, but there is a bug in the compiler
     
     /** Used to map objects with data from the database */
-    static func mappableObject() -> Any //Mappable
+    static func mappableObject() -> Mappable
     
     /** 
     Used to map properties when reading from and writing to the object
@@ -22,5 +22,5 @@ public protocol Mappable {
     - parameters:
         - map: a map to be read or written
     */
-    mutating func map<M: Mapper>(using mapper: inout M)
+    mutating func map<M>(using mapper: inout M) where M : Mapper
 }

@@ -26,7 +26,7 @@ class Stark: Storable {
 
 extension Stark: Mappable {
     
-    static func mappableObject() -> Any {
+    static func mappableObject() -> Mappable {
         return Stark(name: "Sansa", weight: 56.2, age: 14)
     }
     

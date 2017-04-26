@@ -930,9 +930,7 @@ extension DatabaseTests {
             _ = firstly {
                 self.database.add(self.sansa)
             }.then { _ -> Promise<[Stark]> in
-                var query = Query<Stark>()
-                
-                query.filter = "name" == "Sansa"
+                let query = Query.get(Stark.self).where("name" == "Sansa")
                 
                 return self.database.get(using: query)
             }.then { starks in

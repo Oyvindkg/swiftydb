@@ -33,7 +33,7 @@ struct DefaultObjectSerializer: ObjectSerializer {
         var readers: [Reader] = []
         
         for (_, childReader) in reader.mappables {
-            readers.append( contentsOf: self.readers(forReader: childReader as! Reader) )
+            readers.append( contentsOf: self.readers(forReader: childReader) )
         }
         
         for (_, childMaps) in reader.mappableArrays {
