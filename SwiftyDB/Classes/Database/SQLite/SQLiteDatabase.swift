@@ -42,8 +42,8 @@ struct SQLiteDatabase: BackingDatabase {
         }
 
         for reader in readers {
-            try migrator.updateTableForType(reader.storableType, ifNecessaryOn: queue)
-            try indexer.updateIndicesForType(reader.storableType, ifNecessaryOn: queue)
+            try migrator.updateTable(for: reader.storableType, ifNecessaryOn: queue)
+            try indexer.updateIndices(for: reader.storableType, ifNecessaryOn: queue)
         }
         
         try SQLiteDatabase.Inserter.add(readers: readers, on: queue)
@@ -51,8 +51,8 @@ struct SQLiteDatabase: BackingDatabase {
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
-        try migrator.updateTableForType(query.type, ifNecessaryOn: queue)
-        try indexer.updateIndicesForType(query.type, ifNecessaryOn: queue)
+        try migrator.updateTable(for: query.type, ifNecessaryOn: queue)
+        try indexer.updateIndices(for: query.type, ifNecessaryOn: queue)
         
         let writers = try SQLiteDatabaseRetriever.get(using: query, on: queue)
         
@@ -60,8 +60,8 @@ struct SQLiteDatabase: BackingDatabase {
     }
     
     mutating func delete(using query: AnyQuery) throws {
-        try migrator.updateTableForType(query.type, ifNecessaryOn: queue)
-        try indexer.updateIndicesForType(query.type, ifNecessaryOn: queue)
+        try migrator.updateTable(for: query.type, ifNecessaryOn: queue)
+        try indexer.updateIndices(for: query.type, ifNecessaryOn: queue)
 
         try SQLiteDatabase.Deleter.delete(query: query, on: queue)
     }

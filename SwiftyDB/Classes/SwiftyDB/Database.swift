@@ -57,9 +57,6 @@ open class Database: ObjectDatabase {
         self.init(configuration: configuration)
     }
     
-    
-    // MARK: - Add
-    
     /**
     Add objects to the database
      
@@ -81,9 +78,6 @@ open class Database: ObjectDatabase {
     internal func add<T: Storable>(_ objects: [T]) throws {
         try self.database.add(objects: objects)
     }
-    
-    
-    // MARK: - Get
     
     /**
      Get objects for the provided type
@@ -109,8 +103,6 @@ open class Database: ObjectDatabase {
         return try self.database.get(using: query)
     }
     
-    // MARK: - Delete    
-    
     /**
      Delete objects for the provided type
      
@@ -118,7 +110,7 @@ open class Database: ObjectDatabase {
         - type:             type of the objects to be deleted
         - resultHandler:    an optional result handler
      */
-    public func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery {
+    public func delete(using query: AnyQuery) -> Promise<Void> {
         return Promise { resolve, reject in
             DispatchQueue.global().async {
                 do {
@@ -130,7 +122,7 @@ open class Database: ObjectDatabase {
         }
     }
     
-    internal func delete<Query>(using query: Query) throws where Query : StorableQuery {
+    internal func delete(using query: AnyQuery) throws {
         try self.database.delete(using: query)
     }
 }

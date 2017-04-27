@@ -19,37 +19,37 @@ extension SQLiteDatabase {
         /** The types about to be migrated. Used to prevent recurrence */
         var migratingTypes: Set<String> = []
 
-        mutating func updateTableForType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
+        mutating func updateTable(for type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
             guard !validTypes.contains(type.name) && !migratingTypes.contains(type.name) else {
                 return
             }
             
             migratingTypes.insert(type.name)
             
-            try updateTableForStorablePropertiesOfType(type, ifNecessaryOn: queue)
+            try updateTableForStorableProperties(of: type, ifNecessaryOn: queue)
             
-            try updateTableForType(type, on: queue)
+            try updateTable(for: type, on: queue)
             
             validTypes.insert(type.name)
             migratingTypes.remove(type.name)
         }
         
-        private mutating func updateTableForStorablePropertiesOfType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
+        private mutating func updateTableForStorableProperties(of type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
             
             let reader = ObjectMapper.read(type: type)
             
             for (_, type) in reader.propertyTypes {
                 if let storableType = type as? Storable.Type {
-                    try updateTableForType(storableType, ifNecessaryOn: queue)
+                    try updateTable(for: storableType, ifNecessaryOn: queue)
                 } else if let storableArrayType = type as? StorableArray.Type {
                     if let storableType = storableArrayType.storableType {
-                        try updateTableForType(storableType, ifNecessaryOn: queue)
+                        try updateTable(for: storableType, ifNecessaryOn: queue)
                     }
                 }
             }
         }
         
-        func updateTableForType(_ type: Storable.Type, on queue: DatabaseQueue) throws {
+        func updateTable(for type: Storable.Type, on queue: DatabaseQueue) throws {
             let currentType = MigrationUtilities.typeInformationFor(type: type)
             
             guard currentType.properties.contains(currentType.identifierName) else {

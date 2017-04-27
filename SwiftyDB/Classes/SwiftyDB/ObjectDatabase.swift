@@ -43,7 +43,7 @@ public protocol ObjectDatabase {
     - parameters:
         - type:             type of the objects to be deleted
     */
-    func delete<Query>(using query: Query) -> Promise<Void> where Query : StorableQuery
+    func delete(using query: AnyQuery) -> Promise<Void>
 }
 
 extension ObjectDatabase {

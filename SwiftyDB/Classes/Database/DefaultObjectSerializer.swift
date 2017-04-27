@@ -24,7 +24,7 @@ struct DefaultObjectSerializer: ObjectSerializer {
     fileprivate static func readers(forReader reader: Reader) -> [Reader] {
         var readers = [reader]
         
-        readers.append( contentsOf: extractNestedReaders(from: reader) )
+        readers.append(contentsOf: extractNestedReaders(from: reader))
         
         return readers
     }
@@ -36,10 +36,9 @@ struct DefaultObjectSerializer: ObjectSerializer {
             readers.append( contentsOf: self.readers(forReader: childReader) )
         }
         
-        for (_, childMaps) in reader.mappableArrays {
-            let childReaders: [Reader] = childMaps.matchType()
+        for (_, childReaders) in reader.mappableArrays {
             
-            for (_, childReader) in childReaders.enumerated() {
+            for childReader in childReaders {
                 readers.append( contentsOf: self.readers(forReader: childReader) )
             }
         }

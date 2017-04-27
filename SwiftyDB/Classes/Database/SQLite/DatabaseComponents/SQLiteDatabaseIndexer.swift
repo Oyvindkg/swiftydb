@@ -14,7 +14,7 @@ extension SQLiteDatabase {
         
         var validTypes: Set<String> = []
         
-        mutating func updateIndicesForType(_ type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
+        mutating func updateIndices(for type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
             
             guard let indexableType = type as? Indexable.Type else {
                 return

@@ -376,7 +376,7 @@
 		74BBF48B0AE4FD69FE799A253CCF3DEA /* wrap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = wrap.swift; path = Sources/wrap.swift; sourceTree = "<group>"; };
 		770785A29A8662C779C09D2C75CD3380 /* sqlite3-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "sqlite3-umbrella.h"; sourceTree = "<group>"; };
 		772481D320A1E504493614623DB9EAC3 /* BeNil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeNil.swift; path = Sources/Nimble/Matchers/BeNil.swift; sourceTree = "<group>"; };
-		786AAFD5C5422F0EB2D030857226686F /* IndexingUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IndexingUtils.swift; sourceTree = "<group>"; };
+		786AAFD5C5422F0EB2D030857226686F /* IndexingUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IndexingUtils.swift; path = ../../../Indexing/IndexingUtils.swift; sourceTree = "<group>"; };
 		7A205E38DF29B8587E94F70B97F0C14A /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		7ACDE1749730F556A7F64CCB84C9607D /* ObjectMapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
 		7AD3919F951A99266FE7F3D33134B65B /* race.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = race.swift; path = Sources/race.swift; sourceTree = "<group>"; };
@@ -476,7 +476,7 @@
 		E305CAAE7DA3F2C08FB6E039FF649674 /* BeGreaterThanOrEqualTo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeGreaterThanOrEqualTo.swift; path = Sources/Nimble/Matchers/BeGreaterThanOrEqualTo.swift; sourceTree = "<group>"; };
 		E4323840CB5957E1669B988C518CC3A0 /* when.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = when.swift; path = Sources/when.swift; sourceTree = "<group>"; };
 		E4956805571660DCD5E9CCEB74C1BD9C /* NMBExpectation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NMBExpectation.swift; path = Sources/Nimble/Adapters/NMBExpectation.swift; sourceTree = "<group>"; };
-		E51501E1616A5D22F2613AAD37C16CEA /* Indexable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Indexable.swift; path = Protocols/Indexable.swift; sourceTree = "<group>"; };
+		E51501E1616A5D22F2613AAD37C16CEA /* Indexable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Indexable.swift; path = ../Indexing/Protocols/Indexable.swift; sourceTree = "<group>"; };
 		E5968E0AD9633F11E34A4A6274D38A30 /* Pods-SwiftyDB_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-SwiftyDB_Tests.modulemap"; sourceTree = "<group>"; };
 		E5CA9C8F43BC8771371152E3B2406E97 /* SwiftyError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SwiftyError.swift; sourceTree = "<group>"; };
 		E67A0A389EA2989DD30EDD7DB85F0A1B /* DatabaseRetriever.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DatabaseRetriever.swift; sourceTree = "<group>"; };
@@ -634,6 +634,7 @@
 				CDEB081FDD05204A93D6411D40B51CC8 /* MigrationUtilities.swift */,
 				820A1433012E626B8C2605D225CC3B38 /* SQLiteFilterStatement.swift */,
 				09E3F81B32073B5D8E7836F822931099 /* SQLiteQueryFactory.swift */,
+				786AAFD5C5422F0EB2D030857226686F /* IndexingUtils.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -779,6 +780,7 @@
 				7A205E38DF29B8587E94F70B97F0C14A /* Configuration.swift */,
 				30C13EA87B8C0693615596F5B766D657 /* ConfigurationProtocol.swift */,
 				2652329A746520C35EF339A5E4B0DBBC /* Database.swift */,
+				E51501E1616A5D22F2613AAD37C16CEA /* Indexable.swift */,
 				7F82E4A6783FE0AEE30DF1B746E7792F /* ObjectDatabase.swift */,
 				E5CA9C8F43BC8771371152E3B2406E97 /* SwiftyError.swift */,
 				D8EC930A842F03F16C6914567067A627 /* Queries */,
@@ -889,15 +891,6 @@
 				240C0BE055E93E278D6D8382C9D64E0C /* Support Files */,
 			);
 			path = Nimble;
-			sourceTree = "<group>";
-		};
-		8B9C8AFAB13050F4C32A8FF927EED55E /* Indexing */ = {
-			isa = PBXGroup;
-			children = (
-				786AAFD5C5422F0EB2D030857226686F /* IndexingUtils.swift */,
-				E51501E1616A5D22F2613AAD37C16CEA /* Indexable.swift */,
-			);
-			path = Indexing;
 			sourceTree = "<group>";
 		};
 		9BD8764DDD7C27D2CEA5A316DA691613 /* Support Files */ = {
@@ -1013,7 +1006,6 @@
 			isa = PBXGroup;
 			children = (
 				A18AE32598A4B2DEEC1DF89D3A3BDD4E /* Database */,
-				8B9C8AFAB13050F4C32A8FF927EED55E /* Indexing */,
 				82B0F2BE0B4E74CE68BF1D0BA2E20D13 /* Mapping */,
 				5BAFA031FCAA75AFBED02326132E0F1A /* SwiftyDB */,
 				EED8AD674916259EC92F6A988C53926F /* Utils */,
@@ -1038,9 +1030,9 @@
 		D8EC930A842F03F16C6914567067A627 /* Queries */ = {
 			isa = PBXGroup;
 			children = (
+				56C831CE4BF2F600027D38E6996354C5 /* Query.swift */,
 				AA467C0DCCEBC11515EA9FC6FABA298B /* FilterOperators.swift */,
 				83F4C4305DE2E9B589C5A5B11D3C6382 /* FilterStatement.swift */,
-				56C831CE4BF2F600027D38E6996354C5 /* Query.swift */,
 				EA0EEDF09A1937049E3FFAF44F35E8BD /* StorableQuery.swift */,
 			);
 			path = Queries;

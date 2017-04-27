@@ -25,20 +25,7 @@ public protocol AnyQuery {
 
 public protocol StorableQuery: class, AnyQuery {
     associatedtype Subject: Storable
-    
-    func `where`(_ filter: FilterStatement) -> Self
-    func order(by property: String, ascending: Bool) -> Self
-    func skip(_ skipped: Int) -> Self
-    func limit(_ max: Int) -> Self
 }
-
-extension StorableQuery {
-    
-    public func order(by property: String) -> Self {
-        return order(by: property, ascending: true)
-    }
-}
-
 
 
 /** A simple data structure used as a non-generic, internal replacement for Query */
