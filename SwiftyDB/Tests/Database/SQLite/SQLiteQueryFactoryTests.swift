@@ -73,13 +73,13 @@ class SQLiteQueryFactoryTests: XCTestCase {
     // MARK: - Insert
     
     func testInsertQueryUpdatesExistingValueIfPresent() {
-        let query = SQLiteQueryFactory.insertQuery(for: reader)
+        let query = SQLiteQueryFactory.insertQuery(for: reader, replaceIfExists: true)
 
         XCTAssert(query.query.contains("INSERT OR REPLACE"), "Existing objects should be replaced")
     }
     
     func testInsertUsesReaderTypeAsTableName() {
-        let query = SQLiteQueryFactory.insertQuery(for: reader)
+        let query = SQLiteQueryFactory.insertQuery(for: reader, replaceIfExists: true)
         
         XCTAssert(query.query.contains("INTO '\(Stark.self)'"), "Should insert into the correct table")
     }
@@ -90,7 +90,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let reader = ObjectMapper.read(sansa)
         
-        let query = SQLiteQueryFactory.insertQuery(for: reader)
+        let query = SQLiteQueryFactory.insertQuery(for: reader, replaceIfExists: true)
         
         XCTAssert(query.query.contains("'age'"), "All properties should be updated")
         XCTAssert(query.query.contains("'name'"), "All properties should be updated")
@@ -104,7 +104,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
         
         let reader = ObjectMapper.read(sansa)
         
-        let query = SQLiteQueryFactory.insertQuery(for: reader)
+        let query = SQLiteQueryFactory.insertQuery(for: reader, replaceIfExists: true)
         
         XCTAssert(query.query.contains(":age"), "All properties should be parameterized")
         XCTAssert(query.query.contains(":name"), "All properties should be parameterized")
