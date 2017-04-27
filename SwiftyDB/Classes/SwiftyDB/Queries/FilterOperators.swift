@@ -14,7 +14,6 @@ infix operator !<: ComparisonPrecedence
 infix operator !≈: ComparisonPrecedence
 infix operator ≈≈: ComparisonPrecedence
 
-// MARK: - Comparators
 
 // MARK: Ranges
 
@@ -61,8 +60,8 @@ public func << <T: StorableProperty>(property: String, range: ClosedRange<T>) ->
  A property's value is not in a provided range
  
  - parameters:
- - property: the name of a property
- - range:    the range the property should not be in
+    - property: the name of a property
+    - range:    the range the property should not be in
  
  - returns: a `FilterStatement`
  */
@@ -82,20 +81,7 @@ public func !< <T: StorableProperty>(property: String, range: ClosedRange<T>) ->
  - returns: a `FilterStatement`
  */
 public func << <T: StorableProperty>(property: String, array: [T?]) -> FilterStatement {
-    return property << array.map { $0?.rawValue }
-}
-
-/**
- A property's value is in a provided array
- 
- - parameters:
-    - property: the name of a property
-    - array:    the array the property should be contained in
- 
- - returns: a `FilterStatement`
- */
-public func << (property: String, array: [StorableValue?]) -> FilterStatement {
-    return Expression.containedIn(property, array)
+    return Expression.containedIn(property, array.map { $0?.rawValue })
 }
 
 /**
@@ -108,22 +94,10 @@ public func << (property: String, array: [StorableValue?]) -> FilterStatement {
  - returns: a `FilterStatement`
  */
 public func !< <T: StorableProperty>(property: String, array: [T?]) -> FilterStatement {
-    return property !< array.map { $0?.rawValue }
+    return Expression.notContainedIn(property, array.map { $0?.rawValue })
 }
 
-/**
- A property's value is not in a provided array
- 
- - parameters:
-    - property: the name of a property
-    - array:    the array the property should not be contained in
- 
- - returns: a `FilterStatement`
- */
-public func !< (property: String, array: [StorableValue?]) -> FilterStatement {
-    return Expression.notContainedIn(property, array)
-}
-
+// MARK:  StorableProperties
 
 /**
  A property's value matches a provided pattern
@@ -157,56 +131,6 @@ public func !≈ (property: String, pattern: String) -> FilterStatement {
     return Expression.notLike(property, pattern)
 }
 
-
-
-/**
- A property's value is equal to the provided storable object
- 
- - parameters:
-    - property: the name of a property
-    - object:   the storable object
- 
- - returns: a `FilterStatement`
- */
-public func == <T: Storable>(property: String, object: T) -> FilterStatement {
-    let reader = ObjectMapper.read(object)
-    
-    return Expression.equal(property, reader.identifierValue)
-}
-
-/**
- A property's value is equal to the provided storable object
- 
- - parameters:
-    - property: the name of a property
-    - object:   the storable object
- 
- - returns: a `FilterStatement`
- */
-public func == <T: Storable>(property: String, object: T?) -> FilterStatement {
-    var reader: Reader? = nil
-    
-    if let object = object {
-        reader = ObjectMapper.read(object)
-    }
-    
-    return Expression.equal(property, reader?.identifierValue)
-}
-
-
-/**
- A property's value is equal to the provided value
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func == <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.equal(property, value.rawValue)
-}
-
 /**
  A property's value is equal to the provided value
  
@@ -218,54 +142,6 @@ public func == <T: StorableProperty>(property: String, value: T) -> FilterStatem
  */
 public func == <T: StorableProperty>(property: String, value: T?) -> FilterStatement {
     return Expression.equal(property, value?.rawValue)
-}
-
-
-/**
- A property's value is not equal to the provided value
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func != <T: Storable>(property: String, value: T) -> FilterStatement {
-    let reader = ObjectMapper.read(value)
-    
-    return Expression.notEqual(property, reader.identifierValue)
-}
-
-/**
- A property's value is not equal to the provided storable object
- 
- - parameters:
-    - property: name of a property
-    - object:   a storable object
- 
- - returns: a `FilterStatement`
- */
-public func != <T: Storable>(property: String, object: T?) -> FilterStatement {
-    guard object != nil else {
-        return Expression.notEqual(property, nil)
-    }
-    
-    let reader = ObjectMapper.read(object!)
-    
-    return Expression.notEqual(property, reader.identifierValue)
-}
-
-/**
- A property's value is not equal to the provided value
- 
- - parameters:
-    - property: the name of a property
-    - value:    the value to be compared
- 
- - returns: a `FilterStatement`
- */
-public func != <T: StorableProperty>(property: String, value: T) -> FilterStatement {
-    return Expression.notEqual(property, value.rawValue)
 }
 
 /**
@@ -333,6 +209,48 @@ public func <= <T: StorableProperty>(left: String, right: T) -> FilterStatement 
 public func >= <T: StorableProperty>(property: String, value: T) -> FilterStatement {
     return Expression.greaterOrEqual(property, value.rawValue)
 }
+
+// MARK: Storables
+
+/**
+ A property's value is not equal to the provided storable object
+ 
+ - parameters:
+ - property: name of a property
+ - object:   a storable object
+ 
+ - returns: a `FilterStatement`
+ */
+public func != <T: Storable>(property: String, object: T?) -> FilterStatement {
+    guard object != nil else {
+        return Expression.notEqual(property, nil)
+    }
+    
+    let reader = ObjectMapper.read(object!)
+    
+    return Expression.notEqual(property, reader.identifierValue)
+}
+
+/**
+ A property's value is equal to the provided storable object
+ 
+ - parameters:
+ - property: the name of a property
+ - object:   the storable object
+ 
+ - returns: a `FilterStatement`
+ */
+public func == <T: Storable>(property: String, object: T?) -> FilterStatement {
+    var reader: Reader? = nil
+    
+    if let object = object {
+        reader = ObjectMapper.read(object)
+    }
+    
+    return Expression.equal(property, reader?.identifierValue)
+}
+
+
 
 // MARK: - Connectives
 

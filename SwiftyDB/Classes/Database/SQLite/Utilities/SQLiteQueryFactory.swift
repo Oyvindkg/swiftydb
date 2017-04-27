@@ -170,7 +170,6 @@ struct SQLiteQueryFactory {
         return SQLiteQuery(query: query, parameters: parameters)
     }
     
-    
     private static func columnForProperty(_ property: String, withType type: Any.Type) -> Column {
         guard type is StorableValue.Type else {
             return Column(name: property, type: .text)

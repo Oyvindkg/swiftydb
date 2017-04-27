@@ -30,7 +30,8 @@ extension Storable {
     }
 }
 
-protocol StorableArray {
+/** This protocol is used to read the element type of array during object retrieval */
+internal protocol StorableArray {
     static var storableType: Storable.Type? { get }
 }
 

@@ -10,10 +10,23 @@ import Foundation
 
 
 public protocol AnyIndex {
-    var filter: FilterStatement? { get }
+    
+    /** The properties to be indexed */
     var properties: [String] { get }
+
+    /** 
+    Optional filters used to constrain the index domain.
+     
+    This is similar to a `WHERE` clause in SQL
+    */
+    var filter: FilterStatement? { get }
 }
 
+/** 
+A structure representing an index in the database  
+
+This is simply here for your convenience. You may implement the `AnyIndex` protocol in any object and use it as an index.
+*/
 public class Index: AnyIndex {
     public var filter: FilterStatement?
     public var properties: [String]
