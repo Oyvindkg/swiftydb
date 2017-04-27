@@ -13,22 +13,21 @@ import PromiseKit
  A database object used to add, retrieve and delete objects
 */
 
-open class Database: ObjectDatabase {
+open class Database {
     
-    /**
-    The available modes for the database
-     
-    - normal:  all objects are stored persistently.
-    - sandbox: copies the current database and creates a new dummy database. Any changes made in sandbox mode will not affect the original database, and will be lost when the Swifty instance is destroyed.
-    */
+    /** The available operation modes for the database */
     public enum Mode {
+        
+        /** All objects are stored persistently */
         case normal
+        
+        /** Copies the current database into a dummy database. Any changes made in sandbox mode will not affect the original database, and will be lost when the Swifty instance is destroyed. */
         case sandbox
     }
     
+    /** The underlying database. At the moment, this is an SQLite database */
     var database: BackingDatabase
     
-
     /** The database object's configuration */
     open let configuration: Configuration
     
@@ -75,6 +74,26 @@ open class Database: ObjectDatabase {
         }
     }
     
+    /**
+     Add an object to the database
+     
+     - parameters:
+     - object:           the object to be added
+     */
+    public func add<T: Storable>(_ object: T) -> Promise<Void> {
+        return add(objects: [object])
+    }
+    
+    /**
+     Add an object to the database
+     
+     - parameters:
+     - object:           the object to be added
+     */
+    public func add<T: Storable>(_ objects: T...) -> Promise<Void> {
+        return add(objects: objects)
+    }
+    
     internal func add<T: Storable>(_ objects: [T]) throws {
         try self.database.add(objects: objects)
     }
@@ -99,6 +118,18 @@ open class Database: ObjectDatabase {
         }
     }
     
+    /**
+     Get objects for the provided type
+     
+     - parameters:
+     - type:             type of the objects to be retrieved
+     */
+    public func get<T>(_ type: T.Type) -> Promise<[T]> where T : Storable {
+        let query = Query<T>()
+        
+        return get(using: query)
+    }
+    
     internal func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         return try self.database.get(using: query)
     }
@@ -120,6 +151,20 @@ open class Database: ObjectDatabase {
                 }
             }
         }
+    }
+    
+    /**
+     Create a DeleteQuery for the provided type
+     
+     - returns: A `DeleteQuery` object that can be used to filter objects to delete
+     
+     - parameters:
+     - type: type of the objects to be deleted
+     */
+    public func delete<T>(_ type: T.Type) -> Promise<Void> where T : Storable {
+        let query = Query<T>()
+        
+        return delete(using: query)
     }
     
     internal func delete(using query: AnyQuery) throws {
