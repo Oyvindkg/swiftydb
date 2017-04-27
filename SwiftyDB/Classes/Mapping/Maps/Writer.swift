@@ -49,16 +49,12 @@ final class Writer: Mapper {
     }
     
     
-    func getCurrentValue<T: Writer>() -> [T]? {
+    func getCurrentValue() -> [Writer]? {
         guard let key = currentKey else {
             return nil
         }
         
-        if let maps = mappableArrays[key] {
-            return maps.matchType()
-        }
-        
-        return nil
+        return mappableArrays[key]
     }
 
     subscript(key: String) -> Writer {

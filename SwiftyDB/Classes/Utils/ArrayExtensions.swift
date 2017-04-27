@@ -38,26 +38,6 @@ extension Dictionary {
 
 extension Collection {
     
-    func to<T>(type: T.Type) -> [T?] {
-        return self.map { $0 as? T }
-    }
-    
-    func to<T>(type: T.Type) -> [T] {
-        return self.map { $0 as! T }
-    }
-    
-    func matchType<T>() -> [T] {
-        return self.map { $0 as! T }
-    }
-    
-    func matchType<T>() -> [T?] {
-        return self.map { $0 as? T }
-    }
-
-    var elementType: Iterator.Element.Type {
-        return Iterator.Element.self
-    }
-    
     func group<T: Hashable>(by block: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
         var grouped: [T: [Iterator.Element]] = [:]
         

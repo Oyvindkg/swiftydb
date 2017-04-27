@@ -123,7 +123,7 @@ struct SQLiteQueryFactory {
         
         if let filter = filter {
             query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.to(type: SQLiteValue.self)
+            parameters += filter.parameters as! [SQLiteValue?]
         }
         
         query += " \(orderByComponent(using: order))"
@@ -131,7 +131,7 @@ struct SQLiteQueryFactory {
         let (limitComponenet, limitParameters) = limitComponent(forLimit: limit, withOffset: offset)
         
         query      += limitComponenet
-        parameters += limitParameters.to(type: SQLiteValue.self)
+        parameters += limitParameters as! [SQLiteValue?]
         
         
         return SQLiteQuery(query: query, parameters: parameters)
@@ -144,7 +144,7 @@ struct SQLiteQueryFactory {
         
         if let filter = filter {
             query += " WHERE \(filter.statement)"
-            parameters += filter.parameters.to(type: SQLiteValue.self)
+            parameters += filter.parameters as! [SQLiteValue?]
         }
         
         return SQLiteQuery(query: query, parameters: parameters)

@@ -731,7 +731,7 @@
 			path = sqlite3;
 			sourceTree = "<group>";
 		};
-		5BAFA031FCAA75AFBED02326132E0F1A /* SwiftyDB */ = {
+		5BAFA031FCAA75AFBED02326132E0F1A /* Database */ = {
 			isa = PBXGroup;
 			children = (
 				7A205E38DF29B8587E94F70B97F0C14A /* Configuration.swift */,
@@ -740,6 +740,7 @@
 				E5CA9C8F43BC8771371152E3B2406E97 /* SwiftyError.swift */,
 				D8EC930A842F03F16C6914567067A627 /* Queries */,
 			);
+			name = Database;
 			path = SwiftyDB;
 			sourceTree = "<group>";
 		};
@@ -862,7 +863,7 @@
 			path = "../Target Support Files/sqlite3";
 			sourceTree = "<group>";
 		};
-		A18AE32598A4B2DEEC1DF89D3A3BDD4E /* Database */ = {
+		A18AE32598A4B2DEEC1DF89D3A3BDD4E /* BackingDatabase */ = {
 			isa = PBXGroup;
 			children = (
 				09478BE8A2FC21E3EC81328CE3514BBC /* BackingDatabase.swift */,
@@ -872,6 +873,7 @@
 				BF93FE756F26CFCB759D686C49C6DCE7 /* Storable.swift */,
 				4F42BCAEBE4A4E54D66655E176BFC2CE /* SQLite */,
 			);
+			name = BackingDatabase;
 			path = Database;
 			sourceTree = "<group>";
 		};
@@ -962,10 +964,10 @@
 		D1F74BCE039E068CC9BA53681228D19C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A18AE32598A4B2DEEC1DF89D3A3BDD4E /* Database */,
+				A18AE32598A4B2DEEC1DF89D3A3BDD4E /* BackingDatabase */,
 				82B0F2BE0B4E74CE68BF1D0BA2E20D13 /* Mapping */,
-				5BAFA031FCAA75AFBED02326132E0F1A /* SwiftyDB */,
-				EED8AD674916259EC92F6A988C53926F /* Utils */,
+				5BAFA031FCAA75AFBED02326132E0F1A /* Database */,
+				EED8AD674916259EC92F6A988C53926F /* Utilities */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1047,12 +1049,13 @@
 			path = StoreableValueConvertibles;
 			sourceTree = "<group>";
 		};
-		EED8AD674916259EC92F6A988C53926F /* Utils */ = {
+		EED8AD674916259EC92F6A988C53926F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				0A3BAFC8E66F2584B1F3D2EBF2FD8E10 /* ArrayExtensions.swift */,
 				841B10ABB43D313B1481F388CBC7FE12 /* Map+Storeable.swift */,
 			);
+			name = Utilities;
 			path = Utils;
 			sourceTree = "<group>";
 		};
