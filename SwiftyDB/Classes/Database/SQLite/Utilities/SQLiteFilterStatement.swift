@@ -8,9 +8,29 @@
 
 import Foundation
 
+extension StorableValue {
+    var literalValue: String {
+        switch self {
+        case is String:
+            return "'\(self)'"
+        case is Double, is Int:
+            return "\(self)"
+        default:
+            return "NULL"
+        }
+    }
+}
+
 protocol SQLiteFilterStatement: FilterStatement {
+    
+    /** A parameterized statement */
     var statement: String { get }
+    
+    /** Parameter values for the parameterized `statement`*/
     var parameters: [StorableValue?] { get }
+
+    /** A statement without parameters. Some operations, such as creating indices, does not support parameters. */
+    var deparameterizedStatement: String { get }
 }
 
 extension Expression: SQLiteFilterStatement {
@@ -52,6 +72,45 @@ extension Expression: SQLiteFilterStatement {
             return "\(property) NOT LIKE ?"
         }
     }
+    
+    var deparameterizedStatement: String {
+        switch self {
+        case .equal(let property, let value):
+            return "\(property) = \(value?.literalValue ?? "NULL")"
+        case .notEqual(let property, let value):
+            return "\(property) != \(value?.literalValue ?? "NULL")"
+            
+        case .less(let property, let value):
+            return "\(property) < \(value.literalValue)"
+        case .lessOrEqual(let property, let value):
+            return "\(property) <= \(value.literalValue)"
+            
+        case .greater(let property, let value):
+            return "\(property) > \(value.literalValue)"
+        case .greaterOrEqual(let property, let value):
+            return "\(property) >= \(value.literalValue)"
+            
+        case .containedIn(let property, let values):
+            let placeholders = values.map { $0?.literalValue ?? "NULL" }.joined(separator: ",")
+            
+            return "\(property) IN (\(placeholders))"
+        case .notContainedIn(let property, let values):
+            let placeholders = values.map { $0?.literalValue ?? "NULL" }.joined(separator: ",")
+            
+            return "\(property) NOT IN (\(placeholders))"
+            
+        case .between(let property, let value, let otherValue):
+            return "\(property) BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
+        case .notBetween(let property, let value, let otherValue):
+            return "\(property) NOT BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
+            
+        case .like(let property, let value):
+            return "\(property) LIKE \(value.literalValue)"
+        case .notLike(let property, let value):
+            return "\(property) NOT LIKE \(value.literalValue)"
+        }
+    }
+
     
     var parameters: [StorableValue?] {
         switch self {
@@ -99,6 +158,21 @@ extension Connective: SQLiteFilterStatement {
         case .disjunction(let operand, let otherOperand):
             let operandExpression = (operand as! SQLiteFilterStatement).statement
             let otherOperandExpression = (otherOperand as! SQLiteFilterStatement).statement
+            
+            return "(\(operandExpression) OR \(otherOperandExpression))"
+        }
+    }
+    
+    var deparameterizedStatement: String {
+        switch self {
+        case .conjunction(let operand, let otherOperand):
+            let operandExpression = (operand as! SQLiteFilterStatement).deparameterizedStatement
+            let otherOperandExpression = (otherOperand as! SQLiteFilterStatement).deparameterizedStatement
+            
+            return "(\(operandExpression) AND \(otherOperandExpression))"
+        case .disjunction(let operand, let otherOperand):
+            let operandExpression = (operand as! SQLiteFilterStatement).deparameterizedStatement
+            let otherOperandExpression = (otherOperand as! SQLiteFilterStatement).deparameterizedStatement
             
             return "(\(operandExpression) OR \(otherOperandExpression))"
         }

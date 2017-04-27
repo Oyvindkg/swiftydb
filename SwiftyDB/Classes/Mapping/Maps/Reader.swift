@@ -111,9 +111,7 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Reader) {
 
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Reader) where T.RawValue: Hashable {
-    print("hello")
     right.setCurrent(value: jsonForDictionary(left) )
-    print("hello")
 }
 
 func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Reader) where T.RawValue: Hashable {
@@ -265,11 +263,11 @@ private func jsonForDictionary<T: StorableProperty, U: StorableProperty>(_ dicti
     guard let dictionary = dictionary else {
         return nil
     }
-    print(dictionary)
+
     let storableValueDictionary = dictionary.map(mapping: { (key, value) in
         return (key.rawValue, value.rawValue)
     })
-    print(storableValueDictionary)
+
     let jsonData = try! JSONSerialization.data(withJSONObject: storableValueDictionary, options: [])
     
     return String(data: jsonData, encoding: .utf8)!

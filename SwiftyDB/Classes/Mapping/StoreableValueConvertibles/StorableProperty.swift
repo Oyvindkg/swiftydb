@@ -14,7 +14,6 @@ public protocol StorableValue {}
 extension String: StorableValue {}
 extension Double: StorableValue {}
 extension Int: StorableValue {}
-extension Data: StorableValue {}
 
 /** 
 Defines values that can be converted from and to storable values.

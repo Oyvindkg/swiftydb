@@ -62,7 +62,7 @@ class SQLiteQueryFactoryTests: XCTestCase {
     
     func testCreateTableAssignsIdentifierAsPrimaryKey() {
         let identifier          = (reader.type as! Identifiable.Type).identifier()
-        let identifierDatatype  = SQLiteDatatype(type: reader.propertyTypes[identifier]!)!
+        let identifierDatatype  = Column.Datatype(type: reader.propertyTypes[identifier]!)!
         
         let query = SQLiteQueryFactory.createTableQuery(for: reader)
         

@@ -25,7 +25,7 @@ struct SQLiteDatabaseInserter {
             
             for (_, readers) in groupedReaders {
                 
-                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)
+                let query = SQLiteQueryFactory.insertQuery(for: readers.first!, replaceIfExists:  true)
                 
                 let statement = try database.statement(for: query.query)
                 

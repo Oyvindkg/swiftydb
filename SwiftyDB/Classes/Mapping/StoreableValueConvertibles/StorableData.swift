@@ -11,13 +11,17 @@ import Foundation
 
 extension Data: StorableProperty {
     
-    public typealias RawValue = Data
+    public typealias RawValue = String
     
-    public var rawValue: Data {
-        return self
+    public var rawValue: RawValue {
+        return base64EncodedString()
     }
     
     public init?(rawValue: RawValue) {
-        self = rawValue
+        guard let data = Data(base64Encoded: rawValue) else {
+            return nil
+        }
+        
+        self = data
     }
 }
