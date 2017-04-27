@@ -18,11 +18,12 @@ struct SQLiteDatabaseInserter {
             return
         }
         
-        let mappedReaders = readers.group { $0.storableType.name }
+        /* Group the readers by type to reuse prepared statements for performance gain */
+        let groupedReaders = readers.group { $0.storableType.name }
         
         try queue.transaction { database in
             
-            for (_, readers) in mappedReaders {
+            for (_, readers) in groupedReaders {
                 
                 let query = SQLiteQueryFactory.insertQuery(for: readers.first!)             //FIXME: Can break for Readers with different mapped types
 

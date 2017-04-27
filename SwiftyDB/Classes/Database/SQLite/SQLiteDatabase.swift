@@ -9,12 +9,9 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseIndexer, SQLiteDatabaseDeleter {
+struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer, SQLiteDatabaseDeleter {
 
-    
-    var existingTables: Set<String> = []
-    
-    let databaseQueue: DatabaseQueue
+    let queue: DatabaseQueue
     
     var migrator = SQLiteDatabaseMigrator()
     
@@ -29,7 +26,7 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
                                               toPath: configuration.location.path)
         }
         
-        databaseQueue = DatabaseQueue(location: configuration.location)
+        queue = DatabaseQueue(location: configuration.location)
     }
     
     mutating func add<T : Storable>(objects: [T]) throws {
@@ -39,23 +36,23 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
         }
 
         for reader in readers {
-            try migrator.migrateType(reader.type as! Storable.Type, ifNecessaryOn: databaseQueue)
+            try migrator.migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
         }
         
-        try SQLiteDatabaseInserter.add(readers: readers, on: databaseQueue)
+        try SQLiteDatabaseInserter.add(readers: readers, on: queue)
     }
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
-        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
+        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: queue)
         
-        let writers = try SQLiteDatabaseRetriever.get(using: query, on: databaseQueue)
+        let writers = try SQLiteDatabaseRetriever.get(using: query, on: queue)
         
         return ObjectMapper.objects(mappedBy: writers)
     }
     
     mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {
-        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
+        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: queue)
             
         try delete(query: query)
     }

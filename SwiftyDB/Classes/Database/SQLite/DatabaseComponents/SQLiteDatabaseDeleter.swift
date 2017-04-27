@@ -11,7 +11,7 @@ import TinySQLite
 
 
 protocol SQLiteDatabaseDeleter: DatabaseDeleter {
-    var databaseQueue: DatabaseQueue { get }
+    var queue: DatabaseQueue { get }
 }
 
 extension SQLiteDatabaseDeleter {
@@ -20,7 +20,7 @@ extension SQLiteDatabaseDeleter {
         
         let query = SQLiteQueryFactory.deleteQuery(for: query.type, filter: query.filter as? SQLiteFilterStatement)
         
-        try databaseQueue.database { database in
+        try queue.database { database in
             try database.statement(for: query.query)
                 .executeUpdate(withParameters: query.parameters)
                 .finalize()

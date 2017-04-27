@@ -8,6 +8,21 @@
 
 import TinySQLite
 
+internal struct TypeInformation {
+    var name                    = ""
+    var properties: [String]    = []
+    var identifierName          = ""
+}
+
+extension TypeInformation: Equatable {}
+
+internal func ==(lhs: TypeInformation, rhs: TypeInformation) -> Bool {
+    return lhs.identifierName == rhs.identifierName
+        && lhs.name == rhs.name
+        && lhs.properties == rhs.properties
+}
+
+
 internal struct MigrationUtilities {
     
     /** Get a list of property names for the type */
@@ -15,30 +30,44 @@ internal struct MigrationUtilities {
         
         let reader = ObjectMapper.read(type: type)
         
-        return reader.propertyTypes.filter { !($0.value is Storable) }
-                                   .map { $0.key }
+        return Array(reader.propertyTypes.keys)
     }
     
     /** Get information reflecting the type */
     static func typeInformationFor(type: Storable.Type) -> TypeInformation {
-        return TypeInformation(name:            String(describing: type),
+        return TypeInformation(name:            type.name,
                                properties:      properties(for: type),
                                identifierName:  type.identifier())
     }
     
     /** Get information reflecting the database's represntation of the type */
-    static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation {
+    static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation? {
         
-        let statement = try database.statement(for: "SELECT * FROM \(type.name) LIMIT 0")
+        let statement = try database.statement(for: "PRAGMA table_info(\(type.name))")
                                     .execute()
         
-        let properties = Array(statement.dictionary.keys)
+        var properties: [String] = []
+        var identifier: String?
+        
+        for row in statement {
+            let name         = row.stringForColumn("name")!
+            let isPrimaryKey = row.boolForColumn("pk")!
+            
+            properties.append(name)
+            
+            if isPrimaryKey {
+                identifier = name
+            }
+        }
         
         try statement.finalize()
         
-        return TypeInformation(name:            String(describing: type),
+        if properties.isEmpty && identifier == nil {
+            return nil
+        }
+        
+        return TypeInformation(name:            type.name,
                                properties:      properties,
-                               identifierName:  type.identifier())
+                               identifierName:  identifier!)
     }
-    
 }

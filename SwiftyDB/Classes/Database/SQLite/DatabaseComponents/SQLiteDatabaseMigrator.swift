@@ -53,75 +53,51 @@ extension SQLiteDatabaseMigrator {
     func migrateType(_ type: Storable.Type, on queue: DatabaseQueue) throws {
         let currentType = MigrationUtilities.typeInformationFor(type: type)
         
+        guard currentType.properties.contains(currentType.identifierName) else {
+            let properties = currentType.properties.map({"'\($0)'"}).joined(separator: ", ")
+            
+            throw SwiftyError.migration("The identifier defined by \(type) ('\(type.identifier())') was not found in the mapped properties (\(properties))")
+        }
+        
         try queue.transaction { database in
             
-            guard try database.contains(table: type.name) else {
+            guard let databaseType = try MigrationUtilities.typeInformationFor(type: type, in: database) else {
                 return try createTable(for: type, in: database)
             }
-            
-            let databaseType = try MigrationUtilities.typeInformationFor(type: type, in: database)
-            
-            let currentProperties  = Set(currentType.properties)
-            let databaseProperties = Set(databaseType.properties)
-            
-            let addedProperties   = currentProperties.subtracting(databaseProperties)
-            let removedProperties = databaseProperties.subtracting(currentProperties)
-            
-            try addProperties(addedProperties, to: type, in: database)
-            try removeProperties(removedProperties, from: type, in: database)
-        }
-    }
-    
-    private func addProperties(_ properties: Set<String>, to type: Storable.Type, in database: DatabaseConnection) throws {
-        let reader = ObjectMapper.read(type: type)
-        
-        for property in properties {
-            let propertyType  = reader.propertyTypes[property]!
-            
-            let column = SQLiteQueryFactory.columnForProperty(property, withType: propertyType)
-            
-            var query = "ALTER TABLE \(type.name) ADD COLUMN \(column.definition)"
-            
-            if let storableValue = reader.storableValues[property] {
-                query += " DEFAULT '\(storableValue)'"
+
+            guard currentType != databaseType else {
+                return
             }
             
-            try database.statement(for: query)
-                        .executeUpdate()
-                        .finalize()
+            guard currentType.identifierName == databaseType.identifierName else {
+                throw SwiftyError.migration("The SQLite backend does not support changing the identifying property name. Expected identifier '\(databaseType.identifierName)', but found '\(currentType.identifierName)'")
+            }
+            
+            let temporaryTableName = "old_\(type.name)"
+            let existingProperties = Set(databaseType.properties).intersection(currentType.properties)
+            
+            try renameTable(type.name, to: temporaryTableName, in: database)
+            try createTable(for: type, in: database)
+            try moveDataForProperties(existingProperties, from: temporaryTableName, to: type.name, in: database)
+            try dropTable(temporaryTableName, in: database)
         }
-    }
-    
-    private func removeProperties(_ properties: Set<String>, from type: Storable.Type, in database: DatabaseConnection) throws {
-        guard !properties.isEmpty else {
-            return
-        }
-        
-        if properties.contains(type.identifier()) {
-            throw SwiftyError.migration("Tried to remove the \(type.name)'s identifying property '\(type.identifier())'")
-        }
-        
-        let information = MigrationUtilities.typeInformationFor(type: type)
-        
-        try renameTable(type.name, to: "old_\(type.name)", in: database)
-        try createTable(for: type, in: database)
-        try moveDataFromOldTable(for: information, in: database)
-        try dropTable("old_\(type.name)", in: database)
     }
 }
 
 
 extension SQLiteDatabaseMigrator {
 
-    fileprivate func moveDataFromOldTable(for information: TypeInformation, in database: DatabaseConnection) throws {
+    fileprivate func moveDataForProperties(_ properties: Set<String>, from table: String, to targetTable: String, in database: DatabaseConnection) throws {
+        let columns = properties.joined(separator: ", ")
         
-        let columns = information.properties.joined(separator: ", ")
-        
-        let query = "INSERT INTO \(information.name) (\(columns)) SELECT \(columns) FROM old_\(information.name)"
+        let query = "INSERT INTO \(targetTable) (\(columns)) SELECT \(columns) FROM \(table)"
         
         try database.statement(for: query)
                     .executeUpdate()
                     .finalize()
+    }
+    fileprivate func moveDataFromOldTable(for information: TypeInformation, in database: DatabaseConnection) throws {
+        
     }
     
     fileprivate func dropTable(for type: Storable.Type, in database: DatabaseConnection) throws {

@@ -10,7 +10,7 @@ import Foundation
 import TinySQLite
 
 protocol SQLiteDatabaseIndexer: DatabaseIndexer {
-    var databaseQueue: DatabaseQueue { get }
+    var queue: DatabaseQueue { get }
 }
 
 extension SQLiteDatabaseIndexer {
@@ -21,8 +21,8 @@ extension SQLiteDatabaseIndexer {
         for index in index.indices {
             let query = SQLiteQueryFactory.createIndexQuery(for: index)
             
-            try databaseQueue.database { database in
-                guard try database.contains(table: String(describing: index.type)) else {
+            try queue.database { database in
+                guard try database.contains(table: index.type.name) else {
                     return
                 }
                 
@@ -41,7 +41,7 @@ extension SQLiteDatabaseIndexer {
     
     fileprivate func deleteIndices(_ indexNames: [String]) throws {
         
-        try databaseQueue.database { database in
+        try queue.database { database in
             
             for indexName in indexNames {
                 let query = "DROP INDEX IF EXISTS '\(indexName)'"
@@ -60,10 +60,10 @@ extension SQLiteDatabaseIndexer {
         
         var indexNames: [String] = []
         
-        try databaseQueue.database { database in
+        try queue.database { database in
             let statement = try database.statement(for: query)
             
-            let parameters = [String(describing: type)]
+            let parameters = [type.name]
             
             for row in try statement.execute(withParameters: parameters) {
                 indexNames.append(row.stringForColumn(at: 0)!)

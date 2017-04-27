@@ -15,16 +15,16 @@ struct SQLiteDatabaseRetriever {
 extension SQLiteDatabaseRetriever {
 
     static func get(using query: AnyQuery, on queue: DatabaseQueue) throws -> [Writer] {
-        print("#### Get using:", query)
+
         let reader = ObjectMapper.read(type: query.type)
         
         var writers: [Writer] = []
         
         try queue.transaction { database in
-            guard try database.contains(table: String(describing: query.type)) else {
-                return
-            }
-            
+//            guard try database.contains(table: query.type.name) else {
+//                return
+//            }
+//            
             writers = try self.getWritersFor(reader: reader, using: query, in: database)
         }
                 
@@ -50,7 +50,7 @@ extension SQLiteDatabaseRetriever {
             
             for (property, value) in row.dictionary {
                 
-                /* Tiny SQLite retrieves 64-bit integers by default */
+                /* TinySQLite retrieves 64-bit integers by default */
                 if let int64 = value as? Int64 {
                     writer.storableValues[property] = Int(int64)
                 } else {

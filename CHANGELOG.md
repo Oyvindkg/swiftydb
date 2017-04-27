@@ -7,10 +7,12 @@ All notable changes to this project will be documented in this file.
 Rebuilt from the ground up to provide a type safe, and versatile object database.
 
 **Main features**
-* Any type can be made storable in an extension
-* Store any property type, nested objects, and collections
+* Any structure or class can be made storable in a simple extension
+* Store any property type, nested objects, and most collections
+** You can make any property type storable by extending it with `StorableProperty`, which is a `RawRepresentable` which the `RawValue` associated type constrained to either a `String`, `Int`, `Double`, or `Data`
 * Create custom indices to improve query performance
 * Migrate data when updating your models
+** SwiftyDB automatically updates the database tables as you add or remove properties
 
 **Supported package managers**
 * CocoaPods

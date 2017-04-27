@@ -21,7 +21,7 @@ struct Dog: Storable {
     
     var name: String
     var age: Double
-    var superBone: Bone
+    var superBone: Bone?
     var weight: Double
     
     init() {
@@ -37,7 +37,7 @@ struct Dog: Storable {
         type            <- mapper["type"]
         weight          <- mapper["weight"]
 //        bones           <- mapper["bones"]
-//        superBone       <- mapper["superBone"]
+        superBone       <- mapper["superBone"]
         dates           <- mapper["dates"]
         ids             <- mapper["numbers"]
     }
@@ -46,7 +46,6 @@ struct Dog: Storable {
         return Dog()
     }
     
-    // TODO: Make sure the identifier is a valid property
     static func identifier() -> String {
         return "name"
     }
