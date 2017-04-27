@@ -46,11 +46,9 @@ extension Stark: Identifiable {
 }
 
 extension Stark: SwiftyDB.Indexable {
-    static func index(using indexer: Indexer) {
-        let nilString: String? = nil
-        
-        let filter: FilterStatement = "age" << (0..<20)
-        
-        indexer.index(on: "name").where("name" == nilString && "age" > 10 || ("wolf" == "Ghost" && filter))
+    static func indices() -> [SwiftyDB.AnyIndex] {
+        return [
+            Index.on("name").where("name" == "Sansa" && "age" > 10 || ("wolf" == "Ghost" && "age" << (0..<20)))
+        ]
     }
 }

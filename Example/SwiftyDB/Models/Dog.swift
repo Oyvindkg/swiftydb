@@ -30,7 +30,9 @@ struct Dog: Storable {
         name      = "\(arc4random())"
         weight    = 13.3
     }
-    
+}
+
+extension Dog: Mappable {
     mutating func map<M>(using mapper: inout M) where M : Mapper {
         name            <- mapper["name"]
         age             <- mapper["age"]
@@ -45,8 +47,19 @@ struct Dog: Storable {
     static func mappableObject() -> Mappable {
         return Dog()
     }
-    
+}
+
+extension Dog: Identifiable {
     static func identifier() -> String {
         return "name"
+    }
+}
+
+extension Dog: SwiftyDB.Indexable {
+    static func indices() -> [SwiftyDB.AnyIndex] {
+        return [
+            Index.on("age", "weight").where("age" == 5),
+            Index.on("name").where("name" != "Jens")
+        ]
     }
 }

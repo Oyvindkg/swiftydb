@@ -57,14 +57,13 @@ extension SQLiteFilterDeparameterizer {
 }
 
 protocol SQLiteIndexQueryFactory: SQLiteFilterDeparameterizer {
-    static func createIndexQuery(for index: Index) -> SQLiteQuery
+    static func createIndexQuery(for index: AnyIndex, for type: Storable.Type) -> SQLiteQuery
 }
 
 extension SQLiteIndexQueryFactory {
     
-    static func createIndexQuery(for index: Index) -> SQLiteQuery {
-        let name = IndexingUtils.name(of: index)
-        
+    static func createIndexQuery(for index: AnyIndex, for type: Storable.Type) -> SQLiteQuery {
+        let name = IndexingUtils.name(of: index, for: type)
         
         var escapedColumnNames: [String] = []
         
@@ -74,7 +73,7 @@ extension SQLiteIndexQueryFactory {
         
         let columnsString = escapedColumnNames.joined(separator: ", ")
         
-        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(index.type) (\(columnsString))"
+        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(type.name) (\(columnsString))"
         
         
         if let filter = index.filter as? SQLiteFilterStatement {

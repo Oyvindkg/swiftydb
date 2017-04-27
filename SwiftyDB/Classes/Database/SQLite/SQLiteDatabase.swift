@@ -12,9 +12,9 @@ import TinySQLite
 /** 
  An interface wrapping an SQLite database.
  
- This structure simply maps data to or from objects, but delegates the query execution to other components such as the `SQLiteDatabaseMigrator`.
+ This structure simply maps data to or from objects, and makes sure the tables are up to date, but delegates the query execution to other components such as the `SQLiteDatabaseMigrator`.
 */
-struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer {
+struct SQLiteDatabase: BackingDatabase {
 
     let queue: DatabaseQueue
     
@@ -42,6 +42,7 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer {
 
         for reader in readers {
             try migrator.migrateType(reader.type as! Storable.Type, ifNecessaryOn: queue)
+            try SQLiteDatabaseIndexer.updateIndicesFor(type: T.self, ifNecessaryOn: queue)
         }
         
         try SQLiteDatabaseInserter.add(readers: readers, on: queue)
@@ -49,7 +50,8 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer {
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
-        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: queue)
+        try migrator.migrateType(query.type, ifNecessaryOn: queue)
+        try SQLiteDatabaseIndexer.updateIndicesFor(type: query.type, ifNecessaryOn: queue)
         
         let writers = try SQLiteDatabaseRetriever.get(using: query, on: queue)
         
@@ -58,6 +60,7 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer {
     
     mutating func delete(using query: AnyQuery) throws {
         try migrator.migrateType(query.type, ifNecessaryOn: queue)
+        try SQLiteDatabaseIndexer.updateIndicesFor(type: query.type, ifNecessaryOn: queue)
 
         try SQLiteDatabaseDeleter.delete(query: query, on: queue)
     }

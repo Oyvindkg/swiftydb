@@ -14,6 +14,7 @@ protocol SQLiteFilterStatement: FilterStatement {
 }
 
 extension Expression: SQLiteFilterStatement {
+    
     var statement: String {
         switch self {
         case .equal(let property, _):

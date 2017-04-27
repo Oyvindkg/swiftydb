@@ -9,60 +9,67 @@
 import Foundation
 import TinySQLite
 
-protocol SQLiteDatabaseIndexer {
-    var queue: DatabaseQueue { get }
-}
-
-extension SQLiteDatabaseIndexer {
+struct SQLiteDatabaseIndexer {
     
-    func createIndex(with index: Indexer) throws {
-        try deleteIndices(for: index.type)
+    static func updateIndicesFor(type: Storable.Type, ifNecessaryOn queue: DatabaseQueue) throws {
         
-        for index in index.indices {
-            let query = SQLiteQueryFactory.createIndexQuery(for: index)
+        guard let indexableType = type as? Indexable.Type else {
+            return
+        }
+        
+        let currentIndexNames  = IndexingUtils.indexNames(for: type)
+        let databaseIndexNames = try indexNames(for: type, on: queue)
+        
+        guard currentIndexNames != databaseIndexNames else {
+            return
+        }
+        
+        let addedIndexNames   = currentIndexNames.subtracting(databaseIndexNames)
+        let removedIndexNames = databaseIndexNames.subtracting(currentIndexNames)
+        
+        let addedIndices = indexableType.indices().filter { index in
+            let name = IndexingUtils.name(of: index, for: type)
             
-            try queue.database { database in
-                guard try database.contains(table: index.type.name) else {
-                    return
-                }
+            return addedIndexNames.contains(name)
+        }
+        
+        try deleteIndices(withNames: removedIndexNames, on: queue)
+        try createIndices(addedIndices, for: type, on: queue)
+    }
+    
+    static func createIndices(_ indices: [AnyIndex], for type: Storable.Type, on queue: DatabaseQueue) throws {
+        
+        try queue.transaction { database in
+            for index in indices {
+                let query = SQLiteQueryFactory.createIndexQuery(for: index, for: type)
                 
                 try database.statement(for: query.query)
-                    .executeUpdate()
-                    .finalize()
+                        .executeUpdate()
+                        .finalize()
             }
         }
     }
     
-    fileprivate func deleteIndices(for type: Storable.Type) throws {
-        let indexNames = try self.indexNames(for: type)
+    fileprivate static func deleteIndices(withNames indexNames: Set<String>, on queue: DatabaseQueue) throws {
         
-        try deleteIndices(indexNames)
-    }
-    
-    fileprivate func deleteIndices(_ indexNames: [String]) throws {
-        
-        try queue.database { database in
-            
-            for indexName in indexNames {
-                let query = "DROP INDEX IF EXISTS '\(indexName)'"
+        try queue.transaction { database in
+            for name in indexNames {
+                let query = "DROP INDEX IF EXISTS '\(name)'"
                 
-                let statement = try database.statement(for: query)
-                
-                _ = try statement.executeUpdate()
-                
-                try statement.finalize()
+                try database.statement(for: query)
+                            .executeUpdate()
+                            .finalize()
             }
         }
     }
     
-    fileprivate func indexNames(for type: Storable.Type) throws -> [String] {
+    static func indexNames(for type: Storable.Type, on queue: DatabaseQueue) throws -> Set<String> {
         let query = "SELECT name FROM sqlite_master WHERE type == 'index' AND tbl_name == ?"
-        
+
         var indexNames: [String] = []
         
         try queue.database { database in
             let statement = try database.statement(for: query)
-            
             let parameters = [type.name]
             
             for row in try statement.execute(withParameters: parameters) {
@@ -72,6 +79,6 @@ extension SQLiteDatabaseIndexer {
             try statement.finalize()
         }
         
-        return indexNames.filter { !$0.contains("sqlite") }
+        return Set(indexNames.filter { !$0.contains("sqlite") })
     }
 }

@@ -25,8 +25,8 @@ struct SQLiteDatabaseInserter {
             
             for (_, readers) in groupedReaders {
                 
-                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)             //FIXME: Can break for Readers with different mapped types
-
+                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)
+                
                 let statement = try database.statement(for: query.query)
                 
                 for reader in readers {
