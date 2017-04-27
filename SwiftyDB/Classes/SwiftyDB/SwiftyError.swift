@@ -8,20 +8,9 @@
 
 import Foundation
 
+/** Errors thrown by SwiftyDB */
 public enum SwiftyError: Error {
     
-    case query(String)
+    /** Any migration related errors. A message describing the error will be provided */
     case migration(String)
-    case unknown(Error)
-    
-//    public var description: String {
-//        switch self {
-//        case .query(let message):
-//            return message
-//        case .migration(let message):
-//            return message
-//        case .unknown(let error):
-//            return error.description
-//        }
-//    }
 }

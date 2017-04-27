@@ -116,7 +116,7 @@ struct SQLiteQueryFactory {
         return SQLiteQuery(query: query, parameters: [])
     }
 
-    static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, sorting: Sorting, limit: Int?, offset: Int?) -> SQLiteQuery {
+    static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, order: Order, limit: Int?, offset: Int?) -> SQLiteQuery {
         
         var query = "SELECT * FROM '\(type.name)'"
         var parameters: [SQLiteValue?] = []
@@ -126,7 +126,7 @@ struct SQLiteQueryFactory {
             parameters += filter.parameters.to(type: SQLiteValue.self)
         }
         
-        query += " \(orderByComponent(for: sorting))"
+        query += " \(orderByComponent(using: order))"
         
         let (limitComponenet, limitParameters) = limitComponent(forLimit: limit, withOffset: offset)
         
@@ -180,8 +180,8 @@ struct SQLiteQueryFactory {
         return Column(name: property, type: datatype)
     }
     
-    private static  func orderByComponent(for sorting: Sorting) -> String {
-        switch sorting {
+    private static  func orderByComponent(using order: Order) -> String {
+        switch order {
         case .ascending(let property):
             return " ORDER BY \(property) ASC"
         case .descending(let property):

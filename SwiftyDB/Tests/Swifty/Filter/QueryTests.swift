@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Nimble
 
 @testable import SwiftyDB
 
@@ -14,14 +15,10 @@ import XCTest
 class QueryTests: XCTestCase {
     fileprivate let intValue    = 7
     
-    fileprivate var databaseMock: ObjectDatabaseMock?
-    
     
     
     override func setUp() {
         super.setUp()
-        
-        databaseMock = ObjectDatabaseMock()
     }
     
     override func tearDown() {

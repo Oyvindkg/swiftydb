@@ -18,10 +18,6 @@ extension SQLiteDatabase {
             var writers: [Writer] = []
             
             try queue.transaction { database in
-    //            guard try database.contains(table: query.type.name) else {
-    //                return
-    //            }
-    //            
                 writers = try self.getWritersFor(reader: reader, using: query, in: database)
             }
                     
@@ -33,9 +29,9 @@ extension SQLiteDatabase {
             
             let query = SQLiteQueryFactory.selectQuery(for:     reader.storableType,
                                                        filter:  query.filter as? SQLiteFilterStatement,
-                                                       sorting: query.sorting,
-                                                       limit:   query.max,
-                                                       offset:  query.start)
+                                                       order:   query.order,
+                                                       limit:   query.limit,
+                                                       offset:  query.skip)
             
             let statement = try database.statement(for: query.query)
                                         .execute(withParameters: query.parameters)

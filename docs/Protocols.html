@@ -13,7 +13,7 @@
     <a title="Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">SwiftyDB Docs</a> (69% documented)</p>
+        <p><a href="index.html">SwiftyDB Docs</a> (83% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -47,7 +47,7 @@
             <a href="Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Enums/Sorting.html">Sorting</a>
+                <a href="Enums/Order.html">Order</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/SwiftyError.html">SwiftyError</a>
@@ -185,9 +185,6 @@
                 <a href="Protocols/AnyQuery.html">AnyQuery</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/ConfigurationProtocol.html">ConfigurationProtocol</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Protocols/FilterStatement.html">FilterStatement</a>
               </li>
               <li class="nav-group-task">
@@ -201,9 +198,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/Mapper.html">Mapper</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Protocols/ObjectDatabase.html">ObjectDatabase</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols.html#/s:P8SwiftyDB8Storable">Storable</a>
@@ -235,6 +229,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a href="Associated Types.html">Associated Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Associated Types.html#/s:P8SwiftyDB13StorableQuery7Subject">Subject</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -245,38 +247,6 @@
 
           </section>
           <section class="section task-group-section">
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:P8SwiftyDB21ConfigurationProtocol"></a>
-                    <a name="//apple_ref/swift/Protocol/ConfigurationProtocol" class="dashAnchor"></a>
-                    <a class="token" href="#/s:P8SwiftyDB21ConfigurationProtocol">ConfigurationProtocol</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A database configuration</p>
-
-                        <a href="Protocols/ConfigurationProtocol.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ConfigurationProtocol</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -422,38 +392,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:P8SwiftyDB14ObjectDatabase"></a>
-                    <a name="//apple_ref/swift/Protocol/ObjectDatabase" class="dashAnchor"></a>
-                    <a class="token" href="#/s:P8SwiftyDB14ObjectDatabase">ObjectDatabase</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>An object database interface used to add, retrieve and delete objects from some persistent store</p>
-
-                        <a href="Protocols/ObjectDatabase.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ObjectDatabase</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:P8SwiftyDB12Identifiable"></a>
                     <a name="//apple_ref/swift/Protocol/Identifiable" class="dashAnchor"></a>
                     <a class="token" href="#/s:P8SwiftyDB12Identifiable">Identifiable</a>
@@ -587,7 +525,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Contains all valid filter methods</p>
+                        <p>Contains all properties used to build a query</p>
 
                         <a href="Protocols/AnyQuery.html" class="slightly-smaller">See more</a>
                       </div>
@@ -615,8 +553,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>A generic query used to retrieve objects</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">StorableQuery</span><span class="p">:</span> <span class="kd">class</span><span class="p">,</span> <span class="kt"><a href="Protocols/AnyQuery.html">AnyQuery</a></span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

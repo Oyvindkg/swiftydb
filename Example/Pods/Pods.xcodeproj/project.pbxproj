@@ -987,10 +987,10 @@
 		D8EC930A842F03F16C6914567067A627 /* Queries */ = {
 			isa = PBXGroup;
 			children = (
+				EA0EEDF09A1937049E3FFAF44F35E8BD /* StorableQuery.swift */,
 				56C831CE4BF2F600027D38E6996354C5 /* Query.swift */,
 				AA467C0DCCEBC11515EA9FC6FABA298B /* FilterOperators.swift */,
 				83F4C4305DE2E9B589C5A5B11D3C6382 /* FilterStatement.swift */,
-				EA0EEDF09A1937049E3FFAF44F35E8BD /* StorableQuery.swift */,
 			);
 			path = Queries;
 			sourceTree = "<group>";

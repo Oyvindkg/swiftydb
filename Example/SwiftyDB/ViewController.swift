@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         
         
         let database = Database(configuration: configuration)
-        
 
         firstly {
             database.add(Dog())
