@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-protocol SQLiteDatabaseIndexer: DatabaseIndexer {
+protocol SQLiteDatabaseIndexer {
     var queue: DatabaseQueue { get }
 }
 

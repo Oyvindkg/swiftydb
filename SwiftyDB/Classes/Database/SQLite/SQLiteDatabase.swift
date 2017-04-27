@@ -9,7 +9,12 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer, SQLiteDatabaseDeleter {
+/** 
+ An interface wrapping an SQLite database.
+ 
+ This structure simply maps data to or from objects, but delegates the query execution to other components such as the `SQLiteDatabaseMigrator`.
+*/
+struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer {
 
     let queue: DatabaseQueue
     
@@ -51,9 +56,9 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseIndexer, SQLiteDatabaseDel
         return ObjectMapper.objects(mappedBy: writers)
     }
     
-    mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {
-        try migrator.migrateType(Query.Subject.self, ifNecessaryOn: queue)
-            
-        try delete(query: query)
+    mutating func delete(using query: AnyQuery) throws {
+        try migrator.migrateType(query.type, ifNecessaryOn: queue)
+
+        try SQLiteDatabaseDeleter.delete(query: query, on: queue)
     }
 }

@@ -10,20 +10,16 @@ import Foundation
 import TinySQLite
 
 
-protocol SQLiteDatabaseDeleter: DatabaseDeleter {
-    var queue: DatabaseQueue { get }
-}
+struct SQLiteDatabaseDeleter {
 
-extension SQLiteDatabaseDeleter {
-
-    func delete(query: AnyQuery) throws {
+    static func delete(query: AnyQuery, on queue: DatabaseQueue) throws {
         
         let query = SQLiteQueryFactory.deleteQuery(for: query.type, filter: query.filter as? SQLiteFilterStatement)
         
         try queue.database { database in
             try database.statement(for: query.query)
-                .executeUpdate(withParameters: query.parameters)
-                .finalize()
+                        .executeUpdate(withParameters: query.parameters)
+                        .finalize()
         }
     }
 }

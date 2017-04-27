@@ -14,7 +14,7 @@ protocol BackingDatabase {
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery
     
-    mutating func delete<Query>(using query: Query) throws where Query : StorableQuery
+    mutating func delete(using query: AnyQuery) throws
 }
 
 extension BackingDatabase {
