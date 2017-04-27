@@ -15,7 +15,7 @@ public protocol Mapper {
     
     subscript(key: String) -> Self { get }
     
-    /* Read or write basic datatypes */
+    /* Read or write basic datatypes (StorableProperty) */
     
     static func <- <T: StorableProperty>(left: inout Array<T>, right: Self)
     static func <- <T: StorableProperty>(left: inout Array<T>?, right: Self)
@@ -33,7 +33,7 @@ public protocol Mapper {
     static func <- <T: StorableProperty>(left: inout T?, right: Self)
     static func <- <T: StorableProperty>(left: inout T!, right: Self)
 
-    /* Read or write nested objects */
+    /* Read or write nested objects (Storable) */
     
     static func <- <T: Storable>(left: inout Array<T>, right: Self)
     static func <- <T: Storable>(left: inout Array<T>?, right: Self)
