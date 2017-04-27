@@ -574,6 +574,25 @@ extension DatabaseTests {
             }
         }
     }
+    
+    func testStorablePropertyDictionaryIsRetreivedCorrectly() {
+        
+        let object = TestClass()
+        
+        object.storablePropertyDictionary = ["Thor": "Another! *throws cup*"]
+        
+        waitUntil { done in
+            _ = firstly {
+                self.database.add(object)
+                }.then {
+                    self.database.get(TestClass.self) as Promise<[TestClass]>
+                }.then { objects -> Void in
+                    expect(objects.first?.storablePropertyDictionary) == object.storablePropertyDictionary
+                    
+                    done()
+            }
+        }
+    }
 }
 
 

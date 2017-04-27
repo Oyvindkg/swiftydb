@@ -12,6 +12,7 @@ infix operator <-
 
 
 public protocol Mapper {
+    
     subscript(key: String) -> Self { get }
     
     /* Read or write basic datatypes */
@@ -23,6 +24,10 @@ public protocol Mapper {
     static func <- <T: StorableProperty>(left: inout Set<T>, right: Self) where T.RawValue : Hashable
     static func <- <T: StorableProperty>(left: inout Set<T>?, right: Self) where T.RawValue : Hashable
     static func <- <T: StorableProperty>(left: inout Set<T>!, right: Self) where T.RawValue : Hashable
+    
+    static func <- <T: StorableProperty, U: StorableProperty>(left: inout Dictionary<T, U>, right: Self) where T.RawValue : Hashable
+    static func <- <T: StorableProperty, U: StorableProperty>(left: inout Dictionary<T, U>?, right: Self) where T.RawValue : Hashable
+    static func <- <T: StorableProperty, U: StorableProperty>(left: inout Dictionary<T, U>!, right: Self) where T.RawValue : Hashable
     
     static func <- <T: StorableProperty>(left: inout T, right: Self)
     static func <- <T: StorableProperty>(left: inout T?, right: Self)

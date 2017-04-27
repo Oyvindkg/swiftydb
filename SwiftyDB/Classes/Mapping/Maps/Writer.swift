@@ -141,17 +141,17 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
 // MARK: Storable value dicitonaries
 
 
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.StorableValueType: Hashable {
-//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue()! )
-//}
-//
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.StorableValueType: Hashable {
-//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
-//}
-//
-//func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.StorableValueType: Hashable {
-//    left = CollectionSerialization.dictionaryFor(string: right.getCurrentValue() )
-//}
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U], right: Writer) where T.RawValue: Hashable {
+    left = dictionaryFromJson( right.getCurrentValue() )!
+}
+
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]?, right: Writer) where T.RawValue: Hashable {
+    left = dictionaryFromJson( right.getCurrentValue() )
+}
+
+func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: Writer) where T.RawValue: Hashable {
+    left = dictionaryFromJson( right.getCurrentValue() )
+}
 
 
 
@@ -162,14 +162,14 @@ func <- <T: StorableProperty>(left: inout Set<T>!, right: Writer) {
 func <- <T: Mappable>(left: inout T, right: Writer) {
     var writer: Writer = right.getCurrentValue()!
     
-    left = ObjectMapper.object(for: &writer)
+    left = ObjectMapper.object(mappedBy: &writer)
 }
 
 func <- <T: Mappable>(left: inout T?, right: Writer) {
     var object: T? = nil
     
     if var writer: Writer = right.getCurrentValue() {
-        object = ObjectMapper.object(for: &writer) as T
+        object = ObjectMapper.object(mappedBy: &writer) as T
     }
     
     left = object
@@ -179,7 +179,7 @@ func <- <T: Mappable>(left: inout T!, right: Writer) {
     var object: T? = nil
     
     if var writer: Writer = right.getCurrentValue() {
-        object = ObjectMapper.object(for:  &writer) as T
+        object = ObjectMapper.object(mappedBy:  &writer) as T
     }
     
     left = object
@@ -191,12 +191,12 @@ func <- <T: Mappable>(left: inout T!, right: Writer) {
 func <- <T: Mappable>(left: inout [T], right: Writer) {
     let writers: [Writer] = right.getCurrentValue()!
     
-    left = ObjectMapper.objects(forWriters: writers)
+    left = ObjectMapper.objects(mappedBy: writers)
 }
 
 func <- <T: Mappable>(left: inout [T]?, right: Writer) {
     if let writers: [Writer] = right.getCurrentValue() {
-        left = ObjectMapper.objects(forWriters: writers)
+        left = ObjectMapper.objects(mappedBy: writers)
     } else {
         left = nil
     }
@@ -204,7 +204,7 @@ func <- <T: Mappable>(left: inout [T]?, right: Writer) {
 
 func <- <T: Mappable>(left: inout [T]!, right: Writer) {
     if let writers: [Writer] = right.getCurrentValue() {
-        left = ObjectMapper.objects(forWriters: writers)
+        left = ObjectMapper.objects(mappedBy: writers)
     } else {
         left = nil
     }
@@ -215,12 +215,12 @@ func <- <T: Mappable>(left: inout [T]!, right: Writer) {
 func <- <T: Mappable>(left: inout Set<T>, right: Writer) {
     let writers: [Writer] = right.getCurrentValue()!
     
-    left = Set(ObjectMapper.objects(forWriters: writers))
+    left = Set(ObjectMapper.objects(mappedBy: writers))
 }
 
 func <- <T: Mappable>(left: inout Set<T>?, right: Writer) {
     if let writers: [Writer] = right.getCurrentValue() {
-        left = Set(ObjectMapper.objects(forWriters: writers))
+        left = Set(ObjectMapper.objects(mappedBy: writers))
     } else {
         left = nil
     }
@@ -228,7 +228,7 @@ func <- <T: Mappable>(left: inout Set<T>?, right: Writer) {
 
 func <- <T: Mappable>(left: inout Set<T>!, right: Writer) {
     if let writers: [Writer] = right.getCurrentValue() {
-        left = Set(ObjectMapper.objects(forWriters: writers))
+        left = Set(ObjectMapper.objects(mappedBy: writers))
     } else {
         left = nil
     }
@@ -245,6 +245,21 @@ private func arrayFromJson<T: StorableProperty>(_ json: String?) -> [T]? {
     let storableValues = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.RawValue]
     
     return storableValues.map { T(rawValue: $0)! }
+}
+
+
+private func dictionaryFromJson<T: StorableProperty, U: StorableProperty>(_ json: String?) -> [T: U]? where T : Hashable, T.RawValue : Hashable {
+    if json == nil {
+        return nil
+    }
+    
+    let jsonData = json!.data(using: .utf8)!
+    
+    let storableValueDictionary = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [T.RawValue: U.RawValue]
+    
+    return storableValueDictionary.map { (key, value) -> (T, U) in
+        return (T(rawValue: key)!, U(rawValue: value)!)
+    }
 }
 
 

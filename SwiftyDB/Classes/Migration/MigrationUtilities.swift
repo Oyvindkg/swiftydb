@@ -10,6 +10,7 @@ import TinySQLite
 
 internal struct MigrationUtilities {
     
+    /** Get a list of property names for the type */
     static func properties(for type: Mappable.Type) -> [String] {
         
         let reader = ObjectMapper.read(type: type)
@@ -18,12 +19,14 @@ internal struct MigrationUtilities {
                                    .map { $0.key }
     }
     
+    /** Get information reflecting the type */
     static func typeInformationFor(type: Storable.Type) -> TypeInformation {
         return TypeInformation(name:            String(describing: type),
                                properties:      properties(for: type),
                                identifierName:  type.identifier())
     }
     
+    /** Get information reflecting the database's represntation of the type */
     static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation {
         
         let statement = try database.statement(for: "SELECT * FROM \(type.name) LIMIT 0")

@@ -9,7 +9,7 @@
 import Foundation
 import TinySQLite
 
-struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseInserter, SQLiteDatabaseIndexer, SQLiteDatabaseDeleter {
+struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDatabaseIndexer, SQLiteDatabaseDeleter {
 
     
     var existingTables: Set<String> = []
@@ -42,17 +42,16 @@ struct SQLiteDatabase: BackingDatabase, SQLiteDatabaseTableCreator, SQLiteDataba
             try migrator.migrateType(reader.type as! Storable.Type, ifNecessaryOn: databaseQueue)
         }
         
-        try add(readers: readers)
+        try SQLiteDatabaseInserter.add(readers: readers, on: databaseQueue)
     }
     
     mutating func get<Query>(using query: Query) throws -> [Query.Subject] where Query : StorableQuery {
         
         try migrator.migrateType(Query.Subject.self, ifNecessaryOn: databaseQueue)
         
-        
         let writers = try SQLiteDatabaseRetriever.get(using: query, on: databaseQueue)
         
-        return ObjectMapper.objects(forWriters: writers)
+        return ObjectMapper.objects(mappedBy: writers)
     }
     
     mutating func delete<Query>(using query: Query) throws where Query : StorableQuery {

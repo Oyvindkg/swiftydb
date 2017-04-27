@@ -9,22 +9,22 @@
 import Foundation
 import TinySQLite
 
-protocol SQLiteDatabaseInserter: DatabaseInserter {
-    var databaseQueue: DatabaseQueue { get }
-}
 
-extension SQLiteDatabaseInserter {
+/** Extracts data from `Reader`s and inserts them into the SQLite database */
+struct SQLiteDatabaseInserter {
  
-    func add(readers: [Reader]) throws {
+    static func add(readers: [Reader], on queue: DatabaseQueue) throws {
         guard readers.count > 0 else {
             return
         }
         
-        let mappedReaders = readers.group { String(describing: $0.type) }
+        let mappedReaders = readers.group { $0.storableType.name }
         
-        try databaseQueue.transaction { database in
+        try queue.transaction { database in
+            
             for (_, readers) in mappedReaders {
-                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)
+                
+                let query = SQLiteQueryFactory.insertQuery(for: readers.first!)             //FIXME: Can break for Readers with different mapped types
 
                 let statement = try database.statement(for: query.query)
                 

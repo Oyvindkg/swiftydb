@@ -15,7 +15,7 @@ struct ObjectMapper {
     /** 
     Get an object populated with data from the provided `Writer`
     */
-    static func object<T: Mappable>(for writer: inout Writer) -> T {
+    static func object<T: Mappable>(mappedBy writer: inout Writer) -> T {
         var object = T.mappableObject() as! T
 
         object.map(using: &writer)
@@ -23,14 +23,12 @@ struct ObjectMapper {
         return object
     }
     
-    /** 
-    Get objects populated with data from the provided `Writer`s
-    */
-    static func objects<T: Mappable>(forWriters writers: [Writer]) -> [T] {
+    /** Get objects populated with data from the provided `Writer`s */
+    static func objects<T: Mappable>(mappedBy writers: [Writer]) -> [T] {
         return writers.map { writer in
             var mutableWriter = writer
             
-            return object(for: &mutableWriter)
+            return object(mappedBy: &mutableWriter)
         }
     }
     

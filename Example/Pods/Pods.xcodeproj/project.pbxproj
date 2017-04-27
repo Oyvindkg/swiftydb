@@ -87,7 +87,6 @@
 		69258135ED77DEE733422F18DBE5B796 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047D4B697BBCF08DCC1768059AE1BBFF /* Writer.swift */; };
 		69ADA663D1E21969A585F809DF28AF33 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E389215BB358591DB4FCD5E873D7F2C /* Functional.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
 		6B5A6CFBB437E160F9409D82B18C2C47 /* race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD3919F951A99266FE7F3D33134B65B /* race.swift */; };
-		6C4C1D7D8254AD6514C4BACF370D5852 /* CollectionSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDB5CA0A4BBCFAEAD154FB92EDF646A /* CollectionSerialization.swift */; };
 		6CFC59750452DA3BB2E9A37C6AA3E2D0 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3BAFC8E66F2584B1F3D2EBF2FD8E10 /* ArrayExtensions.swift */; };
 		6DA1B0B6DC77304252C08BF684774EF1 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15762A874F7169B799542A2A7812CCE /* Mappable.swift */; };
 		6DFA475D8977DB63EB600DB5E1418C1C /* DatabaseRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67A0A389EA2989DD30EDD7DB85F0A1B /* DatabaseRetriever.swift */; };
@@ -419,7 +418,6 @@
 		8B1FAC144EF7C6F1CCEEE8A1CF372B94 /* when.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = when.m; path = Sources/when.m; sourceTree = "<group>"; };
 		8B4D22F45E286E71B4969DE0257DB180 /* CwlDarwinDefinitions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CwlDarwinDefinitions.swift; path = Sources/Lib/CwlPreconditionTesting/CwlPreconditionTesting/CwlDarwinDefinitions.swift; sourceTree = "<group>"; };
 		8B8533E2F108F5457DA1C13C4DB80E27 /* Pods-SwiftyDB_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftyDB_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		8BDB5CA0A4BBCFAEAD154FB92EDF646A /* CollectionSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionSerialization.swift; sourceTree = "<group>"; };
 		8C3D32937F68A5ED4CFB6D1141F1C657 /* Pods-SwiftyDB_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwiftyDB_Example-resources.sh"; sourceTree = "<group>"; };
 		8E174CE1CF25B7EE67CEA3E9DB00513B /* Pods-SwiftyDB_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwiftyDB_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		8F5300326CD4088BEB750754E1FBE9EB /* MatcherProtocols.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MatcherProtocols.swift; path = Sources/Nimble/Matchers/MatcherProtocols.swift; sourceTree = "<group>"; };
@@ -666,7 +664,6 @@
 		256B94E5E33A5E1E891DC0738E0DC8BB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				8BDB5CA0A4BBCFAEAD154FB92EDF646A /* CollectionSerialization.swift */,
 				3F7E9F4BF2C9000ADE52D28892B193EC /* SQLiteDatatype.swift */,
 				820A1433012E626B8C2605D225CC3B38 /* SQLiteFilterStatement.swift */,
 				09E3F81B32073B5D8E7836F822931099 /* SQLiteQueryFactory.swift */,
@@ -1572,7 +1569,6 @@
 			files = (
 				6CFC59750452DA3BB2E9A37C6AA3E2D0 /* ArrayExtensions.swift in Sources */,
 				8702A2F6C89D5D4547F020FC9C7ECEC0 /* BackingDatabase.swift in Sources */,
-				6C4C1D7D8254AD6514C4BACF370D5852 /* CollectionSerialization.swift in Sources */,
 				735F073DDF57C70ACB89070CD41DEB41 /* Configuration.swift in Sources */,
 				289E984DCFA585B073BA3F8319729639 /* ConfigurationProtocol.swift in Sources */,
 				15D81DF46B9DBEF46668DBB9E736A6E5 /* Database.swift in Sources */,

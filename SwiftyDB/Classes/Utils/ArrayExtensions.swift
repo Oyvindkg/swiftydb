@@ -58,13 +58,13 @@ extension Collection {
         return Iterator.Element.self
     }
     
-    func group<T: Hashable>(by: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
+    func group<T: Hashable>(by block: (Iterator.Element) -> T) -> [T: [Iterator.Element]] {
         var grouped: [T: [Iterator.Element]] = [:]
         
-        let keys = Set(self.map(by))
+        let keys = Set(map(block))
         
         for key in keys {
-            grouped[key] = self.filter { by($0) == key }
+            grouped[key] = filter { block($0) == key }
         }
         
         return grouped

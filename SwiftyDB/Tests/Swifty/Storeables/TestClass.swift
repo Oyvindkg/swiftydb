@@ -50,8 +50,9 @@ class TestClass: Storable {
     var storableSet: Set<Wolf> = [Wolf(name: "Doggy", age: 1), Wolf(name: "Lady", age: 5)]
     var storable               = Wolf(name: "Ghost", age: 9)
     
-    var storablePropertyArray: [String]   = ["string", "otherString"]
-    var storablePropertySet: Set<String>   = ["string", "otherString"]
+    var storablePropertyArray: [String]                = ["string", "otherString"]
+    var storablePropertySet: Set<String>               = ["string", "otherString"]
+    var storablePropertyDictionary: [String: String]   = ["string": "otherString"]
     
     // MARK: - Optionals
     
@@ -128,8 +129,9 @@ extension TestClass: Mappable {
         storableSet    <- mapper["storableSet"]
         storable       <- mapper["storable"]
         
-        storablePropertySet     <- mapper["storablePropertySet"]
-        storablePropertyArray   <- mapper["storablePropertyArray"]
+        storablePropertySet        <- mapper["storablePropertySet"]
+        storablePropertyArray      <- mapper["storablePropertyArray"]
+        storablePropertyDictionary <- mapper["storablePropertyDictionary"]
         
         optionalString      <- mapper["optionalString"]
         optionalCharacter   <- mapper["optionalCharacter"]
