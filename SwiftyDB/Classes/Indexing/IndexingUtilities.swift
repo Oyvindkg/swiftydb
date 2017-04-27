@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct IndexingUtils {
+struct IndexingUtilities {
 
     static func name(of index: AnyIndex, for type: Storable.Type) -> String {
         

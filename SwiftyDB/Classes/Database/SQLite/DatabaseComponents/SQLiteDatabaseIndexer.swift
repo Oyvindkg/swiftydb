@@ -24,7 +24,7 @@ extension SQLiteDatabase {
                 return
             }
             
-            let currentIndexNames  = IndexingUtils.indexNames(for: type)
+            let currentIndexNames  = IndexingUtilities.indexNames(for: type)
             let databaseIndexNames = try indexNames(for: type, on: queue)
             
             guard currentIndexNames != databaseIndexNames else {
@@ -37,7 +37,7 @@ extension SQLiteDatabase {
             let removedIndexNames = databaseIndexNames.subtracting(currentIndexNames)
             
             let addedIndices = indexableType.indices().filter { index in
-                let name = IndexingUtils.name(of: index, for: type)
+                let name = IndexingUtilities.name(of: index, for: type)
                 
                 return addedIndexNames.contains(name)
             }

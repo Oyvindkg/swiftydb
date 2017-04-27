@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DefaultObjectSerializer: ObjectSerializer {
+struct ObjectSerializer {
     
     static func readers<T: Storable>(for storable: T?) -> [Reader] {
         guard storable != nil else {

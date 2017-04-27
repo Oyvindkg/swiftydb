@@ -66,7 +66,7 @@ private enum Operation: String {
 struct SQLiteQueryFactory {
 
     static func createIndexQuery(for index: AnyIndex, for type: Storable.Type) -> SQLiteQuery {
-        let name = IndexingUtils.name(of: index, for: type)
+        let name = IndexingUtilities.name(of: index, for: type)
         
         var escapedColumnNames: [String] = []
         

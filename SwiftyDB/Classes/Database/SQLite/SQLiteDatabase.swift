@@ -38,7 +38,7 @@ struct SQLiteDatabase: BackingDatabase {
     mutating func add<T : Storable>(objects: [T]) throws {
         
         let readers = objects.flatMap { object in
-            return DefaultObjectSerializer.readers(for: object)
+            return ObjectSerializer.readers(for: object)
         }
 
         for reader in readers {

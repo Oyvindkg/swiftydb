@@ -39,35 +39,4 @@ internal struct MigrationUtilities {
                                properties:      properties(for: type),
                                identifierName:  type.identifier())
     }
-    
-    /** Get information reflecting the database's represntation of the type */
-    static func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation? {
-        
-        let statement = try database.statement(for: "PRAGMA table_info(\(type.name))")
-                                    .execute()
-        
-        var properties: [String] = []
-        var identifier: String?
-        
-        for row in statement {
-            let name         = row.stringForColumn("name")!
-            let isPrimaryKey = row.boolForColumn("pk")!
-            
-            properties.append(name)
-            
-            if isPrimaryKey {
-                identifier = name
-            }
-        }
-        
-        try statement.finalize()
-        
-        if properties.isEmpty && identifier == nil {
-            return nil
-        }
-        
-        return TypeInformation(name:            type.name,
-                               properties:      properties,
-                               identifierName:  identifier!)
-    }
 }

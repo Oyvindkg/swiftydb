@@ -60,7 +60,7 @@ extension SQLiteDatabase {
             
             try queue.transaction { database in
                 
-                guard let databaseType = try MigrationUtilities.typeInformationFor(type: type, in: database) else {
+                guard let databaseType = try typeInformationFor(type: type, in: database) else {
                     return try createTable(for: type, in: database)
                 }
 
@@ -82,6 +82,38 @@ extension SQLiteDatabase {
             }
         }
 
+        
+        /** Get information reflecting the database's represntation of the type */
+        fileprivate func typeInformationFor(type: Storable.Type, in database: DatabaseConnection) throws -> TypeInformation? {
+            
+            let statement = try database.statement(for: "PRAGMA table_info(\(type.name))")
+                .execute()
+            
+            var properties: [String] = []
+            var identifier: String?
+            
+            for row in statement {
+                let name         = row.stringForColumn("name")!
+                let isPrimaryKey = row.boolForColumn("pk")!
+                
+                properties.append(name)
+                
+                if isPrimaryKey {
+                    identifier = name
+                }
+            }
+            
+            try statement.finalize()
+            
+            if properties.isEmpty && identifier == nil {
+                return nil
+            }
+            
+            return TypeInformation(name:            type.name,
+                                   properties:      properties,
+                                   identifierName:  identifier!)
+        }
+        
         fileprivate func moveDataForProperties(_ properties: Set<String>, from table: String, to targetTable: String, in database: DatabaseConnection) throws {
             let columns = properties.joined(separator: ", ")
             
