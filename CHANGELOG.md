@@ -9,12 +9,12 @@ Rebuilt from the ground up to provide a type safe, and versatile database.
 **Main features**
 * Any structure or class can be made storable in a simple extension
 * Store any property type, nested objects, and most collections
-** You can make any property type storable by extending it with `StorableProperty`, which is a `RawRepresentable` with the `RawValue` associated type constrained to either a `String`, `Int`, or `Double` type.
+   * You can make any property type storable by extending it with `StorableProperty`, which is a `RawRepresentable` with the `RawValue` associated type constrained to either a `String`, `Int`, or `Double` type.
 * Create custom indices to improve query performance
 * Migrate data when updating your models
-** SwiftyDB automatically updates the database tables as you add or remove properties
+   * SwiftyDB automatically updates the database tables as you add or remove properties
 * Keep the SwiftyDB integration completely separated from your implementation
-** SwiftyDB is exclusively protocol based, and has no required initializers. This means that you can keep all SwiftyDB integration in a separate file, avoiding tempering with your implementation. Replacing SwiftyDB will be as simple as deleting the integration file. 
+   * SwiftyDB is exclusively protocol based, and has no required initializers. This means that you can keep the integration in a separate file to avoid tempering with your project implementation. Replacing SwiftyDB will be as simple as deleting the integration file and removing the pod.
 
 **Supported package managers**
 * CocoaPods
