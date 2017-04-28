@@ -156,16 +156,16 @@ func <- <T: StorableProperty, U: StorableProperty>(left: inout [T: U]!, right: W
 
 
 func <- <T: Mappable>(left: inout T, right: Writer) {
-    var writer: Writer = right.getCurrentValue()!
+    let writer: Writer = right.getCurrentValue()!
     
-    left = ObjectMapper.object(mappedBy: &writer)
+    left = ObjectMapper.object(mappedBy: writer)
 }
 
 func <- <T: Mappable>(left: inout T?, right: Writer) {
     var object: T? = nil
     
-    if var writer: Writer = right.getCurrentValue() {
-        object = ObjectMapper.object(mappedBy: &writer) as T
+    if let writer: Writer = right.getCurrentValue() {
+        object = ObjectMapper.object(mappedBy: writer) as T
     }
     
     left = object
@@ -174,8 +174,8 @@ func <- <T: Mappable>(left: inout T?, right: Writer) {
 func <- <T: Mappable>(left: inout T!, right: Writer) {
     var object: T? = nil
     
-    if var writer: Writer = right.getCurrentValue() {
-        object = ObjectMapper.object(mappedBy:  &writer) as T
+    if let writer: Writer = right.getCurrentValue() {
+        object = ObjectMapper.object(mappedBy:  writer) as T
     }
     
     left = object

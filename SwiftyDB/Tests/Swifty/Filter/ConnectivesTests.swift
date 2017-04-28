@@ -17,14 +17,14 @@ public class ConnectivesTests: XCTestCase {
         let statement: FilterStatement        = "age" == 11 && "name" == "Arya"
         let negatedStatement: FilterStatement = "age" != 11 || "name" != "Arya"
         
-        expect(statement.negated() as? Connective) == negatedStatement as! Connective
+        expect(statement.negated() as? Connective) == negatedStatement as? Connective
     }
     
     func testNegatedDisjunctionIsAConjunctionOfTheNegatedOperands() {
         let statement: FilterStatement        = "age" != 11 || "name" != "Arya"
         let negatedStatement: FilterStatement = "age" == 11 && "name" == "Arya"
         
-        expect(statement.negated() as? Connective) == negatedStatement as! Connective
+        expect(statement.negated() as? Connective) == negatedStatement as? Connective
     }
 }
 

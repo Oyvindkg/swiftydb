@@ -131,7 +131,7 @@ struct SQLiteQueryFactory {
         let (limitComponenet, limitParameters) = limitComponent(forLimit: limit, withOffset: offset)
         
         query      += limitComponenet
-        parameters += limitParameters as! [SQLiteValue?]
+        parameters += limitParameters
         
         
         return SQLiteQuery(query: query, parameters: parameters)

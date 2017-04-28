@@ -63,7 +63,7 @@ public class ConfigurationTests: XCTestCase {
     }
     
     func testLocationForSandboxModeIsInASubdirectory() {
-        var configuration = Database.Configuration(name: "Hamlet")
+        let configuration = Database.Configuration(name: "Hamlet")
         
         let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
             .appendingPathComponent("sandbox")
@@ -74,7 +74,7 @@ public class ConfigurationTests: XCTestCase {
     }
     
     func testLocationForNormalModeIsInASubdirectory() {
-        var configuration = Database.Configuration(name: "Hamlet")
+        let configuration = Database.Configuration(name: "Hamlet")
         
         let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
             .appendingPathComponent("normal")

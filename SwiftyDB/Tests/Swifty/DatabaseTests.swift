@@ -64,7 +64,7 @@ public class DatabaseTests: XCTestCase {
         let database = Database(database: backingDatabase, configuration: configuration)
         
         waitUntil { done in
-            database.add(Wolf(name: "Lady", age: 6)).then {
+            _ = database.add(Wolf(name: "Lady", age: 6)).then {
                 done()
             }
         }
@@ -84,7 +84,7 @@ public class DatabaseTests: XCTestCase {
         ]
         
         waitUntil { done in
-            database.add(objects: wolves).then {
+            _ = database.add(objects: wolves).then {
                 done()
             }
         }
@@ -101,7 +101,7 @@ public class DatabaseTests: XCTestCase {
         let ghost = Wolf(name: "Ghost", age: 6)
         
         waitUntil { done in
-            database.add(objects: lady, ghost).then {
+            _ = database.add(objects: lady, ghost).then {
                 done()
             }
         }
@@ -115,7 +115,7 @@ public class DatabaseTests: XCTestCase {
         let database = Database(database: backingDatabase, configuration: configuration)
         
         waitUntil { done in
-            database.get(Stark.self).then { _ in
+            _ = database.get(Stark.self).then { _ in
                 done()
             }
         }
@@ -138,7 +138,7 @@ public class DatabaseTests: XCTestCase {
         let query = Query.get(Stark.self).where("age" < 10).limit(to: 5).skip(0).order(by: "name", ascending: false)
         
         waitUntil { done in
-            database.get(using: query).then { _ in
+            _ = database.get(using: query).then { _ in
                 done()
             }
         }
@@ -150,7 +150,7 @@ public class DatabaseTests: XCTestCase {
         }
         
         expect(executedQuery.type is Stark.Type) == true
-        expect("\(executedQuery.filter)") == "\(query.filter)"
+        expect(String(describing: executedQuery.filter)) == String(describing: query.filter)
         expect(executedQuery.limit) == query.limit
         expect(executedQuery.skip) == query.skip
         expect(property) == "name"
@@ -160,7 +160,7 @@ public class DatabaseTests: XCTestCase {
         let database = Database(database: backingDatabase, configuration: configuration)
         
         waitUntil { done in
-            database.delete(Stark.self).then { _ in
+            _ = database.delete(Stark.self).then { _ in
                 done()
             }
         }
@@ -177,7 +177,7 @@ public class DatabaseTests: XCTestCase {
         let query = Query.delete(Stark.self).where("age" < 10)
         
         waitUntil { done in
-            database.delete(using: query).then { _ in
+            _ = database.delete(using: query).then { _ in
                 done()
             }
         }
@@ -185,7 +185,7 @@ public class DatabaseTests: XCTestCase {
         let executedQuery = backingDatabase.manager.lastCall(toFunction: "delete(using:)")!.parameters[0] as! AnyQuery
 
         expect(executedQuery.type is Stark.Type) == true
-        expect("\(executedQuery.filter)") == "\(query.filter)"
+        expect(String(describing: executedQuery.filter)) == String(describing: query.filter)
     }
     
 }
