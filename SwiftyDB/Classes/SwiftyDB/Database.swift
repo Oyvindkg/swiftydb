@@ -16,13 +16,13 @@ import PromiseKit
 open class Database {
     
     /** The available operation modes for the database */
-    public enum Mode {
+    public enum Mode: String {
         
         /** All objects are stored persistently */
-        case normal
+        case normal = "normal"
         
         /** Copies the current database into a dummy database. Any changes made in sandbox mode will not affect the original database, and will be lost when the Swifty instance is destroyed. */
-        case sandbox
+        case sandbox = "sandbox"
     }
     
     /** The underlying database. At the moment, this is an SQLite database */

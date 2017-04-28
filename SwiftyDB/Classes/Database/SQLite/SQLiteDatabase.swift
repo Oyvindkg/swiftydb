@@ -21,7 +21,7 @@ struct SQLiteDatabase: BackingDatabase {
     var migrator = SQLiteDatabase.Migrator()
     var indexer  = SQLiteDatabase.Indexer()
     
-    init(configuration: Configuration) {
+    init(configuration: Database.Configuration) {
         
         /* Copy any exsiting database to create a sandbox database */
         if configuration.mode == .sandbox {

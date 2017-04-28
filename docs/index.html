@@ -259,13 +259,15 @@
 
 <p><a href="#features">Features</a><br />
 <a href="#usage">Usage</a><br />
-&emsp; <a href="#usingTheDatabase">Using the database</a><br />
+&emsp; <a href="#usingTheDatabase">Creating the database</a><br />
 &emsp;&emsp; <a href="#retrievingObjects">Retrieving objects</a><br />
 &emsp;&emsp; <a href="#storingObjects">Storing objects</a><br />
 &emsp;&emsp; <a href="#deletingObjects">Deleting objects</a><br />
 &emsp; <a href="#definingObjects">Defining objects</a><br />
+&emsp;&emsp; <a href="#mappingObjects">Mappable</a><br />
+&emsp;&emsp; <a href="#identifyingObjects">Identifiable</a><br />
+&emsp;&emsp; <a href="#indexingObjects">Indexable</a><br />
 &emsp; <a href="#migratingObjects">Migration</a><br />
-&emsp; <a href="#indexingObjects">Indexing</a><br />
 <a href="#installation">Installation</a><br />
 <a href="#limitations">Limitations</a><br />
 <a href="#performance">Performance</a><br />
@@ -273,52 +275,57 @@
 <a href='#a-name-features-main-features-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-features-main-features-a'><a name="features">Main features</a></h2>
 
 <ul>
+<li>[x] Type safe and developer friendly</li>
 <li>[x] Store nested objects</li>
-<li>[x] Store array, set, and dictionary type properties</li>
+<li>[x] Store arrays, sets, and dictionaries</li>
 <li>[x] Asynchronous database access</li>
 <li>[x] Thread safe database operations</li>
-<li>[x] Custom indices</li>
-<li>[x] Migration</li>
+<li>[x] Create custom indices to improve query performance</li>
+<li>[x] Automated migration</li>
 </ul>
 <a href='#a-name-usage-usage-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-usage-usage-a'><a name="usage">Usage</a></h2>
-<a href='#a-name-usingthedatabase-access-the-database-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-usingthedatabase-access-the-database-a'><a name="usingTheDatabase">Access the database</a></h3>
+<a href='#a-name-usingthedatabase-creating-the-database-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-usingthedatabase-creating-the-database-a'><a name="usingTheDatabase">Creating the database</a></h3>
 
 <p>The easiest way to open a database, is simply providing a name for the database.</p>
-<pre class="highlight plaintext"><code>let swifty = Swifty(name: "Westeros")
+<pre class="highlight plaintext"><code>let database = Database(name: "Westeros")
 </code></pre>
 
 <p>For a more detailed configuration, create a new <code>Configuration</code> object, and initiate the database</p>
 <pre class="highlight plaintext"><code>var configuration = Configuration(name: "Westeros")
 
 configuration.directory = "~/some/dir"
-configuration.mode = .sandbox
+configuration.mode      = .sandbox
 
-let swifty = Swifty(configuration: configuration)
+let database = Database(configuration: configuration)
 </code></pre>
 <a href='#a-name-retrievingobjects-retrieving-objects-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-retrievingobjects-retrieving-objects-a'><a name="retrievingObjects">Retrieving objects</a></h4>
 
 <p>In order to retrieve all objects of a type from the database, simply call the <code>get(..)</code> method with the requested object type as a parameter.
 <code>swift
-swifty.get(Stark.self) { result in
-  let starks = result.value
+database.get(Stark.self).then { starks in
+  /* Use the retreived starks */
 }
 </code></p>
 <a href='#filtering-results' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='filtering-results'>Filtering results</h5>
 
 <p>Filtering results is really simple due to SwiftyDB&rsquo;s expressive and powerfull query language<br>
-<code>Swift
-swifty.get(Stark.self).filter( (&quot;name&quot; == &quot;Sansa&quot; &amp;&amp; &quot;age&quot; &lt; 20) || &quot;name&quot; == &quot;Arya&quot;) { result in
-  let livingStarks = result.value
-}
-</code>
-It is also possible to filter results based on their nested objects&rsquo; identifier
 &ldquo;`Swift
+let query = Query.get(Stark.self).where(<q>name</q> == <q>Sansa</q> || <q>age</q> &lt; 15)</p>
+
+<p>database.get(using: query).then { starks in
+  /* Use the retreived starks */
+}
+<code>
+It is also possible to filter results based on their nested objects&#39; identifier
+</code>Swift
 let lady  = Wolf(name: <q>Lady</q>)
 let ghost = Wolf(name: <q>Ghost</q>)</p>
 
-<p>/* Using a storable object in filters is short hand for <code>&lt;Storable&gt;.&lt;identifier&gt;</code> */
-swifty.get(Stark.self).filter(<q>wolf</q> == lady || <q>wolf</q> == ghost) { result in
-  let sansa = result.value
+<p>let query = Query.get(Stark.self).where(<q>wolf</q> == lady || <q>wolf</q> == ghost)</p>
+
+<p>/* Using a storable object in filters is short hand for <code>&lt;Storable&gt;.&lt;identifier&gt;</code> <em>/
+database.get(using: query).then { starks in
+  /</em> Use the retreived starks */
 }
 &rdquo;`</p>
 
@@ -353,11 +360,11 @@ swifty.get(Stark.self).filter(<q>wolf</q> == lady || <q>wolf</q> == ghost) { res
 <td style="text-align: left">X is greater than or equal to Y</td>
 </tr>
 <tr>
-<td style="text-align: center">~=</td>
+<td style="text-align: center">≈≈</td>
 <td style="text-align: left">X matches pattern Y</td>
 </tr>
 <tr>
-<td style="text-align: center">!~</td>
+<td style="text-align: center">!≈</td>
 <td style="text-align: left">X does not match pattern Y</td>
 </tr>
 <tr>
@@ -401,36 +408,32 @@ swifty.get(Stark.self).filter(<q>wolf</q> == lady || <q>wolf</q> == ghost) { res
 
 <p>Sorting the results is also possible by using the <code>sort(.., ascending: ..)</code> method.
 <code>Swift
-swifty.get(Stark.self).sort(&quot;name&quot;) { result in
-  let starks = result.value
-}
+let query = Query.get(Stark.self).order(by: &quot;name&quot;, ascending: true)
 </code></p>
 <a href='#limitig-results' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='limitig-results'>Limitig results</h5>
 
 <p>To improve the performance of your queries, SwiftyDB offers simple pagination using the <code>start(..)</code> and <code>max(..)</code> methods. <code>start(..)</code> specifies the index of the first included result element, and <code>max(..)</code> specifies the maximum number of elements to be retrieved.
 <code>Swift
-/* Retrieve 4 starks, skipping the first 2 results */
-swifty.get(Stark.self).skip(2).max(4) { result in
-  let starks = result.value
-}
+/* Retrieve 3 starks, skipping the first 2 results */
+let query = Query.get(Stark.self).max(3).skip(2)
 </code></p>
 <a href='#a-name-storingobjects-storing-objects-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-storingobjects-storing-objects-a'><a name="storingObjects">Storing objects</a></h4>
 <pre class="highlight plaintext"><code>let arya = Stark(name: "Arya", age: 9)
 
-swifty.add(arya) { result in 
-  if errorMessage = result.errorMessage {
-    // Handle errors
-  }
+database.add(arya).catch { error in 
+  /* Handle any errors */
 }
 </code></pre>
 <a href='#a-name-deletingobjects-deleting-objects-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-deletingobjects-deleting-objects-a'><a name="deletingObjects">Deleting objects</a></h4>
-<pre class="highlight plaintext"><code>swifty.delete(Stark.self).filter("name" == "Eddard") { result in
-  // Handle result
+<pre class="highlight plaintext"><code>let query = Query.delete(Stark.self).where("name" == "Eddard")
+
+database.delete(using: query).catch { error in
+  /* Handle any errors */
 }
 </code></pre>
 <a href='#a-name-definingobjects-defining-objects-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-definingobjects-defining-objects-a'><a name="definingObjects">Defining objects</a></h3>
 
-<p>Any object can be storable by implementing the <code>Storable</code> protocol as an extension. This protocol consists of the <code>Mappable</code> and <code>Identifiable</code> protocols. </p>
+<p>Any object can be storable by implementing the <code>Storable</code> protocol as an extension. This protocol consists of the <code>Mappable</code> and <code>Identifiable</code> protocols. This section will show how to make the <code>Stark</code> class storable.</p>
 <pre class="highlight plaintext"><code>struct Stark {
   var name: String
   var wolf: Wolf?
@@ -442,80 +445,59 @@ swifty.add(arya) { result in
   }
 }
 </code></pre>
-<a href='#mappable' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='mappable'>Mappable</h4>
+<a href='#a-name-mappingobjects-mappable-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-mappingobjects-mappable-a'><a name="mappingObjects">Mappable</a></h4>
 
 <p>Because the dynamic aspects of the Swift language are limited to read operations, this protocol is used to instantiate new objects and populate them with data dynamically.</p>
 <pre class="highlight plaintext"><code>extension Stark: Mappable {
+
+  /** Create a new object */
   static func mappableObject() -&gt; Mappable {
     return Stark(name: "", age: 0)
   }
 
-  func mapping(map: Map) {
-    name &lt;- map["name"]
-    age  &lt;- map["age"]
-    wolf &lt;- map["wolf"]
+  /** Used to read and write data to objects */
+  mutating func map&lt;M&gt;(using mapper: M) where M : Mapper {
+    name &lt;- mapper["name"]
+    age  &lt;- mapper["age"]
+    wolf &lt;- mapper["wolf"]
   }
 }
 </code></pre>
 
 <blockquote>
-<p>Inheritance is supported by overriding <code>mapping(map: Map)</code> and <code>mappableObject()</code> in the subtype. Remember to call <code>super.mapping(map)</code></p>
+<p>Inheritance is supported by overriding <code>map(using: Mapper)</code> and <code>mappableObject()</code> in the subtype. Remember to call <code>super.mapping(map)</code>!</p>
 </blockquote>
-<a href='#identifiable' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='identifiable'>Identifiable</h4>
+<a href='#a-name-identifyingobjects-identifiable-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-identifyingobjects-identifiable-a'><a name="identifyingObjects">Identifiable</a></h4>
 
 <p>This protocol is used to identify unique objects in the database. This is necessary for the database to keep track of the individual objects and their references. </p>
 
 <p><code>identifier()</code> should return the name of a property that uniquely identifies an object.</p>
 <pre class="highlight plaintext"><code>extension Stark: Identifiable {
+
   static func identifier() -&gt; String {
     return "name"
   }
 }
 </code></pre>
-<a href='#a-name-migratingobjects-migration-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-migratingobjects-migration-a'><a name="migratingObjects">Migration</a></h3>
+<a href='#a-name-indexingobjects-indexable-optional-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='a-name-indexingobjects-indexable-optional-a'><a name="indexingObjects">Indexable (optional)</a></h4>
 
-<p>If Swifty detects that the properties of a type does not match those stored in the database, it will try to initiate a migration. For a Storable type to be migratable, you must implement the <code>Migratable</code> protocol. </p>
-
-<p><code>migrate(..)</code> instructs Swifty how to map the existing data to the updated properties. Currently, it supports adding, removing, renaming, and changing type.</p>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Stark</span><span class="p">:</span> <span class="kt">Migratable</span> <span class="p">{</span>
-  <span class="kd">static</span> <span class="kd">func</span> <span class="nf">migrate</span><span class="p">(</span><span class="nv">migration</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Migration</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="k">if</span> <span class="n">migration</span><span class="o">.</span><span class="n">schemaVersion</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">{</span>
-
-      <span class="cm">/* Add a new property */</span>
-      <span class="n">migration</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="s">"height"</span><span class="p">,</span> <span class="n">defaultValue</span><span class="p">:</span> <span class="mf">178.0</span><span class="p">)</span>
-
-      <span class="cm">/* Remove an existing property */</span>
-      <span class="n">migration</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="s">"age"</span><span class="p">)</span>
-
-      <span class="cm">/* Rename an existing property */</span>
-      <span class="n">migration</span><span class="o">.</span><span class="nf">migrate</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="o">.</span><span class="nf">rename</span><span class="p">(</span><span class="s">"firstName"</span><span class="p">)</span>
-
-      <span class="cm">/* Change the type of an exsisting property from `String` to `Double` */</span>
-      <span class="n">migration</span><span class="o">.</span><span class="nf">migrate</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="o">.</span><span class="nf">transform</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">stringValue</span> <span class="k">in</span>
-        <span class="k">return</span> <span class="kt">Double</span><span class="p">(</span><span class="n">stringValue</span><span class="o">!</span><span class="p">)</span>
-      <span class="p">}</span>
-
-      <span class="cm">/* Remember to update the schema version */</span>
-      <span class="n">migration</span><span class="o">.</span><span class="n">schemaVersion</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-
-<blockquote>
-<p>When testing your migrations, use <code>.sandbox</code> mode in the database configuration to avoid unwanted changes in the database</p>
-</blockquote>
-<a href='#a-name-indexingobjects-indexing-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-indexingobjects-indexing-a'><a name="indexingObjects">Indexing</a></h3>
-
-<p>Creating an index on frequently queried properties can greatly increase thequery performance. Indexing a porperty, or collection of properties, can improve filtering and ordering of results.</p>
+<p>Creating an index on frequently queried properties can greatly improve retrieval performance. Create an index by providing a collection of properties to be indexed, and an optional filter used to limit the index domain.</p>
 <pre class="highlight plaintext"><code>extension Stark: Indexable {
-  static func index(index: Index) {
-    index.on("age")
-    index.on("age").filter("name" &lt;&lt; ["Arya", "Sansa"] &amp;&amp; "age" &gt; 8)
+  static func indices() -&gt; [AnyIndex] {
+    return [
+      Index.on("age"),
+      Index.on("wolf", "name").where("name" &lt;&lt; ["Arya", "Sansa"])
+    ]
   }
 }
 </code></pre>
+<a href='#a-name-migratingobjects-migration-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a-name-migratingobjects-migration-a'><a name="migratingObjects">Migration</a></h3>
+
+<p>If the database detects that a type does not match the stored data, it will automatically add and remove properties in the database as necessary to reflect the type at all times.</p>
+
+<blockquote>
+<p>When changing your models, use <code>.sandbox</code> mode in the database <code>Configuration</code> to avoid undesired changes in the database. Change it back to <code>.normal</code> when you are certain everything is in order. </p>
+</blockquote>
 <a href='#a-name-limitations-limitations-a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='a-name-limitations-limitations-a'><a name="limitations">Limitations</a></h2>
 
 <p>These are some known limitations of the current version:</p>

@@ -8,38 +8,40 @@
 
 import Foundation
 
-/** A database configuration implementation */
-public struct Configuration {
-    
-    /** Name of the database */
-    public var name: String
-    
-    /** 
-    The directory of the database. This directory must be writable
-     
-    The default value is the user documents directory
-    */
-    public var directory: URL
-    
-    /** The database mode */
-    public var mode: Database.Mode
-    
-    /**
-    Create a new database configuration with the provided name
-     
-    - parameters:
-        - name: name of the database
-    */
-    public init(name: String) {
-        let userDocumentsDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+extension Database {
+    /** A database configuration implementation */
+    public struct Configuration {
         
-        self.name       = name
-        self.directory  = URL(fileURLWithPath: userDocumentsDirectoryPath)
-        self.mode       = .normal
+        /** Name of the database */
+        public var name: String
+        
+        /** 
+        The directory of the database. This directory must be writable
+         
+        The default value is the user documents directory
+        */
+        public var directory: URL
+        
+        /** The database mode */
+        public var mode: Database.Mode
+        
+        /**
+        Create a new database configuration with the provided name
+         
+        - parameters:
+            - name: name of the database
+        */
+        public init(name: String) {
+            let userDocumentsDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            
+            self.name       = name
+            self.directory  = URL(fileURLWithPath: userDocumentsDirectoryPath)
+            self.mode       = .normal
+        }
     }
 }
 
-extension Configuration {
+extension Database.Configuration {
     
     /** The location of the database file using the current configuration's database mode.
      
@@ -59,11 +61,6 @@ extension Configuration {
      - returns: a `URL` to the database file location for the provided mode
      */
     func location(for mode: Database.Mode) -> URL {
-        switch mode {
-        case .normal:
-            return directory.appendingPathComponent(name).appendingPathExtension("swifty")
-        case .sandbox:
-            return directory.appendingPathComponent(name).appendingPathExtension("sandbox-swifty")
-        }
+        return directory.appendingPathComponent(name).appendingPathComponent(mode.rawValue)
     }
 }

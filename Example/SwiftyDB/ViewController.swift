@@ -12,8 +12,8 @@ import PromiseKit
 
 class ViewController: UIViewController {
 
-    let configuration: Configuration = {
-        var configuration = Configuration(name: "database.sqlite")
+    let configuration: Database.Configuration = {
+        var configuration = Database.Configuration(name: "database.sqlite")
         
         configuration.mode = .sandbox
         
