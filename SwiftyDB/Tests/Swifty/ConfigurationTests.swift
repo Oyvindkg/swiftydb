@@ -26,7 +26,12 @@ public class ConfigurationTests: XCTestCase {
         
         configuration.mode = .normal
         
-        expect(configuration.location) == configuration.directory.appendingPathComponent("Hamlet").appendingPathComponent("normal")
+        let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
+                                                      .appendingPathComponent("normal")
+                                                      .appendingPathComponent("database")
+                                                      .appendingPathExtension("sqlite")
+        
+        expect(configuration.location) == expectedLocation
     }
     
     func testLocationForModeIsInTheConfigurationsDirectory() {
@@ -36,7 +41,12 @@ public class ConfigurationTests: XCTestCase {
         
         configuration.directory = directory
         
-        expect(configuration.location(for: .normal)) == directory.appendingPathComponent("Hamlet").appendingPathComponent("normal")
+        let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
+            .appendingPathComponent("normal")
+            .appendingPathComponent("database")
+            .appendingPathExtension("sqlite")
+        
+        expect(configuration.location(for: .normal)) == expectedLocation
     }
     
     func testLocationWhenInSandboxModeIsInASubdirectory() {
@@ -44,18 +54,33 @@ public class ConfigurationTests: XCTestCase {
         
         configuration.mode = .sandbox
         
-        expect(configuration.location) == configuration.directory.appendingPathComponent("Hamlet").appendingPathComponent("sandbox")
+        let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
+            .appendingPathComponent("sandbox")
+            .appendingPathComponent("database")
+            .appendingPathExtension("sqlite")
+        
+        expect(configuration.location) == expectedLocation
     }
     
     func testLocationForSandboxModeIsInASubdirectory() {
         var configuration = Database.Configuration(name: "Hamlet")
         
-        expect(configuration.location(for: .sandbox)) == configuration.directory.appendingPathComponent("Hamlet").appendingPathComponent("sandbox")
+        let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
+            .appendingPathComponent("sandbox")
+            .appendingPathComponent("database")
+            .appendingPathExtension("sqlite")
+        
+        expect(configuration.location(for: .sandbox)) == expectedLocation
     }
     
     func testLocationForNormalModeIsInASubdirectory() {
         var configuration = Database.Configuration(name: "Hamlet")
         
-        expect(configuration.location(for: .normal)) == configuration.directory.appendingPathComponent("Hamlet").appendingPathComponent("normal")
+        let expectedLocation = configuration.directory.appendingPathComponent("Hamlet")
+            .appendingPathComponent("normal")
+            .appendingPathComponent("database")
+            .appendingPathExtension("sqlite")
+        
+        expect(configuration.location(for: .normal)) == expectedLocation
     }
 }

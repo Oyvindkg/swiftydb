@@ -13,7 +13,7 @@ import PromiseKit
 class ViewController: UIViewController {
 
     let configuration: Database.Configuration = {
-        var configuration = Database.Configuration(name: "database.sqlite")
+        var configuration = Database.Configuration(name: "test")
         
         configuration.mode = .sandbox
         
@@ -24,49 +24,49 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-        let database = Database(configuration: configuration)
-
-        firstly {
-            database.add(Dog())
-        }.then {
-            print("Added!")
-        }.then {
-            database.get(Dog.self)
-        }.then { dogs -> Void in
-            for dog in dogs {
-                print(dog)
-            }
-        }.catch { error in
-            print(error)
-        }
-        
-        return
-        
-        let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
-        
-        
-        let addStart = Date()
-        
-        var start: Date?
-        
-        _ = firstly {
-            database.add(objects: dogs)
-        }.then { _ -> Void in
-            print("Added:", -addStart.timeIntervalSinceNow)
-            
-            start = Date()
-        }.then { _ -> Promise<[Dog]> in
-            
-            let query = Query.get(Dog.self)
-                             .order(by: "name", ascending: true)
-
-            return database.get(using: query)
-        }.then { dogs -> Void in
-            print(dogs.count)
-            print("Get:", -start!.timeIntervalSinceNow)
-        }.catch { error in
-            print(error)
-        }
+//        let database = Database(configuration: configuration)
+//
+//        firstly {
+//            database.add(Dog())
+//        }.then {
+//            print("Added!")
+//        }.then {
+//            database.get(Dog.self)
+//        }.then { dogs -> Void in
+//            for dog in dogs {
+//                print(dog)
+//            }
+//        }.catch { error in
+//            print(error)
+//        }
+//        
+//        return
+//        
+//        let dogs: [Dog] = (0 ..< 1000).map { _ in Dog() }
+//        
+//        
+//        let addStart = Date()
+//        
+//        var start: Date?
+//        
+//        _ = firstly {
+//            database.add(objects: dogs)
+//        }.then { _ -> Void in
+//            print("Added:", -addStart.timeIntervalSinceNow)
+//            
+//            start = Date()
+//        }.then { _ -> Promise<[Dog]> in
+//            
+//            let query = Query.get(Dog.self)
+//                             .order(by: "name", ascending: true)
+//
+//            return database.get(using: query)
+//        }.then { dogs -> Void in
+//            print(dogs.count)
+//            print("Get:", -start!.timeIntervalSinceNow)
+//        }.catch { error in
+//            print(error)
+//        }
     }
 }
 

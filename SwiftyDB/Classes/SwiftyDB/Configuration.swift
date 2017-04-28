@@ -32,10 +32,8 @@ extension Database {
             - name: name of the database
         */
         public init(name: String) {
-            let userDocumentsDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-            
             self.name       = name
-            self.directory  = URL(fileURLWithPath: userDocumentsDirectoryPath)
+            self.directory  = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             self.mode       = .normal
         }
     }
@@ -61,6 +59,16 @@ extension Database.Configuration {
      - returns: a `URL` to the database file location for the provided mode
      */
     func location(for mode: Database.Mode) -> URL {
-        return directory.appendingPathComponent(name).appendingPathComponent(mode.rawValue)
+
+        let url = directory.appendingPathComponent(name)
+                            .appendingPathComponent(mode.rawValue)
+                            .appendingPathComponent("database")
+                            .appendingPathExtension("sqlite")
+ 
+        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
+                                                 withIntermediateDirectories: true,
+                                                 attributes: nil)
+        
+        return url
     }
 }

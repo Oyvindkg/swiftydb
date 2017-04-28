@@ -56,6 +56,11 @@ open class Database {
         self.init(configuration: configuration)
     }
     
+    internal init(database: BackingDatabase, configuration: Configuration) {
+        self.configuration = configuration
+        self.database      = database
+    }
+    
     /**
     Add objects to the database
      

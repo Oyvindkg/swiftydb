@@ -27,6 +27,8 @@
 		39BA36E81EB3108F0077953B /* ConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA36E61EB30F7B0077953B /* ConfigurationTests.swift */; };
 		39BA36EB1EB3152F0077953B /* ConnectivesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA36E91EB314A90077953B /* ConnectivesTests.swift */; };
 		39BA36EE1EB319930077953B /* ObjectSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA36ED1EB319930077953B /* ObjectSerializerTests.swift */; };
+		39BA36F01EB320850077953B /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA36EF1EB320850077953B /* DatabaseTests.swift */; };
+		39BA36F21EB326010077953B /* FunctionCallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BA36F11EB326010077953B /* FunctionCallManager.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -66,6 +68,8 @@
 		39BA36E61EB30F7B0077953B /* ConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
 		39BA36E91EB314A90077953B /* ConnectivesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectivesTests.swift; sourceTree = "<group>"; };
 		39BA36ED1EB319930077953B /* ObjectSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectSerializerTests.swift; sourceTree = "<group>"; };
+		39BA36EF1EB320850077953B /* DatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
+		39BA36F11EB326010077953B /* FunctionCallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionCallManager.swift; sourceTree = "<group>"; };
 		4900D3B1F7B745159FE1A127 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SwiftyDB_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyDB_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 		3999232A1D95DE2F00C66AE4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				39BA36F11EB326010077953B /* FunctionCallManager.swift */,
 				3999233E1D95DE2F00C66AE4 /* ComponentTests.swift */,
 				39BA36E11EB30A350077953B /* Mapping */,
 				3999232B1D95DE2F00C66AE4 /* BackingDatabase */,
@@ -143,6 +148,7 @@
 				3999233A1D95DE2F00C66AE4 /* Models */,
 				399923331D95DE2F00C66AE4 /* Filter */,
 				39BA36E61EB30F7B0077953B /* ConfigurationTests.swift */,
+				39BA36EF1EB320850077953B /* DatabaseTests.swift */,
 			);
 			name = Database;
 			path = Swifty;
@@ -485,12 +491,14 @@
 				399923561D95DE5700C66AE4 /* SQLiteQueryTests.swift in Sources */,
 				3999234E1D95DE4800C66AE4 /* Wolf.swift in Sources */,
 				399923501D95DE4C00C66AE4 /* QueryTests.swift in Sources */,
+				39BA36F01EB320850077953B /* DatabaseTests.swift in Sources */,
 				399923541D95DE5700C66AE4 /* SQLiteDatatypeTests.swift in Sources */,
 				3999234D1D95DE4800C66AE4 /* TestClass.swift in Sources */,
 				399923531D95DE5200C66AE4 /* FilterOperatorsTests.swift in Sources */,
 				39BA36E01EB299DC0077953B /* ComponentTests.swift in Sources */,
 				399923551D95DE5700C66AE4 /* SQLiteQueryFactoryTests.swift in Sources */,
 				3999234C1D95DE4800C66AE4 /* Stark.swift in Sources */,
+				39BA36F21EB326010077953B /* FunctionCallManager.swift in Sources */,
 				399923521D95DE5200C66AE4 /* ExpressionTests.swift in Sources */,
 				39BA36EE1EB319930077953B /* ObjectSerializerTests.swift in Sources */,
 				39BA36E81EB3108F0077953B /* ConfigurationTests.swift in Sources */,
