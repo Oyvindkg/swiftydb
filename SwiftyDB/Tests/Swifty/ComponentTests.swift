@@ -965,12 +965,12 @@ extension ComponentTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalData) == object.optionalData
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.optionalData) == object.optionalData
+                
+                done()
             }
         }
     }
@@ -984,12 +984,12 @@ extension ComponentTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStorableArray) == object.optionalStorableArray
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.optionalStorableArray) == object.optionalStorableArray
+                
+                done()
             }
         }
     }
@@ -1041,12 +1041,12 @@ extension ComponentTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStorablePropertyArray) == object.optionalStorablePropertyArray
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.optionalStorablePropertyArray) == object.optionalStorablePropertyArray
+                
+                done()
             }
         }
     }
@@ -1060,12 +1060,12 @@ extension ComponentTests {
         waitUntil { done in
             _ = firstly {
                 self.database.add(object)
-                }.then {
-                    self.database.get(TestClass.self) as Promise<[TestClass]>
-                }.then { objects -> Void in
-                    expect(objects.first?.optionalStorablePropertySet) == object.optionalStorablePropertySet
-                    
-                    done()
+            }.then {
+                self.database.get(TestClass.self) as Promise<[TestClass]>
+            }.then { objects -> Void in
+                expect(objects.first?.optionalStorablePropertySet) == object.optionalStorablePropertySet
+                
+                done()
             }
         }
     }

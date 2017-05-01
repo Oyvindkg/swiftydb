@@ -49,7 +49,7 @@ internal struct Column {
     
     /** String used to define this column in a CREATE TABLE statement */
     var definition: String {
-        return "'\(name)' \(type.rawValue)"
+        return "\"\(name)\" \(type.rawValue)"
     }
 }
 
@@ -71,12 +71,12 @@ struct SQLiteQueryFactory {
         var escapedColumnNames: [String] = []
         
         for property in index.properties {
-            escapedColumnNames.append("'\(property)'")
+            escapedColumnNames.append("\"\(property)\"")
         }
         
         let columnsString = escapedColumnNames.joined(separator: ", ")
         
-        var query = "CREATE INDEX IF NOT EXISTS '\(name)' ON \(type.name) (\(columnsString))"
+        var query = "CREATE INDEX \"\(name)\" ON \"\(type.name)\" (\(columnsString))"
         
         
         if let filter = index.filter as? SQLiteFilterStatement {
@@ -93,7 +93,7 @@ struct SQLiteQueryFactory {
         let name       = String(describing: reader.type)
         let identifier = reader.storableType.identifier()
         
-        var query = "CREATE TABLE '\(name)' ("
+        var query = "CREATE TABLE \"\(name)\" ("
         
         var columnDefinitions: [String] = []
         
@@ -118,7 +118,7 @@ struct SQLiteQueryFactory {
 
     static func selectQuery(for type: Storable.Type, filter: SQLiteFilterStatement?, order: Order, limit: Int?, offset: Int?) -> SQLiteQuery {
         
-        var query = "SELECT * FROM '\(type.name)'"
+        var query = "SELECT * FROM \"\(type.name)\""
         var parameters: [SQLiteValue?] = []
         
         if let filter = filter {
@@ -139,7 +139,7 @@ struct SQLiteQueryFactory {
 
     static func deleteQuery(for type: Storable.Type, filter: SQLiteFilterStatement?) -> SQLiteQuery {
 
-        var query = "DELETE FROM \(type.name)"
+        var query = "DELETE FROM \"\(type.name)\""
         var parameters: [SQLiteValue?] = []
         
         if let filter = filter {
@@ -157,9 +157,9 @@ struct SQLiteQueryFactory {
         let properties   = reader.propertyTypes.keys
         let placeholders = properties.map { ":\($0)"}
         
-        let escapedProperties = properties.map({"'\($0)'"})
+        let escapedProperties = properties.map({"\"\($0)\""})
         
-        var query = "INSERT OR \(onCollision) INTO '\(reader.type)'"
+        var query = "INSERT OR \(onCollision) INTO \"\(reader.type)\""
         
         query += " (" + escapedProperties.joined(separator: ", ") + ")"
         
@@ -183,27 +183,15 @@ struct SQLiteQueryFactory {
     private static  func orderByComponent(using order: Order) -> String {
         switch order {
         case .ascending(let property):
-            return " ORDER BY \(property) ASC"
+            return "ORDER BY \"\(property)\" ASC"
         case .descending(let property):
-            return " ORDER BY \(property) DESC"
+            return "ORDER BY \"\(property)\" DESC"
         case .none:
             return ""
         }
     }
     
     private static  func limitComponent(forLimit limit: Int?, withOffset offset: Int?) -> (String, [SQLiteValue?]) {
-        if limit != nil && offset != nil {
-            return (" LIMIT ? OFFSET ?", [limit, offset])
-        }
-        
-        if offset != nil {
-            return (" LIMIT -1 OFFSET ?", [offset])
-        }
-        
-        if limit != nil {
-            return (" LIMIT ?", [limit])
-        }
-        
-        return ("", [])
+        return (" LIMIT ? OFFSET ?", [limit ?? -1, offset ?? 0])
     }
 }

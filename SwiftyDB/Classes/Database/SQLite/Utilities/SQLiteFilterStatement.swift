@@ -38,76 +38,76 @@ extension Expression: SQLiteFilterStatement {
     var statement: String {
         switch self {
         case .equal(let property, _):
-            return "\(property) = ?"
+            return "\"\(property)\" = ?"
         case .notEqual(let property, _):
-            return "\(property) != ?"
+            return "\"\(property)\" != ?"
             
         case .less(let property, _):
-            return "\(property) < ?"
+            return "\"\(property)\" < ?"
         case .lessOrEqual(let property, _):
-            return "\(property) <= ?"
+            return "\"\(property)\" <= ?"
             
         case .greater(let property, _):
-            return "\(property) > ?"
+            return "\"\(property)\" > ?"
         case .greaterOrEqual(let property, _):
-            return "\(property) >= ?"
+            return "\"\(property)\" >= ?"
             
         case .containedIn(let property, let values):
             let placeholders = values.map { _ in "?" }.joined(separator: ",")
             
-            return "\(property) IN (\(placeholders))"
+            return "\"\(property) IN (\(placeholders))"
         case .notContainedIn(let property, let values):
             let placeholders = values.map { _ in "?" }.joined(separator: ",")
             
-            return "\(property) NOT IN (\(placeholders))"
+            return "\"\(property)\" NOT IN (\(placeholders))"
             
         case .between(let property, _, _):
-            return "\(property) BETWEEN ? AND ?"
+            return "\"\(property)\" BETWEEN ? AND ?"
         case .notBetween(let property, _, _):
-            return "\(property) NOT BETWEEN ? AND ?"
+            return "\(property)\" NOT BETWEEN ? AND ?"
             
         case .like(let property, _):
-            return "\(property) LIKE ?"
+            return "\"\(property)\" LIKE ?"
         case .notLike(let property, _):
-            return "\(property) NOT LIKE ?"
+            return "\"\(property)\" NOT LIKE ?"
         }
     }
     
     var deparameterizedStatement: String {
         switch self {
         case .equal(let property, let value):
-            return "\(property) = \(value?.literalValue ?? "NULL")"
+            return "\"\(property)\" = \(value?.literalValue ?? "NULL")"
         case .notEqual(let property, let value):
-            return "\(property) != \(value?.literalValue ?? "NULL")"
+            return "\"\(property)\" != \(value?.literalValue ?? "NULL")"
             
         case .less(let property, let value):
-            return "\(property) < \(value.literalValue)"
+            return "\"\(property)\" < \(value.literalValue)"
         case .lessOrEqual(let property, let value):
-            return "\(property) <= \(value.literalValue)"
+            return "\"\(property)\" <= \(value.literalValue)"
             
         case .greater(let property, let value):
-            return "\(property) > \(value.literalValue)"
+            return "\"\(property)\" > \(value.literalValue)"
         case .greaterOrEqual(let property, let value):
-            return "\(property) >= \(value.literalValue)"
+            return "\"\(property)\" >= \(value.literalValue)"
             
         case .containedIn(let property, let values):
             let placeholders = values.map { $0?.literalValue ?? "NULL" }.joined(separator: ",")
             
-            return "\(property) IN (\(placeholders))"
+            return "\"\(property)\" IN (\(placeholders))"
         case .notContainedIn(let property, let values):
             let placeholders = values.map { $0?.literalValue ?? "NULL" }.joined(separator: ",")
             
-            return "\(property) NOT IN (\(placeholders))"
+            return "\"\(property)\" NOT IN (\(placeholders))"
             
         case .between(let property, let value, let otherValue):
-            return "\(property) BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
+            return "\"\(property)\" BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
         case .notBetween(let property, let value, let otherValue):
-            return "\(property) NOT BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
+            return "\"\(property)\" NOT BETWEEN \(value.literalValue) AND \(otherValue.literalValue)"
             
         case .like(let property, let value):
-            return "\(property) LIKE \(value.literalValue)"
+            return "\"\(property)\" LIKE \(value.literalValue)"
         case .notLike(let property, let value):
-            return "\(property) NOT LIKE \(value.literalValue)"
+            return "\"\(property)\" NOT LIKE \(value.literalValue)"
         }
     }
 
