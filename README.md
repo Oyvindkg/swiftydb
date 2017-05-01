@@ -11,6 +11,7 @@ A typesafe, pure Swift database offering effortless persistence of objects. It d
 [![Version](https://img.shields.io/cocoapods/v/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![License](https://img.shields.io/cocoapods/l/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftyDB.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
+[![Swift](https://img.shields.io/badge/swift-3-brightgreen.svg?style=flat)](http://cocoapods.org/pods/SwiftyDB)
 
 ## Content
 [Features](#features)<br />
