@@ -6,7 +6,7 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-import SwiftyDB
+@testable import SwiftyDB
 
 class Stark: Storable {
     var name: String
@@ -33,7 +33,7 @@ extension Stark: Hashable {
 extension Stark: Mappable {
     
     static func mappableObject() -> Mappable {
-        return Stark(name: "Sansa", weight: 56.2, age: 14)
+        return Stark(name: "Tom", weight: 0.1, age: 1000)
     }
     
     func map<M>(using mapper: inout M) where M : Mapper {
@@ -42,6 +42,17 @@ extension Stark: Mappable {
         weight   <- mapper["weight"]
         wolf     <- mapper["wolf"]
         siblings <- mapper["siblings"]
+        
+        if let writer = mapper as? Writer {
+            print("Writer:", writer.storableValues["name"])
+            print(writer.storableValues)
+            print()
+        }
+        if let reader = mapper as? Reader {
+            print("Reader:", reader.storableValues["name"])
+            print(reader.storableValues)
+            print()
+        }
     }
 }
 
