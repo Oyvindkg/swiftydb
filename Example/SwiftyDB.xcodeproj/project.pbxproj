@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		152E7F9F1FE5B4FDB8BDDD5E /* Pods_SwiftyDB_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3FBA7E18EE80DA2FAE16642 /* Pods_SwiftyDB_Example.framework */; };
+		3907BAA61EB7364100B25586 /* ReaderOperatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907BAA41EB7360600B25586 /* ReaderOperatorTests.swift */; };
 		3964692F1EB344A6009D3E6B /* ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3964692D1EB342EE009D3E6B /* ReaderTests.swift */; };
 		3978ECB81D8435610019928A /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 3978ECB71D8435610019928A /* CHANGELOG.md */; };
 		399923421D95DE2F00C66AE4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 399923301D95DE2F00C66AE4 /* Info.plist */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		0862094CD83CCC68F5866600 /* Pods-SwiftyDB_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyDB_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftyDB_Tests/Pods-SwiftyDB_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		3907BAA41EB7360600B25586 /* ReaderOperatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReaderOperatorTests.swift; path = Mapping/Mappers/ReaderOperatorTests.swift; sourceTree = "<group>"; };
 		3964692D1EB342EE009D3E6B /* ReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReaderTests.swift; path = Mapping/Mappers/ReaderTests.swift; sourceTree = "<group>"; };
 		3978ECB71D8435610019928A /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		3999232D1D95DE2F00C66AE4 /* SQLiteDatatypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatatypeTests.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				3964692D1EB342EE009D3E6B /* ReaderTests.swift */,
+				3907BAA41EB7360600B25586 /* ReaderOperatorTests.swift */,
 			);
 			name = Mappers;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				399923521D95DE5200C66AE4 /* ExpressionTests.swift in Sources */,
 				39BA36EE1EB319930077953B /* ObjectSerializerTests.swift in Sources */,
 				39BA36E81EB3108F0077953B /* ConfigurationTests.swift in Sources */,
+				3907BAA61EB7364100B25586 /* ReaderOperatorTests.swift in Sources */,
 				3964692F1EB344A6009D3E6B /* ReaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

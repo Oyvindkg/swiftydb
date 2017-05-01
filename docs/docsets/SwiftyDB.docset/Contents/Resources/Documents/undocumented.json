@@ -1,0 +1,194 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Indexing/Protocols/Indexable.swift",
+      "line": 12,
+      "symbol": "AnyIndex",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Indexing/Protocols/Indexable.swift",
+      "line": 38,
+      "symbol": "Index.on(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Indexing/Protocols/Indexable.swift",
+      "line": 42,
+      "symbol": "Index.on(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Indexing/Protocols/Indexable.swift",
+      "line": 46,
+      "symbol": "Index.where(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Indexing/Protocols/Indexable.swift",
+      "line": 56,
+      "symbol": "Indexable.indices()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 14,
+      "symbol": "Mapper",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 20,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 21,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 22,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 24,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 25,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 26,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 28,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 29,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 30,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 32,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 33,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 34,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 38,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 39,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 40,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 42,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 43,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 44,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 46,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 47,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB/SwiftyDB/Classes/Mapping/Protocols/Mapper.swift",
+      "line": 48,
+      "symbol": "Mapper.<-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/oyvindkg/Documents/iOS Projects/Tools/SwiftyDB"
+}

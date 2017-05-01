@@ -21,9 +21,9 @@ public protocol Mapper {
     static func <- <T: StorableProperty>(left: inout Array<T>?, right: Self)
     static func <- <T: StorableProperty>(left: inout Array<T>!, right: Self)
     
-    static func <- <T: StorableProperty>(left: inout Set<T>, right: Self) where T.RawValue : Hashable
-    static func <- <T: StorableProperty>(left: inout Set<T>?, right: Self) where T.RawValue : Hashable
-    static func <- <T: StorableProperty>(left: inout Set<T>!, right: Self) where T.RawValue : Hashable
+    static func <- <T: StorableProperty>(left: inout Set<T>, right: Self)
+    static func <- <T: StorableProperty>(left: inout Set<T>?, right: Self)
+    static func <- <T: StorableProperty>(left: inout Set<T>!, right: Self)
     
     static func <- <T: StorableProperty, U: StorableProperty>(left: inout Dictionary<T, U>, right: Self) where T.RawValue : Hashable
     static func <- <T: StorableProperty, U: StorableProperty>(left: inout Dictionary<T, U>?, right: Self) where T.RawValue : Hashable
@@ -35,15 +35,15 @@ public protocol Mapper {
 
     /* Read or write nested objects (Storable) */
     
-    static func <- <T: Storable>(left: inout Array<T>, right: Self)
-    static func <- <T: Storable>(left: inout Array<T>?, right: Self)
-    static func <- <T: Storable>(left: inout Array<T>!, right: Self)
+    static func <- <T: Mappable>(left: inout Array<T>, right: Self)
+    static func <- <T: Mappable>(left: inout Array<T>?, right: Self)
+    static func <- <T: Mappable>(left: inout Array<T>!, right: Self)
     
-    static func <- <T: Storable>(left: inout Set<T>, right: Self)
-    static func <- <T: Storable>(left: inout Set<T>?, right: Self)
-    static func <- <T: Storable>(left: inout Set<T>!, right: Self)
+    static func <- <T: Mappable>(left: inout Set<T>, right: Self)
+    static func <- <T: Mappable>(left: inout Set<T>?, right: Self)
+    static func <- <T: Mappable>(left: inout Set<T>!, right: Self)
     
-    static func <- <T: Storable>(left: inout T, right: Self)
-    static func <- <T: Storable>(left: inout T?, right: Self)
-    static func <- <T: Storable>(left: inout T!, right: Self)
+    static func <- <T: Mappable>(left: inout T, right: Self)
+    static func <- <T: Mappable>(left: inout T?, right: Self)
+    static func <- <T: Mappable>(left: inout T!, right: Self)
 }

@@ -24,6 +24,12 @@ class Stark: Storable {
     }
 }
 
+extension Stark: Hashable {
+    var hashValue: Int {
+        return name.hashValue
+    }
+}
+
 extension Stark: Mappable {
     
     static func mappableObject() -> Mappable {
@@ -52,3 +58,9 @@ extension Stark: SwiftyDB.Indexable {
         ]
     }
 }
+
+func ==(lhs: Stark, rhs: Stark) -> Bool {
+    return lhs.age == rhs.age && lhs.name == rhs.name && lhs.weight == rhs.weight && lhs.wolf == rhs.wolf && lhs.siblings ?? [] == rhs.siblings ?? []
+}
+
+extension Stark: Equatable {}

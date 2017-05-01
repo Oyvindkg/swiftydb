@@ -13,7 +13,7 @@ import PromiseKit
 @testable import SwiftyDB
 
 
-/** High-level testing of the database making sure properties are added and retreived correctly */
+/* High-level testing of the database making sure properties are added and retreived correctly */
 class ComponentTests: XCTestCase {
 
     var configuration = Database.Configuration(name: "database_test")
@@ -1098,15 +1098,3 @@ extension ComponentTests {
     }
 }
 
-func ==(lhs: Wolf, rhs: Wolf) -> Bool {
-    return lhs.age == rhs.age && lhs.name == rhs.name
-}
-
-extension Wolf: Equatable {}
-
-
-func ==(lhs: Stark, rhs: Stark) -> Bool {
-    return lhs.age == rhs.age && lhs.name == rhs.name && lhs.weight == rhs.weight && lhs.wolf == rhs.wolf && lhs.siblings ?? [] == rhs.siblings ?? []
-}
-
-extension Stark: Equatable {}

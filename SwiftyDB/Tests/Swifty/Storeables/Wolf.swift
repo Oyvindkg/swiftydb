@@ -36,3 +36,9 @@ extension Wolf: Hashable {
         return name.hashValue
     }
 }
+
+func ==(lhs: Wolf, rhs: Wolf) -> Bool {
+    return lhs.age == rhs.age && lhs.name == rhs.name
+}
+
+extension Wolf: Equatable {}

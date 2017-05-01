@@ -14,17 +14,18 @@ final class Reader: Mapper {
     var currentKey: String?
     
     var storableValues: [String: StorableValue]         = [:]
-    var storableValueArrays: [String: [StorableValue?]] = [:]
     
     var mappables: [String: Reader]        = [:]
     var mappableArrays: [String: [Reader]] = [:]
     
+    /** The original property type for all values stored in the reader */
+    var propertyTypes: [String: Any.Type] = [:]
+    
+
     init(type: Mappable.Type) {
         self.type = type
     }
     
-    /** The original property type for all values stored in the reader */
-    var propertyTypes: [String: Any.Type] = [:]
     
     // MARK: StorablePropery
     
@@ -76,12 +77,11 @@ final class Reader: Mapper {
         storableValues[key] = reader?.identifierValue
         propertyTypes[key]  = T.self
     }
-    
 
     func setCurrent<T: Mappable>(mappables: [T]?) {
         guard let key = currentKey else {
             return
-        }
+        }		
         
         let readers = mappables?.map { mappable -> Reader in
             return ObjectMapper.read(mappable)
