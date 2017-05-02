@@ -13,7 +13,7 @@ final class Reader: Mapper {
     let type: Mappable.Type
     var currentKey: String?
     
-    var storableValues: [String: StorableValue]         = [:]
+    var storableValues: [String: StorableValue] = [:]
     
     var mappables: [String: Reader]        = [:]
     var mappableArrays: [String: [Reader]] = [:]
@@ -87,7 +87,7 @@ final class Reader: Mapper {
             return ObjectMapper.read(mappable)
         }
         
-        let identifiers = readers?.map { $0.identifierValue as! String }    //FIXME: Forced downcasting
+        let identifiers = readers?.map { $0.identifierValue }
         
         let JSON = jsonForArray(identifiers)
         
@@ -113,6 +113,14 @@ final class Reader: Mapper {
         }
         
         let storableValues = array.map { $0.rawValue }
+        
+        return jsonForArray(storableValues)
+    }
+    
+    private func jsonForArray(_ storableValues: [StorableValue]?) -> String? {
+        guard let storableValues = storableValues else {
+            return nil
+        }
         
         let jsonData = try! JSONSerialization.data(withJSONObject: storableValues, options: [])
         

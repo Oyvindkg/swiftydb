@@ -17,11 +17,13 @@ struct ObjectMapper {
     */
     static func object<T: Mappable>(mappedBy writer: Writer) -> T {
         var mutableWriter = writer
-        var object        = T.mappableObject() as! T
+        var object        = T.mappableObject()
         
+        assert(object is T, "The object returned by `mappableObject()` should be a \(T.self), but was a \(type(of: object))")
+
         object.map(using: &mutableWriter)
 
-        return object
+        return object as! T
     }
     
     /** Get objects populated with data from the provided `Writer`s */

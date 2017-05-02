@@ -37,7 +37,7 @@ final class Writer: Mapper {
             return nil
         }
         
-        return storableValueArrays[key]?.map { $0 as! T }
+        return storableValueArrays[key] as? [T]
     }
     
     func getCurrentValue<T: Writer>() -> T? {

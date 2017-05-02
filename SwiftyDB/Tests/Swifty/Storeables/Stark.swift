@@ -42,17 +42,6 @@ extension Stark: Mappable {
         weight   <- mapper["weight"]
         wolf     <- mapper["wolf"]
         siblings <- mapper["siblings"]
-        
-        if let writer = mapper as? Writer {
-            print("Writer:", writer.storableValues["name"])
-            print(writer.storableValues)
-            print()
-        }
-        if let reader = mapper as? Reader {
-            print("Reader:", reader.storableValues["name"])
-            print(reader.storableValues)
-            print()
-        }
     }
 }
 
