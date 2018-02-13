@@ -1,4 +1,4 @@
-![alt text] (http://i.imgur.com/uQhXJLJ.png?1 "Logo")
+![Logo] (http://i.imgur.com/uQhXJLJ.png)
 
 There are many libraries out there that aims to help developers easily create and use SQLite databases. 
 Unfortunately developers still have to get bogged down in simple tasks such as writing table definitions 
